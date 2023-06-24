@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">FitHub_Android</string>
+
+    <string name="sign_in_subtitle">특별한 운동정보 커뮤니티 플랫폼</string>
+    <string name="sign_in_phone_number">전화번호로 로그인 / 회원가입</string>
 </resources>
