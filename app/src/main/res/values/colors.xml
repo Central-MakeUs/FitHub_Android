@@ -1,10 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="color_success">#00D487</color>
+    <color name="color_warning">#FACC15</color>
+    <color name="color_error">#FF5C49</color>
+    <color name="color_info">#0086FC</color>
+
+
+    <color name="gray_900">#111110</color>
+    <color name="gray_800">#414140</color>
+    <color name="gray_700">#60605F</color>
+    <color name="gray_600">#787878</color>
+    <color name="gray_500">#B6B6B5</color>
+    <color name="gray_400">#CDCDCC</color>
+    <color name="gray_300">#DEDEDD</color>
+    <color name="gray_200">#F0F0EF</color>
+    <color name="gray_100">#F5F5F5</color>
+    <color name="gray_50">#FAFAFA</color>
+
+    <color name="neon_900">#57640b</color>
+    <color name="neon_800">#72830e</color>
+    <color name="neon_700">#94aa12</color>
+    <color name="neon_600">#bdd917</color>
+    <color name="neon_500">#d0ef19</color>
+    <color name="neon_400">#d9f247</color>
+    <color name="neon_300">#e0f465</color>
+    <color name="neon_200">#e9f895</color>
+    <color name="neon_100">#f0fab8</color>
+    <color name="neon_50">#fafde8</color>
+
+    <color name="purple_900">#362e69</color>
+    <color name="purple_800">#473d8a</color>
+    <color name="purple_700">#5c4eb2</color>
+    <color name="purple_600">#7564e4</color>
+    <color name="purple_500">#816efa</color>
+    <color name="purple_400">#9a8bfb</color>
+    <color name="purple_300">#ab9efc</color>
+    <color name="purple_200">#c5bcfd</color>
+    <color name="purple_100">#d8d2fd</color>
+    <color name="purple_50">#f2f1ff</color>
+
+
+
 </resources>
