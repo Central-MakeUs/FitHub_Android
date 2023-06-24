@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray_900">
+
+        <ImageView
+            android:id="@+id/sign_in_iv_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/logo_without_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.33" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sign_in_subtitle"
+            android:textColor="#e7e7e7"
+            android:textSize="16sp"
+            android:lineHeight="24dp"
+            android:layout_marginBottom="22dp"
+            android:fontFamily="@font/pretendard_medium"
+            app:layout_constraintStart_toStartOf="@id/sign_in_iv_logo"
+            app:layout_constraintEnd_toEndOf="@id/sign_in_iv_logo"
+            app:layout_constraintBottom_toTopOf="@id/sign_in_iv_logo" />
+
+        <ImageView
+            android:id="@+id/sign_in_btn_kakao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/btn_sign_kakao"
+            app:layout_constraintVertical_bias="0.85"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <TextView
+            android:id="@+id/sign_in_tv_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sign_in_phone_number"
+            android:textColor="@color/gray_500"
+            android:textSize="14sp"
+            android:lineHeight="20dp"
+            android:layout_marginTop="15dp"
+            app:layout_constraintStart_toStartOf="@id/sign_in_btn_kakao"
+            app:layout_constraintEnd_toEndOf="@id/sign_in_btn_kakao"
+            app:layout_constraintTop_toBottomOf="@id/sign_in_btn_kakao" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#585858"
+            android:layout_marginTop="2dp"
+            app:layout_constraintStart_toStartOf="@id/sign_in_tv_phone"
+            app:layout_constraintEnd_toEndOf="@id/sign_in_tv_phone"
+            app:layout_constraintTop_toBottomOf="@id/sign_in_tv_phone" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
