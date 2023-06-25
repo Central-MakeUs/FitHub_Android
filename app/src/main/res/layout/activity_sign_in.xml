@@ -2,6 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="activity"
+            type="com.proteam.fithub.presentation.ui.auth.SignInActivity" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -48,6 +54,7 @@
             android:textColor="@color/gray_500"
             android:textSize="14sp"
             android:lineHeight="20dp"
+            android:onClick="@{() -> activity.onPhoneSignInClicked()}"
             android:layout_marginTop="15dp"
             app:layout_constraintStart_toStartOf="@id/sign_in_btn_kakao"
             app:layout_constraintEnd_toEndOf="@id/sign_in_btn_kakao"

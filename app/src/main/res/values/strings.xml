@@ -3,4 +3,14 @@
 
     <string name="sign_in_subtitle">특별한 운동정보 커뮤니티 플랫폼</string>
     <string name="sign_in_phone_number">전화번호로 로그인 / 회원가입</string>
+
+    <string name="sign_in_with_phone_title">로그인하고\n핏허브를 즐겨보세요!</string>
+
+    <string name="common_phone_number">휴대폰 번호</string>
+    <string name="common_sign_in">로그인</string>
+    <string name="common_password">비밀번호</string>
+    <string name="common_password_hint">비밀번호 입력</string>
+
+    <string name="sign_in_find_password">비밀번호 찾기</string>
+    <string name="common_sign_up">회원가입</string>
 </resources>
