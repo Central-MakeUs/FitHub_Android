@@ -18,7 +18,7 @@ class SignUpAgreementFragment : Fragment() {
     private val viewModel : SignUpViewModel by activityViewModels()
 
     private val adapter by lazy {
-        SignUpAgreeAdapter(agreeContentList())
+        SignUpAgreeAdapter(::onAgreementClicked)
     }
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,13 +30,19 @@ class SignUpAgreementFragment : Fragment() {
 
         initBinding()
         initAgreeRV()
-        observeTest()
+
 
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        observeTest()
+    }
+
     private fun initBinding() {
         binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
     }
 
     private fun initAgreeRV() {
@@ -46,12 +52,16 @@ class SignUpAgreementFragment : Fragment() {
     private fun observeTest() {
         viewModel.signUpAllAgreements.observe(viewLifecycleOwner) {
             viewModel.manageAllAgreements(it)
+            adapter.setAllClicked(it)
+        }
+
+        viewModel.signUpAgreements.observe(viewLifecycleOwner) {
+            adapter.agreements = it
         }
     }
 
-    /** Local **/
-
-    fun agreeContentList() : List<String> =
-        listOf("(필수) 개인정보 수집 및 이용에 동의합니다.", "(필수) 이용약관에 동의합니다.", "(필수) 위치 기반 서비스 약관에 동의합니다.", "(필수) 만 14세 이상 입니다.", "(선택) 마케팅 정보 수신에 동의합니다.")
+    private fun onAgreementClicked() {
+        viewModel.onAgreementClicked()
+    }
 
 }

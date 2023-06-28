@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.proteam.fithub.presentation.ui.signup.viewmodel.SignUpViewModel" />
@@ -44,9 +45,9 @@
                 android:layout_marginStart="10dp"
                 android:background="@android:color/transparent"
                 android:button="@android:color/transparent"
+                android:checked="@={viewModel.signUpAllAgreements}"
                 android:drawableStart="@drawable/selector_sign_up_agreement_checkbox"
                 android:drawablePadding="10dp"
-                android:checked="@={viewModel.signUpAllAgreements}"
                 android:fontFamily="@font/pretendard_medium"
                 android:includeFontPadding="false"
                 android:lineHeight="24dp"
@@ -57,16 +58,39 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-        
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/fg_sign_up_agreement_rv_contents"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="6dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toBottomOf="@id/fg_sign_up_agreement_layout_check_all"
-            tools:listitem="@layout/item_sign_up_agreement_checkbox"/>
+            tools:listitem="@layout/item_sign_up_agreement_checkbox" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/sign_up_agreement_card_next"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="10dp"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/selector_bg_btn_signin"
+                android:enabled="@{viewModel.agreementNextEnable}"
+                android:fontFamily="@font/pretendard_medium"
+                android:includeFontPadding="false"
+                android:lineHeight="24dp"
+                android:text="@string/common_next"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+        </com.google.android.material.card.MaterialCardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
