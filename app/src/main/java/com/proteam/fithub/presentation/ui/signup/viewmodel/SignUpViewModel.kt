@@ -25,7 +25,6 @@ class SignUpViewModel : ViewModel() {
     }
 
 
-
     /** Dummy **/
     fun agreementData() : MutableList<SignUpAgreement> = mutableListOf(
         SignUpAgreement("(필수) 개인정보 수집 및 이용에 동의합니다.", false, true, "123"),

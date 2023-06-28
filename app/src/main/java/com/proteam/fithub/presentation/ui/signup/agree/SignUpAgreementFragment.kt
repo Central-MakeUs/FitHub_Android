@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentSignUpAgreementBinding
 import com.proteam.fithub.presentation.ui.signup.agree.adapter.SignUpAgreeAdapter
+import com.proteam.fithub.presentation.ui.signup.phone.SignUpPhoneNumberFragment
 import com.proteam.fithub.presentation.ui.signup.viewmodel.SignUpViewModel
 
 class SignUpAgreementFragment : Fragment() {
@@ -41,6 +42,7 @@ class SignUpAgreementFragment : Fragment() {
     }
 
     private fun initBinding() {
+        binding.fragment = this
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
     }
@@ -62,6 +64,10 @@ class SignUpAgreementFragment : Fragment() {
 
     private fun onAgreementClicked() {
         viewModel.onAgreementClicked()
+    }
+
+    fun onNextBtnClicked() {
+        requireActivity().supportFragmentManager.beginTransaction().addToBackStack(null).replace(R.id.sign_up_layout_container, SignUpPhoneNumberFragment()).commit()
     }
 
 }
