@@ -10,7 +10,11 @@
     <string name="common_sign_in">로그인</string>
     <string name="common_password">비밀번호</string>
     <string name="common_password_hint">비밀번호 입력</string>
+    <string name="common_next">다음</string>
 
     <string name="sign_in_find_password">비밀번호 찾기</string>
     <string name="common_sign_up">회원가입</string>
+
+    <string name="sign_up_agreement_notice">회원가입 전,\n약관 동의가 필요해요.</string>
+    <string name="sing_up_agreement_agree_all">약관 전체동의</string>
 </resources>
