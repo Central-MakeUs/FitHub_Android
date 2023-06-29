@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentSignUpPhoneNumberAuthBinding
+import com.proteam.fithub.presentation.ui.signup.phone.dialog.SignUpPhoneNumberSelectTelecomDialog
 import com.proteam.fithub.presentation.ui.signup.viewmodel.SignUpViewModel
 
 class SignUpPhoneNumberFragment : Fragment() {
@@ -24,7 +24,7 @@ class SignUpPhoneNumberFragment : Fragment() {
 
         initBinding()
         initInclude()
-        observeInclude()
+        observeNextEnable()
 
         return binding.root
     }
@@ -34,19 +34,44 @@ class SignUpPhoneNumberFragment : Fragment() {
     }
 
     private fun initInclude() {
-        binding.fgSignUpPhoneNumberEdtPhoneNumber.getAttr("phone_error")
+        binding.fgSignUpPhoneNumberEdtPhoneNumber.getAttr(true)
     }
 
-    private fun observeInclude() {
-        binding.fgSignUpPhoneNumberEdtPhoneNumber.status.observe(viewLifecycleOwner) {
+    private fun observeNextEnable() {
+        binding.fgSignUpPhoneNumberEdtPhoneNumber.doneState.observe(viewLifecycleOwner) {
             binding.fgSignUpPhoneNumberBtnNext.isEnabled = it
+        }
+
+    }
+
+    private fun observeTelecom() {
+        viewModel.selectTelecom.observe(viewLifecycleOwner) {
+            binding.fgSignUpPhoneNumberEdtTelecom.getUserSelectedTelecom(it)
+        }
+        viewModel.selectTelecomState.observe(viewLifecycleOwner) {
+            if(it) initBirthCheck()
         }
     }
 
     fun onNextClicked() {
-        Toast.makeText(requireContext(), "성공", Toast.LENGTH_SHORT).show()
+        if (!viewModel.selectTelecomState.value!!) {
+            initTelecomClick()
+            observeTelecom()
+            SignUpPhoneNumberSelectTelecomDialog().show(requireActivity().supportFragmentManager, "Select_Telecom")
+        }
     }
 
+    private fun initTelecomClick() {
+        binding.fgSignUpPhoneNumberEdtTelecom.apply {
+            visibility = View.VISIBLE
+            setOnClickListener { SignUpPhoneNumberSelectTelecomDialog().show(requireActivity().supportFragmentManager, "Select_Telecom") }
+        }
+    }
 
+    private fun initBirthCheck() {
+        binding.fgSignUpBirthdayEdtBirth.apply {
+            visibility = View.VISIBLE
+        }
+    }
 
 }

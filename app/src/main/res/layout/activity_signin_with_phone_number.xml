@@ -41,7 +41,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/sign_in_with_phone_layout_toolbar" />
 
-        <com.proteam.fithub.presentation.ui.custom.CustomEdtWithStrokeAndTitle
+        <com.proteam.fithub.presentation.component.ComponentEdtPhoneNumber
             android:id="@+id/sign_in_with_phone_layout_phone_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/sign_in_with_phone_tv_title" />
 
-        <com.proteam.fithub.presentation.ui.custom.CustomEdtWithStrokeAndTitle
+        <com.proteam.fithub.presentation.component.ComponentEdtPassword
             android:id="@+id/sign_in_with_phone_layout_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

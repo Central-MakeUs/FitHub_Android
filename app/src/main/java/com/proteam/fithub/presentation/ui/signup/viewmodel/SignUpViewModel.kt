@@ -7,7 +7,11 @@ import com.proteam.fithub.data.data.SignUpAgreement
 class SignUpViewModel : ViewModel() {
     var signUpAgreements = MutableLiveData<MutableList<SignUpAgreement>>().also { it.value = agreementData() }
     var signUpAllAgreements = MutableLiveData<Boolean>()
+
     var agreementNextEnable = MutableLiveData<Boolean>(false)
+    var selectTelecomState = MutableLiveData<Boolean>(false)
+    var selectTelecom = MutableLiveData<String>()
+
 
     fun manageAllAgreements(status : Boolean) {
         for (i in 0 until signUpAgreements.value!!.size) {
@@ -22,6 +26,11 @@ class SignUpViewModel : ViewModel() {
 
     private fun checkAgreementFinished() {
         agreementNextEnable.value = signUpAgreements.value?.count { it.checked && it.required } == 4
+    }
+
+    fun setSelectedTelecom(title : String) {
+        selectTelecom.value = title
+        selectTelecomState.value = true
     }
 
 
