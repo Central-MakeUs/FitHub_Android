@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="sports"
+            type="com.proteam.fithub.data.data.SignUpInterestSports" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp">
+
+        <ImageButton
+            android:id="@+id/item_sign_up_interest_sports_check_sports"
+            android:layout_width="106dp"
+            android:layout_height="106dp"
+            common_setImageButton="@{sports.image}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{sports.name}"
+            android:textColor="@color/gray_900"
+            android:fontFamily="@font/pretendard_regular"
+            android:includeFontPadding="false"
+            android:textSize="14sp"
+            android:lineHeight="20dp"
+            android:layout_marginTop="6dp"
+            app:layout_constraintTop_toBottomOf="@id/item_sign_up_interest_sports_check_sports"
+            app:layout_constraintStart_toStartOf="@id/item_sign_up_interest_sports_check_sports"
+            app:layout_constraintEnd_toEndOf="@id/item_sign_up_interest_sports_check_sports"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

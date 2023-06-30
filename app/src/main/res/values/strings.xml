@@ -27,4 +27,9 @@
     <string name="sign_up_with_phone_default_number">01000000000</string>
     <string name="sign_up_with_phone_select_telecom">통신사 선택</string>
     <string name="sign_up_with_phone_default_birth">YYMMDD</string>
+
+    <string name="sign_up_with_phone_interest_sports">평소 관심있거나, 하고있는\n운동 1개 이상 선택해주세요.</string>
+    <string name="sign_up_with_phone_interest_sports_notice">선택하신 운동에 따라 맞춤 정보가 제공돼요!</string>
+
+    <string name="finish_sign_up">회원가입 하기</string>
 </resources>

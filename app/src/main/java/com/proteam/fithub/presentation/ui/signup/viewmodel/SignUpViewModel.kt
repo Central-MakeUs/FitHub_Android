@@ -1,8 +1,10 @@
 package com.proteam.fithub.presentation.ui.signup.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.proteam.fithub.data.data.SignUpAgreement
+import com.proteam.fithub.data.data.SignUpInterestSports
 
 class SignUpViewModel : ViewModel() {
     var signUpAgreements = MutableLiveData<MutableList<SignUpAgreement>>().also { it.value = agreementData() }
@@ -11,6 +13,10 @@ class SignUpViewModel : ViewModel() {
     var agreementNextEnable = MutableLiveData<Boolean>(false)
     var selectTelecomState = MutableLiveData<Boolean>(false)
     var selectTelecom = MutableLiveData<String>()
+
+    private val _selectInterestSports = MutableLiveData<MutableList<SignUpInterestSports>>()
+    val selectInterestSports : LiveData<MutableList<SignUpInterestSports>> = _selectInterestSports
+    val toolSelectInterestSports = mutableListOf<SignUpInterestSports>()
 
 
     fun manageAllAgreements(status : Boolean) {
@@ -33,6 +39,15 @@ class SignUpViewModel : ViewModel() {
         selectTelecomState.value = true
     }
 
+    fun addSelectInterestSports(item : SignUpInterestSports) {
+        toolSelectInterestSports.add(item)
+        _selectInterestSports.value = toolSelectInterestSports
+    }
+
+    fun removeSelectInterestSports(item : SignUpInterestSports) {
+        toolSelectInterestSports.remove(item)
+        _selectInterestSports.value = toolSelectInterestSports
+    }
 
     /** Dummy **/
     fun agreementData() : MutableList<SignUpAgreement> = mutableListOf(

@@ -2,7 +2,6 @@ package com.proteam.fithub.presentation.component
 
 import android.content.Context
 import android.text.Editable
-import android.text.TextUtils.substring
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,7 +13,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.ComponentEdtInputBirthBinding
-import com.proteam.fithub.databinding.ComponentEdtInputPhoneNumberBinding
+import java.time.LocalDate
 
 class ComponentEdtBirthDay(context: Context, attrs: AttributeSet) :
     ConstraintLayout(context, attrs) {
@@ -51,18 +50,33 @@ class ComponentEdtBirthDay(context: Context, attrs: AttributeSet) :
         }
 
         binding.componentEdtInputBirthEdtBirthday.addTextChangedListener {
-            checkWhenError(it)
+            if (checkAllTextInserted()) {
+                checkWhenError(it)
+            } else {
+                resetStroke()
+                _doneState.value = false
+            }
+        }
+        binding.componentEdtInputBirthEdtGender.addTextChangedListener {
+            if (checkAllTextInserted()) {
+                checkWhenError(binding.componentEdtInputBirthEdtBirthday.text)
+            } else {
+                resetStroke()
+                _doneState.value = false
+            }
         }
     }
 
-    private fun checkWhenError(value : Editable?) {
-        if(value?.length == 11 && regexError()) {
-            setDoneState()
-        } else if(value?.length == 11 && !regexError()){
-            setError()
-        } else {
-            resetStroke()
+    private fun checkAllTextInserted(): Boolean =
+        binding.componentEdtInputBirthEdtBirthday.text.length == 6 && binding.componentEdtInputBirthEdtGender.text.isNotEmpty()
+
+    private fun checkWhenError(value: Editable?) {
+        if (!regexError(value)) {
+            setError("Invalidate")
+        } else if (checkAge(value) < 14) {
+            setError("NotEnoughAge")
         }
+        _doneState.value = regexError(value)
     }
 
     private fun resetStroke() {
@@ -72,13 +86,12 @@ class ComponentEdtBirthDay(context: Context, attrs: AttributeSet) :
         binding.componentEdtInputBirthBtnError.visibility = View.GONE
     }
 
-    private fun setError() {
+    private fun setError(type : String) {
         binding.componentEdtInputPhoneNumberTvAdditional.apply {
             visibility = View.VISIBLE
             setTextColor(errorStroke)
 
-            //여기 수정
-            text = "휴대폰 번호가 올바르지 않습니다"
+            text = if(type == "Invalidate") "생년월일 및 성별을 정확히 입력해주세요." else "만 14세 미만은 서비스 이용이 불가합니다."
         }
         binding.componentEdtInputBirthTvTitle.setTextColor(errorStroke)
         binding.componentEdtInputBirthCardContainer.strokeColor = errorStroke
@@ -86,21 +99,58 @@ class ComponentEdtBirthDay(context: Context, attrs: AttributeSet) :
         binding.componentEdtInputBirthBtnError.visibility = View.VISIBLE
     }
 
-    private fun setDoneState() {
-        resetStroke()
-        _doneState.value = if(isErrorContains) regexError() else checkLength()
-    }
-
     fun getUserInputContent(): String =
         binding.componentEdtInputBirthEdtBirthday.text.toString()
 
     private fun strokeWhenNotError(b: Boolean): Int = if (b) doneStroke else normalStroke
 
-    private fun regexError() : Boolean =  checkLength()
+    private fun regexError(value: Editable?): Boolean {
+        return (checkLength(value) && setBirthValidate(value))
+    }
 
     private var normalStroke = context.resources.getColor(R.color.gray_400, null)
     private var doneStroke = context.resources.getColor(R.color.gray_600, null)
     private var errorStroke = context.resources.getColor(R.color.color_error, null)
 
-    private fun checkLength() : Boolean = binding.componentEdtInputBirthEdtBirthday.text.length == 6 && binding.componentEdtInputBirthEdtGender.text.isNotEmpty()
+    private fun checkLength(value: Editable?): Boolean = value?.length == 6 && value.isNotEmpty()
+    private fun setBirthValidate(value: Editable?): Boolean {
+        return if (value!!.substring(0, 2) <= LocalDate.now().year.toString().substring(2, 4)) {
+            checkBirthAvailable(value, "20") && checkGenderCode("20")
+        } else {
+            checkBirthAvailable(value, "19") && checkGenderCode("19")
+        }
+    }
+
+    private fun String.convertToInt(): Int = this.toInt()
+
+    private fun checkBirthAvailable(value: Editable, century: String): Boolean {
+        return try {
+            LocalDate.of(
+                "$century${value.substring(0, 2)}".convertToInt(),
+                value.substring(2, 4).convertToInt(),
+                value.substring(4, 6).convertToInt()
+            )
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    private fun checkGenderCode (century : String) : Boolean {
+        return if(century == "19") binding.componentEdtInputBirthEdtGender.text.toString().toInt() in 1..2 else binding.componentEdtInputBirthEdtGender.text.toString().toInt() in 3..4
+    }
+
+    private fun checkAge(value: Editable?) : Int {
+        return if (value!!.substring(0, 2) <= LocalDate.now().year.toString().substring(2, 4)) {
+            getAge(value,"20")
+        } else {
+            getAge(value, "19")
+        }
+    }
+
+    private fun getAge(value: Editable, century: String) : Int {
+        return if(LocalDate.now().month.value * 100 + LocalDate.now().dayOfMonth < value.substring(2,4).toInt() * 100 + value.substring(4,6).toInt()) {
+            LocalDate.now().year - "$century${value.substring(0,2)}".toInt() - 1
+        } else LocalDate.now().year - "$century${value.substring(0,2)}".toInt()
+    }
 }

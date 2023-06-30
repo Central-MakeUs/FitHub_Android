@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentSignUpPhoneNumberAuthBinding
+import com.proteam.fithub.presentation.ui.signup.interest.SignUpSelectInterestSportsFragment
 import com.proteam.fithub.presentation.ui.signup.phone.dialog.SignUpPhoneNumberSelectTelecomDialog
 import com.proteam.fithub.presentation.ui.signup.viewmodel.SignUpViewModel
 
@@ -39,9 +40,12 @@ class SignUpPhoneNumberFragment : Fragment() {
 
     private fun observeNextEnable() {
         binding.fgSignUpPhoneNumberEdtPhoneNumber.doneState.observe(viewLifecycleOwner) {
-            binding.fgSignUpPhoneNumberBtnNext.isEnabled = it
+            binding.fgSignUpPhoneNumberBtnNext.isEnabled = checkPhoneAndTelecomToEnableNext(it)
         }
 
+        binding.fgSignUpBirthdayEdtBirth.doneState.observe(viewLifecycleOwner) {
+            binding.fgSignUpPhoneNumberBtnNext.isEnabled = it
+        }
     }
 
     private fun observeTelecom() {
@@ -58,6 +62,12 @@ class SignUpPhoneNumberFragment : Fragment() {
             initTelecomClick()
             observeTelecom()
             SignUpPhoneNumberSelectTelecomDialog().show(requireActivity().supportFragmentManager, "Select_Telecom")
+
+            binding.fgSignUpPhoneNumberBtnNext.isEnabled = false
+        } else {
+
+            /** 임시 **/
+            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.sign_up_layout_container, SignUpSelectInterestSportsFragment()).addToBackStack(null).commit()
         }
     }
 
@@ -72,6 +82,10 @@ class SignUpPhoneNumberFragment : Fragment() {
         binding.fgSignUpBirthdayEdtBirth.apply {
             visibility = View.VISIBLE
         }
+    }
+
+    private fun checkPhoneAndTelecomToEnableNext(phoneState : Boolean) : Boolean {
+        return if(binding.fgSignUpPhoneNumberEdtTelecom.visibility == View.GONE)  phoneState else phoneState && binding.fgSignUpPhoneNumberEdtTelecom.doneState.value == true
     }
 
 }
