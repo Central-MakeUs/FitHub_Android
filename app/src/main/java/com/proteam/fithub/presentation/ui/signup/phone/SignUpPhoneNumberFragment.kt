@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentSignUpPhoneNumberAuthBinding
+import com.proteam.fithub.presentation.ui.signup.authcode.SignUpAuthCodeFragment
 import com.proteam.fithub.presentation.ui.signup.interest.SignUpSelectInterestSportsFragment
 import com.proteam.fithub.presentation.ui.signup.phone.dialog.SignUpPhoneNumberSelectTelecomDialog
 import com.proteam.fithub.presentation.ui.signup.viewmodel.SignUpViewModel
@@ -54,14 +55,9 @@ class SignUpPhoneNumberFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        Log.d("----", "onResume: ")
         binding.fgSignUpPhoneNumberEdtPhoneNumber.phoneNumberEdt().showKeyboard()
     }
 
-    override fun onPause() {
-        super.onPause()
-        Log.d("----", "onPause: ")
-    }
     private fun initInclude() {
         binding.fgSignUpPhoneNumberEdtPhoneNumber.apply {
             getAttr(true)
@@ -105,12 +101,9 @@ class SignUpPhoneNumberFragment : Fragment() {
     }
 
     private fun openCheckAuthCode() {
-
-
-
         requireActivity().supportFragmentManager.beginTransaction()
-            .add(R.id.sign_up_layout_container, SignUpSelectInterestSportsFragment())
-            .addToBackStack(null).commit()
+            .add(R.id.sign_up_layout_container, SignUpAuthCodeFragment())
+            .addToBackStack("AuthCode").commit()
         hideKeyboard()
     }
 
