@@ -12,6 +12,7 @@ class SignUpViewModel : ViewModel() {
 
     var agreementNextEnable = MutableLiveData<Boolean>(false)
     var selectTelecomState = MutableLiveData<Boolean>(false)
+    var selectBirthState = MutableLiveData<Boolean>(false)
     var selectTelecom = MutableLiveData<String>()
 
     private val _selectInterestSports = MutableLiveData<MutableList<SignUpInterestSports>>()

@@ -46,7 +46,7 @@
                     android:layout_marginTop="2dp"
                     android:layout_marginBottom="10dp"
                     android:background="@android:color/transparent"
-                    android:hint="@string/sign_up_with_phone_default_number"
+                    android:hint="@string/sign_up_with_phone_number_hint"
                     android:inputType="number"
                     android:lineHeight="24dp"
                     android:maxLength="11"

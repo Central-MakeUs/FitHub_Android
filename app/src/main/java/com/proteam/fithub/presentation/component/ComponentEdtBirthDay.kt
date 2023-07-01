@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.EditText
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
@@ -50,6 +51,9 @@ class ComponentEdtBirthDay(context: Context, attrs: AttributeSet) :
         }
 
         binding.componentEdtInputBirthEdtBirthday.addTextChangedListener {
+            if(it?.length == 6) {
+                binding.componentEdtInputBirthEdtGender.requestFocus()
+            }
             if (checkAllTextInserted()) {
                 checkWhenError(it)
             } else {
@@ -153,4 +157,6 @@ class ComponentEdtBirthDay(context: Context, attrs: AttributeSet) :
             LocalDate.now().year - "$century${value.substring(0,2)}".toInt() - 1
         } else LocalDate.now().year - "$century${value.substring(0,2)}".toInt()
     }
+
+    fun birthDayEdt() : EditText = binding.componentEdtInputBirthEdtBirthday
 }

@@ -67,7 +67,7 @@ class SignUpAgreementFragment : Fragment() {
     }
 
     fun onNextBtnClicked() {
-        requireActivity().supportFragmentManager.beginTransaction().addToBackStack(null).replace(R.id.sign_up_layout_container, SignUpPhoneNumberFragment()).commit()
+        requireActivity().supportFragmentManager.beginTransaction().addToBackStack("PhoneNumber").add(R.id.sign_up_layout_container, SignUpPhoneNumberFragment()).commit()
     }
 
 }

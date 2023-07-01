@@ -44,7 +44,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:lineHeight="24dp"
-                    android:hint="@string/sign_up_with_phone_select_telecom"
+                    android:hint="@string/sign_up_with_phone_select_telecom_hint"
                     app:layout_constraintHorizontal_bias="0"
                     android:inputType="text"
                     android:focusable="false"

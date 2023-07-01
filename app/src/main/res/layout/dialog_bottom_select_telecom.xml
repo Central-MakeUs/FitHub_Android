@@ -20,7 +20,7 @@
             android:id="@+id/dialog_bottom_select_telecom_tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/sign_up_with_phone_select_telecom"
+            android:text="@string/sign_up_with_phone_select_telecom_hint"
             android:textColor="@color/gray_900"
             android:fontFamily="@font/pretendard_semibold"
             android:includeFontPadding="false"

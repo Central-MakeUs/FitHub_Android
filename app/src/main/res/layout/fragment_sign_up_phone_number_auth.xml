@@ -11,7 +11,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:clickable="true">
 
         <TextView
             android:id="@+id/fg_sign_up_phone_number_title"
@@ -48,6 +50,13 @@
             android:layout_marginTop="15dp"
             android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@id/fg_sign_up_phone_number_subtitle">
+
+            <com.proteam.fithub.presentation.component.ComponentEdtName
+                android:id="@+id/fg_sign_up_phone_number_edt_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:visibility="gone" />
 
             <com.proteam.fithub.presentation.component.ComponentEdtBirthDay
                 android:id="@+id/fg_sign_up_birthday_edt_birth"
