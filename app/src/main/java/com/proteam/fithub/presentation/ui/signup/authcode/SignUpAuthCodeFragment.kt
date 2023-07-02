@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentSignUpAuthCodeBinding
+import com.proteam.fithub.presentation.ui.signup.password.SignUpSetPasswordFragment
 
 class SignUpAuthCodeFragment : Fragment() {
     private lateinit var binding : FragmentSignUpAuthCodeBinding
@@ -65,5 +66,7 @@ class SignUpAuthCodeFragment : Fragment() {
 
     fun onNextBtnClicked() {
         hideKeyboard()
+
+        requireActivity().supportFragmentManager.beginTransaction().add(R.id.sign_up_layout_container, SignUpSetPasswordFragment()).addToBackStack("Password").commit()
     }
 }

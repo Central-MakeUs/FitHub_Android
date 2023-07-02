@@ -11,19 +11,17 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.proteam.fithub.R
+import com.proteam.fithub.databinding.ComponentEdtInputNicknameBinding
 import com.proteam.fithub.databinding.ComponentEdtInputPasswordBinding
 import java.util.regex.Pattern
 
-class ComponentEdtPassword(context: Context, attrs: AttributeSet) :
+class ComponentEdtNickName(context: Context, attrs: AttributeSet) :
     ConstraintLayout(context, attrs) {
-    private lateinit var binding: ComponentEdtInputPasswordBinding
+    private lateinit var binding: ComponentEdtInputNicknameBinding
     private var isErrorContains: Boolean = false
-    private var isForCheck: Boolean = false
 
-    private val pwPattern = """^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^+\-=])(?=\S+$).*$"""
+    private val nickNamePattern = """^(?=.*[가-힣])(?=.*[a-zA-Z])(?=\S+$).*$"""
 
-    /** 재확인일때 비교하기 위한 비밀번호 **/
-    private var password: String = ""
 
     private var _doneState = MutableLiveData<Boolean>()
     val doneState: LiveData<Boolean> = _doneState
@@ -40,23 +38,14 @@ class ComponentEdtPassword(context: Context, attrs: AttributeSet) :
         initUi()
     }
 
-    fun getAttr(type: Boolean, forCheck: Boolean) {
+    fun getAttr(type: Boolean) {
         isErrorContains = type
-        isForCheck = forCheck
-
-        if(isForCheck) {
-            setTextForCheck()
-        }
-    }
-
-    fun getPassword(password: String) {
-        this.password = password
     }
 
     private fun initBinding() {
         binding = DataBindingUtil.inflate(
             LayoutInflater.from(context),
-            R.layout.component_edt_input_password,
+            R.layout.component_edt_input_nickname,
             this,
             false
         )
@@ -65,34 +54,25 @@ class ComponentEdtPassword(context: Context, attrs: AttributeSet) :
     }
 
     private fun initUi() {
-        binding.componentEdtInputPasswordEdtContent.setOnFocusChangeListener { view, b ->
-            binding.componentEdtInputPasswordCardContainer.strokeColor =
+        binding.componentEdtInputNicknameEdtContent.setOnFocusChangeListener { view, b ->
+            binding.componentEdtInputNicknameCardContainer.strokeColor =
                 if (isErrorContains) strokeWhenError(b) else strokeWhenNotError(b)
-            binding.componentEdtInputPasswordTvTitle.setTextColor(strokeWhenError(b))
-            setDeleteVisibility(b)
-
-            if(isForCheck) _checkFocus.value = b
+            binding.componentEdtInputNicknameTvTitle.setTextColor(strokeWhenError(b))
+            //setDeleteVisibility(b)
         }
 
-        binding.componentEdtInputPasswordTvAdditional.visibility = if(isErrorContains) View.VISIBLE else View.GONE
+        binding.componentEdtInputNicknameTvAdditional.visibility = if(isErrorContains) View.VISIBLE else View.GONE
 
-        binding.componentEdtInputPasswordEdtContent.addTextChangedListener {
+        binding.componentEdtInputNicknameEdtContent.addTextChangedListener {
             if (it.isNullOrEmpty()) {
                 resetStroke()
-            } else if (isErrorContains && !isForCheck) {
+            } else if (isErrorContains) {
                 checkRegex(it)
-            } else if (isForCheck) {
-                checkSame(it)
             } else {
                 setDoneState()
             }
-            setDeleteVisibility(binding.componentEdtInputPasswordEdtContent.hasFocus())
+            //setDeleteVisibility(binding.componentEdtInputPasswordEdtContent.hasFocus())
         }
-    }
-
-    private fun setTextForCheck() {
-        binding.componentEdtInputPasswordTvTitle.text = "비밀번호 확인"
-        binding.componentEdtInputPasswordEdtContent.hint = "비밀번호 재입력"
     }
 
     private fun checkRegex(value: Editable?) {
@@ -110,49 +90,38 @@ class ComponentEdtPassword(context: Context, attrs: AttributeSet) :
     }
 
     private fun checkPatternMatches(value : Editable?) : Boolean{
-        return if(!value.isNullOrEmpty()) Pattern.matches(pwPattern, value.toString()) else false
+        return if(!value.isNullOrEmpty()) Pattern.matches(nickNamePattern, value.toString()) else false
     }
 
     private fun checkLengthMatches(value : Editable?) : Boolean {
-        return value?.length in 8..16
-    }
-
-    private fun checkSame(value: Editable?) {
-        if (!value.isNullOrEmpty() && password == value.toString()) {
-            setSuccess("copy")
-            status = "S"
-            setDoneState()
-        } else {
-            setError("same")
-            status = "F"
-        }
+        return value?.length in 1..10
     }
 
     private fun setError(errorType : String) {
-        binding.componentEdtInputPasswordTvAdditional.apply {
+        binding.componentEdtInputNicknameTvAdditional.apply {
             visibility = View.VISIBLE
             setTextColor(errorStroke)
             text = returnErrorText(errorType)
         }
-        binding.componentEdtInputPasswordTvTitle.setTextColor(errorStroke)
-        binding.componentEdtInputPasswordCardContainer.strokeColor = errorStroke
+        binding.componentEdtInputNicknameTvTitle.setTextColor(errorStroke)
+        binding.componentEdtInputNicknameCardContainer.strokeColor = errorStroke
 
-        binding.componentEdtInputPasswordBtnErrorOrSuccess.apply {
+        binding.componentEdtInputNicknameBtnErrorOrSuccess.apply {
             visibility = View.VISIBLE
             setImageResource(R.drawable.ic_edt_error)
         }
     }
 
     private fun setSuccess(successType : String) {
-        binding.componentEdtInputPasswordTvAdditional.apply {
+        binding.componentEdtInputNicknameTvAdditional.apply {
             visibility = View.VISIBLE
             setTextColor(successStroke)
             text = returnSuccessText(successType)
         }
-        binding.componentEdtInputPasswordTvTitle.setTextColor(successStroke)
-        binding.componentEdtInputPasswordCardContainer.strokeColor = successStroke
+        binding.componentEdtInputNicknameTvTitle.setTextColor(successStroke)
+        binding.componentEdtInputNicknameCardContainer.strokeColor = successStroke
 
-        binding.componentEdtInputPasswordBtnErrorOrSuccess.apply {
+        binding.componentEdtInputNicknameBtnErrorOrSuccess.apply {
             visibility = View.VISIBLE
             setImageResource(R.drawable.ic_edt_success)
         }
@@ -174,16 +143,16 @@ class ComponentEdtPassword(context: Context, attrs: AttributeSet) :
     }
 
     private fun resetStroke() {
-        binding.componentEdtInputPasswordCardContainer.strokeColor = doneStroke
-        binding.componentEdtInputPasswordTvTitle.setTextColor(normalStroke)
-        binding.componentEdtInputPasswordBtnErrorOrSuccess.visibility = View.GONE
+        binding.componentEdtInputNicknameCardContainer.strokeColor = doneStroke
+        binding.componentEdtInputNicknameTvTitle.setTextColor(normalStroke)
+        binding.componentEdtInputNicknameBtnErrorOrSuccess.visibility = View.GONE
 
 
-        binding.componentEdtInputPasswordTvAdditional.apply {
+        binding.componentEdtInputNicknameTvAdditional.apply {
             setTextColor(doneStroke)
             if (isErrorContains) {
                 View.VISIBLE
-                this.text = "영어, 숫자, 특수문자를 조합하여 8~16자로 입력해주세요"
+                this.text = "한글 혹은 영문을 포함하여 1~10자로 입력해주세요"
             } else {
                 View.GONE
             }
@@ -191,19 +160,19 @@ class ComponentEdtPassword(context: Context, attrs: AttributeSet) :
     }
 
     private fun setDoneState() {
-        _doneState.value = binding.componentEdtInputPasswordEdtContent.text.isNotEmpty()
+        _doneState.value = binding.componentEdtInputNicknameEdtContent.text.isNotEmpty()
     }
 
-    private fun setDeleteVisibility(focus : Boolean) {
+    /*private fun setDeleteVisibility(focus : Boolean) {
         binding.componentEdtInputPasswordBtnClear.visibility =
             if (binding.componentEdtInputPasswordEdtContent.text.isEmpty() || !focus) View.GONE else View.VISIBLE
     }
 
     fun onDeleteClicked() {
         binding.componentEdtInputPasswordEdtContent.setText("")
-    }
+    }*/
 
-    fun getUserInputContent(): String = binding.componentEdtInputPasswordEdtContent.text.toString()
+    fun getUserInputContent(): String = binding.componentEdtInputNicknameEdtContent.text.toString()
 
     private fun strokeWhenNotError(b: Boolean): Int = if (b) doneStroke else normalStroke
     private fun strokeWhenError(b: Boolean): Int {

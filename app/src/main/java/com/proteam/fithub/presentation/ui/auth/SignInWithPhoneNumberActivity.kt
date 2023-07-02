@@ -24,8 +24,6 @@ class SignInWithPhoneNumberActivity : AppCompatActivity() {
     }
 
     private fun initInclude() {
-        binding.signInWithPhoneLayoutPassword.getAttr(true, false)
-
         binding.signInWithPhoneLayoutPhoneNumber.doneState.observe(this) {
             binding.signInWithPhoneBtnSignIn.isEnabled = it && binding.signInWithPhoneLayoutPassword.doneState.value == true
         }
