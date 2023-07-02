@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="fragment"
+            type="com.proteam.fithub.presentation.ui.signup.phone.SignUpPhoneNumberFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:clickable="true">
+
+        <TextView
+            android:id="@+id/fg_sign_up_phone_number_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/pretendard_semibold"
+            android:lineHeight="32dp"
+            android:text="@string/sign_up_with_phone_number"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/fg_sign_up_phone_number_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/pretendard_regular"
+            android:includeFontPadding="false"
+            android:lineHeight="20dp"
+            android:text="@string/sign_up_with_phone_number_notice"
+            android:textColor="@color/gray_700"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@+id/fg_sign_up_phone_number_title"
+            app:layout_constraintTop_toBottomOf="@id/fg_sign_up_phone_number_title" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/fg_sign_up_phone_number_subtitle">
+
+            <com.proteam.fithub.presentation.component.ComponentEdtName
+                android:id="@+id/fg_sign_up_phone_number_edt_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:visibility="gone" />
+
+            <com.proteam.fithub.presentation.component.ComponentEdtBirthDay
+                android:id="@+id/fg_sign_up_birthday_edt_birth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:visibility="gone" />
+
+            <com.proteam.fithub.presentation.component.ComponentEdtTelecom
+                android:id="@+id/fg_sign_up_phone_number_edt_telecom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:visibility="gone" />
+
+
+            <com.proteam.fithub.presentation.component.ComponentEdtPhoneNumber
+                android:id="@+id/fg_sign_up_phone_number_edt_phone_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/fg_sign_up_phone_number_btn_next"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@color/selector_bg_btn_signin"
+            android:enabled="false"
+            android:fontFamily="@font/pretendard_medium"
+            android:includeFontPadding="false"
+            android:lineHeight="24dp"
+            android:onClick="@{() -> fragment.onNextClicked()}"
+            android:text="@string/common_next"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
