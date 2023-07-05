@@ -2,7 +2,6 @@ package com.proteam.fithub.presentation.ui.auth
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.proteam.fithub.R
@@ -24,11 +23,11 @@ class SignInWithPhoneNumberActivity : AppCompatActivity() {
     }
 
     private fun initInclude() {
-        binding.signInWithPhoneLayoutPhoneNumber.doneState.observe(this) {
+        binding.signInWithPhoneLayoutPhoneNumber.isComplete.observe(this) {
             binding.signInWithPhoneBtnSignIn.isEnabled = it && binding.signInWithPhoneLayoutPassword.doneState.value == true
         }
         binding.signInWithPhoneLayoutPassword.doneState.observe(this) {
-            binding.signInWithPhoneBtnSignIn.isEnabled = it && binding.signInWithPhoneLayoutPhoneNumber.doneState.value == true
+            binding.signInWithPhoneBtnSignIn.isEnabled = it && binding.signInWithPhoneLayoutPhoneNumber.isComplete.value == true
         }
     }
 

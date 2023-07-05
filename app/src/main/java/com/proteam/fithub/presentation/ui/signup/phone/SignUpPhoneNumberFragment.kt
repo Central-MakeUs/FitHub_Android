@@ -8,18 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import androidx.core.content.res.TypedArrayUtils.getAttr
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.google.android.material.internal.ViewUtils.hideKeyboard
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentSignUpPhoneNumberAuthBinding
 import com.proteam.fithub.presentation.ui.signup.authcode.SignUpAuthCodeFragment
-import com.proteam.fithub.presentation.ui.signup.interest.SignUpSelectInterestSportsFragment
 import com.proteam.fithub.presentation.ui.signup.phone.dialog.SignUpPhoneNumberSelectTelecomDialog
 import com.proteam.fithub.presentation.ui.signup.viewmodel.SignUpViewModel
-import kotlinx.coroutines.delay
 
 class SignUpPhoneNumberFragment : Fragment() {
     private lateinit var binding: FragmentSignUpPhoneNumberAuthBinding
@@ -67,14 +63,14 @@ class SignUpPhoneNumberFragment : Fragment() {
     }
 
     private fun observeNextEnable() {
-        binding.fgSignUpPhoneNumberEdtPhoneNumber.doneState.observe(viewLifecycleOwner) {
+        binding.fgSignUpPhoneNumberEdtPhoneNumber.isComplete.observe(viewLifecycleOwner) {
             if(it) {
                 showTelecomField()
                 binding.fgSignUpBirthdayEdtBirth.birthDayEdt().requestFocus()
             }
         }
 
-        binding.fgSignUpBirthdayEdtBirth.doneState.observe(viewLifecycleOwner) {
+        binding.fgSignUpBirthdayEdtBirth.isComplete.observe(viewLifecycleOwner) {
             if(it) showNameField()
         }
 
@@ -146,13 +142,13 @@ class SignUpPhoneNumberFragment : Fragment() {
     /** For Check Status **/
 
     private fun phoneStatusCheck(): Boolean =
-        binding.fgSignUpPhoneNumberEdtPhoneNumber.doneState.value == true
+        binding.fgSignUpPhoneNumberEdtPhoneNumber.isComplete.value == true
 
     private fun telecomStatusCheck(): Boolean =
-        phoneStatusCheck() && binding.fgSignUpPhoneNumberEdtTelecom.doneState.value == true
+        phoneStatusCheck() && binding.fgSignUpPhoneNumberEdtTelecom.isComplete.value == true
 
     private fun birthdayStatusCheck(): Boolean =
-        telecomStatusCheck() && binding.fgSignUpBirthdayEdtBirth.doneState.value == true
+        telecomStatusCheck() && binding.fgSignUpBirthdayEdtBirth.isComplete.value == true
 
     private fun nameStatusCheck(): Boolean =
         birthdayStatusCheck() && binding.fgSignUpPhoneNumberEdtName.doneState.value == true
