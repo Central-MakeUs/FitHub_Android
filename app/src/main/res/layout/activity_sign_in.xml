@@ -42,6 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/btn_sign_kakao"
+            android:onClick="@{() -> activity.onKakaoSignInClicked()}"
             app:layout_constraintVertical_bias="0.85"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />
