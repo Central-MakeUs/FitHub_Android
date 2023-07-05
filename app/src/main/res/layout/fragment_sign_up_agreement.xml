@@ -49,6 +49,7 @@
                 android:background="@android:color/transparent"
                 android:button="@android:color/transparent"
                 android:checked="@={viewModel.signUpAllAgreements}"
+                android:onClick="@{() -> fragment.onAllAgreementClicked()}"
                 android:drawableStart="@drawable/selector_sign_up_agreement_checkbox"
                 android:drawablePadding="10dp"
                 android:fontFamily="@font/pretendard_medium"

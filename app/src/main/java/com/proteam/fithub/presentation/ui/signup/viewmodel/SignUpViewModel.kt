@@ -29,6 +29,11 @@ class SignUpViewModel : ViewModel() {
 
     fun onAgreementClicked() {
         checkAgreementFinished()
+        checkAllAgreementsStatus()
+    }
+
+    private fun checkAllAgreementsStatus() {
+        signUpAllAgreements.value = signUpAgreements.value?.count { it.checked } == signUpAgreements.value?.size
     }
 
     private fun checkAgreementFinished() {
