@@ -68,7 +68,10 @@ class SignUpPhoneNumberFragment : Fragment() {
 
     private fun observeNextEnable() {
         binding.fgSignUpPhoneNumberEdtPhoneNumber.doneState.observe(viewLifecycleOwner) {
-            if(it) showTelecomField()
+            if(it) {
+                showTelecomField()
+                binding.fgSignUpBirthdayEdtBirth.birthDayEdt().requestFocus()
+            }
         }
 
         binding.fgSignUpBirthdayEdtBirth.doneState.observe(viewLifecycleOwner) {
@@ -86,7 +89,9 @@ class SignUpPhoneNumberFragment : Fragment() {
         }
 
         viewModel.selectTelecomState.observe(viewLifecycleOwner) {
-            if (it) showBirthdayField()
+            if (it) {
+                showBirthdayField()
+            }
         }
     }
 
@@ -117,7 +122,6 @@ class SignUpPhoneNumberFragment : Fragment() {
     }
 
     private fun openTelecomDialog() {
-        hideKeyboard()
         SignUpPhoneNumberSelectTelecomDialog().show(
             requireActivity().supportFragmentManager,
             "Select_Telecom"
@@ -127,9 +131,8 @@ class SignUpPhoneNumberFragment : Fragment() {
     private fun showBirthdayField() {
         binding.fgSignUpBirthdayEdtBirth.apply {
             visibility = View.VISIBLE
-            birthDayEdt().requestFocus()
+            this.birthDayEdt().showKeyboard()
         }
-        binding.fgSignUpBirthdayEdtBirth.birthDayEdt().showKeyboard()
     }
 
     private fun showNameField() {

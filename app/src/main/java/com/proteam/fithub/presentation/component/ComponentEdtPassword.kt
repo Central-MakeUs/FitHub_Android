@@ -28,8 +28,7 @@ class ComponentEdtPassword(context: Context, attrs: AttributeSet) :
     private var _doneState = MutableLiveData<Boolean>()
     val doneState: LiveData<Boolean> = _doneState
 
-    private var _checkFocus = MutableLiveData<Boolean>()
-    val checkFocus : LiveData<Boolean> = _checkFocus
+    var userInputPassword = MutableLiveData<String>().apply { value = "" }
 
     /** E / S / N **/
     /** Error / Success / Null **/
@@ -70,8 +69,6 @@ class ComponentEdtPassword(context: Context, attrs: AttributeSet) :
                 if (isErrorContains) strokeWhenError(b) else strokeWhenNotError(b)
             binding.componentEdtInputPasswordTvTitle.setTextColor(strokeWhenError(b))
             setDeleteVisibility(b)
-
-            if(isForCheck) _checkFocus.value = b
         }
 
         binding.componentEdtInputPasswordTvAdditional.visibility = if(isErrorContains) View.VISIBLE else View.GONE
@@ -82,7 +79,7 @@ class ComponentEdtPassword(context: Context, attrs: AttributeSet) :
             } else if (isErrorContains && !isForCheck) {
                 checkRegex(it)
             } else if (isForCheck) {
-                checkSame(it)
+                checkSame()
             } else {
                 setDoneState()
             }
@@ -96,17 +93,17 @@ class ComponentEdtPassword(context: Context, attrs: AttributeSet) :
     }
 
     private fun checkRegex(value: Editable?) {
-        if(!checkPatternMatches(value)) {
+        status = if(!checkPatternMatches(value)) {
             setError("regex")
-            status = "E"
+            "E"
         } else if (!checkLengthMatches(value)) {
             setError("length")
-            status = "E"
+            "E"
         } else {
             setSuccess("original")
-            status = "S"
-            setDoneState()
+            "S"
         }
+        setDoneState()
     }
 
     private fun checkPatternMatches(value : Editable?) : Boolean{
@@ -117,15 +114,15 @@ class ComponentEdtPassword(context: Context, attrs: AttributeSet) :
         return value?.length in 8..16
     }
 
-    private fun checkSame(value: Editable?) {
-        if (!value.isNullOrEmpty() && password == value.toString()) {
+    fun checkSame() {
+        status = if (!binding.componentEdtInputPasswordEdtContent.text.isNullOrEmpty() && password == binding.componentEdtInputPasswordEdtContent.text.toString()) {
             setSuccess("copy")
-            status = "S"
-            setDoneState()
+            "S"
         } else {
             setError("same")
-            status = "F"
+            "E"
         }
+        setDoneState()
     }
 
     private fun setError(errorType : String) {
@@ -191,7 +188,7 @@ class ComponentEdtPassword(context: Context, attrs: AttributeSet) :
     }
 
     private fun setDoneState() {
-        _doneState.value = binding.componentEdtInputPasswordEdtContent.text.isNotEmpty()
+        _doneState.value = status != "E"
     }
 
     private fun setDeleteVisibility(focus : Boolean) {
@@ -203,7 +200,7 @@ class ComponentEdtPassword(context: Context, attrs: AttributeSet) :
         binding.componentEdtInputPasswordEdtContent.setText("")
     }
 
-    fun getUserInputContent(): String = binding.componentEdtInputPasswordEdtContent.text.toString()
+    fun getUserInputContent(): Editable = binding.componentEdtInputPasswordEdtContent.text
 
     private fun strokeWhenNotError(b: Boolean): Int = if (b) doneStroke else normalStroke
     private fun strokeWhenError(b: Boolean): Int {
