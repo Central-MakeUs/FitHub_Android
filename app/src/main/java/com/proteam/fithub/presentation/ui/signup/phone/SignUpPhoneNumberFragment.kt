@@ -12,6 +12,7 @@ import androidx.core.content.res.TypedArrayUtils.getAttr
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.google.android.material.internal.ViewUtils.hideKeyboard
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentSignUpPhoneNumberAuthBinding
 import com.proteam.fithub.presentation.ui.signup.authcode.SignUpAuthCodeFragment
@@ -67,14 +68,15 @@ class SignUpPhoneNumberFragment : Fragment() {
 
     private fun observeNextEnable() {
         binding.fgSignUpPhoneNumberEdtPhoneNumber.doneState.observe(viewLifecycleOwner) {
-            /** 생년월일이 나오기 전에만 버튼에 영향을 줘야 함 **/
-            if (binding.fgSignUpBirthdayEdtBirth.visibility == View.GONE) {
-                binding.fgSignUpPhoneNumberBtnNext.isEnabled = checkPhoneAndTelecomToEnableNext(it)
-            }
+            if(it) showTelecomField()
         }
 
         binding.fgSignUpBirthdayEdtBirth.doneState.observe(viewLifecycleOwner) {
-            binding.fgSignUpPhoneNumberBtnNext.isEnabled = it
+            if(it) showNameField()
+        }
+
+        binding.fgSignUpPhoneNumberEdtName.doneState.observe(viewLifecycleOwner) {
+            binding.fgSignUpPhoneNumberBtnNext.isEnabled = nameStatusCheck()
         }
     }
 
@@ -89,15 +91,7 @@ class SignUpPhoneNumberFragment : Fragment() {
     }
 
     fun onNextClicked() {
-        if (nameStatusCheck()) { //이름까지 입력 완료
-            openCheckAuthCode()
-        } else if (birthdayStatusCheck()) { //생일까지 입력 완료
-            showNameField()
-        } else if (telecomStatusCheck()) {
-            showBirthdayField()
-        } else if (phoneStatusCheck()) {
-            showTelecomField()
-        }
+        openCheckAuthCode()
     }
 
     private fun openCheckAuthCode() {
@@ -144,10 +138,6 @@ class SignUpPhoneNumberFragment : Fragment() {
             visibility = View.VISIBLE
             requestFocus()
         }
-    }
-
-    private fun checkPhoneAndTelecomToEnableNext(phoneState: Boolean): Boolean {
-        return if (binding.fgSignUpPhoneNumberEdtTelecom.visibility == View.GONE) phoneState else phoneState && binding.fgSignUpPhoneNumberEdtTelecom.doneState.value == true
     }
 
     /** For Check Status **/
