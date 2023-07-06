@@ -15,14 +15,15 @@ import com.proteam.fithub.databinding.ComponentEdtInputNameBinding
 class ComponentEdtName(context: Context, attrs: AttributeSet) :
     ConstraintLayout(context, attrs) {
     private lateinit var binding: ComponentEdtInputNameBinding
+    private var status = ComponentStatus.NONE
 
     /** true : 에러 / false : 일반 **/
     private var state: Boolean = false
 
     private var isErrorContains: Boolean = false
 
-    private var _doneState = MutableLiveData<Boolean>()
-    val doneState: LiveData<Boolean> = _doneState
+    private var _isComplete = MutableLiveData<Boolean>()
+    val isComplete: LiveData<Boolean> = _isComplete
 
     init {
         initBinding()
@@ -45,17 +46,34 @@ class ComponentEdtName(context: Context, attrs: AttributeSet) :
     }
 
     private fun initUi() {
-        binding.componentEdtInputNameEdtContent.setOnFocusChangeListener { view, b ->
-            binding.componentEdtInputNameCardContainer.strokeColor = strokeWhenNotError(b)
-            binding.componentEdtInputNameTvTitle.setTextColor(strokeWhenNotError(b))
-            setDeleteVisibility(b)
+        binding.componentEdtInputNameEdtContent.setOnFocusChangeListener { view, focus ->
+            setStrokeColor(focus)
+            setTextColor()
+            setDeleteVisibility(focus)
         }
 
         binding.componentEdtInputNameEdtContent.addTextChangedListener {
-            checkWhenNotError()
+            if(!it.isNullOrEmpty()) checkWhenNotError()
             setDeleteVisibility(binding.componentEdtInputNameEdtContent.hasFocus())
         }
     }
+    private fun setStrokeColor(focus : Boolean?) {
+        binding.componentEdtInputNameCardContainer.strokeColor = if (status == ComponentStatus.ERROR) {
+            errorStroke
+        } else if(focus == true) {
+            doneStroke
+        } else {
+            normalStroke
+        }
+    }
+
+    private fun setTextColor() {
+        binding.componentEdtInputNameTvTitle.setTextColor(when(status) {
+            ComponentStatus.ERROR -> errorStroke
+            else -> normalStroke
+        })
+    }
+
     /*
         private fun checkWhenError() {
             state = if(regexError()) {
@@ -68,15 +86,32 @@ class ComponentEdtName(context: Context, attrs: AttributeSet) :
         } */
 
     private fun checkWhenNotError() {
-        setDoneState()
+        status = ComponentStatus.DONE
+        updateUiByStatus()
+        checkIsComplete()
+
     }
 
-    private fun resetStroke() {
-        binding.componentEdtInputNameCardContainer.strokeColor = doneStroke
-        binding.componentEdtInputNameTvTitle.setTextColor(normalStroke)
+    /** NORMAL **/
+    private fun setNormalState() {
+        setStrokeColor(true)
+        setTextColor()
         binding.componentEdtInputNameTvAdditional.visibility = View.GONE
         binding.componentEdtInputNameBtnError.visibility = View.GONE
     }
+
+    private fun updateUiByStatus() {
+        when(status) {
+            //ComponentStatus.ERROR -> setErrorState()
+            else -> setNormalState()
+        }
+    }
+
+    /** DONE STATUS **/
+    private fun checkIsComplete() {
+        _isComplete.value = status == ComponentStatus.DONE
+    }
+
     /*
         private fun setError() {
             binding.componentEdtInputNameTvAdditional.apply {
@@ -90,11 +125,6 @@ class ComponentEdtName(context: Context, attrs: AttributeSet) :
             binding.componentEdtInputNameBtnError.visibility = View.VISIBLE
         } */
 
-    private fun setDoneState() {
-        resetStroke()
-        _doneState.value = binding.componentEdtInputNameEdtContent.text.isNotEmpty()
-    }
-
     private fun setDeleteVisibility(focus: Boolean) {
         binding.componentEdtInputNameBtnClear.visibility =
             if (binding.componentEdtInputNameEdtContent.text.isEmpty() || !focus) View.GONE else View.VISIBLE
@@ -106,12 +136,6 @@ class ComponentEdtName(context: Context, attrs: AttributeSet) :
 
     fun getUserInputContent(): String =
         binding.componentEdtInputNameEdtContent.text.toString()
-
-    private fun strokeWhenNotError(b: Boolean): Int {
-        return if (state) errorStroke
-        else if (b) doneStroke
-        else normalStroke
-    }
 
     //private fun regexError() : Boolean =  if(!checkLength()) true else  checkLength() && checkStart3Words() == true
 

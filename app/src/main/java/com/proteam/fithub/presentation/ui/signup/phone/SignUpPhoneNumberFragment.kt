@@ -2,7 +2,6 @@ package com.proteam.fithub.presentation.ui.signup.phone
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -74,7 +73,7 @@ class SignUpPhoneNumberFragment : Fragment() {
             if(it) showNameField()
         }
 
-        binding.fgSignUpPhoneNumberEdtName.doneState.observe(viewLifecycleOwner) {
+        binding.fgSignUpPhoneNumberEdtName.isComplete.observe(viewLifecycleOwner) {
             binding.fgSignUpPhoneNumberBtnNext.isEnabled = nameStatusCheck()
         }
     }
@@ -151,7 +150,7 @@ class SignUpPhoneNumberFragment : Fragment() {
         telecomStatusCheck() && binding.fgSignUpBirthdayEdtBirth.isComplete.value == true
 
     private fun nameStatusCheck(): Boolean =
-        birthdayStatusCheck() && binding.fgSignUpPhoneNumberEdtName.doneState.value == true
+        birthdayStatusCheck() && binding.fgSignUpPhoneNumberEdtName.isComplete.value == true
 
     private fun EditText.showKeyboard() = imm.showSoftInput(this, 0)
     private fun hideKeyboard() {
