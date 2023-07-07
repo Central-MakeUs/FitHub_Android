@@ -2,9 +2,11 @@ package com.proteam.fithub.presentation.ui.auth
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.google.android.material.snackbar.Snackbar
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
@@ -24,7 +26,7 @@ class SignInActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_sign_in)
 
         initBinding()
-
+        observeSignInState()
     }
 
     private fun initBinding() {
@@ -69,6 +71,14 @@ class SignInActivity : AppCompatActivity() {
     private fun getKakaoSignatureID() {
         UserApiClient.instance.me { user, error ->
             user?.let { it.id?.let { it1 -> viewModel.sendKakaoToken(it1) } }
+        }
+    }
+
+    private fun observeSignInState() {
+        viewModel.signInState.observe(this) {
+            if(it != "성공") {
+                Snackbar.make(binding.root, it, Snackbar.LENGTH_SHORT).show()
+            }
         }
     }
     
