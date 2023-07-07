@@ -12,6 +12,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.kakao.sdk.common.KakaoSdk.type
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.ComponentEdtInputBirthBinding
 import java.time.LocalDate
@@ -21,8 +22,14 @@ class ComponentEdtBirthDay(context: Context, attrs: AttributeSet) :
     private lateinit var binding: ComponentEdtInputBirthBinding
     private var isErrorContains: Boolean = false
 
-    private var _doneState = MutableLiveData<Boolean>()
-    val doneState: LiveData<Boolean> = _doneState
+    private var status = ComponentStatus.NONE
+
+    private var _isComplete = MutableLiveData<Boolean>()
+    val isComplete: LiveData<Boolean> = _isComplete
+
+    private var normalStroke = context.resources.getColor(R.color.gray_400, null)
+    private var doneStroke = context.resources.getColor(R.color.gray_600, null)
+    private var errorStroke = context.resources.getColor(R.color.color_error, null)
 
     init {
         initBinding()
@@ -45,9 +52,16 @@ class ComponentEdtBirthDay(context: Context, attrs: AttributeSet) :
     }
 
     private fun initUi() {
-        binding.componentEdtInputBirthEdtBirthday.setOnFocusChangeListener { view, b ->
-            binding.componentEdtInputBirthCardContainer.strokeColor = strokeWhenNotError(b)
-            binding.componentEdtInputBirthTvTitle.setTextColor(normalStroke)
+        binding.componentEdtInputBirthEdtBirthday.setOnFocusChangeListener { view, focus ->
+            setStrokeColor(focus)
+            setTextColor()
+            setDeleteVisibility()
+        }
+
+        binding.componentEdtInputBirthEdtGender.setOnFocusChangeListener { view, focus ->
+            setStrokeColor(focus)
+            setTextColor()
+            setDeleteVisibility()
         }
 
         binding.componentEdtInputBirthEdtBirthday.addTextChangedListener {
@@ -57,18 +71,35 @@ class ComponentEdtBirthDay(context: Context, attrs: AttributeSet) :
             if (checkAllTextInserted()) {
                 checkWhenError(it)
             } else {
-                resetStroke()
-                _doneState.value = false
+                resetError()
             }
+            setDeleteVisibility()
         }
         binding.componentEdtInputBirthEdtGender.addTextChangedListener {
             if (checkAllTextInserted()) {
                 checkWhenError(binding.componentEdtInputBirthEdtBirthday.text)
             } else {
-                resetStroke()
-                _doneState.value = false
+                resetError()
             }
+            setDeleteVisibility()
         }
+    }
+
+    private fun setStrokeColor(focus : Boolean?) {
+        binding.componentEdtInputBirthCardContainer.strokeColor = if (status == ComponentStatus.ERROR) {
+            errorStroke
+        } else if(focus == true) {
+            doneStroke
+        } else {
+            normalStroke
+        }
+    }
+
+    private fun setTextColor() {
+        binding.componentEdtInputBirthTvTitle.setTextColor(when(status) {
+            ComponentStatus.ERROR -> errorStroke
+            else -> normalStroke
+        })
     }
 
     private fun checkAllTextInserted(): Boolean =
@@ -76,45 +107,76 @@ class ComponentEdtBirthDay(context: Context, attrs: AttributeSet) :
 
     private fun checkWhenError(value: Editable?) {
         if (!regexError(value)) {
-            setError("Invalidate")
+            status = ComponentStatus.ERROR
+            updateUiByStatus("Invalidate")
         } else if (checkAge(value) < 14) {
-            setError("NotEnoughAge")
+            updateUiByStatus("NotEnoughAge")
+            status = ComponentStatus.ERROR
+        } else if(checkAge(value) > 14 && regexError(value)){
+            status = ComponentStatus.DONE
+            updateUiByStatus(null)
+        } else {
+            status = ComponentStatus.NONE
+            updateUiByStatus(null)
         }
-        _doneState.value = regexError(value)
+        checkIsComplete()
     }
 
-    private fun resetStroke() {
-        binding.componentEdtInputBirthCardContainer.strokeColor = doneStroke
-        binding.componentEdtInputBirthTvTitle.setTextColor(normalStroke)
+    private fun resetError() {
+        status = ComponentStatus.NONE
+        updateUiByStatus(null)
+        checkIsComplete()
+    }
+
+    private fun updateUiByStatus(error : String?) {
+        when(status) {
+            ComponentStatus.ERROR -> setErrorState(error)
+            else -> setNormalState()
+        }
+    }
+
+    /** ERROR **/
+    private fun setErrorState(error : String?) {
+        binding.componentEdtInputPhoneNumberTvAdditional.apply {
+            visibility = View.VISIBLE
+            setTextColor(errorStroke)
+            text = if(error == "Invalidate") "생년월일 및 성별을 정확히 입력해주세요." else "만 14세 미만은 서비스 이용이 불가합니다."
+        }
+        binding.componentEdtInputBirthBtnError.visibility = View.VISIBLE
+        setStrokeColor(null)
+        setTextColor()
+    }
+
+    /** NORMAL **/
+    private fun setNormalState() {
+        setStrokeColor(true)
+        setTextColor()
         binding.componentEdtInputPhoneNumberTvAdditional.visibility = View.GONE
         binding.componentEdtInputBirthBtnError.visibility = View.GONE
     }
 
-    private fun setError(type : String) {
-        binding.componentEdtInputPhoneNumberTvAdditional.apply {
-            visibility = View.VISIBLE
-            setTextColor(errorStroke)
+    /** DONE STATUS **/
+    private fun checkIsComplete() {
+        _isComplete.value = status == ComponentStatus.DONE
+    }
 
-            text = if(type == "Invalidate") "생년월일 및 성별을 정확히 입력해주세요." else "만 14세 미만은 서비스 이용이 불가합니다."
-        }
-        binding.componentEdtInputBirthTvTitle.setTextColor(errorStroke)
-        binding.componentEdtInputBirthCardContainer.strokeColor = errorStroke
+    /** DELETE BUTTON **/
+    private fun setDeleteVisibility() {
+        binding.componentEdtInputBirthBtnClear.visibility =
+            if ((binding.componentEdtInputBirthEdtBirthday.text.isEmpty() && binding.componentEdtInputBirthEdtGender.text.isEmpty()) || (!binding.componentEdtInputBirthEdtBirthday.hasFocus() && !binding.componentEdtInputBirthEdtGender.hasFocus())) View.GONE else View.VISIBLE
+    }
 
-        binding.componentEdtInputBirthBtnError.visibility = View.VISIBLE
+    fun onDeleteClicked() {
+        binding.componentEdtInputBirthEdtBirthday.setText("")
+        binding.componentEdtInputBirthEdtGender.setText("")
     }
 
     fun getUserInputContent(): String =
         binding.componentEdtInputBirthEdtBirthday.text.toString()
 
-    private fun strokeWhenNotError(b: Boolean): Int = if (b) doneStroke else normalStroke
-
     private fun regexError(value: Editable?): Boolean {
         return (checkLength(value) && setBirthValidate(value))
     }
-
-    private var normalStroke = context.resources.getColor(R.color.gray_400, null)
-    private var doneStroke = context.resources.getColor(R.color.gray_600, null)
-    private var errorStroke = context.resources.getColor(R.color.color_error, null)
 
     private fun checkLength(value: Editable?): Boolean = value?.length == 6 && value.isNotEmpty()
     private fun setBirthValidate(value: Editable?): Boolean {

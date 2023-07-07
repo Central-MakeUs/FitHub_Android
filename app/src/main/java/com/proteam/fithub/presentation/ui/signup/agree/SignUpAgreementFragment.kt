@@ -51,12 +51,14 @@ class SignUpAgreementFragment : Fragment() {
         binding.fgSignUpAgreementRvContents.adapter = adapter
     }
 
-    private fun observeTest() {
-        viewModel.signUpAllAgreements.observe(viewLifecycleOwner) {
-            viewModel.manageAllAgreements(it)
-            adapter.setAllClicked(it)
+    fun onAllAgreementClicked() {
+        binding.fgSignUpAgreementCheckAll.isChecked.apply {
+            viewModel.manageAllAgreements(this)
+            adapter.setAllClicked(this)
         }
+    }
 
+    private fun observeTest() {
         viewModel.signUpAgreements.observe(viewLifecycleOwner) {
             adapter.agreements = it
         }

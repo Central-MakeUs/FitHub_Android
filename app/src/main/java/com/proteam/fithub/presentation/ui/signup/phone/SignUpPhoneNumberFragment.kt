@@ -2,23 +2,19 @@ package com.proteam.fithub.presentation.ui.signup.phone
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import androidx.core.content.res.TypedArrayUtils.getAttr
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentSignUpPhoneNumberAuthBinding
 import com.proteam.fithub.presentation.ui.signup.authcode.SignUpAuthCodeFragment
-import com.proteam.fithub.presentation.ui.signup.interest.SignUpSelectInterestSportsFragment
 import com.proteam.fithub.presentation.ui.signup.phone.dialog.SignUpPhoneNumberSelectTelecomDialog
 import com.proteam.fithub.presentation.ui.signup.viewmodel.SignUpViewModel
-import kotlinx.coroutines.delay
 
 class SignUpPhoneNumberFragment : Fragment() {
     private lateinit var binding: FragmentSignUpPhoneNumberAuthBinding
@@ -66,15 +62,19 @@ class SignUpPhoneNumberFragment : Fragment() {
     }
 
     private fun observeNextEnable() {
-        binding.fgSignUpPhoneNumberEdtPhoneNumber.doneState.observe(viewLifecycleOwner) {
-            /** 생년월일이 나오기 전에만 버튼에 영향을 줘야 함 **/
-            if (binding.fgSignUpBirthdayEdtBirth.visibility == View.GONE) {
-                binding.fgSignUpPhoneNumberBtnNext.isEnabled = checkPhoneAndTelecomToEnableNext(it)
+        binding.fgSignUpPhoneNumberEdtPhoneNumber.isComplete.observe(viewLifecycleOwner) {
+            if(it) {
+                showTelecomField()
+                binding.fgSignUpBirthdayEdtBirth.birthDayEdt().requestFocus()
             }
         }
 
-        binding.fgSignUpBirthdayEdtBirth.doneState.observe(viewLifecycleOwner) {
-            binding.fgSignUpPhoneNumberBtnNext.isEnabled = it
+        binding.fgSignUpBirthdayEdtBirth.isComplete.observe(viewLifecycleOwner) {
+            if(it) showNameField()
+        }
+
+        binding.fgSignUpPhoneNumberEdtName.isComplete.observe(viewLifecycleOwner) {
+            binding.fgSignUpPhoneNumberBtnNext.isEnabled = nameStatusCheck()
         }
     }
 
@@ -84,20 +84,14 @@ class SignUpPhoneNumberFragment : Fragment() {
         }
 
         viewModel.selectTelecomState.observe(viewLifecycleOwner) {
-            if (it) showBirthdayField()
+            if (it) {
+                showBirthdayField()
+            }
         }
     }
 
     fun onNextClicked() {
-        if (nameStatusCheck()) { //이름까지 입력 완료
-            openCheckAuthCode()
-        } else if (birthdayStatusCheck()) { //생일까지 입력 완료
-            showNameField()
-        } else if (telecomStatusCheck()) {
-            showBirthdayField()
-        } else if (phoneStatusCheck()) {
-            showTelecomField()
-        }
+        openCheckAuthCode()
     }
 
     private fun openCheckAuthCode() {
@@ -123,7 +117,6 @@ class SignUpPhoneNumberFragment : Fragment() {
     }
 
     private fun openTelecomDialog() {
-        hideKeyboard()
         SignUpPhoneNumberSelectTelecomDialog().show(
             requireActivity().supportFragmentManager,
             "Select_Telecom"
@@ -133,9 +126,8 @@ class SignUpPhoneNumberFragment : Fragment() {
     private fun showBirthdayField() {
         binding.fgSignUpBirthdayEdtBirth.apply {
             visibility = View.VISIBLE
-            birthDayEdt().requestFocus()
+            this.birthDayEdt().showKeyboard()
         }
-        binding.fgSignUpBirthdayEdtBirth.birthDayEdt().showKeyboard()
     }
 
     private fun showNameField() {
@@ -146,23 +138,19 @@ class SignUpPhoneNumberFragment : Fragment() {
         }
     }
 
-    private fun checkPhoneAndTelecomToEnableNext(phoneState: Boolean): Boolean {
-        return if (binding.fgSignUpPhoneNumberEdtTelecom.visibility == View.GONE) phoneState else phoneState && binding.fgSignUpPhoneNumberEdtTelecom.doneState.value == true
-    }
-
     /** For Check Status **/
 
     private fun phoneStatusCheck(): Boolean =
-        binding.fgSignUpPhoneNumberEdtPhoneNumber.doneState.value == true
+        binding.fgSignUpPhoneNumberEdtPhoneNumber.isComplete.value == true
 
     private fun telecomStatusCheck(): Boolean =
-        phoneStatusCheck() && binding.fgSignUpPhoneNumberEdtTelecom.doneState.value == true
+        phoneStatusCheck() && binding.fgSignUpPhoneNumberEdtTelecom.isComplete.value == true
 
     private fun birthdayStatusCheck(): Boolean =
-        telecomStatusCheck() && binding.fgSignUpBirthdayEdtBirth.doneState.value == true
+        telecomStatusCheck() && binding.fgSignUpBirthdayEdtBirth.isComplete.value == true
 
     private fun nameStatusCheck(): Boolean =
-        birthdayStatusCheck() && binding.fgSignUpPhoneNumberEdtName.doneState.value == true
+        birthdayStatusCheck() && binding.fgSignUpPhoneNumberEdtName.isComplete.value == true
 
     private fun EditText.showKeyboard() = imm.showSoftInput(this, 0)
     private fun hideKeyboard() {

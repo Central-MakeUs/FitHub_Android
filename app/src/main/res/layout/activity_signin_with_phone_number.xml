@@ -97,9 +97,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/sign_in_find_password"
+                android:text="@string/common_find_password"
                 android:fontFamily="@font/pretendard_regular"
                 android:includeFontPadding="false"
+                android:onClick="@{() -> activity.onFindPasswordClicked()}"
                 android:textSize="14sp"
                 android:lineHeight="20dp"
                 android:textColor="@color/gray_700" />

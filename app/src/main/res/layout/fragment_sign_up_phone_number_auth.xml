@@ -49,7 +49,8 @@
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="15dp"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/fg_sign_up_phone_number_subtitle">
+            app:layout_constraintTop_toBottomOf="@id/fg_sign_up_phone_number_subtitle"
+            android:animateLayoutChanges="true">
 
             <com.proteam.fithub.presentation.component.ComponentEdtName
                 android:id="@+id/fg_sign_up_phone_number_edt_name"

@@ -58,6 +58,13 @@ class SignUpAuthCodeFragment : Fragment() {
         binding.fgSignUpAuthCodeEdtAuthCode.authCodeEdt.showKeyboard()
     }
 
+    fun onResendClicked() {
+        binding.fgSignUpAuthCodeEdtAuthCode.apply {
+            stopCountDownTimer()
+            startCountDownTimer()
+        }
+    }
+
     private fun EditText.showKeyboard() = imm.showSoftInput(this, 0)
 
     private fun hideKeyboard() {

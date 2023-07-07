@@ -1,6 +1,7 @@
 package com.proteam.fithub.presentation.ui.signup.password
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,9 +41,10 @@ class SignUpSetPasswordFragment : Fragment() {
     }
 
     private fun initIncludeObserve() {
-        binding.fgSignUpSetPasswordEdtPasswordCheck.apply {
-            checkFocus.observe(viewLifecycleOwner) {
-                this.getPassword(binding.fgSignUpSetPasswordEdtPassword.getUserInputContent())
+        binding.fgSignUpSetPasswordEdtPassword.userInputPassword.observe(viewLifecycleOwner) {
+            if(it.isNotEmpty()) {
+                binding.fgSignUpSetPasswordEdtPasswordCheck.getPassword(it)
+                binding.fgSignUpSetPasswordEdtPasswordCheck.checkSame()
             }
         }
     }

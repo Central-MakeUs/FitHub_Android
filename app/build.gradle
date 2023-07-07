@@ -5,6 +5,9 @@ plugins {
     id 'com.google.dagger.hilt.android'
 }
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def kakao_native_key = properties.getProperty('kakao_native_key')
 android {
     namespace 'com.proteam.fithub'
     compileSdk 33
@@ -15,6 +18,10 @@ android {
         targetSdk 33
         versionCode 1
         versionName "1.0"
+
+        buildConfigField "String", "KAKAO_NATIVE_KEY", properties['kakao_native_key']
+        buildConfigField "String", "BASE_URL", properties['BASE_URL']
+        manifestPlaceholders = [KAKAO_NATIVE_KEY: kakao_native_key]
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -32,6 +39,7 @@ android {
     buildFeatures {
         viewBinding = true
         dataBinding = true
+        buildConfig = true
     }
     kotlinOptions {
         jvmTarget = '1.8'
@@ -71,4 +79,7 @@ dependencies {
 
     /** Splash **/
     implementation 'androidx.core:core-splashscreen:1.0.0-beta01'
+
+    /** Kakao SignIn **/
+    implementation "com.kakao.sdk:v2-user:2.14.0"
 }

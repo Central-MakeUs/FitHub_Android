@@ -82,6 +82,17 @@
                     app:layout_constraintTop_toTopOf="@id/component_edt_input_birth_edt_birthday"
                     app:layout_constraintBottom_toBottomOf="@id/component_edt_input_birth_edt_birthday" />
 
+                <ImageView
+                    android:id="@+id/component_edt_input_birth_btn_clear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:onClick="@{() -> layout.onDeleteClicked()}"
+                    android:src="@drawable/ic_edt_delete"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/component_edt_input_birth_btn_error"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:id="@+id/component_edt_input_birth_btn_error"
