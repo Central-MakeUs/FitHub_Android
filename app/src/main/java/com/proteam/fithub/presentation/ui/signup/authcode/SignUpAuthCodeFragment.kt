@@ -9,13 +9,21 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentSignUpAuthCodeBinding
+import com.proteam.fithub.presentation.ui.findpassword.FindPasswordActivity
+import com.proteam.fithub.presentation.ui.findpassword.viewmodel.FindPasswordViewModel
+import com.proteam.fithub.presentation.ui.signup.SignUpActivity
 import com.proteam.fithub.presentation.ui.signup.password.SignUpSetPasswordFragment
+import com.proteam.fithub.presentation.ui.signup.viewmodel.SignUpViewModel
 
 class SignUpAuthCodeFragment : Fragment() {
     private lateinit var binding : FragmentSignUpAuthCodeBinding
     private lateinit var imm: InputMethodManager
+
+    private val findPasswordViewModel : FindPasswordViewModel by activityViewModels()
+    private val signUpViewModel : SignUpViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,12 +32,21 @@ class SignUpAuthCodeFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_up_auth_code, container, false)
 
+        validateTAG()
+
         initInputMethodManager()
         initBinding()
         initInclude()
         initObserve()
 
         return binding.root
+    }
+
+    private fun validateTAG() {
+        when(tag) {
+            "SignUp" -> {}
+            "Find_Password" -> {}
+        }
     }
 
     private fun initBinding() {
@@ -73,7 +90,10 @@ class SignUpAuthCodeFragment : Fragment() {
 
     fun onNextBtnClicked() {
         hideKeyboard()
+        when(tag) {
+            "Find_Password" -> (requireActivity() as FindPasswordActivity).changeFragments(SignUpSetPasswordFragment())
+            //else -> requireActivity().supportFragmentManager.beginTransaction().add(R.id.sign_up_layout_container, SignUpSetPasswordFragment()).addToBackStack("Password").commit()
+        }
 
-        requireActivity().supportFragmentManager.beginTransaction().add(R.id.sign_up_layout_container, SignUpSetPasswordFragment()).addToBackStack("Password").commit()
     }
 }

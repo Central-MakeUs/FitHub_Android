@@ -13,7 +13,7 @@ import com.proteam.fithub.databinding.FragmentSignUpSelectInterestSportsBinding
 import com.proteam.fithub.presentation.ui.signup.interest.adapter.SignUpSelectInterestSportsAdapter
 import com.proteam.fithub.presentation.ui.signup.viewmodel.SignUpViewModel
 
-class SignUpSelectInterestSportsFragment : Fragment() {
+class SelectInterestSportsFragment : Fragment() {
     private lateinit var binding : FragmentSignUpSelectInterestSportsBinding
     private val viewModel : SignUpViewModel by activityViewModels()
     private val adapter by lazy {

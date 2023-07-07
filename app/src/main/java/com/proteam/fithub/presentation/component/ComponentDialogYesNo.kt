@@ -50,6 +50,7 @@ class ComponentDialogYesNo(private val onActionClick : () -> Unit) : DialogFragm
     private fun initUi() {
         when(tag) {
             "NO_ACCOUNT_INFO" -> case_NO_ACCOUNT_INFO()
+            "RESET_PASSWORD" -> case_RESET_PASSWORD()
         }
     }
 
@@ -57,6 +58,12 @@ class ComponentDialogYesNo(private val onActionClick : () -> Unit) : DialogFragm
         binding.componentDialogTvTitle.text = "미가입 계정"
         binding.componentDialogTvNotice.text = "해당 번호로 가입된 계정이 없습니다."
         binding.componentDialogTvAction.text = "회원가입 하기"
+    }
+
+    private fun case_RESET_PASSWORD() {
+        binding.componentDialogTvTitle.text = "비밀번호 설정 완료"
+        binding.componentDialogTvNotice.text = "비밀번호가 재설정되었습니다.\n로그인을 진행할까요?"
+        binding.componentDialogTvAction.text = "로그인 하기"
     }
 
     fun onActionClick() {
