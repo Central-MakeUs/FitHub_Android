@@ -17,10 +17,11 @@
     <string name="common_nickname">닉네임</string>
     <string name="common_name">이름</string>
     <string name="common_next">다음</string>
+    <string name="common_send_authcode">인증번호 전송</string>
 
 
 
-    <string name="sign_in_find_password">비밀번호 찾기</string>
+    <string name="common_find_password">비밀번호 찾기</string>
     <string name="common_sign_up">회원가입</string>
 
     <string name="sign_up_agreement_notice">회원가입 전,\n약관 동의가 필요해요.</string>
@@ -52,4 +53,8 @@
     <string name="sign_up_with_phone_interest_sports_notice">선택하신 운동에 따라 맞춤 정보가 제공돼요!</string>
 
     <string name="finish_sign_up">회원가입 하기</string>
+
+
+    <!-- 비밀번호 찾기 -->
+    <string name="find_password_auth_phone_number_notice">가입할 때 입력했던 정보를 확인합니다.</string>
 </resources>
