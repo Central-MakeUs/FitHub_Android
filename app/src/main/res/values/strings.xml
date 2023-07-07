@@ -43,6 +43,7 @@
     <string name="sign_up_with_phone_auth_code_retry"><u>재발송</u></string>
 
     <string name="sign_up_with_phone_set_password">비밀번호 설정</string>
+    <string name="sign_up_with_phone_reset_password">비밀번호 재설정</string>
     <string name="sign_up_with_phone_set_password_notice">비밀번호를 설정해주세요.</string>
 
     <string name="sign_up_with_phone_user_profile">프로필 설정</string>

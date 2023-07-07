@@ -8,11 +8,9 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.google.android.material.internal.ViewUtils.hideKeyboard
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentSignUpUserProfileBinding
-import com.proteam.fithub.presentation.ui.signup.authcode.SignUpAuthCodeFragment
-import com.proteam.fithub.presentation.ui.signup.interest.SignUpSelectInterestSportsFragment
+import com.proteam.fithub.presentation.ui.signup.interest.SelectInterestSportsFragment
 
 class SignUpUserProfileFragment : Fragment() {
     private lateinit var binding : FragmentSignUpUserProfileBinding
@@ -53,7 +51,7 @@ class SignUpUserProfileFragment : Fragment() {
     }
     fun onNextClicked() {
         requireActivity().supportFragmentManager.beginTransaction()
-            .add(R.id.sign_up_layout_container, SignUpSelectInterestSportsFragment())
+            .add(R.id.sign_up_layout_container, SelectInterestSportsFragment())
             .addToBackStack("Sports").commit()
         hideKeyboard()
     }

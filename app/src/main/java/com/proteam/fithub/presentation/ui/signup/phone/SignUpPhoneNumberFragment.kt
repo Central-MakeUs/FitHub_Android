@@ -96,7 +96,7 @@ class SignUpPhoneNumberFragment : Fragment() {
 
     private fun openCheckAuthCode() {
         requireActivity().supportFragmentManager.beginTransaction()
-            .add(R.id.sign_up_layout_container, SignUpAuthCodeFragment())
+            .add(R.id.sign_up_layout_container, SignUpAuthCodeFragment(), "SignUp")
             .addToBackStack("AuthCode").commit()
         hideKeyboard()
     }

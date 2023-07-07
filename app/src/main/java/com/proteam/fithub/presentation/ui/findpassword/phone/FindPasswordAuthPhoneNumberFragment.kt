@@ -12,7 +12,9 @@ import androidx.fragment.app.Fragment
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentFindPasswordAuthPhoneNumberBinding
 import com.proteam.fithub.presentation.component.ComponentDialogYesNo
+import com.proteam.fithub.presentation.ui.findpassword.FindPasswordActivity
 import com.proteam.fithub.presentation.ui.signup.SignUpActivity
+import com.proteam.fithub.presentation.ui.signup.authcode.SignUpAuthCodeFragment
 import kotlin.random.Random
 
 class FindPasswordAuthPhoneNumberFragment : Fragment() {
@@ -48,9 +50,8 @@ class FindPasswordAuthPhoneNumberFragment : Fragment() {
     fun onSendAuthClicked() {
         //:TODO 랜덤으로 다이얼로그 / 성공 구분해둠 수정해야함!!
         val rand = Random.nextInt(0,2)
-        Log.d("----", "onSendAuthClicked: $rand")
         if(rand == 0) {
-            Toast.makeText(requireContext(), "있음", Toast.LENGTH_SHORT).show()
+            (requireActivity() as FindPasswordActivity).changeFragments(SignUpAuthCodeFragment())
         } else {
             showDialogWhenNoAccount()
         }
