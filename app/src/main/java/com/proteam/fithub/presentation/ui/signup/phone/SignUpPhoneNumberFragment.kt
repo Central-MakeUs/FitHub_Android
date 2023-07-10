@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentSignUpPhoneNumberAuthBinding
+import com.proteam.fithub.presentation.ui.signup.SignUpActivity
 import com.proteam.fithub.presentation.ui.signup.authcode.SignUpAuthCodeFragment
 import com.proteam.fithub.presentation.ui.signup.phone.dialog.SignUpPhoneNumberSelectTelecomDialog
 import com.proteam.fithub.presentation.ui.signup.viewmodel.SignUpViewModel
@@ -36,7 +37,7 @@ class SignUpPhoneNumberFragment : Fragment() {
         initBinding()
         initInputMethodManager()
         initInclude()
-        observeNextEnable()
+        observeItemCompleted()
 
         return binding.root
     }
@@ -61,32 +62,39 @@ class SignUpPhoneNumberFragment : Fragment() {
         }
     }
 
-    private fun observeNextEnable() {
+    private fun observeItemCompleted() {
         binding.fgSignUpPhoneNumberEdtPhoneNumber.isComplete.observe(viewLifecycleOwner) {
-            if(it) {
+            if(it && binding.fgSignUpPhoneNumberEdtTelecom.visibility == View.GONE) {
                 showTelecomField()
                 binding.fgSignUpBirthdayEdtBirth.birthDayEdt().requestFocus()
             }
+            checkNextBtnEnabled()
+        }
+
+        viewModel.selectTelecomState.observe(viewLifecycleOwner) {
+            if (it && binding.fgSignUpBirthdayEdtBirth.visibility == View.GONE) {
+                showBirthdayField()
+            }
+            checkNextBtnEnabled()
         }
 
         binding.fgSignUpBirthdayEdtBirth.isComplete.observe(viewLifecycleOwner) {
-            if(it) showNameField()
+            if(it && binding.fgSignUpPhoneNumberEdtName.visibility == View.GONE) showNameField()
+            checkNextBtnEnabled()
         }
 
         binding.fgSignUpPhoneNumberEdtName.isComplete.observe(viewLifecycleOwner) {
-            binding.fgSignUpPhoneNumberBtnNext.isEnabled = nameStatusCheck()
+            checkNextBtnEnabled()
         }
+    }
+
+    private fun checkNextBtnEnabled() {
+        binding.fgSignUpPhoneNumberBtnNext.isEnabled = nameStatusCheck()
     }
 
     private fun observeTelecom() {
         viewModel.selectTelecom.observe(viewLifecycleOwner) {
             binding.fgSignUpPhoneNumberEdtTelecom.getUserSelectedTelecom(it)
-        }
-
-        viewModel.selectTelecomState.observe(viewLifecycleOwner) {
-            if (it) {
-                showBirthdayField()
-            }
         }
     }
 
@@ -95,9 +103,7 @@ class SignUpPhoneNumberFragment : Fragment() {
     }
 
     private fun openCheckAuthCode() {
-        requireActivity().supportFragmentManager.beginTransaction()
-            .add(R.id.sign_up_layout_container, SignUpAuthCodeFragment(), "SignUp")
-            .addToBackStack("AuthCode").commit()
+        (requireActivity() as SignUpActivity).changeFragments(SignUpAuthCodeFragment())
         hideKeyboard()
     }
 
@@ -131,7 +137,6 @@ class SignUpPhoneNumberFragment : Fragment() {
     }
 
     private fun showNameField() {
-        binding.fgSignUpPhoneNumberBtnNext.text = "인증번호 전송"
         binding.fgSignUpPhoneNumberEdtName.apply {
             visibility = View.VISIBLE
             requestFocus()

@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.ActivitySignUpBinding
 import com.proteam.fithub.presentation.ui.signup.agree.SignUpAgreementFragment
@@ -26,6 +27,10 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun initFragments() {
         supportFragmentManager.beginTransaction().replace(R.id.sign_up_layout_container, SignUpAgreementFragment()).commit()
+    }
+
+    fun changeFragments(fragment : Fragment) {
+        supportFragmentManager.beginTransaction().addToBackStack(fragment.id.toString()).add(R.id.sign_up_layout_container, fragment, "Sign_Up").commit()
     }
 
     fun onBackPress() {

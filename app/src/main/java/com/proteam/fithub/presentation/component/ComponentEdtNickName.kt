@@ -20,7 +20,7 @@ class ComponentEdtNickName(context: Context, attrs: AttributeSet) :
     private lateinit var binding: ComponentEdtInputNicknameBinding
     private var isErrorContains: Boolean = false
 
-    private val nickNamePattern = """^(?=.*[가-힣])(?=.*[a-zA-Z])(?=\S+$).*$"""
+    private val nickNamePattern = """^(?=.*[가-힣a-zA-Z]).*$"""
 
 
     private var _doneState = MutableLiveData<Boolean>()
@@ -129,17 +129,13 @@ class ComponentEdtNickName(context: Context, attrs: AttributeSet) :
 
     private fun returnErrorText(errorType : String) : String {
         return when(errorType) {
-            "regex" -> "특수문자, 숫자, 영문 조합으로 입력하세요"
-            "length" -> "비밀번호는 8~16자 이내로 입력하세요"
-            else -> "비밀번호가 일치하지 않습니다"
+            "regex" -> "공백 혹은 특수문자는 사용할 수 없습니다"
+            else -> "이미 존재하는 닉네임 입니다"
         }
     }
 
     private fun returnSuccessText(successType : String) : String {
-        return when(successType) {
-            "original" -> "사용할 수 있는 비밀번호입니다"
-            else -> "비밀번호가 일치합니다"
-        }
+        return "사용 가능한 닉네임 입니다"
     }
 
     private fun resetStroke() {

@@ -1,27 +1,43 @@
 package com.proteam.fithub.presentation.ui.signup.profile
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import com.google.android.material.internal.ViewUtils.hideKeyboard
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentSignUpUserProfileBinding
+import com.proteam.fithub.presentation.ui.signup.SignUpActivity
 import com.proteam.fithub.presentation.ui.signup.interest.SelectInterestSportsFragment
+import com.proteam.fithub.presentation.ui.signup.viewmodel.SignUpViewModel
 
 class SignUpUserProfileFragment : Fragment() {
-    private lateinit var binding : FragmentSignUpUserProfileBinding
+    private lateinit var binding: FragmentSignUpUserProfileBinding
     private lateinit var imm: InputMethodManager
+
+    private val viewModel : SignUpViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_up_user_profile, container, false)
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_sign_up_user_profile,
+            container,
+            false
+        )
 
         initBinding()
         initInclude()
@@ -38,6 +54,7 @@ class SignUpUserProfileFragment : Fragment() {
 
     private fun initBinding() {
         binding.fragment = this
+        binding.lifecycleOwner = viewLifecycleOwner
     }
 
     private fun initInclude() {
@@ -49,14 +66,36 @@ class SignUpUserProfileFragment : Fragment() {
             binding.fgSignUpUserProfileBtnNext.isEnabled = it
         }
     }
-    fun onNextClicked() {
-        requireActivity().supportFragmentManager.beginTransaction()
-            .add(R.id.sign_up_layout_container, SelectInterestSportsFragment())
-            .addToBackStack("Sports").commit()
-        hideKeyboard()
+
+    fun onGalleryOpen() {
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_PICK
+        this.requestGalleryActivity.launch(intent)
     }
 
-    private fun hideKeyboard() {
-        imm.hideSoftInputFromWindow(view?.windowToken, 0)
+    private val requestGalleryActivity =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK && it.data?.data != null) { //갤러리 캡쳐 결과값
+                val clipData = it?.data?.clipData
+                if (clipData == null) {
+                    it.data!!.data?.let { it1 -> viewModel.setUserSelectedProfile(it1)
+                    binding.fgSignUpUserProfileIvProfile.setImageURI(it1)}
+                }
+            }
+        }
+
+
+fun onNextClicked() {
+    when (tag) {
+        "Sign_Up" -> (requireActivity() as SignUpActivity).changeFragments(
+            SelectInterestSportsFragment()
+        )
     }
+    hideKeyboard()
+}
+
+private fun hideKeyboard() {
+    imm.hideSoftInputFromWindow(view?.windowToken, 0)
+}
 }

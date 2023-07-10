@@ -15,6 +15,7 @@ import com.proteam.fithub.presentation.component.ComponentDialogYesNo
 import com.proteam.fithub.presentation.ui.auth.SignInActivity
 import com.proteam.fithub.presentation.ui.auth.SignInWithPhoneNumberActivity
 import com.proteam.fithub.presentation.ui.findpassword.FindPasswordActivity
+import com.proteam.fithub.presentation.ui.signup.SignUpActivity
 import com.proteam.fithub.presentation.ui.signup.authcode.SignUpAuthCodeFragment
 import com.proteam.fithub.presentation.ui.signup.profile.SignUpUserProfileFragment
 
@@ -72,10 +73,8 @@ class SignUpSetPasswordFragment : Fragment() {
     fun onNextClicked() {
         when(tag) {
             "Find_Password" -> changePasswords()
+            "Sign_Up" -> (requireActivity() as SignUpActivity).changeFragments(SignUpUserProfileFragment())
         }
-        /*requireActivity().supportFragmentManager.beginTransaction()
-            .add(R.id.sign_up_layout_container, SignUpUserProfileFragment())
-            .addToBackStack("Profile").commit() */
     }
 
     private fun changePasswords() {

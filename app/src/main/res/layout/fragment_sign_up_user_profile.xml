@@ -6,6 +6,10 @@
         <variable
             name="fragment"
             type="com.proteam.fithub.presentation.ui.signup.profile.SignUpUserProfileFragment" />
+
+        <variable
+            name="signUpViewModel"
+            type="com.proteam.fithub.presentation.ui.signup.viewmodel.SignUpViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -57,7 +61,8 @@
                 android:id="@+id/fg_sign_up_user_profile_iv_profile"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_sign_up_default_profile" />
+                android:onClick="@{() -> fragment.onGalleryOpen()}"
+                />
 
         </com.google.android.material.card.MaterialCardView>
 

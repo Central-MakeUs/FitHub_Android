@@ -5,6 +5,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="neon_primary">#D0EF19</color>
+    <color name="pruple_secondary">#816EFA</color>
+
     <color name="color_success">#00D487</color>
     <color name="color_warning">#FACC15</color>
     <color name="color_error">#FF5C49</color>
@@ -43,6 +46,20 @@
     <color name="purple_200">#c5bcfd</color>
     <color name="purple_100">#d8d2fd</color>
     <color name="purple_50">#f2f1ff</color>
+
+    <color name="bg_default">#111110</color>
+    <color name="bg_sub01">#1D1D1B</color>
+    <color name="bg_sub02">#292928</color>
+
+    <color name="icon_default">#FAFAFA</color>
+    <color name="icon_sub">#60605F</color>
+    <color name="icon_disabled">#414140</color>
+
+    <color name="text_default">#FAFAFA</color>
+    <color name="text_sub01">#CDCDCC</color>
+    <color name="text_sub02">#929291</color>
+    <color name="text_info">#60605F</color>
+    <color name="text_disabled">#414140</color>
 
 
 

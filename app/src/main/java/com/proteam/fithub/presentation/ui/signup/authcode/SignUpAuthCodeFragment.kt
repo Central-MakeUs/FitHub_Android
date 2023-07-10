@@ -92,7 +92,7 @@ class SignUpAuthCodeFragment : Fragment() {
         hideKeyboard()
         when(tag) {
             "Find_Password" -> (requireActivity() as FindPasswordActivity).changeFragments(SignUpSetPasswordFragment())
-            //else -> requireActivity().supportFragmentManager.beginTransaction().add(R.id.sign_up_layout_container, SignUpSetPasswordFragment()).addToBackStack("Password").commit()
+            "Sign_Up" -> (requireActivity() as SignUpActivity).changeFragments(SignUpSetPasswordFragment())
         }
 
     }

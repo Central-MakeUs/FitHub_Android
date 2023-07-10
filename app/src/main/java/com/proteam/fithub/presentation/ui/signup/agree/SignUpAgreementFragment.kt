@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentSignUpAgreementBinding
+import com.proteam.fithub.presentation.ui.signup.SignUpActivity
 import com.proteam.fithub.presentation.ui.signup.agree.adapter.SignUpAgreeAdapter
 import com.proteam.fithub.presentation.ui.signup.phone.SignUpPhoneNumberFragment
 import com.proteam.fithub.presentation.ui.signup.viewmodel.SignUpViewModel
@@ -69,7 +70,7 @@ class SignUpAgreementFragment : Fragment() {
     }
 
     fun onNextBtnClicked() {
-        requireActivity().supportFragmentManager.beginTransaction().addToBackStack("PhoneNumber").add(R.id.sign_up_layout_container, SignUpPhoneNumberFragment()).commit()
+        (requireActivity() as SignUpActivity).changeFragments(SignUpPhoneNumberFragment())
     }
 
 }

@@ -42,10 +42,10 @@
 
             <CheckBox
                 android:id="@+id/fg_sign_up_agreement_check_all"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="5dp"
-                android:layout_marginStart="10dp"
+                android:layout_marginHorizontal="10dp"
                 android:background="@android:color/transparent"
                 android:button="@android:color/transparent"
                 android:checked="@={viewModel.signUpAllAgreements}"
@@ -59,6 +59,7 @@
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

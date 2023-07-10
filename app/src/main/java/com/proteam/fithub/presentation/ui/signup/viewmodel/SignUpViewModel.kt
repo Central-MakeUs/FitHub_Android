@@ -3,6 +3,7 @@ package com.proteam.fithub.presentation.ui.signup.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.proteam.fithub.R
 import com.proteam.fithub.data.data.SignUpAgreement
 import com.proteam.fithub.data.data.SignUpInterestSports
 
@@ -17,6 +18,9 @@ class SignUpViewModel : ViewModel() {
     private val _selectInterestSports = MutableLiveData<MutableList<SignUpInterestSports>>()
     val selectInterestSports : LiveData<MutableList<SignUpInterestSports>> = _selectInterestSports
     val toolSelectInterestSports = mutableListOf<SignUpInterestSports>()
+
+    private val _userSelectedProfileImage = MutableLiveData<Any>()
+    val userSelectedProfileImage : LiveData<Any> = _userSelectedProfileImage
 
 
     fun manageAllAgreements(status : Boolean) {
@@ -52,6 +56,10 @@ class SignUpViewModel : ViewModel() {
     fun removeSelectInterestSports(item : SignUpInterestSports) {
         toolSelectInterestSports.remove(item)
         _selectInterestSports.value = toolSelectInterestSports
+    }
+
+    fun setUserSelectedProfile(path : Any) {
+        _userSelectedProfileImage.value = path
     }
 
     /** Dummy **/
