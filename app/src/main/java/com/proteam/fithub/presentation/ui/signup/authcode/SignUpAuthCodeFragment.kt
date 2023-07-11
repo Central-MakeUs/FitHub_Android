@@ -17,7 +17,9 @@ import com.proteam.fithub.presentation.ui.findpassword.viewmodel.FindPasswordVie
 import com.proteam.fithub.presentation.ui.signup.SignUpActivity
 import com.proteam.fithub.presentation.ui.signup.password.SignUpSetPasswordFragment
 import com.proteam.fithub.presentation.ui.signup.viewmodel.SignUpViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SignUpAuthCodeFragment : Fragment() {
     private lateinit var binding : FragmentSignUpAuthCodeBinding
     private lateinit var imm: InputMethodManager
@@ -49,6 +51,10 @@ class SignUpAuthCodeFragment : Fragment() {
         }
     }
 
+    private fun requestAuthCode() {
+        signUpViewModel.requestSMSAuthCode()
+    }
+
     private fun initBinding() {
         binding.fragment = this
     }
@@ -57,6 +63,7 @@ class SignUpAuthCodeFragment : Fragment() {
         binding.fgSignUpAuthCodeEdtAuthCode.apply {
             authCodeEdt.requestFocus()
             startCountDownTimer()
+            requestAuthCode()
         }
     }
 
@@ -79,6 +86,7 @@ class SignUpAuthCodeFragment : Fragment() {
         binding.fgSignUpAuthCodeEdtAuthCode.apply {
             stopCountDownTimer()
             startCountDownTimer()
+            requestAuthCode()
         }
     }
 
@@ -90,10 +98,16 @@ class SignUpAuthCodeFragment : Fragment() {
 
     fun onNextBtnClicked() {
         hideKeyboard()
-        when(tag) {
-            "Find_Password" -> (requireActivity() as FindPasswordActivity).changeFragments(SignUpSetPasswordFragment())
-            "Sign_Up" -> (requireActivity() as SignUpActivity).changeFragments(SignUpSetPasswordFragment())
+        signUpViewModel.requestCheckSMSAuthCode(binding.fgSignUpAuthCodeEdtAuthCode.getUserInputContent())
+        signUpViewModel.authResult.observe(viewLifecycleOwner) {
+            if(it) {
+                when(tag) {
+                    "Find_Password" -> (requireActivity() as FindPasswordActivity).changeFragments(SignUpSetPasswordFragment())
+                    "Sign_Up" -> (requireActivity() as SignUpActivity).changeFragments(SignUpSetPasswordFragment())
+                }
+            } else {
+                //:TODO 에러코드 받아서 추가하기
+            }
         }
-
     }
 }

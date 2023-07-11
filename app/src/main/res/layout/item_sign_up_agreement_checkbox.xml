@@ -28,7 +28,7 @@
             android:checked="@={content.checked}"
             android:text="@{content.content}"
             android:textSize="14sp"
-            android:textColor="@color/gray_700"
+            android:textColor="@color/text_sub02"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>

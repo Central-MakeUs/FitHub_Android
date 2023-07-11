@@ -48,25 +48,25 @@ class SignUpSetPasswordFragment : Fragment() {
     }
 
     private fun initInclude() {
-        binding.fgSignUpSetPasswordEdtPassword.getAttr(true, false)
-        binding.fgSignUpSetPasswordEdtPasswordCheck.getAttr(true, true)
+        binding.fgSignUpSetPasswordEdtPassword.setErrorEnable(true, false)
+        binding.fgSignUpSetPasswordEdtPasswordCheck.setErrorEnable(true, true)
     }
 
     private fun initIncludeObserve() {
         binding.fgSignUpSetPasswordEdtPassword.userInputPassword.observe(viewLifecycleOwner) {
             if(it.isNotEmpty()) {
-                binding.fgSignUpSetPasswordEdtPasswordCheck.getPassword(it)
-                binding.fgSignUpSetPasswordEdtPasswordCheck.checkSame()
+                binding.fgSignUpSetPasswordEdtPasswordCheck.setPasswordForCheck(it)
+                binding.fgSignUpSetPasswordEdtPasswordCheck.checkWhenOriginalChanged()
             }
         }
     }
 
     private fun initNextBtnEnableObserve() {
-        binding.fgSignUpSetPasswordEdtPassword.doneState.observe(viewLifecycleOwner) {
-            binding.fgSignUpSetPasswordBtnNext.isEnabled = it && binding.fgSignUpSetPasswordEdtPasswordCheck.doneState.value == true
+        binding.fgSignUpSetPasswordEdtPassword.isFinished.observe(viewLifecycleOwner) {
+            binding.fgSignUpSetPasswordBtnNext.isEnabled = it && binding.fgSignUpSetPasswordEdtPasswordCheck.isFinished.value == true
         }
-        binding.fgSignUpSetPasswordEdtPasswordCheck.doneState.observe(viewLifecycleOwner) {
-            binding.fgSignUpSetPasswordBtnNext.isEnabled = it && binding.fgSignUpSetPasswordEdtPassword.doneState.value == true
+        binding.fgSignUpSetPasswordEdtPasswordCheck.isFinished.observe(viewLifecycleOwner) {
+            binding.fgSignUpSetPasswordBtnNext.isEnabled = it && binding.fgSignUpSetPasswordEdtPassword.isFinished.value == true
         }
     }
 

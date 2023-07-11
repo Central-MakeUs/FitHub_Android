@@ -10,6 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/bg_default"
         android:paddingHorizontal="20dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,6 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_arrow_back"
+                app:tint="@color/icon_default"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -36,12 +38,12 @@
             android:fontFamily="@font/pretendard_semibold"
             android:lineHeight="32dp"
             android:text="@string/sign_in_with_phone_title"
-            android:textColor="@color/black"
+            android:textColor="@color/text_default"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/sign_in_with_phone_layout_toolbar" />
 
-        <com.proteam.fithub.presentation.component.ComponentEdtPhoneNumber
+        <com.proteam.fithub.presentation.component.ComponentPhoneNumber
             android:id="@+id/sign_in_with_phone_layout_phone_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,7 +52,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/sign_in_with_phone_tv_title" />
 
-        <com.proteam.fithub.presentation.component.ComponentEdtPassword
+        <com.proteam.fithub.presentation.component.ComponentPassword
             android:id="@+id/sign_in_with_phone_layout_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -79,7 +81,7 @@
                 android:includeFontPadding="false"
                 android:lineHeight="24dp"
                 android:text="@string/common_sign_in"
-                android:textColor="@color/selector_bg_tv_signin"
+                android:textColor="@color/gray_900"
                 android:textSize="16sp" />
 
         </com.google.android.material.card.MaterialCardView>
@@ -103,7 +105,7 @@
                 android:onClick="@{() -> activity.onFindPasswordClicked()}"
                 android:textSize="14sp"
                 android:lineHeight="20dp"
-                android:textColor="@color/gray_700" />
+                android:textColor="@color/text_sub02" />
             
             <View
                 android:layout_width="1dp"
@@ -121,7 +123,7 @@
                 android:includeFontPadding="false"
                 android:textSize="14sp"
                 android:lineHeight="20dp"
-                android:textColor="@color/gray_700" />
+                android:textColor="@color/text_sub02" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -9,7 +9,9 @@ import com.proteam.fithub.R
 import com.proteam.fithub.databinding.ActivitySignUpBinding
 import com.proteam.fithub.presentation.ui.signup.agree.SignUpAgreementFragment
 import com.proteam.fithub.presentation.ui.signup.viewmodel.SignUpViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SignUpActivity : AppCompatActivity() {
     private lateinit var binding : ActivitySignUpBinding
     private val viewModel : SignUpViewModel by viewModels()

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.core.content.res.TypedArrayUtils.getAttr
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -16,6 +17,7 @@ import com.proteam.fithub.presentation.ui.signup.SignUpActivity
 import com.proteam.fithub.presentation.ui.signup.authcode.SignUpAuthCodeFragment
 import com.proteam.fithub.presentation.ui.signup.phone.dialog.SignUpPhoneNumberSelectTelecomDialog
 import com.proteam.fithub.presentation.ui.signup.viewmodel.SignUpViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
 class SignUpPhoneNumberFragment : Fragment() {
     private lateinit var binding: FragmentSignUpPhoneNumberAuthBinding
@@ -52,18 +54,19 @@ class SignUpPhoneNumberFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        binding.fgSignUpPhoneNumberEdtPhoneNumber.phoneNumberEdt().showKeyboard()
+        binding.fgSignUpPhoneNumberEdtPhoneNumber.returnEdtComponent().showKeyboard()
     }
 
     private fun initInclude() {
         binding.fgSignUpPhoneNumberEdtPhoneNumber.apply {
-            getAttr(true)
-            phoneNumberEdt().requestFocus()
+//            getAttr(true)
+            returnEdtComponent().requestFocus()
+            setErrorEnable(true)
         }
     }
 
     private fun observeItemCompleted() {
-        binding.fgSignUpPhoneNumberEdtPhoneNumber.isComplete.observe(viewLifecycleOwner) {
+        binding.fgSignUpPhoneNumberEdtPhoneNumber.isFinished.observe(viewLifecycleOwner) {
             if(it && binding.fgSignUpPhoneNumberEdtTelecom.visibility == View.GONE) {
                 showTelecomField()
                 binding.fgSignUpBirthdayEdtBirth.birthDayEdt().requestFocus()
@@ -103,8 +106,13 @@ class SignUpPhoneNumberFragment : Fragment() {
     }
 
     private fun openCheckAuthCode() {
+        saveUserInputData()
         (requireActivity() as SignUpActivity).changeFragments(SignUpAuthCodeFragment())
         hideKeyboard()
+    }
+
+    private fun saveUserInputData() {
+        viewModel.setUserPhoneNumber(binding.fgSignUpPhoneNumberEdtPhoneNumber.returnUserInputContent())
     }
 
     private fun initTelecomClick() {
@@ -146,7 +154,7 @@ class SignUpPhoneNumberFragment : Fragment() {
     /** For Check Status **/
 
     private fun phoneStatusCheck(): Boolean =
-        binding.fgSignUpPhoneNumberEdtPhoneNumber.isComplete.value == true
+        binding.fgSignUpPhoneNumberEdtPhoneNumber.isFinished.value == true
 
     private fun telecomStatusCheck(): Boolean =
         phoneStatusCheck() && binding.fgSignUpPhoneNumberEdtTelecom.isComplete.value == true

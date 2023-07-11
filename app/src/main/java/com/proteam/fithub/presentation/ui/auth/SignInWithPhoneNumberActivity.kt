@@ -24,11 +24,11 @@ class SignInWithPhoneNumberActivity : AppCompatActivity() {
     }
 
     private fun initInclude() {
-        binding.signInWithPhoneLayoutPhoneNumber.isComplete.observe(this) {
-            binding.signInWithPhoneBtnSignIn.isEnabled = it && binding.signInWithPhoneLayoutPassword.doneState.value == true
+        binding.signInWithPhoneLayoutPhoneNumber.isFinished.observe(this) {
+            binding.signInWithPhoneBtnSignIn.isEnabled = it && binding.signInWithPhoneLayoutPassword.isFinished.value == true
         }
-        binding.signInWithPhoneLayoutPassword.doneState.observe(this) {
-            binding.signInWithPhoneBtnSignIn.isEnabled = it && binding.signInWithPhoneLayoutPhoneNumber.isComplete.value == true
+        binding.signInWithPhoneLayoutPassword.isFinished.observe(this) {
+            binding.signInWithPhoneBtnSignIn.isEnabled = it && binding.signInWithPhoneLayoutPhoneNumber.isFinished.value == true
         }
     }
 

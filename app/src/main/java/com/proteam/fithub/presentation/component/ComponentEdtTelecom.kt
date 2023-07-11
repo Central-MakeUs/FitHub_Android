@@ -22,8 +22,8 @@ class ComponentEdtTelecom(context: Context, attrs: AttributeSet) :
     private var _isComplete = MutableLiveData<Boolean>()
     val isComplete : LiveData<Boolean> = _isComplete
 
-    private var normalStroke = context.resources.getColor(R.color.gray_400, null)
-    private var doneStroke = context.resources.getColor(R.color.gray_600, null)
+    private var normalStroke = context.resources.getColor(R.color.icon_disabled, null)
+    private var doneStroke = context.resources.getColor(R.color.icon_sub, null)
 
     init {
         initBinding()

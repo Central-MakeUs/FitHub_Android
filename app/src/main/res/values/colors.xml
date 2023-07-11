@@ -7,11 +7,12 @@
 
     <color name="neon_primary">#D0EF19</color>
     <color name="pruple_secondary">#816EFA</color>
+    <color name="btn_neon_disabled">#383E12</color>
 
     <color name="color_success">#00D487</color>
     <color name="color_warning">#FACC15</color>
-    <color name="color_error">#FF5C49</color>
-    <color name="color_info">#0086FC</color>
+    <color name="color_error">#CB5344</color>
+    <color name="color_info">#649EF6</color>
 
 
     <color name="gray_900">#111110</color>
@@ -50,9 +51,11 @@
     <color name="bg_default">#111110</color>
     <color name="bg_sub01">#1D1D1B</color>
     <color name="bg_sub02">#292928</color>
+    <color name="bg_sub03">#333331</color>
 
     <color name="icon_default">#FAFAFA</color>
-    <color name="icon_sub">#60605F</color>
+    <color name="icon_enabled">#60605F</color>
+    <color name="icon_sub">#B6B6B5</color>
     <color name="icon_disabled">#414140</color>
 
     <color name="text_default">#FAFAFA</color>

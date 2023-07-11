@@ -1,13 +1,22 @@
 package com.proteam.fithub.presentation.ui.signup.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.proteam.fithub.R
 import com.proteam.fithub.data.data.SignUpAgreement
 import com.proteam.fithub.data.data.SignUpInterestSports
+import com.proteam.fithub.data.remote.request.RequestCheckSMSAuth
+import com.proteam.fithub.data.remote.request.RequestSMSAuth
+import com.proteam.fithub.domain.repository.SignUpRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SignUpViewModel : ViewModel() {
+@HiltViewModel
+class SignUpViewModel @Inject constructor(private val signUpRepository: SignUpRepository): ViewModel() {
     var signUpAgreements = MutableLiveData<MutableList<SignUpAgreement>>().also { it.value = agreementData() }
     var signUpAllAgreements = MutableLiveData<Boolean>()
 
@@ -21,6 +30,12 @@ class SignUpViewModel : ViewModel() {
 
     private val _userSelectedProfileImage = MutableLiveData<Any>()
     val userSelectedProfileImage : LiveData<Any> = _userSelectedProfileImage
+
+    private val _userInputPhoneNumber = MutableLiveData<String>()
+    val userInputPhoneNumber : LiveData<String> = _userInputPhoneNumber
+
+    private val _authResult = MutableLiveData<Boolean>()
+    val authResult : LiveData<Boolean> = _authResult
 
 
     fun manageAllAgreements(status : Boolean) {
@@ -60,6 +75,26 @@ class SignUpViewModel : ViewModel() {
 
     fun setUserSelectedProfile(path : Any) {
         _userSelectedProfileImage.value = path
+    }
+
+    fun setUserPhoneNumber(number : String) {
+        _userInputPhoneNumber.value = number
+    }
+
+    fun requestSMSAuthCode() {
+        viewModelScope.launch {
+            signUpRepository.requestSMSAuth(RequestSMSAuth( userInputPhoneNumber.value!!))
+                .onSuccess {  }
+        }
+    }
+
+    fun requestCheckSMSAuthCode(userAuthCode : String) {
+        viewModelScope.launch {
+            signUpRepository.requestCheckSMSAuth(RequestCheckSMSAuth(userInputPhoneNumber.value!!, userAuthCode.toInt()))
+                .onSuccess { if(it.code == 2000)  {
+                    _authResult.value = true
+                }}
+        }
     }
 
     /** Dummy **/
