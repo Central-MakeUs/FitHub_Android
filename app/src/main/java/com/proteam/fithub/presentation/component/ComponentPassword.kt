@@ -85,7 +85,7 @@ class ComponentPassword(context: Context, attrs: AttributeSet) : ConstraintLayou
             if(it.isNullOrEmpty()) {
                 setFocusedState()
             }
-            if (isErrorEnable) {
+            else if (isErrorEnable) {
                 errorType = if (isForCheck) {
                     checkIsSameWithPassword()
                 } else {

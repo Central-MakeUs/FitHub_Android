@@ -2,12 +2,12 @@ package com.proteam.fithub.presentation.ui.signup.phone
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import androidx.core.content.res.TypedArrayUtils.getAttr
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -17,7 +17,6 @@ import com.proteam.fithub.presentation.ui.signup.SignUpActivity
 import com.proteam.fithub.presentation.ui.signup.authcode.SignUpAuthCodeFragment
 import com.proteam.fithub.presentation.ui.signup.phone.dialog.SignUpPhoneNumberSelectTelecomDialog
 import com.proteam.fithub.presentation.ui.signup.viewmodel.SignUpViewModel
-import dagger.hilt.android.AndroidEntryPoint
 
 class SignUpPhoneNumberFragment : Fragment() {
     private lateinit var binding: FragmentSignUpPhoneNumberAuthBinding
@@ -37,6 +36,7 @@ class SignUpPhoneNumberFragment : Fragment() {
         )
 
         initBinding()
+        initViewModelData()
         initInputMethodManager()
         initInclude()
         observeItemCompleted()
@@ -46,6 +46,10 @@ class SignUpPhoneNumberFragment : Fragment() {
 
     private fun initBinding() {
         binding.fragment = this
+    }
+
+    private fun initViewModelData() {
+        viewModel.initUserInfo()
     }
 
     private fun initInputMethodManager() {
@@ -59,7 +63,6 @@ class SignUpPhoneNumberFragment : Fragment() {
 
     private fun initInclude() {
         binding.fgSignUpPhoneNumberEdtPhoneNumber.apply {
-//            getAttr(true)
             returnEdtComponent().requestFocus()
             setErrorEnable(true)
         }
@@ -67,9 +70,8 @@ class SignUpPhoneNumberFragment : Fragment() {
 
     private fun observeItemCompleted() {
         binding.fgSignUpPhoneNumberEdtPhoneNumber.isFinished.observe(viewLifecycleOwner) {
-            if(it && binding.fgSignUpPhoneNumberEdtTelecom.visibility == View.GONE) {
+            if (it && binding.fgSignUpPhoneNumberEdtTelecom.visibility == View.GONE) {
                 showTelecomField()
-                binding.fgSignUpBirthdayEdtBirth.birthDayEdt().requestFocus()
             }
             checkNextBtnEnabled()
         }
@@ -81,12 +83,12 @@ class SignUpPhoneNumberFragment : Fragment() {
             checkNextBtnEnabled()
         }
 
-        binding.fgSignUpBirthdayEdtBirth.isComplete.observe(viewLifecycleOwner) {
-            if(it && binding.fgSignUpPhoneNumberEdtName.visibility == View.GONE) showNameField()
+        binding.fgSignUpBirthdayEdtBirth.isFinished.observe(viewLifecycleOwner) {
+            if (it && binding.fgSignUpPhoneNumberEdtName.visibility == View.GONE) showNameField()
             checkNextBtnEnabled()
         }
 
-        binding.fgSignUpPhoneNumberEdtName.isComplete.observe(viewLifecycleOwner) {
+        binding.fgSignUpPhoneNumberEdtName.isFinished.observe(viewLifecycleOwner) {
             checkNextBtnEnabled()
         }
     }
@@ -139,13 +141,19 @@ class SignUpPhoneNumberFragment : Fragment() {
 
     private fun showBirthdayField() {
         binding.fgSignUpBirthdayEdtBirth.apply {
+            setErrorEnable(true)
             visibility = View.VISIBLE
-            this.birthDayEdt().showKeyboard()
+            this.birthDayEdt().apply {
+                requestFocus()
+                showKeyboard()
+            }
         }
+        Log.d("----", "showBirthdayField: ${binding.fgSignUpPhoneNumberEdtTelecom.hasFocus()}")
     }
 
     private fun showNameField() {
         binding.fgSignUpPhoneNumberEdtName.apply {
+            setErrorEnable(true)
             visibility = View.VISIBLE
             requestFocus()
         }
@@ -160,10 +168,10 @@ class SignUpPhoneNumberFragment : Fragment() {
         phoneStatusCheck() && binding.fgSignUpPhoneNumberEdtTelecom.isComplete.value == true
 
     private fun birthdayStatusCheck(): Boolean =
-        telecomStatusCheck() && binding.fgSignUpBirthdayEdtBirth.isComplete.value == true
+        telecomStatusCheck() && binding.fgSignUpBirthdayEdtBirth.isFinished.value == true
 
     private fun nameStatusCheck(): Boolean =
-        birthdayStatusCheck() && binding.fgSignUpPhoneNumberEdtName.isComplete.value == true
+        birthdayStatusCheck() && binding.fgSignUpPhoneNumberEdtName.isFinished.value == true
 
     private fun EditText.showKeyboard() = imm.showSoftInput(this, 0)
     private fun hideKeyboard() {

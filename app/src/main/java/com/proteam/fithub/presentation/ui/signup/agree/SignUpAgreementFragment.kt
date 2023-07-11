@@ -71,8 +71,7 @@ class SignUpAgreementFragment : Fragment() {
     }
 
     fun onNextBtnClicked() {
-        //(requireActivity() as SignUpActivity).changeFragments(SignUpPhoneNumberFragment())
-        (requireActivity() as SignUpActivity).changeFragments(SignUpSetPasswordFragment())
+        (requireActivity() as SignUpActivity).changeFragments(SignUpPhoneNumberFragment())
     }
 
 }

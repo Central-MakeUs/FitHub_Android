@@ -59,7 +59,7 @@
                 android:layout_marginTop="10dp"
                 android:visibility="gone" />
 
-            <com.proteam.fithub.presentation.component.ComponentEdtBirthDay
+            <com.proteam.fithub.presentation.component.ComponentBirthDay
                 android:id="@+id/fg_sign_up_birthday_edt_birth"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

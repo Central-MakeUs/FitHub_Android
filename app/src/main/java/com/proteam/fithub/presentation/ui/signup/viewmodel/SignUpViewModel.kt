@@ -37,6 +37,14 @@ class SignUpViewModel @Inject constructor(private val signUpRepository: SignUpRe
     private val _authResult = MutableLiveData<Boolean>()
     val authResult : LiveData<Boolean> = _authResult
 
+    fun initUserInfo() {
+        selectTelecomState.value = false
+        selectTelecom = MutableLiveData()
+    }
+
+    fun initAuthResult() {
+        _authResult.value = false
+    }
 
     fun manageAllAgreements(status : Boolean) {
         for (i in 0 until signUpAgreements.value!!.size) {
