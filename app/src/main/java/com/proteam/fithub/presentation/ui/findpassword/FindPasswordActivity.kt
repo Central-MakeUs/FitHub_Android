@@ -7,7 +7,9 @@ import androidx.fragment.app.Fragment
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.ActivityFindPasswordBinding
 import com.proteam.fithub.presentation.ui.findpassword.phone.FindPasswordAuthPhoneNumberFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FindPasswordActivity : AppCompatActivity() {
     private lateinit var binding : ActivityFindPasswordBinding
 

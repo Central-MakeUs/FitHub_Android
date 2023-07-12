@@ -1,6 +1,7 @@
 package com.proteam.fithub.presentation.component
 
 import android.content.Context
+import android.text.Editable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -11,27 +12,32 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.ComponentEdtInputNameBinding
+import java.util.regex.Pattern
 
 class ComponentEdtName(context: Context, attrs: AttributeSet) :
     ConstraintLayout(context, attrs) {
     private lateinit var binding: ComponentEdtInputNameBinding
-    private var status = ComponentStatus.NONE
+    private var status = Status.NON_FOCUSED_NO_INPUT
 
-    /** true : 에러 / false : 일반 **/
-    private var state: Boolean = false
+    private val errorColor = resources.getColor(R.color.color_error, null)
+    private val successColor = resources.getColor(R.color.color_info, null)
+    private val nonFocusNonInputColor = resources.getColor(R.color.icon_enabled, null)
+    private val nonFocusInputColor = resources.getColor(R.color.icon_disabled, null)
+    private val focusColor = resources.getColor(R.color.icon_sub, null)
 
-    private var isErrorContains: Boolean = false
+    private var isErrorEnable: Boolean = false
 
-    private var _isComplete = MutableLiveData<Boolean>()
-    val isComplete: LiveData<Boolean> = _isComplete
+    private var _isFinished = MutableLiveData<Boolean>()
+    val isFinished: LiveData<Boolean> = _isFinished
 
+    private val namePattern = """^[가-힣a-zA-Z]*$"""
     init {
         initBinding()
         initUi()
     }
 
-    fun getAttr(type: Boolean) {
-        isErrorContains = type
+    fun setErrorEnable(state: Boolean) {
+        isErrorEnable = state
     }
 
     private fun initBinding() {
@@ -46,89 +52,128 @@ class ComponentEdtName(context: Context, attrs: AttributeSet) :
     }
 
     private fun initUi() {
-        binding.componentEdtInputNameEdtContent.setOnFocusChangeListener { view, focus ->
-            setStrokeColor(focus)
-            setTextColor()
-            setDeleteVisibility(focus)
-        }
+        setFocusListener()
+        setTextChangeListener()
+    }
 
+    private fun setFocusListener() {
+        binding.componentEdtInputNameEdtContent.setOnFocusChangeListener { _, focus ->
+            checkStatus(focus)
+            updateUiWithState()
+        }
+    }
+
+    private fun checkStatusWhenNotFocused(): Status {
+        return if (binding.componentEdtInputNameEdtContent.text.isNullOrEmpty()) Status.NON_FOCUSED_NO_INPUT else Status.NON_FOCUSED_INPUT
+    }
+
+    private fun setTextChangeListener() {
         binding.componentEdtInputNameEdtContent.addTextChangedListener {
-            if(!it.isNullOrEmpty()) checkWhenNotError()
-            setDeleteVisibility(binding.componentEdtInputNameEdtContent.hasFocus())
+            if(it.isNullOrEmpty()) {
+                setFocusedState()
+            } else if(isErrorEnable) {
+                checkWhenError(it)
+            }
+            updateUiWithState()
+            checkFinished()
         }
     }
-    private fun setStrokeColor(focus : Boolean?) {
-        binding.componentEdtInputNameCardContainer.strokeColor = if (status == ComponentStatus.ERROR) {
-            errorStroke
-        } else if(focus == true) {
-            doneStroke
+
+    private fun checkWhenError(value : Editable?) {
+        if(!checkRegexError(value)) {
+            setErrorState()
         } else {
-            normalStroke
+            setFinishState()
         }
     }
 
-    private fun setTextColor() {
-        binding.componentEdtInputNameTvTitle.setTextColor(when(status) {
-            ComponentStatus.ERROR -> errorStroke
-            else -> normalStroke
-        })
-    }
+    /** Ui **/
 
-    /*
-        private fun checkWhenError() {
-            state = if(regexError()) {
-                setDoneState()
-                false
-            } else {
-                setError()
-                true
-            }
-        } */
-
-    private fun checkWhenNotError() {
-        status = ComponentStatus.DONE
-        updateUiByStatus()
-        checkIsComplete()
-
-    }
-
-    /** NORMAL **/
-    private fun setNormalState() {
-        setStrokeColor(true)
-        setTextColor()
-        binding.componentEdtInputNameTvAdditional.visibility = View.GONE
-        binding.componentEdtInputNameBtnError.visibility = View.GONE
-    }
-
-    private fun updateUiByStatus() {
-        when(status) {
-            //ComponentStatus.ERROR -> setErrorState()
-            else -> setNormalState()
+    private fun setStrokeColor(): Int {
+        return when (status) {
+            Status.SUCCESS -> successColor
+            Status.ERROR -> errorColor
+            Status.FOCUSED, Status.FINISHED -> focusColor
+            Status.NON_FOCUSED_INPUT -> nonFocusInputColor
+            else -> nonFocusNonInputColor
         }
     }
 
-    /** DONE STATUS **/
-    private fun checkIsComplete() {
-        _isComplete.value = status == ComponentStatus.DONE
+    private fun setTitleTextColor(): Int {
+        return when (status) {
+            Status.SUCCESS -> successColor
+            Status.ERROR -> errorColor
+            else -> nonFocusInputColor
+        }
     }
 
-    /*
-        private fun setError() {
-            binding.componentEdtInputNameTvAdditional.apply {
-                visibility = View.VISIBLE
-                setTextColor(errorStroke)
-                text = "휴대폰 번호가 올바르지 않습니다"
+    private fun updateUiWithState() {
+        binding.componentEdtInputNameCardContainer.strokeColor = setStrokeColor()
+        binding.componentEdtInputNameTvTitle.setTextColor(setTitleTextColor())
+        setNoticeTextStatus()
+        setAdditionalIconStatus()
+        setDeleteIconStatus(binding.componentEdtInputNameEdtContent.hasFocus())
+    }
+
+    private fun setNoticeTextStatus() {
+        binding.componentEdtInputNameTvAdditional.apply {
+            visibility = if(status == Status.ERROR) VISIBLE else GONE
+            text = resources.getString(R.string.error_password_regex)
+            if(status == Status.ERROR) {
+                setTextColor(errorColor)
             }
-            binding.componentEdtInputNameTvTitle.setTextColor(errorStroke)
-            binding.componentEdtInputNameCardContainer.strokeColor = errorStroke
-
-            binding.componentEdtInputNameBtnError.visibility = View.VISIBLE
-        } */
-
-    private fun setDeleteVisibility(focus: Boolean) {
-        binding.componentEdtInputNameBtnClear.visibility =
-            if (binding.componentEdtInputNameEdtContent.text.isEmpty() || !focus) View.GONE else View.VISIBLE
+        }
     }
+
+    private fun setAdditionalIconStatus() {
+        binding.componentEdtInputNameBtnError.apply {
+            setImageResource(
+                when (status) {
+                    Status.ERROR -> R.drawable.ic_edt_error
+                    else -> R.drawable.ic_edt_success
+                }
+            )
+
+            visibility =
+                if (isErrorEnable && (status == Status.ERROR || status == Status.SUCCESS)) VISIBLE else GONE
+        }
+    }
+
+    private fun setDeleteIconStatus(focus: Boolean) {
+        binding.componentEdtInputNameBtnClear.visibility = if (binding.componentEdtInputNameEdtContent.text.isEmpty() || !focus) View.GONE else View.VISIBLE
+    }
+
+
+    /** Set Status **/
+
+    private fun checkStatus(focus: Boolean) {
+        if (status == Status.ERROR || status == Status.SUCCESS) {
+            return
+        } else {
+            status = if (focus) Status.FOCUSED else checkStatusWhenNotFocused()
+        }
+    }
+
+    private fun setSuccessState() {
+        status = Status.SUCCESS
+    }
+
+    private fun setErrorState() {
+        status = Status.ERROR
+    }
+
+    private fun setFocusedState() {
+        status = Status.FOCUSED
+    }
+
+    private fun setFinishState() {
+        status = Status.FINISHED
+    }
+
+    private fun checkFinished() {
+        _isFinished.value = status == Status.FINISHED || status == Status.SUCCESS
+    }
+
 
     fun onDeleteClicked() {
         binding.componentEdtInputNameEdtContent.setText("")
@@ -137,12 +182,12 @@ class ComponentEdtName(context: Context, attrs: AttributeSet) :
     fun getUserInputContent(): String =
         binding.componentEdtInputNameEdtContent.text.toString()
 
-    //private fun regexError() : Boolean =  if(!checkLength()) true else  checkLength() && checkStart3Words() == true
+    /** Regex **/
 
-    private var normalStroke = context.resources.getColor(R.color.gray_400, null)
-    private var doneStroke = context.resources.getColor(R.color.gray_600, null)
-    private var errorStroke = context.resources.getColor(R.color.color_error, null)
+    private fun checkRegexError(value : Editable?) : Boolean {
+        return if(value?.isEmpty() == true) {
+            false
+        } else Pattern.matches(namePattern, value.toString())
+    }
 
-    /*private fun checkLength() : Boolean = binding.componentEdtInputNameEdtContent.text.length == 11
-    private fun checkStart3Words() : Boolean? = binding.componentEdtInputNameEdtContent.text?.let { if(it.length >= 3) it.substring(0, 3) == "010" else false} */
 }

@@ -38,11 +38,11 @@ class FindPasswordAuthPhoneNumberFragment : Fragment() {
     }
 
     private fun initInclude() {
-        binding.fgFindPasswordAuthPhoneNumberEdtPhoneNumber.getAttr(true)
+        binding.fgFindPasswordAuthPhoneNumberEdtPhoneNumber.setErrorEnable(true)
     }
 
     private fun observeInclude() {
-        binding.fgFindPasswordAuthPhoneNumberEdtPhoneNumber.isComplete.observe(viewLifecycleOwner) {
+        binding.fgFindPasswordAuthPhoneNumberEdtPhoneNumber.isFinished.observe(viewLifecycleOwner) {
             binding.fgFindPasswordAuthPhoneNumberBtnSendAuthCode.isEnabled = it
         }
     }

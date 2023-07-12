@@ -12,34 +12,38 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.ComponentEdtInputNicknameBinding
-import com.proteam.fithub.databinding.ComponentEdtInputPasswordBinding
 import java.util.regex.Pattern
 
 class ComponentEdtNickName(context: Context, attrs: AttributeSet) :
     ConstraintLayout(context, attrs) {
     private lateinit var binding: ComponentEdtInputNicknameBinding
-    private var isErrorContains: Boolean = false
+    private var status = Status.NON_FOCUSED_INPUT
 
-    private val nickNamePattern = """^(?=.*[가-힣])(?=.*[a-zA-Z])(?=\S+$).*$"""
+    private var isErrorEnable: Boolean = false
 
+    private val errorColor = resources.getColor(R.color.color_error, null)
+    private val successColor = resources.getColor(R.color.color_info, null)
+    private val nonFocusNonInputColor = resources.getColor(R.color.icon_enabled, null)
+    private val nonFocusInputColor = resources.getColor(R.color.icon_disabled, null)
+    private val focusColor = resources.getColor(R.color.icon_sub, null)
 
-    private var _doneState = MutableLiveData<Boolean>()
-    val doneState: LiveData<Boolean> = _doneState
+    private val nickNamePattern = """^[가-힣a-zA-Z]*$"""
 
-    private var _checkFocus = MutableLiveData<Boolean>()
-    val checkFocus : LiveData<Boolean> = _checkFocus
+    private var _isFinished = MutableLiveData<Boolean>()
+    val isFinished: LiveData<Boolean> = _isFinished
 
-    /** E / S / N **/
-    /** Error / Success / Null **/
-    private var status: String = ""
+    private var errorType : String = ""
+
+    private var _checkSameClicked = MutableLiveData<Boolean>()
+    var checkSameClicked : LiveData<Boolean> = _checkSameClicked
 
     init {
         initBinding()
         initUi()
     }
 
-    fun getAttr(type: Boolean) {
-        isErrorContains = type
+    fun setErrorEnable(type: Boolean) {
+        isErrorEnable = type
     }
 
     private fun initBinding() {
@@ -54,38 +58,159 @@ class ComponentEdtNickName(context: Context, attrs: AttributeSet) :
     }
 
     private fun initUi() {
-        binding.componentEdtInputNicknameEdtContent.setOnFocusChangeListener { view, b ->
-            binding.componentEdtInputNicknameCardContainer.strokeColor =
-                if (isErrorContains) strokeWhenError(b) else strokeWhenNotError(b)
-            binding.componentEdtInputNicknameTvTitle.setTextColor(strokeWhenError(b))
-            //setDeleteVisibility(b)
-        }
+        setFocusListener()
+        setTextChangeListener()
+    }
 
-        binding.componentEdtInputNicknameTvAdditional.visibility = if(isErrorContains) View.VISIBLE else View.GONE
-
-        binding.componentEdtInputNicknameEdtContent.addTextChangedListener {
-            if (it.isNullOrEmpty()) {
-                resetStroke()
-            } else if (isErrorContains) {
-                checkRegex(it)
-            } else {
-                setDoneState()
-            }
-            //setDeleteVisibility(binding.componentEdtInputPasswordEdtContent.hasFocus())
+    private fun setFocusListener() {
+        binding.componentEdtInputNicknameEdtContent.setOnFocusChangeListener { _, focus ->
+            checkStatus(focus)
+            updateUiWithState()
         }
     }
 
-    private fun checkRegex(value: Editable?) {
-        if(!checkPatternMatches(value)) {
-            setError("regex")
-            status = "E"
-        } else if (!checkLengthMatches(value)) {
-            setError("length")
-            status = "E"
+    private fun setTextChangeListener() {
+        binding.componentEdtInputNicknameEdtContent.addTextChangedListener {
+            if (it.isNullOrEmpty()) {
+                setFocusedState()
+            } else if (isErrorEnable) {
+                errorType = checkRegex(it)
+            }
+            updateUiWithState()
+            checkFinished()
+        }
+    }
+
+    /** Ui **/
+
+    private fun setStrokeColor(): Int {
+        return when (status) {
+            Status.SUCCESS -> successColor
+            Status.ERROR -> errorColor
+            Status.FOCUSED, Status.FINISHED, Status.READY -> focusColor
+            Status.NON_FOCUSED_INPUT -> nonFocusInputColor
+            else -> nonFocusNonInputColor
+        }
+    }
+
+    private fun setTitleTextColor(): Int {
+        return when (status) {
+            Status.SUCCESS -> successColor
+            Status.ERROR -> errorColor
+            else -> nonFocusInputColor
+        }
+    }
+
+    private fun updateUiWithState() {
+        binding.componentEdtInputNicknameCardContainer.strokeColor = setStrokeColor()
+        binding.componentEdtInputNicknameTvTitle.setTextColor(setTitleTextColor())
+        setNoticeTextStatus()
+        setAdditionalIconStatus()
+        setDeleteIconStatus(binding.componentEdtInputNicknameEdtContent.hasFocus())
+    }
+
+    private fun setNoticeTextStatus() {
+        binding.componentEdtInputNicknameTvAdditional.apply {
+            text = when(status) {
+                Status.ERROR -> {
+                    if(errorType == "REGEX") {
+                        resources.getString(R.string.error_nickname_regex)
+                    } else {
+                        resources.getString(R.string.error_same_nickname)
+                    }
+                }
+
+                Status.SUCCESS -> resources.getString(R.string.success_can_use_nickname)
+                else -> resources.getString(R.string.sign_up_with_phone_user_profile_additional)
+            }
+            setTextColor(when(status) {
+                Status.ERROR -> errorColor
+                Status.SUCCESS -> successColor
+                else -> nonFocusNonInputColor
+            })
+        }
+    }
+
+    private fun setAdditionalIconStatus() {
+        binding.componentEdtInputNicknameBtnErrorOrSuccess.apply {
+            setImageResource(
+                when (status) {
+                    Status.ERROR -> R.drawable.ic_edt_error
+                    Status.SUCCESS -> R.drawable.ic_edt_success
+                    else -> R.drawable.btn_nickname_check_same
+                }
+            )
+            visibility =
+                if (isErrorEnable && (status == Status.ERROR || status == Status.SUCCESS || status == Status.READY)) VISIBLE else GONE
+        }
+    }
+
+    private fun setDeleteIconStatus(focus: Boolean) {
+        binding.componentEdtInputNicknameBtnClear.visibility = if (binding.componentEdtInputNicknameEdtContent.text.isEmpty() || !focus) View.GONE else View.VISIBLE
+    }
+
+
+    /** Set Status **/
+
+    private fun checkStatus(focus: Boolean) {
+        if (status == Status.ERROR || status == Status.SUCCESS || status == Status.READY) {
+            return
         } else {
-            setSuccess("original")
-            status = "S"
-            setDoneState()
+            status = if (focus) Status.FOCUSED else checkStatusWhenNotFocused()
+        }
+    }
+
+    private fun checkStatusWhenNotFocused(): Status {
+        return if (binding.componentEdtInputNicknameEdtContent.text.isNullOrEmpty()) Status.NON_FOCUSED_NO_INPUT else Status.NON_FOCUSED_INPUT
+    }
+
+    private fun setSuccessState() {
+        status = Status.SUCCESS
+    }
+
+    private fun setErrorState() {
+        status = Status.ERROR
+    }
+
+    private fun setFocusedState() {
+        status = Status.FOCUSED
+    }
+
+    private fun setReadyState() {
+        status = Status.READY
+    }
+
+
+    private fun setFinishState() {
+        status = Status.FINISHED
+    }
+
+    private fun checkFinished() {
+        _isFinished.value = status == Status.FINISHED || status == Status.SUCCESS
+    }
+
+    fun getCheckResult(code : Int) {
+        if(code == 2010) {
+            setErrorState()
+            errorType = "SAME"
+        } else if (code == 2011) {
+            setSuccessState()
+            errorType = "SUCCESS"
+        }
+        updateUiWithState()
+        checkFinished()
+    }
+
+
+    /** Regex **/
+
+    private fun checkRegex(value: Editable?) : String {
+        return if(!checkPatternMatches(value) || !checkLengthMatches(value)) {
+            setErrorState()
+            "REGEX"
+        } else {
+            setReadyState()
+            "READY"
         }
     }
 
@@ -97,93 +222,21 @@ class ComponentEdtNickName(context: Context, attrs: AttributeSet) :
         return value?.length in 1..10
     }
 
-    private fun setError(errorType : String) {
-        binding.componentEdtInputNicknameTvAdditional.apply {
-            visibility = View.VISIBLE
-            setTextColor(errorStroke)
-            text = returnErrorText(errorType)
-        }
-        binding.componentEdtInputNicknameTvTitle.setTextColor(errorStroke)
-        binding.componentEdtInputNicknameCardContainer.strokeColor = errorStroke
-
-        binding.componentEdtInputNicknameBtnErrorOrSuccess.apply {
-            visibility = View.VISIBLE
-            setImageResource(R.drawable.ic_edt_error)
-        }
+    fun onDeleteClicked() {
+        binding.componentEdtInputNicknameEdtContent.setText("")
     }
 
-    private fun setSuccess(successType : String) {
-        binding.componentEdtInputNicknameTvAdditional.apply {
-            visibility = View.VISIBLE
-            setTextColor(successStroke)
-            text = returnSuccessText(successType)
-        }
-        binding.componentEdtInputNicknameTvTitle.setTextColor(successStroke)
-        binding.componentEdtInputNicknameCardContainer.strokeColor = successStroke
-
-        binding.componentEdtInputNicknameBtnErrorOrSuccess.apply {
-            visibility = View.VISIBLE
-            setImageResource(R.drawable.ic_edt_success)
-        }
-    }
-
-    private fun returnErrorText(errorType : String) : String {
-        return when(errorType) {
-            "regex" -> "특수문자, 숫자, 영문 조합으로 입력하세요"
-            "length" -> "비밀번호는 8~16자 이내로 입력하세요"
-            else -> "비밀번호가 일치하지 않습니다"
-        }
-    }
-
-    private fun returnSuccessText(successType : String) : String {
-        return when(successType) {
-            "original" -> "사용할 수 있는 비밀번호입니다"
-            else -> "비밀번호가 일치합니다"
-        }
-    }
-
-    private fun resetStroke() {
-        binding.componentEdtInputNicknameCardContainer.strokeColor = doneStroke
-        binding.componentEdtInputNicknameTvTitle.setTextColor(normalStroke)
-        binding.componentEdtInputNicknameBtnErrorOrSuccess.visibility = View.GONE
-
-
-        binding.componentEdtInputNicknameTvAdditional.apply {
-            setTextColor(doneStroke)
-            if (isErrorContains) {
-                View.VISIBLE
-                this.text = "한글 혹은 영문을 포함하여 1~10자로 입력해주세요"
-            } else {
-                View.GONE
+    fun onAdditionalClicked() {
+        if(status == Status.READY) {
+            _checkSameClicked.value.apply {
+                if(this == null) {
+                    _checkSameClicked.value = false
+                } else {
+                    _checkSameClicked.value = this.not()
+                }
             }
         }
     }
 
-    private fun setDoneState() {
-        _doneState.value = binding.componentEdtInputNicknameEdtContent.text.isNotEmpty()
-    }
-
-    /*private fun setDeleteVisibility(focus : Boolean) {
-        binding.componentEdtInputPasswordBtnClear.visibility =
-            if (binding.componentEdtInputPasswordEdtContent.text.isEmpty() || !focus) View.GONE else View.VISIBLE
-    }
-
-    fun onDeleteClicked() {
-        binding.componentEdtInputPasswordEdtContent.setText("")
-    }*/
-
     fun getUserInputContent(): String = binding.componentEdtInputNicknameEdtContent.text.toString()
-
-    private fun strokeWhenNotError(b: Boolean): Int = if (b) doneStroke else normalStroke
-    private fun strokeWhenError(b: Boolean): Int {
-        return if (status == "S") successStroke
-        else if (status == "E") errorStroke
-        else if (status == "N" && b) doneStroke
-        else normalStroke
-    }
-
-    private var normalStroke = context.resources.getColor(R.color.gray_400, null)
-    private var doneStroke = context.resources.getColor(R.color.gray_600, null)
-    private var errorStroke = context.resources.getColor(R.color.color_error, null)
-    private var successStroke = context.resources.getColor(R.color.color_info, null)
 }

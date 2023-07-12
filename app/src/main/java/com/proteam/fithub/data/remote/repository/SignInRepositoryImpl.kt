@@ -5,6 +5,7 @@ import com.proteam.fithub.data.remote.response.ResponseSignIn
 import com.proteam.fithub.domain.repository.SignInRepository
 import com.proteam.fithub.domain.source.SharedPreferenceSource
 import com.proteam.fithub.domain.source.SignInSource
+import com.proteam.fithub.presentation.util.BaseResponse
 import javax.inject.Inject
 
 class SignInRepositoryImpl @Inject constructor(

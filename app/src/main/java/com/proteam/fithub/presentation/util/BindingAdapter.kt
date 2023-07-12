@@ -14,3 +14,8 @@ fun ImageButton.setImage(path : Any?) {
 fun ImageButton.setBackground(path : Any?) {
     this.setBackgroundResource(path.toString().toInt())
 }
+
+@BindingAdapter("common_Circle_Image")
+fun ImageView.setCircleImage(path: Any?) {
+    Glide.with(this).load(path).circleCrop().into(this)
+}

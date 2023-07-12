@@ -15,6 +15,7 @@ import com.proteam.fithub.presentation.component.ComponentDialogYesNo
 import com.proteam.fithub.presentation.ui.auth.SignInActivity
 import com.proteam.fithub.presentation.ui.auth.SignInWithPhoneNumberActivity
 import com.proteam.fithub.presentation.ui.findpassword.FindPasswordActivity
+import com.proteam.fithub.presentation.ui.signup.SignUpActivity
 import com.proteam.fithub.presentation.ui.signup.authcode.SignUpAuthCodeFragment
 import com.proteam.fithub.presentation.ui.signup.profile.SignUpUserProfileFragment
 
@@ -47,35 +48,33 @@ class SignUpSetPasswordFragment : Fragment() {
     }
 
     private fun initInclude() {
-        binding.fgSignUpSetPasswordEdtPassword.getAttr(true, false)
-        binding.fgSignUpSetPasswordEdtPasswordCheck.getAttr(true, true)
+        binding.fgSignUpSetPasswordEdtPassword.setErrorEnable(true, false)
+        binding.fgSignUpSetPasswordEdtPasswordCheck.setErrorEnable(true, true)
     }
 
     private fun initIncludeObserve() {
         binding.fgSignUpSetPasswordEdtPassword.userInputPassword.observe(viewLifecycleOwner) {
             if(it.isNotEmpty()) {
-                binding.fgSignUpSetPasswordEdtPasswordCheck.getPassword(it)
-                binding.fgSignUpSetPasswordEdtPasswordCheck.checkSame()
+                binding.fgSignUpSetPasswordEdtPasswordCheck.setPasswordForCheck(it)
+                binding.fgSignUpSetPasswordEdtPasswordCheck.checkWhenOriginalChanged()
             }
         }
     }
 
     private fun initNextBtnEnableObserve() {
-        binding.fgSignUpSetPasswordEdtPassword.doneState.observe(viewLifecycleOwner) {
-            binding.fgSignUpSetPasswordBtnNext.isEnabled = it && binding.fgSignUpSetPasswordEdtPasswordCheck.doneState.value == true
+        binding.fgSignUpSetPasswordEdtPassword.isFinished.observe(viewLifecycleOwner) {
+            binding.fgSignUpSetPasswordBtnNext.isEnabled = it && binding.fgSignUpSetPasswordEdtPasswordCheck.isFinished.value == true
         }
-        binding.fgSignUpSetPasswordEdtPasswordCheck.doneState.observe(viewLifecycleOwner) {
-            binding.fgSignUpSetPasswordBtnNext.isEnabled = it && binding.fgSignUpSetPasswordEdtPassword.doneState.value == true
+        binding.fgSignUpSetPasswordEdtPasswordCheck.isFinished.observe(viewLifecycleOwner) {
+            binding.fgSignUpSetPasswordBtnNext.isEnabled = it && binding.fgSignUpSetPasswordEdtPassword.isFinished.value == true
         }
     }
 
     fun onNextClicked() {
         when(tag) {
             "Find_Password" -> changePasswords()
+            "Sign_Up" -> (requireActivity() as SignUpActivity).changeFragments(SignUpUserProfileFragment())
         }
-        /*requireActivity().supportFragmentManager.beginTransaction()
-            .add(R.id.sign_up_layout_container, SignUpUserProfileFragment())
-            .addToBackStack("Profile").commit() */
     }
 
     private fun changePasswords() {

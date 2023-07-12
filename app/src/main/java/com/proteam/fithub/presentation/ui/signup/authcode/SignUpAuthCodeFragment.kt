@@ -2,6 +2,7 @@ package com.proteam.fithub.presentation.ui.signup.authcode
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +18,9 @@ import com.proteam.fithub.presentation.ui.findpassword.viewmodel.FindPasswordVie
 import com.proteam.fithub.presentation.ui.signup.SignUpActivity
 import com.proteam.fithub.presentation.ui.signup.password.SignUpSetPasswordFragment
 import com.proteam.fithub.presentation.ui.signup.viewmodel.SignUpViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SignUpAuthCodeFragment : Fragment() {
     private lateinit var binding : FragmentSignUpAuthCodeBinding
     private lateinit var imm: InputMethodManager
@@ -49,6 +52,10 @@ class SignUpAuthCodeFragment : Fragment() {
         }
     }
 
+    private fun requestAuthCode() {
+        signUpViewModel.requestSMSAuthCode()
+    }
+
     private fun initBinding() {
         binding.fragment = this
     }
@@ -57,11 +64,12 @@ class SignUpAuthCodeFragment : Fragment() {
         binding.fgSignUpAuthCodeEdtAuthCode.apply {
             authCodeEdt.requestFocus()
             startCountDownTimer()
+            requestAuthCode()
         }
     }
 
     private fun initObserve() {
-        binding.fgSignUpAuthCodeEdtAuthCode.doneState.observe(viewLifecycleOwner) {
+        binding.fgSignUpAuthCodeEdtAuthCode.isFinished.observe(viewLifecycleOwner) {
             binding.fgSignUpAuthCodeBtnNext.isEnabled = it
         }
     }
@@ -79,6 +87,7 @@ class SignUpAuthCodeFragment : Fragment() {
         binding.fgSignUpAuthCodeEdtAuthCode.apply {
             stopCountDownTimer()
             startCountDownTimer()
+            requestAuthCode()
         }
     }
 
@@ -90,10 +99,18 @@ class SignUpAuthCodeFragment : Fragment() {
 
     fun onNextBtnClicked() {
         hideKeyboard()
-        when(tag) {
-            "Find_Password" -> (requireActivity() as FindPasswordActivity).changeFragments(SignUpSetPasswordFragment())
-            //else -> requireActivity().supportFragmentManager.beginTransaction().add(R.id.sign_up_layout_container, SignUpSetPasswordFragment()).addToBackStack("Password").commit()
+        signUpViewModel.requestCheckSMSAuthCode(binding.fgSignUpAuthCodeEdtAuthCode.getUserInputContent())
+        signUpViewModel.authResult.observe(viewLifecycleOwner) {
+            Log.d("----", "onNextBtnClicked: $it")
+            if(it) {
+                when(tag) {
+                    "Find_Password" -> (requireActivity() as FindPasswordActivity).changeFragments(SignUpSetPasswordFragment())
+                    "Sign_Up" -> (requireActivity() as SignUpActivity).changeFragments(SignUpSetPasswordFragment())
+                }
+                signUpViewModel.initAuthResult()
+            } else {
+                //:TODO 에러코드 받아서 추가하기
+            }
         }
-
     }
 }

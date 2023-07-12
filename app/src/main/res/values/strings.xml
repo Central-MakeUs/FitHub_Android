@@ -2,6 +2,18 @@
 
     <string name="app_name">FitHub_Android</string>
 
+    <string name="error_phone_number">휴대폰 번호가 올바르지 않습니다</string>
+    <string name="error_password_regex">특수문자, 숫자, 영문 조합으로 입력하세요</string>
+    <string name="error_password_length">비밀번호는 8 ~ 16자 이내로 입력하세요</string>
+    <string name="success_password">사용할 수 있는 비밀번호입니다</string>
+    <string name="error_password_not_match">비밀번호가 일치하지 않습니다</string>
+    <string name="success_password_match">비밀번호가 일치합니다</string>
+    <string name="error_not_exist_birth">생년월일 및 성별을 정확히 입력해주세요</string>
+    <string name="error_under_age">만 14세 미만은 서비스 이용이 불가합니다</string>
+    <string name="error_nickname_regex">한글 혹은 영문으로만 입력해주세요.</string>
+    <string name="error_same_nickname">이미 존재하는 닉네임 입니다.</string>
+    <string name="success_can_use_nickname">사용 가능한 닉네임 입니다.</string>
+
     <string name="sign_in_subtitle">특별한 운동정보 커뮤니티 플랫폼</string>
     <string name="sign_in_phone_number">전화번호로 로그인 / 회원가입</string>
 
@@ -30,7 +42,7 @@
     <string name="sign_up_with_phone_number">휴대폰번호 가입</string>
     <string name="sign_up_with_phone_number_notice">휴대폰번호는 아이디로 사용됩니다.</string>
 
-    <string name="sign_up_with_phone_number_hint">01000000000</string>
+    <string name="sign_up_with_phone_number_hint">01012345678</string>
     <string name="sign_up_with_phone_select_telecom_hint">통신사 선택</string>
     <string name="sign_up_with_phone_birth_hint">YYMMDD</string>
     <string name="sign_up_with_phone_name_hint">이름 입력</string>
@@ -45,10 +57,11 @@
     <string name="sign_up_with_phone_set_password">비밀번호 설정</string>
     <string name="sign_up_with_phone_reset_password">비밀번호 재설정</string>
     <string name="sign_up_with_phone_set_password_notice">비밀번호를 설정해주세요.</string>
+    <string name="sign_up_with_phone_additional_password">영어, 숫자, 특수문자를 조합하여 8~16자로 입력해주세요</string>
 
     <string name="sign_up_with_phone_user_profile">프로필 설정</string>
     <string name="sign_up_with_phone_user_profile_notice">나를 표현할 사진과 닉네임을 등록해주세요.</string>
-
+    <string name="sign_up_with_phone_user_profile_additional">한글 혹은 영문을 포함하여 1 ~ 10자로 입력해주세요.</string>
 
     <string name="sign_up_with_phone_interest_sports">평소 관심있거나, 하고있는\n운동 1개 이상 선택해주세요.</string>
     <string name="sign_up_with_phone_interest_sports_notice">선택하신 운동에 따라 맞춤 정보가 제공돼요!</string>
