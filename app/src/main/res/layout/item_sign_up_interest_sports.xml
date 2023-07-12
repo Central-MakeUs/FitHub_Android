@@ -5,7 +5,7 @@
     <data>
         <variable
             name="sports"
-            type="com.proteam.fithub.data.data.SignUpInterestSports" />
+            type="com.proteam.fithub.data.remote.response.ResponseExercises.ExercisesList" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,7 +17,7 @@
             android:id="@+id/item_sign_up_interest_sports_check_sports"
             android:layout_width="106dp"
             android:layout_height="106dp"
-            common_setImageButton="@{sports.image}"
+            common_setImageButton="@{sports.categoryImage}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{sports.name}"
-            android:textColor="@color/gray_900"
+            android:textColor="@color/text_sub01"
             android:fontFamily="@font/pretendard_regular"
             android:includeFontPadding="false"
             android:textSize="14sp"

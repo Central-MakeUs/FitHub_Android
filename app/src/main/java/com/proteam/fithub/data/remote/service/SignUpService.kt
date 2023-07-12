@@ -2,6 +2,7 @@ package com.proteam.fithub.data.remote.service
 
 import com.proteam.fithub.data.remote.request.RequestCheckSMSAuth
 import com.proteam.fithub.data.remote.request.RequestSMSAuth
+import com.proteam.fithub.data.remote.request.RequestSignUpWithPhone
 import com.proteam.fithub.presentation.util.BaseResponse
 import retrofit2.Response
 import retrofit2.http.Body
@@ -25,4 +26,9 @@ interface SignUpService {
     suspend fun requestCheckSameNickname(
         @Query("nickname") nickname : String
     ) : Response<BaseResponse>
+
+    @POST("/users/sign-up")
+    suspend fun requestSignUpWithPhone(
+        @Body body : RequestSignUpWithPhone
+    )
 }

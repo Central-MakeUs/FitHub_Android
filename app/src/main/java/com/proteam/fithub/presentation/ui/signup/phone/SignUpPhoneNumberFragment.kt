@@ -115,6 +115,8 @@ class SignUpPhoneNumberFragment : Fragment() {
 
     private fun saveUserInputData() {
         viewModel.setUserPhoneNumber(binding.fgSignUpPhoneNumberEdtPhoneNumber.returnUserInputContent())
+        viewModel.setUserBirth(binding.fgSignUpBirthdayEdtBirth.getUserInputContent())
+        viewModel.setUserName(binding.fgSignUpPhoneNumberEdtName.getUserInputContent())
     }
 
     private fun initTelecomClick() {
@@ -148,7 +150,6 @@ class SignUpPhoneNumberFragment : Fragment() {
                 showKeyboard()
             }
         }
-        Log.d("----", "showBirthdayField: ${binding.fgSignUpPhoneNumberEdtTelecom.hasFocus()}")
     }
 
     private fun showNameField() {
