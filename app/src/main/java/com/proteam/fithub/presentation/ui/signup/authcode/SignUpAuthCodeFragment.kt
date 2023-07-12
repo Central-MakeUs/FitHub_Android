@@ -2,6 +2,7 @@ package com.proteam.fithub.presentation.ui.signup.authcode
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -68,7 +69,7 @@ class SignUpAuthCodeFragment : Fragment() {
     }
 
     private fun initObserve() {
-        binding.fgSignUpAuthCodeEdtAuthCode.doneState.observe(viewLifecycleOwner) {
+        binding.fgSignUpAuthCodeEdtAuthCode.isFinished.observe(viewLifecycleOwner) {
             binding.fgSignUpAuthCodeBtnNext.isEnabled = it
         }
     }
@@ -100,11 +101,13 @@ class SignUpAuthCodeFragment : Fragment() {
         hideKeyboard()
         signUpViewModel.requestCheckSMSAuthCode(binding.fgSignUpAuthCodeEdtAuthCode.getUserInputContent())
         signUpViewModel.authResult.observe(viewLifecycleOwner) {
+            Log.d("----", "onNextBtnClicked: $it")
             if(it) {
                 when(tag) {
                     "Find_Password" -> (requireActivity() as FindPasswordActivity).changeFragments(SignUpSetPasswordFragment())
                     "Sign_Up" -> (requireActivity() as SignUpActivity).changeFragments(SignUpSetPasswordFragment())
                 }
+                signUpViewModel.initAuthResult()
             } else {
                 //:TODO 에러코드 받아서 추가하기
             }

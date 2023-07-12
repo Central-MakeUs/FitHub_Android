@@ -1,6 +1,12 @@
 package com.proteam.fithub.data.remote.response
 
+import com.proteam.fithub.presentation.util.BaseResponse
+
 data class ResponseSignIn(
-    val accessToken : String,
-    val isLogin : Boolean
-)
+    val result : ResultSignIn
+) : BaseResponse() {
+
+    data class ResultSignIn(
+        val accessToken : String
+    )
+}

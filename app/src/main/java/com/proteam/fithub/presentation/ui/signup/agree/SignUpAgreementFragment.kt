@@ -14,6 +14,7 @@ import com.proteam.fithub.presentation.ui.signup.SignUpActivity
 import com.proteam.fithub.presentation.ui.signup.agree.adapter.SignUpAgreeAdapter
 import com.proteam.fithub.presentation.ui.signup.password.SignUpSetPasswordFragment
 import com.proteam.fithub.presentation.ui.signup.phone.SignUpPhoneNumberFragment
+import com.proteam.fithub.presentation.ui.signup.profile.SignUpUserProfileFragment
 import com.proteam.fithub.presentation.ui.signup.viewmodel.SignUpViewModel
 
 class SignUpAgreementFragment : Fragment() {

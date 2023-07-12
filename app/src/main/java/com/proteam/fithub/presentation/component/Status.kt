@@ -6,5 +6,6 @@ enum class Status {
     NON_FOCUSED_INPUT,
     NON_FOCUSED_NO_INPUT,
     ERROR,
-    SUCCESS
+    SUCCESS,
+    READY /** Only in NickName **/
 }

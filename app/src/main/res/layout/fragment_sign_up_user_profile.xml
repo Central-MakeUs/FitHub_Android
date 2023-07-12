@@ -15,7 +15,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
+        android:background="@color/bg_default"
         android:clickable="true">
 
         <TextView
@@ -25,7 +25,7 @@
             android:text="@string/sign_up_with_phone_user_profile"
             android:fontFamily="@font/pretendard_semibold"
             android:includeFontPadding="false"
-            android:textColor="@color/black"
+            android:textColor="@color/text_sub01"
             android:textSize="24sp"
             android:lineHeight="32dp"
             android:layout_marginTop="15dp"
@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/sign_up_with_phone_user_profile_notice"
-            android:textColor="@color/gray_700"
+            android:textColor="@color/text_sub02"
             android:fontFamily="@font/pretendard_regular"
             android:textSize="14sp"
             android:lineHeight="20dp"
@@ -61,6 +61,7 @@
                 android:id="@+id/fg_sign_up_user_profile_iv_profile"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                common_Circle_Image="@{signUpViewModel.userSelectedProfileImage}"
                 android:onClick="@{() -> fragment.onGalleryOpen()}"
                 />
 

@@ -20,6 +20,7 @@
             android:layout_height="wrap_content"
             app:cardCornerRadius="5dp"
             app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/bg_default"
             app:layout_constraintTop_toTopOf="parent"
             app:strokeColor="@color/gray_400"
             app:strokeWidth="1dp">
@@ -35,7 +36,7 @@
                     android:layout_margin="10dp"
                     android:lineHeight="16dp"
                     android:text="@string/common_authcode"
-                    android:textColor="@color/gray_500"
+                    android:textColor="@color/text_disabled"
                     android:textSize="11sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -48,6 +49,8 @@
                     android:layout_marginBottom="10dp"
                     android:background="@android:color/transparent"
                     android:hint="@string/sign_up_with_phone_authcode_hint"
+                    android:textColorHint="@color/text_disabled"
+                    android:textColor="@color/text_sub01"
                     android:inputType="number"
                     android:lineHeight="24dp"
                     android:maxLength="6"

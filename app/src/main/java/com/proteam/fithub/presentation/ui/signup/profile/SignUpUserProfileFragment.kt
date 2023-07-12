@@ -13,14 +13,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import com.google.android.material.internal.ViewUtils.hideKeyboard
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentSignUpUserProfileBinding
 import com.proteam.fithub.presentation.ui.signup.SignUpActivity
 import com.proteam.fithub.presentation.ui.signup.interest.SelectInterestSportsFragment
 import com.proteam.fithub.presentation.ui.signup.viewmodel.SignUpViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SignUpUserProfileFragment : Fragment() {
     private lateinit var binding: FragmentSignUpUserProfileBinding
     private lateinit var imm: InputMethodManager
@@ -54,16 +54,27 @@ class SignUpUserProfileFragment : Fragment() {
 
     private fun initBinding() {
         binding.fragment = this
+        binding.signUpViewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
     }
 
     private fun initInclude() {
-        binding.fgSignUpUserProfileEdtNickname.getAttr(true)
+        binding.fgSignUpUserProfileEdtNickname.setErrorEnable(true)
     }
 
     private fun observeInclude() {
-        binding.fgSignUpUserProfileEdtNickname.doneState.observe(viewLifecycleOwner) {
+        binding.fgSignUpUserProfileEdtNickname.isFinished.observe(viewLifecycleOwner) {
             binding.fgSignUpUserProfileBtnNext.isEnabled = it
+        }
+
+        binding.fgSignUpUserProfileEdtNickname.checkSameClicked.observe(viewLifecycleOwner) {
+            viewModel.requestCheckSameNickName(binding.fgSignUpUserProfileEdtNickname.getUserInputContent())
+        }
+
+        /** 닉네임 중복여부 체크 **/
+
+        viewModel.checkNickNameResult.observe(viewLifecycleOwner) {
+            binding.fgSignUpUserProfileEdtNickname.getCheckResult(it)
         }
     }
 

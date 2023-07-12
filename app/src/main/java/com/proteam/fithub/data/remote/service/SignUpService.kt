@@ -5,7 +5,9 @@ import com.proteam.fithub.data.remote.request.RequestSMSAuth
 import com.proteam.fithub.presentation.util.BaseResponse
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface SignUpService {
 
@@ -17,5 +19,10 @@ interface SignUpService {
     @POST("/users/sms/auth")
     suspend fun requestCheckPhoneAuthCode(
         @Body body : RequestCheckSMSAuth
+    ) : Response<BaseResponse>
+
+    @GET("/users/exist-nickname")
+    suspend fun requestCheckSameNickname(
+        @Query("nickname") nickname : String
     ) : Response<BaseResponse>
 }

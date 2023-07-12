@@ -19,10 +19,10 @@ class SignInViewModel @Inject constructor(private val signInRepo : SignInReposit
 
     fun sendKakaoToken(signatureID : Long) {
         viewModelScope.launch {
-            signInRepo.signInWithKakao(RequestSignInKakao("KAKAO$signatureID"))
+            signInRepo.signInWithKakao(RequestSignInKakao(signatureID.toString()))
                 .onSuccess {
-                    saveUserJWT(it.accessToken)
-                    setState("성공")
+                    saveUserJWT(it.result.accessToken)
+                    setState(if(it.code == 2004) "로그인" else if(it.code == 2005) "회원가입" else "실패")
                 }
                 .onFailure { setState("카카오 로그인에 실패했습니다.") }
         }

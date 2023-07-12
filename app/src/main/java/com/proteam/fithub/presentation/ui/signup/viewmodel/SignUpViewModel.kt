@@ -26,9 +26,9 @@ class SignUpViewModel @Inject constructor(private val signUpRepository: SignUpRe
 
     private val _selectInterestSports = MutableLiveData<MutableList<SignUpInterestSports>>()
     val selectInterestSports : LiveData<MutableList<SignUpInterestSports>> = _selectInterestSports
-    val toolSelectInterestSports = mutableListOf<SignUpInterestSports>()
+    private val toolSelectInterestSports = mutableListOf<SignUpInterestSports>()
 
-    private val _userSelectedProfileImage = MutableLiveData<Any>()
+    private val _userSelectedProfileImage = MutableLiveData<Any>().apply { value = R.drawable.ic_sign_up_default_profile }
     val userSelectedProfileImage : LiveData<Any> = _userSelectedProfileImage
 
     private val _userInputPhoneNumber = MutableLiveData<String>()
@@ -36,6 +36,9 @@ class SignUpViewModel @Inject constructor(private val signUpRepository: SignUpRe
 
     private val _authResult = MutableLiveData<Boolean>()
     val authResult : LiveData<Boolean> = _authResult
+
+    private val _checkNickNameResult = MutableLiveData<Int>()
+    val checkNickNameResult : LiveData<Int> = _checkNickNameResult
 
     fun initUserInfo() {
         selectTelecomState.value = false
@@ -99,9 +102,14 @@ class SignUpViewModel @Inject constructor(private val signUpRepository: SignUpRe
     fun requestCheckSMSAuthCode(userAuthCode : String) {
         viewModelScope.launch {
             signUpRepository.requestCheckSMSAuth(RequestCheckSMSAuth(userInputPhoneNumber.value!!, userAuthCode.toInt()))
-                .onSuccess { if(it.code == 2000)  {
-                    _authResult.value = true
-                }}
+                .onSuccess {_authResult.value = it.code == 2000 }
+        }
+    }
+
+    fun requestCheckSameNickName(nickname : String) {
+        viewModelScope.launch {
+            signUpRepository.requestCheckSameNickName(nickname)
+                .onSuccess { _checkNickNameResult.value = it.code }
         }
     }
 

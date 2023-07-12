@@ -10,4 +10,6 @@ interface SignUpSource {
     suspend fun requestSMSAuth(body : RequestSMSAuth) : Result<BaseResponse>
 
     suspend fun requestCheckSMSAuth(body : RequestCheckSMSAuth) : Result<BaseResponse>
+
+    suspend fun requestCheckSameNickName(nickname : String) : Result<BaseResponse>
 }

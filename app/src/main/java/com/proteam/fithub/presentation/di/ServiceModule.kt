@@ -1,5 +1,6 @@
 package com.proteam.fithub.presentation.di
 
+import com.proteam.fithub.data.remote.service.ExerciseService
 import com.proteam.fithub.data.remote.service.SignInService
 import com.proteam.fithub.data.remote.service.SignUpService
 import dagger.Module
@@ -21,4 +22,8 @@ class ServiceModule {
     @Provides
     @Singleton
     fun provideSignUpService(retrofit: Retrofit) : SignUpService = retrofit.create(SignUpService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideExerciseService(retrofit: Retrofit) : ExerciseService = retrofit.create(ExerciseService::class.java)
 }

@@ -15,4 +15,8 @@ class SignUpRepositoryImpl @Inject constructor(private val source : SignUpSource
     override suspend fun requestCheckSMSAuth(body: RequestCheckSMSAuth): Result<BaseResponse> {
         return source.requestCheckSMSAuth(body)
     }
+
+    override suspend fun requestCheckSameNickName(nickname: String): Result<BaseResponse> {
+        return source.requestCheckSameNickName(nickname)
+    }
 }

@@ -11,7 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
+        android:background="@color/bg_default"
         android:clickable="true">
 
         <TextView
@@ -24,7 +24,7 @@
             android:includeFontPadding="false"
             android:lineHeight="32dp"
             android:text="@string/sign_up_with_phone_auth_code"
-            android:textColor="@color/black"
+            android:textColor="@color/text_default"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -38,7 +38,7 @@
             android:lineHeight="20dp"
             android:fontFamily="@font/pretendard_regular"
             android:includeFontPadding="false"
-            android:textColor="@color/gray_700"
+            android:textColor="@color/text_sub02"
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="@id/fg_sign_up_auth_code_tv_title"
             app:layout_constraintTop_toBottomOf="@id/fg_sign_up_auth_code_tv_title" />
@@ -70,7 +70,7 @@
                 android:lineHeight="16dp"
                 android:fontFamily="@font/pretendard_regular"
                 android:includeFontPadding="false"
-                android:textColor="@color/gray_700" />
+                android:textColor="@color/text_sub02" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -79,7 +79,7 @@
                 android:textSize="12sp"
                 android:onClick="@{() -> fragment.onResendClicked()}"
                 android:fontFamily="@font/pretendard_medium"
-                android:textColor="@color/gray_800"
+                android:textColor="@color/text_sub01"
                 android:lineHeight="16dp"
                 android:text="@string/sign_up_with_phone_auth_code_retry" />
 

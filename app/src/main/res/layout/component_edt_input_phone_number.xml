@@ -20,7 +20,7 @@
             app:cardCornerRadius="5dp"
             app:cardElevation="0dp"
             app:layout_constraintTop_toTopOf="parent"
-            app:strokeColor="@color/gray_400"
+            app:strokeColor="@color/icon_disabled"
             app:strokeWidth="1dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
