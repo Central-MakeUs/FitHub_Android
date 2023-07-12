@@ -67,6 +67,6 @@ class SelectInterestSportsFragment : Fragment() {
     }
 
     fun onFinishSignUp() {
-        viewModel.showAllUserInputData()
+        //회원가입 로직
     }
 }

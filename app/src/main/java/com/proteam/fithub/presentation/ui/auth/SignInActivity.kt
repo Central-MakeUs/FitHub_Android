@@ -14,6 +14,7 @@ import com.kakao.sdk.user.UserApiClient
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.ActivitySignInBinding
 import com.proteam.fithub.presentation.ui.auth.viewmodel.SignInViewModel
+import com.proteam.fithub.presentation.ui.signup.SignUpActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -76,8 +77,9 @@ class SignInActivity : AppCompatActivity() {
 
     private fun observeSignInState() {
         viewModel.signInState.observe(this) {
-            if(it != "성공") {
-                Snackbar.make(binding.root, it, Snackbar.LENGTH_SHORT).show()
+            startActivity(Intent(this, SignUpActivity::class.java).setType("Social"))
+            if(it == "회원가입") {
+
             }
         }
     }

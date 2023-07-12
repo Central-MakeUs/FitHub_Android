@@ -21,6 +21,9 @@ class SignUpViewModel @Inject constructor(
     private val signUpRepository: SignUpRepository,
     private val exerciseRepository: ExerciseRepository
 ) : ViewModel() {
+    private val _viewType = MutableLiveData<String>()
+    val viewType : LiveData<String> = _viewType
+
     var signUpAgreements =
         MutableLiveData<MutableList<SignUpAgreement>>().also { it.value = agreementData() }
     var signUpAllAgreements = MutableLiveData<Boolean>()
@@ -43,7 +46,7 @@ class SignUpViewModel @Inject constructor(
     private val toolSelectInterestSports = mutableListOf<Int>()
 
     private val _userSelectedProfileImage =
-        MutableLiveData<Any>().apply { value = R.drawable.ic_sign_up_default_profile }
+        MutableLiveData<Any>()
     val userSelectedProfileImage: LiveData<Any> = _userSelectedProfileImage
 
     private val userInputPhoneNumber = MutableLiveData<String>()
@@ -54,6 +57,10 @@ class SignUpViewModel @Inject constructor(
 
     var selectTelecom = MutableLiveData<String>()
 
+    /** SignIn Type **/
+    fun setType(type : String) {
+        _viewType.value = type
+    }
 
     /** Init **/
 
@@ -67,7 +74,7 @@ class SignUpViewModel @Inject constructor(
     }
 
     fun initProfile() {
-        _userSelectedProfileImage.value = null
+        _userSelectedProfileImage.value = R.drawable.ic_sign_up_default_profile
     }
 
     /** Agreement **/
@@ -166,7 +173,11 @@ class SignUpViewModel @Inject constructor(
     }
 
     fun requestSignUpWithPhone() {
-
+        if(viewType.value == "Phone") {
+            //폰번호로 회원가입
+        } else {
+            //소셜 회원가입
+        }
         Log.d("----", "showAllUserInputData: ${signUpAgreements.value?.count { it.checked } == 5} / ${userInputPhoneNumber.value} / ${userInputPassword.value} / ${userInputName.value} / ${userInputNickName.value} / ${userInputBirth.value} / ${selectExercises.value}")
     }
 

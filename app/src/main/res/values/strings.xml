@@ -71,4 +71,8 @@
 
     <!-- 비밀번호 찾기 -->
     <string name="find_password_auth_phone_number_notice">가입할 때 입력했던 정보를 확인합니다.</string>
+
+    <!-- 소셜 회원가입 -->
+    <string name="social_sign_up_input_info">기본정보 입력</string>
+    <string name="social_sign_up_input_info_notice">이름과 생년월일을 입력해주세요</string>
 </resources>
