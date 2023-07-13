@@ -42,6 +42,6 @@ class SignInWithPhoneNumberActivity : AppCompatActivity() {
     }
 
     fun onSignUpClicked() {
-        startActivity(Intent(this, SignUpActivity::class.java))
+        startActivity(Intent(this, SignUpActivity::class.java).setType("Phone"))
     }
 }

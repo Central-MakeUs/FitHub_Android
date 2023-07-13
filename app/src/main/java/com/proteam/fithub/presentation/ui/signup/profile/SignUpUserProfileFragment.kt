@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +24,7 @@ class SignUpUserProfileFragment : Fragment() {
     private lateinit var binding: FragmentSignUpUserProfileBinding
     private lateinit var imm: InputMethodManager
 
-    private val viewModel : SignUpViewModel by activityViewModels()
+    private val viewModel: SignUpViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,6 +58,7 @@ class SignUpUserProfileFragment : Fragment() {
     }
 
     private fun initInclude() {
+        viewModel.initProfile()
         binding.fgSignUpUserProfileEdtNickname.setErrorEnable(true)
     }
 
@@ -90,23 +90,30 @@ class SignUpUserProfileFragment : Fragment() {
             if (it.resultCode == Activity.RESULT_OK && it.data?.data != null) { //갤러리 캡쳐 결과값
                 val clipData = it?.data?.clipData
                 if (clipData == null) {
-                    it.data!!.data?.let { it1 -> viewModel.setUserSelectedProfile(it1)
-                    binding.fgSignUpUserProfileIvProfile.setImageURI(it1)}
+                    it.data!!.data?.let { it1 ->
+                        viewModel.setUserSelectedProfile(it1)
+                        binding.fgSignUpUserProfileIvProfile.setImageURI(it1)
+                    }
                 }
             }
         }
 
 
-fun onNextClicked() {
-    when (tag) {
-        "Sign_Up" -> (requireActivity() as SignUpActivity).changeFragments(
-            SelectInterestSportsFragment()
-        )
+    fun onNextClicked() {
+        when (tag) {
+            "Sign_Up" -> {
+                setUserInputData()
+                (requireActivity() as SignUpActivity).changeFragments(SelectInterestSportsFragment())
+            }
+        }
+        hideKeyboard()
     }
-    hideKeyboard()
-}
 
-private fun hideKeyboard() {
-    imm.hideSoftInputFromWindow(view?.windowToken, 0)
-}
+    private fun setUserInputData() {
+        viewModel.setUserNickname(binding.fgSignUpUserProfileEdtNickname.getUserInputContent())
+    }
+
+    private fun hideKeyboard() {
+        imm.hideSoftInputFromWindow(view?.windowToken, 0)
+    }
 }

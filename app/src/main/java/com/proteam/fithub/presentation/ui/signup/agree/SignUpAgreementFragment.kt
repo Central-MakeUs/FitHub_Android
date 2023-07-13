@@ -12,6 +12,7 @@ import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentSignUpAgreementBinding
 import com.proteam.fithub.presentation.ui.signup.SignUpActivity
 import com.proteam.fithub.presentation.ui.signup.agree.adapter.SignUpAgreeAdapter
+import com.proteam.fithub.presentation.ui.signup.interest.SelectInterestSportsFragment
 import com.proteam.fithub.presentation.ui.signup.password.SignUpSetPasswordFragment
 import com.proteam.fithub.presentation.ui.signup.phone.SignUpPhoneNumberFragment
 import com.proteam.fithub.presentation.ui.signup.profile.SignUpUserProfileFragment

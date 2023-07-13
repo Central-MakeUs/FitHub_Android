@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.google.android.material.internal.ViewUtils.hideKeyboard
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentSignUpSetPasswordBinding
@@ -18,10 +19,11 @@ import com.proteam.fithub.presentation.ui.findpassword.FindPasswordActivity
 import com.proteam.fithub.presentation.ui.signup.SignUpActivity
 import com.proteam.fithub.presentation.ui.signup.authcode.SignUpAuthCodeFragment
 import com.proteam.fithub.presentation.ui.signup.profile.SignUpUserProfileFragment
+import com.proteam.fithub.presentation.ui.signup.viewmodel.SignUpViewModel
 
 class SignUpSetPasswordFragment : Fragment() {
     private lateinit var binding : FragmentSignUpSetPasswordBinding
-
+    private val signUpViewModel : SignUpViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -73,8 +75,15 @@ class SignUpSetPasswordFragment : Fragment() {
     fun onNextClicked() {
         when(tag) {
             "Find_Password" -> changePasswords()
-            "Sign_Up" -> (requireActivity() as SignUpActivity).changeFragments(SignUpUserProfileFragment())
+            "Sign_Up" -> {
+                setUserPassword()
+                (requireActivity() as SignUpActivity).changeFragments(SignUpUserProfileFragment())
+            }
         }
+    }
+
+    private fun setUserPassword() {
+        signUpViewModel.setUserPassword(binding.fgSignUpSetPasswordEdtPassword.returnUserInputContent())
     }
 
     private fun changePasswords() {
