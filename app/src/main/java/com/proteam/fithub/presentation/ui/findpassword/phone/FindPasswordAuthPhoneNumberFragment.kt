@@ -9,16 +9,19 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentFindPasswordAuthPhoneNumberBinding
 import com.proteam.fithub.presentation.component.ComponentDialogYesNo
 import com.proteam.fithub.presentation.ui.findpassword.FindPasswordActivity
+import com.proteam.fithub.presentation.ui.findpassword.viewmodel.FindPasswordViewModel
 import com.proteam.fithub.presentation.ui.signup.SignUpActivity
 import com.proteam.fithub.presentation.ui.signup.authcode.SignUpAuthCodeFragment
 import kotlin.random.Random
 
 class FindPasswordAuthPhoneNumberFragment : Fragment() {
     private lateinit var binding : FragmentFindPasswordAuthPhoneNumberBinding
+    private val viewModel : FindPasswordViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -49,6 +52,9 @@ class FindPasswordAuthPhoneNumberFragment : Fragment() {
 
     fun onSendAuthClicked() {
         //:TODO 랜덤으로 다이얼로그 / 성공 구분해둠 수정해야함!!
+
+        setUserNumber()
+
         val rand = Random.nextInt(0,2)
         if(rand == 0) {
             (requireActivity() as FindPasswordActivity).changeFragments(SignUpAuthCodeFragment())
@@ -56,6 +62,10 @@ class FindPasswordAuthPhoneNumberFragment : Fragment() {
             showDialogWhenNoAccount()
         }
 
+    }
+
+    private fun setUserNumber() {
+        viewModel.setUserPhoneNumber(binding.fgFindPasswordAuthPhoneNumberEdtPhoneNumber.returnUserInputContent())
     }
 
     private fun showDialogWhenNoAccount() {

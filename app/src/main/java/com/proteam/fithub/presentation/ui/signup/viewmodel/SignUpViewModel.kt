@@ -34,8 +34,8 @@ class SignUpViewModel @Inject constructor(
     private val _existExercises = MutableLiveData<MutableList<ResponseExercises.ExercisesList>>()
     val existExercises: LiveData<MutableList<ResponseExercises.ExercisesList>> = _existExercises
 
-    private val _authResult = MutableLiveData<Boolean>()
-    val authResult: LiveData<Boolean> = _authResult
+    private val _authResult = MutableLiveData<Int>()
+    val authResult: LiveData<Int> = _authResult
 
     private val _checkNickNameResult = MutableLiveData<Int>()
     val checkNickNameResult: LiveData<Int> = _checkNickNameResult
@@ -70,7 +70,7 @@ class SignUpViewModel @Inject constructor(
     }
 
     fun initAuthResult() {
-        _authResult.value = false
+        _authResult.value = 0
     }
 
     fun initProfile() {
@@ -154,7 +154,7 @@ class SignUpViewModel @Inject constructor(
                     userAuthCode.toInt()
                 )
             )
-                .onSuccess { _authResult.value = it.code == 2000 }
+                .onSuccess { _authResult.value = it.code }
         }
     }
 
