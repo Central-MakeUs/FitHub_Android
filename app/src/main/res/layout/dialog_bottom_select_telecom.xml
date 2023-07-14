@@ -4,14 +4,13 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/bg_default">
+        android:layout_height="wrap_content">
 
         <View
             android:id="@+id/dialog_bottom_select_telecom_view_handle"
             android:layout_width="43dp"
             android:layout_height="5dp"
-            android:background="@color/icon_disabled"
+            android:background="@drawable/bg_dialog_bottom_select_telecom_handle"
             android:layout_marginTop="12dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

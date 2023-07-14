@@ -1,5 +1,7 @@
 package com.proteam.fithub.presentation.ui.signup.phone.dialog
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -32,6 +34,11 @@ class SignUpPhoneNumberSelectTelecomDialog : BottomSheetDialogFragment() {
         initTelecomRV()
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     }
 
     private fun initTelecomRV() {

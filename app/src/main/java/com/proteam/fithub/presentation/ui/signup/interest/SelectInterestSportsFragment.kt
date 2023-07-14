@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentSignUpSelectInterestSportsBinding
+import com.proteam.fithub.presentation.ui.signup.SignUpActivity
+import com.proteam.fithub.presentation.ui.signup.finish.SignUpFinishFragment
 import com.proteam.fithub.presentation.ui.signup.interest.adapter.SignUpSelectInterestSportsAdapter
 import com.proteam.fithub.presentation.ui.signup.viewmodel.SignUpViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -67,6 +69,8 @@ class SelectInterestSportsFragment : Fragment() {
     }
 
     fun onFinishSignUp() {
-        //회원가입 로직
+        when(tag) {
+            "Sign_Up" -> (requireActivity() as SignUpActivity).changeFragments(SignUpFinishFragment())
+        }
     }
 }

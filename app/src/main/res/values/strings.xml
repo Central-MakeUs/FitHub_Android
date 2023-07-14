@@ -29,6 +29,7 @@
     <string name="common_nickname">닉네임</string>
     <string name="common_name">이름</string>
     <string name="common_next">다음</string>
+    <string name="common_to_home">홈으로</string>
     <string name="common_send_authcode">인증번호 전송</string>
 
 
@@ -75,4 +76,9 @@
     <!-- 소셜 회원가입 -->
     <string name="social_sign_up_input_info">기본정보 입력</string>
     <string name="social_sign_up_input_info_notice">이름과 생년월일을 입력해주세요</string>
+
+    <!-- 회원가입 마무리 -->
+    <string name="finish_sign_up_title">%s님 만나서 반가워요!</string>
+    <string name="finish_sign_up_subtitle">그럼 특별한 운동과 사람들이 있는\n핏허브로 떠나 보실까요?</string>
+
 </resources>

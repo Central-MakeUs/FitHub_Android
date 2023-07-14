@@ -52,8 +52,10 @@ class SignUpViewModel @Inject constructor(
     private val userInputPhoneNumber = MutableLiveData<String>()
     private val userInputName = MutableLiveData<String>()
     private val userInputBirth = MutableLiveData<String>()
-    private val userInputNickName = MutableLiveData<String>()
     private val userInputPassword = MutableLiveData<String>()
+
+    private val _userInputNickName = MutableLiveData<String>()
+    val userInputNickName : LiveData<String> = _userInputNickName
 
     var selectTelecom = MutableLiveData<String>()
 
@@ -121,7 +123,7 @@ class SignUpViewModel @Inject constructor(
     }
 
     fun setUserNickname(nickName : String) {
-        userInputNickName.value = nickName
+        _userInputNickName.value = nickName
     }
     fun setUserPassword(password : String) {
         userInputPassword.value = password
@@ -178,7 +180,7 @@ class SignUpViewModel @Inject constructor(
         } else {
             //소셜 회원가입
         }
-        Log.d("----", "showAllUserInputData: ${signUpAgreements.value?.count { it.checked } == 5} / ${userInputPhoneNumber.value} / ${userInputPassword.value} / ${userInputName.value} / ${userInputNickName.value} / ${userInputBirth.value} / ${selectExercises.value}")
+        Log.d("----", "showAllUserInputData: ${signUpAgreements.value?.count { it.checked } == 5} / ${userInputPhoneNumber.value} / ${userInputPassword.value} / ${userInputName.value} / ${_userInputNickName.value} / ${userInputBirth.value} / ${selectExercises.value}")
     }
 
     /** Dummy **/
