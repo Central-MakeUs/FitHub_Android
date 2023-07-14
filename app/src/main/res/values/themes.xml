@@ -19,4 +19,13 @@
     <style name="Theme.FitHub_Android.SignIn" parent="Theme.MaterialComponents.DayNight.NoActionBar" >
         <item name="android:statusBarColor">@color/gray_900</item>
     </style>
+
+    <style name="CustomBottomSheetDialog" parent="Theme.Design.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_dialog_bottom_select_telecom</item>
+    </style>
+
 </resources>

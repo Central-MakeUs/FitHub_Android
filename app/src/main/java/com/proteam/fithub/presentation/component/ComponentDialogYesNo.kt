@@ -1,7 +1,9 @@
 package com.proteam.fithub.presentation.component
 
 import android.content.Context
+import android.graphics.Color
 import android.graphics.Point
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -42,9 +44,11 @@ class ComponentDialogYesNo(private val onActionClick : () -> Unit) : DialogFragm
         display.getSize(size)
         val params: ViewGroup.LayoutParams? = dialog?.window?.attributes
         val deviceWidth = size.x
-        params?.width = (deviceWidth * 0.95).toInt()
+        params?.width = (deviceWidth * 0.9).toInt()
         params?.height = WindowManager.LayoutParams.WRAP_CONTENT
         dialog?.window?.attributes = params as WindowManager.LayoutParams
+
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     }
 
     private fun initUi() {

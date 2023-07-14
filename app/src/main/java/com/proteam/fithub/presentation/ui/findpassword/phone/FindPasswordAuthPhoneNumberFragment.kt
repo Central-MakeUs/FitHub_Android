@@ -54,13 +54,14 @@ class FindPasswordAuthPhoneNumberFragment : Fragment() {
         //:TODO 랜덤으로 다이얼로그 / 성공 구분해둠 수정해야함!!
 
         setUserNumber()
+        showDialogWhenNoAccount()
 
-        val rand = Random.nextInt(0,2)
+        /*val rand = Random.nextInt(0,2)
         if(rand == 0) {
             (requireActivity() as FindPasswordActivity).changeFragments(SignUpAuthCodeFragment())
         } else {
-            showDialogWhenNoAccount()
-        }
+
+        }*/
 
     }
 

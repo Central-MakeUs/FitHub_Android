@@ -147,6 +147,7 @@ class SignUpPhoneNumberFragment : Fragment() {
             visibility = View.VISIBLE
             this.birthDayEdt().apply {
                 requestFocus()
+                hideKeyboard()
                 showKeyboard()
             }
         }
@@ -174,7 +175,13 @@ class SignUpPhoneNumberFragment : Fragment() {
     private fun nameStatusCheck(): Boolean =
         birthdayStatusCheck() && binding.fgSignUpPhoneNumberEdtName.isFinished.value == true
 
-    private fun EditText.showKeyboard() = imm.showSoftInput(this, 0)
+    private fun EditText.showKeyboard()  {
+        if(imm != null) {
+            imm.showSoftInput(this, 0)
+        } else {
+            Log.d("----", "showKeyboard: IMM IS NULL")
+        }
+    }
     private fun hideKeyboard() {
         imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
