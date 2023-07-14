@@ -4,13 +4,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/bg_default">
 
         <View
             android:id="@+id/dialog_bottom_select_telecom_view_handle"
             android:layout_width="43dp"
             android:layout_height="5dp"
-            android:background="@color/gray_400"
+            android:background="@color/icon_disabled"
             android:layout_marginTop="12dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -21,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/sign_up_with_phone_select_telecom_hint"
-            android:textColor="@color/gray_900"
+            android:textColor="@color/text_default"
             android:fontFamily="@font/pretendard_semibold"
             android:includeFontPadding="false"
             android:textSize="18sp"

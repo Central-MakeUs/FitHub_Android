@@ -53,7 +53,11 @@ class SignUpAuthCodeFragment : Fragment() {
     }
 
     private fun requestAuthCode() {
-        signUpViewModel.requestSMSAuthCode()
+        when(tag) {
+            "SignUp" -> { (signUpViewModel.requestSMSAuthCode()) }
+            "Find_Password" -> { findPasswordViewModel.requestSMSAuthCode() }
+        }
+
     }
 
     private fun initBinding() {
@@ -99,18 +103,43 @@ class SignUpAuthCodeFragment : Fragment() {
 
     fun onNextBtnClicked() {
         hideKeyboard()
-        signUpViewModel.requestCheckSMSAuthCode(binding.fgSignUpAuthCodeEdtAuthCode.getUserInputContent())
+        checkRequestCode()
+        when(tag) {
+            "Sign_Up" -> resultActWhenSignUp()
+            "Find_Password" -> resultActWhenChangePassword()
+        }
+    }
+
+    private fun checkRequestCode() {
+        when(tag) {
+            "Sign_Up" -> { signUpViewModel.requestCheckSMSAuthCode(binding.fgSignUpAuthCodeEdtAuthCode.getUserInputContent()) }
+            "Find_Password" -> { findPasswordViewModel.requestCheckSMSAuthCode(binding.fgSignUpAuthCodeEdtAuthCode.getUserInputContent()) }
+        }
+    }
+
+    private fun resultActWhenSignUp() {
         signUpViewModel.authResult.observe(viewLifecycleOwner) {
-            Log.d("----", "onNextBtnClicked: $it")
-            if(it) {
-                when(tag) {
-                    "Find_Password" -> (requireActivity() as FindPasswordActivity).changeFragments(SignUpSetPasswordFragment())
-                    "Sign_Up" -> (requireActivity() as SignUpActivity).changeFragments(SignUpSetPasswordFragment())
-                }
+            if(it == 2000) {
+                (requireActivity() as SignUpActivity).changeFragments(SignUpSetPasswordFragment())
                 signUpViewModel.initAuthResult()
             } else {
-                //:TODO 에러코드 받아서 추가하기
+                checkWhenNumberAuthFailed(it)
             }
         }
+    }
+
+    private fun resultActWhenChangePassword() {
+        findPasswordViewModel.authResult.observe(viewLifecycleOwner) {
+            if(it == 2000) {
+                (requireActivity() as FindPasswordActivity).changeFragments(SignUpSetPasswordFragment())
+                findPasswordViewModel.initAuthResult()
+            } else {
+                checkWhenNumberAuthFailed(it)
+            }
+        }
+    }
+
+    private fun checkWhenNumberAuthFailed(code : Int) {
+        //:TODO 인증번호 실패했을 때 에러코드 분기처리
     }
 }

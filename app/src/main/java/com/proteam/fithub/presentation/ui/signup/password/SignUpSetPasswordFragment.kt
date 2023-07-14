@@ -12,10 +12,12 @@ import androidx.fragment.app.activityViewModels
 import com.google.android.material.internal.ViewUtils.hideKeyboard
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentSignUpSetPasswordBinding
+import com.proteam.fithub.presentation.component.ComponentDialogOneButton
 import com.proteam.fithub.presentation.component.ComponentDialogYesNo
 import com.proteam.fithub.presentation.ui.auth.SignInActivity
 import com.proteam.fithub.presentation.ui.auth.SignInWithPhoneNumberActivity
 import com.proteam.fithub.presentation.ui.findpassword.FindPasswordActivity
+import com.proteam.fithub.presentation.ui.findpassword.viewmodel.FindPasswordViewModel
 import com.proteam.fithub.presentation.ui.signup.SignUpActivity
 import com.proteam.fithub.presentation.ui.signup.authcode.SignUpAuthCodeFragment
 import com.proteam.fithub.presentation.ui.signup.profile.SignUpUserProfileFragment
@@ -24,6 +26,7 @@ import com.proteam.fithub.presentation.ui.signup.viewmodel.SignUpViewModel
 class SignUpSetPasswordFragment : Fragment() {
     private lateinit var binding : FragmentSignUpSetPasswordBinding
     private val signUpViewModel : SignUpViewModel by activityViewModels()
+    private val findPasswordViewModel : FindPasswordViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -31,7 +34,6 @@ class SignUpSetPasswordFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_up_set_password, container, false)
 
-        validateTag()
 
         initBinding()
         initInclude()
@@ -39,10 +41,6 @@ class SignUpSetPasswordFragment : Fragment() {
         initNextBtnEnableObserve()
 
         return binding.root
-    }
-
-    private fun validateTag() {
-
     }
 
     private fun initBinding() {
@@ -87,7 +85,8 @@ class SignUpSetPasswordFragment : Fragment() {
     }
 
     private fun changePasswords() {
-        ComponentDialogYesNo(::showSignIn).show(requireActivity().supportFragmentManager, "RESET_PASSWORD")
+        findPasswordViewModel.requestChangePassword(binding.fgSignUpSetPasswordEdtPassword.returnUserInputContent())
+        ComponentDialogOneButton(::showSignIn).show(requireActivity().supportFragmentManager, "RESET_PASSWORD")
     }
 
     private fun showSignIn() {
