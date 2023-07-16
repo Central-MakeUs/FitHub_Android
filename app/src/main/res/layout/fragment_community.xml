@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="fragment"
+            type="com.proteam.fithub.presentation.ui.main.community.CommunityFragment" />
+
+        <variable
+            name="viewModel"
+            type="com.proteam.fithub.presentation.ui.main.community.viewmodel.CommunityViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/fg_community_tab_cert_and_board"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="1dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tabBackground="@color/bg_default"
+            app:tabIndicatorColor="@color/color_d9d9d9"
+            app:tabIndicatorFullWidth="false"
+            app:tabIndicatorGravity="bottom"
+            app:tabIndicatorHeight="2dp"
+            app:tabTextAppearance="@style/CommunityTabText"
+            app:tabTextColor="@color/text_default">
+
+        </com.google.android.material.tabs.TabLayout>
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/fg_community_vp_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fg_community_tab_cert_and_board" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fg_community_fab_write"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="30dp"
+            android:backgroundTint="@color/neon_primary"
+            android:src="@drawable/ic_inner_community_fab"
+            app:borderWidth="0dp"
+            app:fabSize="normal"
+            android:onClick="@{() -> viewModel.openFabDialog()}"
+            app:hoveredFocusedTranslationZ="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:rippleColor="@android:color/transparent"
+            app:showMotionSpec="@android:anim/cycle_interpolator" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

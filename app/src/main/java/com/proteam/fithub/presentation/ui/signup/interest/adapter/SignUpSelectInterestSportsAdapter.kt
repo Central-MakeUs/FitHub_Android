@@ -19,7 +19,7 @@ class SignUpSelectInterestSportsAdapter(private val onClick : (Int, Boolean) -> 
                 setOnClickListener {
                     this.isSelected = this.isSelected.not()
 
-                    onClick.invoke(item.categoryId, this.isSelected)
+                    onClick.invoke(item.id, this.isSelected)
                 }
             }
         }

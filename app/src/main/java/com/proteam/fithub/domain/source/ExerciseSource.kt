@@ -5,5 +5,5 @@ import retrofit2.Response
 
 interface ExerciseSource {
 
-    suspend fun requestExercises() : Result<ResponseExercises.ResultExercises>
+    suspend fun requestExercises() : Result<List<ResponseExercises.ExercisesList>>
 }

@@ -86,4 +86,12 @@
     <string name="finish_sign_up_title">%s님 만나서 반가워요!</string>
     <string name="finish_sign_up_subtitle">그럼 특별한 운동과 사람들이 있는\n핏허브로 떠나 보실까요?</string>
 
+    <!-- 커뮤니티 -->
+    <string name="community_hint_toolbar_edt">키워드와 태그로 검색하기</string>
+    <string name="community_sort_recent">최신순</string>
+    <string name="community_sort_popular">인기순</string>
+
+    <string name="community_floating_certificate">운동 인증하기</string>
+    <string name="community_floating_board">게시글 작성하기</string>
+
 </resources>

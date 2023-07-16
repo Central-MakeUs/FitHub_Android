@@ -6,7 +6,7 @@ import com.proteam.fithub.domain.source.ExerciseSource
 import javax.inject.Inject
 
 class ExerciseRepositoryImpl @Inject constructor(private val source : ExerciseSource): ExerciseRepository {
-    override suspend fun requestExercises(): Result<ResponseExercises.ResultExercises> {
+    override suspend fun requestExercises(): Result<List<ResponseExercises.ExercisesList>> {
         return source.requestExercises()
     }
 }

@@ -7,7 +7,7 @@ import retrofit2.Response
 import javax.inject.Inject
 
 class ExerciseRemoteSource @Inject constructor(private val service : ExerciseService): ExerciseSource {
-    override suspend fun requestExercises(): Result<ResponseExercises.ResultExercises> {
+    override suspend fun requestExercises(): Result<List<ResponseExercises.ExercisesList>> {
         val res = service.requestExerciseList()
         if(res.isSuccessful) {
             if(checkResultCode(res.body()!!.code)) {

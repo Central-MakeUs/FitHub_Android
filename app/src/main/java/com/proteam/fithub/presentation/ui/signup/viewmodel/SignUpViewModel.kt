@@ -170,7 +170,7 @@ class SignUpViewModel @Inject constructor(
     fun requestExercises() {
         viewModelScope.launch {
             exerciseRepository.requestExercises()
-                .onSuccess { _existExercises.value = it.categoryList as MutableList}
+                .onSuccess { _existExercises.value = it as MutableList}
         }
     }
 

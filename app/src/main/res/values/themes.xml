@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.FitHub_Android" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
@@ -16,7 +16,7 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="Theme.FitHub_Android.SignIn" parent="Theme.MaterialComponents.DayNight.NoActionBar" >
+    <style name="Theme.FitHub_Android.SignIn" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:statusBarColor">@color/gray_900</item>
     </style>
 
@@ -24,8 +24,25 @@
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
         <item name="android:windowIsFloating">false</item>
     </style>
+
     <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/bg_dialog_bottom_select_telecom</item>
+    </style>
+
+    <style name="CommunityTabText" parent="Widget.AppCompat.TextView">
+        <item name="fontFamily">@font/pretendard_medium</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">16sp</item>
+        <item name="lineHeight">24dp</item>
+        <item name="android:textColor">@color/text_default</item>
+    </style>
+
+    <style name="Certificate_Chip_Text_Style" parent="Widget.AppCompat.TextView">
+        <item name="fontFamily">@font/pretendard_regular</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">14sp</item>
+        <item name="lineHeight">24dp</item>
+        <item name="android:textColor">@color/selector_tv_chip_selected</item>
     </style>
 
 </resources>
