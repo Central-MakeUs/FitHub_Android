@@ -2,6 +2,11 @@
 
     <string name="app_name">FitHub_Android</string>
 
+    <string name="main_bottom_home">홈</string>
+    <string name="main_bottom_community">커뮤니티</string>
+    <string name="main_bottom_around">둘러보기</string>
+    <string name="main_bottom_my">마이핏허브</string>
+
     <string name="error_phone_number">휴대폰 번호가 올바르지 않습니다</string>
     <string name="error_password_regex">특수문자, 숫자, 영문 조합으로 입력하세요</string>
     <string name="error_password_length">비밀번호는 8 ~ 16자 이내로 입력하세요</string>
@@ -80,5 +85,13 @@
     <!-- 회원가입 마무리 -->
     <string name="finish_sign_up_title">%s님 만나서 반가워요!</string>
     <string name="finish_sign_up_subtitle">그럼 특별한 운동과 사람들이 있는\n핏허브로 떠나 보실까요?</string>
+
+    <!-- 커뮤니티 -->
+    <string name="community_hint_toolbar_edt">키워드와 태그로 검색하기</string>
+    <string name="community_sort_recent">최신순</string>
+    <string name="community_sort_popular">인기순</string>
+
+    <string name="community_floating_certificate">운동 인증하기</string>
+    <string name="community_floating_board">게시글 작성하기</string>
 
 </resources>

@@ -29,4 +29,6 @@ class SignUpFinishFragment : Fragment() {
     private fun initBinding() {
         binding.viewModel = viewModel
     }
+
+    //:TODO 버튼 클릭시 메인으로 보내기
 }

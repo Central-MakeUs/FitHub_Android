@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="dialog"
+            type="com.proteam.fithub.presentation.ui.main.community.dialog.DialogCommunityFloating" />
+
+        <variable
+            name="viewModel"
+            type="com.proteam.fithub.presentation.ui.main.community.viewmodel.CommunityViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:onClick="@{() -> dialog.setDismiss()}">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_community_floating_menu"
+            app:layout_constraintBottom_toTopOf="@id/dialog_community_floating_fab_write_on_dialog"
+            app:layout_constraintEnd_toEndOf="@id/dialog_community_floating_fab_write_on_dialog">
+
+            <ImageView
+                android:id="@+id/dialog_community_floating_iv_certificate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_community_floating_certificate"
+                android:paddingEnd="10dp"
+                android:layout_marginStart="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/dialog_community_floating_btn_certificate"
+                app:layout_constraintEnd_toStartOf="@id/dialog_community_floating_btn_certificate"
+                app:layout_constraintTop_toTopOf="@id/dialog_community_floating_btn_certificate" />
+
+            <TextView
+                android:id="@+id/dialog_community_floating_btn_certificate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/pretendard_medium"
+                android:lineHeight="20dp"
+                android:text="@string/community_floating_certificate"
+                android:textColor="@color/text_default"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@id/dialog_community_floating_iv_certificate"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/dialog_community_floating_view_divider"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/divider_02"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dialog_community_floating_btn_certificate" />
+
+            <ImageView
+                android:id="@+id/dialog_community_floating_iv_board"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_community_floating_board"
+                android:layout_marginStart="20dp"
+                android:paddingEnd="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/dialog_community_floating_btn_board"
+                app:layout_constraintBottom_toBottomOf="@id/dialog_community_floating_btn_board" />
+            <TextView
+                android:id="@+id/dialog_community_floating_btn_board"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:layout_marginVertical="15dp"
+                android:fontFamily="@font/pretendard_medium"
+                android:lineHeight="20dp"
+                android:text="@string/community_floating_board"
+                android:textColor="@color/text_default"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/dialog_community_floating_iv_board"
+                app:layout_constraintTop_toBottomOf="@id/dialog_community_floating_view_divider" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/dialog_community_floating_fab_write_on_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="86dp"
+            android:backgroundTint="@color/neon_primary"
+            android:onClick="@{() -> dialog.setDismiss()}"
+            android:rotation="45"
+            android:src="@drawable/ic_inner_community_fab"
+            app:borderWidth="0dp"
+            app:fabSize="normal"
+            app:hoveredFocusedTranslationZ="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:rippleColor="@android:color/transparent"
+            app:showMotionSpec="@android:anim/cycle_interpolator" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
