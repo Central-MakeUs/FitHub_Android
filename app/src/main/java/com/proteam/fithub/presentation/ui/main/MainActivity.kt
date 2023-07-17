@@ -1,5 +1,6 @@
 package com.proteam.fithub.presentation.ui.main
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -10,6 +11,7 @@ import com.proteam.fithub.databinding.ActivityMainBinding
 import com.proteam.fithub.presentation.ui.main.community.CommunityFragment
 import com.proteam.fithub.presentation.ui.main.community.viewmodel.CommunityViewModel
 import com.proteam.fithub.presentation.ui.main.home.HomeFragment
+import com.proteam.fithub.presentation.ui.write.certificate.WriteOrModifyCertificateActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -54,6 +56,10 @@ class MainActivity : AppCompatActivity() {
     private fun changeFragments(fragment : Fragment, tag : String) {
         viewModel.setFragmentTag(tag)
         supportFragmentManager.beginTransaction().replace(R.id.main_layout_container, fragment).commit()
+    }
+
+    fun openWriteOrModifyCertificate(tag : String) {
+        startActivity(Intent(this, WriteOrModifyCertificateActivity::class.java).setType(tag))
     }
 
 

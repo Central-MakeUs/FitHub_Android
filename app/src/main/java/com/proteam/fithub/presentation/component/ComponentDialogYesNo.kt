@@ -56,6 +56,7 @@ class ComponentDialogYesNo(private val onActionClick : () -> Unit) : DialogFragm
             "NO_USER_INFO" -> case_NO_USER_INFO()
             "NO_ACCOUNT_INFO" -> case_NO_ACCOUNT_INFO()
             "4018" -> case_4018()
+            "BACK_PRESSED_WHILE_WRITE" -> case_BACK_PRESSED_WHILE_WRITE()
         }
     }
 
@@ -75,6 +76,12 @@ class ComponentDialogYesNo(private val onActionClick : () -> Unit) : DialogFragm
         binding.componentDialogTvTitle.text = "안내"
         binding.componentDialogTvNotice.text = "이미 가입된 휴대폰번호 입니다.\n로그인을 진행할까요?"
         binding.componentDialogTvAction.text = "로그인 하러가기"
+    }
+
+    private fun case_BACK_PRESSED_WHILE_WRITE() {
+        binding.componentDialogTvTitle.text = "작성을 종료하시겠습니까?"
+        binding.componentDialogTvNotice.text = "작성하신 내용이 저장되지 않습니다."
+        binding.componentDialogTvAction.text = "확인"
     }
 
     fun onActionClick() {

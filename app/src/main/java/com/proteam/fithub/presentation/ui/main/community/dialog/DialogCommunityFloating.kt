@@ -4,9 +4,11 @@ import android.animation.ObjectAnimator
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.core.animation.doOnEnd
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
@@ -15,7 +17,10 @@ import com.proteam.fithub.R
 import com.proteam.fithub.databinding.DialogCommunityFloatingBinding
 import com.proteam.fithub.presentation.ui.main.community.viewmodel.CommunityViewModel
 
-class DialogCommunityFloating : DialogFragment() {
+class DialogCommunityFloating(
+    private val certificate : () -> Unit,
+    private val board : () -> Unit
+) : DialogFragment() {
     private lateinit var binding: DialogCommunityFloatingBinding
     private val viewModel : CommunityViewModel by activityViewModels()
 
@@ -36,6 +41,7 @@ class DialogCommunityFloating : DialogFragment() {
         binding.viewModel = viewModel
     }
 
+
     override fun onResume() {
         super.onResume()
         dialog?.window?.setLayout(
@@ -47,10 +53,10 @@ class DialogCommunityFloating : DialogFragment() {
 
     fun setDismiss() {
         viewModel.closeFabDialog()
-        val anim = ObjectAnimator.ofFloat(binding.dialogCommunityFloatingFabWriteOnDialog as View, "rotation", -45f, 0f).setDuration(200)
+        val anim = ObjectAnimator.ofFloat(binding.dialogCommunityFloatingFabWriteOnDialog as View, "rotation", -45f, 0f).setDuration(100)
         anim.doOnEnd {
-            dismiss()
             initAnim()
+            dismiss()
         }
         anim.start()
     }
@@ -65,4 +71,13 @@ class DialogCommunityFloating : DialogFragment() {
         anim.start()
     }
 
+    fun onClickCertificate() {
+        setDismiss()
+        certificate.invoke()
+    }
+
+    fun onClickBoard() {
+        setDismiss()
+        board.invoke()
+    }
 }

@@ -13,10 +13,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp">
 
-        <androidx.appcompat.widget.AppCompatImageButton
+        <ImageButton
             android:id="@+id/item_sign_up_interest_sports_check_sports"
-            android:layout_width="106dp"
-            android:layout_height="106dp"
+            android:layout_width="74dp"
+            android:layout_height="74dp"
             common_setImageButton="@{sports.imageUrl}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

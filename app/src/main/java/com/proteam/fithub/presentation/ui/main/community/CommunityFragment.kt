@@ -2,6 +2,7 @@ package com.proteam.fithub.presentation.ui.main.community
 
 import android.animation.ObjectAnimator
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentCommunityBinding
+import com.proteam.fithub.presentation.ui.main.MainActivity
 import com.proteam.fithub.presentation.ui.main.community.adapter.CommunityPagerAdapter
 import com.proteam.fithub.presentation.ui.main.community.dialog.DialogCommunityFloating
 import com.proteam.fithub.presentation.ui.main.community.viewmodel.CommunityViewModel
@@ -68,9 +70,9 @@ class CommunityFragment : Fragment() {
 
     private fun observeForFab() {
         viewModel.isFabClicked.observe(viewLifecycleOwner) {
-            val anim = ObjectAnimator.ofFloat(binding.fgCommunityFabWrite as View, "rotation", 0f, 45f).setDuration(200)
+            val anim = ObjectAnimator.ofFloat(binding.fgCommunityFabWrite as View, "rotation", 0f, 45f).setDuration(100)
             anim.doOnEnd { _ ->
-                DialogCommunityFloating().show(requireActivity().supportFragmentManager, "!")
+                DialogCommunityFloating(::onCertificateClicked, ::onBoardClicked).show(requireActivity().supportFragmentManager, "!")
             }
             if(it) anim.start() else initAnim()
         }
@@ -79,6 +81,14 @@ class CommunityFragment : Fragment() {
     private fun initAnim() {
         val anim = ObjectAnimator.ofFloat(binding.fgCommunityFabWrite as View, "rotation", 45f, 0f).setDuration(1)
         anim.start()
+    }
+
+    private fun onCertificateClicked() {
+        (requireActivity() as MainActivity).openWriteOrModifyCertificate("Write")
+    }
+
+    private fun onBoardClicked() {
+        Log.d("----", "onBoardClicked: ")
     }
 
     /** Dummy **/

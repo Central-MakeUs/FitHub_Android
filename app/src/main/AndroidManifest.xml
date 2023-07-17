@@ -52,6 +52,8 @@
                     android:scheme="kakao${KAKAO_NATIVE_KEY}" />
             </intent-filter>
         </activity>
+        <activity android:name=".presentation.ui.write.certificate.WriteOrModifyCertificateActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
