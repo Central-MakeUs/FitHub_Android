@@ -33,6 +33,7 @@
                 android:src="@drawable/ic_community_floating_certificate"
                 android:paddingEnd="10dp"
                 android:layout_marginStart="20dp"
+                android:onClick="@{() -> dialog.onClickCertificate()}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="@id/dialog_community_floating_btn_certificate"
                 app:layout_constraintEnd_toStartOf="@id/dialog_community_floating_btn_certificate"
@@ -48,6 +49,7 @@
                 android:text="@string/community_floating_certificate"
                 android:textColor="@color/text_default"
                 android:textSize="14sp"
+                android:onClick="@{() -> dialog.onClickCertificate()}"
                 app:layout_constraintStart_toEndOf="@id/dialog_community_floating_iv_certificate"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -69,6 +71,7 @@
                 android:src="@drawable/ic_community_floating_board"
                 android:layout_marginStart="20dp"
                 android:paddingEnd="10dp"
+                android:onClick="@{() -> dialog.onClickBoard()}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/dialog_community_floating_btn_board"
                 app:layout_constraintBottom_toBottomOf="@id/dialog_community_floating_btn_board" />
@@ -83,6 +86,7 @@
                 android:text="@string/community_floating_board"
                 android:textColor="@color/text_default"
                 android:textSize="14sp"
+                android:onClick="@{() -> dialog.onClickBoard()}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/dialog_community_floating_iv_board"
