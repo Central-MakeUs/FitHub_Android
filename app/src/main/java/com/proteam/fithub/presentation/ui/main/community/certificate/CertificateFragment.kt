@@ -13,11 +13,15 @@ import com.google.android.material.chip.Chip
 import com.proteam.fithub.R
 import com.proteam.fithub.data.remote.response.ResponseExercises
 import com.proteam.fithub.databinding.FragmentCommunityCertifiateBinding
+import com.proteam.fithub.presentation.ui.main.community.certificate.adapter.CertificateAdapter
 import com.proteam.fithub.presentation.ui.main.community.viewmodel.CommunityViewModel
 
 class CertificateFragment : Fragment() {
     private lateinit var binding : FragmentCommunityCertifiateBinding
     private val viewModel : CommunityViewModel by activityViewModels()
+    private val certificateAdapter by lazy {
+        CertificateAdapter(::onHeartClicked, ::onCertificateClicked)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,6 +32,7 @@ class CertificateFragment : Fragment() {
 
         initBinding()
         initUi()
+        requestData()
         observeFilterExercises()
 
         return binding.root
@@ -41,6 +46,34 @@ class CertificateFragment : Fragment() {
 
     private fun initUi() {
         initChipGroup()
+        initRV()
+    }
+
+    private fun requestData() {
+        viewModel.requestCertificateItems()
+
+        observeData()
+    }
+
+    private fun observeData() {
+        viewModel.certificateItems.observe(viewLifecycleOwner) {
+            certificateAdapter.items = it
+            certificateAdapter.notifyItemRangeChanged(0, it.size)
+        }
+    }
+
+    private fun initRV() {
+        binding.fgCommunityCertificateRvCertificates.adapter = certificateAdapter
+    }
+
+    private fun onHeartClicked(index : Int) {
+        Log.e("----", "onHeartClicked: $index", )
+        //하트눌림 API
+    }
+
+    private fun onCertificateClicked(index : Int) {
+        Log.e("----", "onCertificateClicked: $index", )
+        //상세화면으로 이동 API
     }
 
     private fun initChipGroup() {
