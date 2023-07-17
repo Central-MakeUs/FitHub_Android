@@ -2,9 +2,9 @@
 <resources>
     <declare-styleable name="ComponentBigUser">
         <attr name="userProfile" format="reference"/> <!--String-->
-        <attr name="userNickName" format="reference|string"/>
-        <attr name="time" format="reference|string"/>
-        <attr name="exercise" format="reference|string"/>
-        <attr name="level" format="reference|string" />
+        <attr name="userNickName" format="string"/>
+        <attr name="time" format="string"/>
+        <attr name="exercise" format="string"/>
+        <attr name="level" format="string" />
     </declare-styleable>
 </resources>

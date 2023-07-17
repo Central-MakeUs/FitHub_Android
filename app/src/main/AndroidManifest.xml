@@ -54,6 +54,9 @@
         </activity>
         <activity android:name=".presentation.ui.write.certificate.WriteOrModifyCertificateActivity"
             android:exported="true" />
+
+        <activity android:name=".presentation.ui.detail.certificate.ExerciseCertificateDetailActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

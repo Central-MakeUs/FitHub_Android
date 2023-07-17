@@ -13,6 +13,7 @@ import com.google.android.material.chip.Chip
 import com.proteam.fithub.R
 import com.proteam.fithub.data.remote.response.ResponseExercises
 import com.proteam.fithub.databinding.FragmentCommunityCertifiateBinding
+import com.proteam.fithub.presentation.ui.main.MainActivity
 import com.proteam.fithub.presentation.ui.main.community.certificate.adapter.CertificateAdapter
 import com.proteam.fithub.presentation.ui.main.community.viewmodel.CommunityViewModel
 
@@ -72,7 +73,7 @@ class CertificateFragment : Fragment() {
     }
 
     private fun onCertificateClicked(index : Int) {
-        Log.e("----", "onCertificateClicked: $index", )
+        (requireActivity() as MainActivity).openCertificateDetailActivity(index)
         //상세화면으로 이동 API
     }
 

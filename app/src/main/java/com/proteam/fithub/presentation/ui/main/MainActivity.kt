@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.ActivityMainBinding
+import com.proteam.fithub.presentation.ui.detail.certificate.ExerciseCertificateDetailActivity
 import com.proteam.fithub.presentation.ui.main.community.CommunityFragment
 import com.proteam.fithub.presentation.ui.main.community.viewmodel.CommunityViewModel
 import com.proteam.fithub.presentation.ui.main.home.HomeFragment
@@ -60,6 +61,10 @@ class MainActivity : AppCompatActivity() {
 
     fun openWriteOrModifyCertificate(tag : String) {
         startActivity(Intent(this, WriteOrModifyCertificateActivity::class.java).setType(tag))
+    }
+
+    fun openCertificateDetailActivity(index : Int) {
+        startActivity(Intent(this, ExerciseCertificateDetailActivity::class.java).setType(index.toString()))
     }
 
 
