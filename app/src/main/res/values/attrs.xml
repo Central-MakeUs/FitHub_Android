@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ComponentBigUser">
+        <attr name="userProfile" format="reference"/> <!--String-->
+        <attr name="userNickName" format="reference|string"/>
+        <attr name="time" format="reference|string"/>
+        <attr name="exercise" format="reference|string"/>
+        <attr name="level" format="reference|string" />
+    </declare-styleable>
+</resources>
