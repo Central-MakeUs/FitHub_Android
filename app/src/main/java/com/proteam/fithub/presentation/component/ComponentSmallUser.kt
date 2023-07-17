@@ -7,13 +7,12 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
-import com.kakao.sdk.common.KakaoSdk.type
 import com.proteam.fithub.R
 import com.proteam.fithub.data.data.ComponentUserData
-import com.proteam.fithub.databinding.ComponentUserInfoBigBinding
+import com.proteam.fithub.databinding.ComponentUserInfoSmallBinding
 
-class ComponentBigUser(context : Context, attrs : AttributeSet) : ConstraintLayout(context, attrs) {
-    private lateinit var binding : ComponentUserInfoBigBinding
+class ComponentSmallUser(context : Context, attrs : AttributeSet) : ConstraintLayout(context, attrs) {
+    private lateinit var binding : ComponentUserInfoSmallBinding
 
     lateinit var userProfile : Drawable /** String **/
     lateinit var userNickName : String
@@ -22,7 +21,7 @@ class ComponentBigUser(context : Context, attrs : AttributeSet) : ConstraintLayo
     lateinit var date : String
 
     init {
-        context.obtainStyledAttributes(attrs, R.styleable.ComponentBigUser).getAttributeData()
+        context.obtainStyledAttributes(attrs, R.styleable.ComponentSmallUser).getAttributeData()
         initBinding()
         initUi()
     }
@@ -35,7 +34,7 @@ class ComponentBigUser(context : Context, attrs : AttributeSet) : ConstraintLayo
     }
 
     private fun initBinding() {
-        binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.component_user_info_big, this, false)
+        binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.component_user_info_small, this, false)
         addView(binding.root)
     }
 
@@ -44,10 +43,10 @@ class ComponentBigUser(context : Context, attrs : AttributeSet) : ConstraintLayo
     }
 
     private fun TypedArray.getAttributeData() {
-        userProfile = this.getDrawable(R.styleable.ComponentBigUser_big_userProfile)!!
-        userNickName = this.getString(R.styleable.ComponentBigUser_big_userNickName)!!
-        date = this.getString(R.styleable.ComponentBigUser_big_time)!!
-        userExercise = this.getString(R.styleable.ComponentBigUser_big_exercise)!!
-        userLevel = this.getString(R.styleable.ComponentBigUser_big_level)!!
+        userProfile = this.getDrawable(R.styleable.ComponentSmallUser_small_userProfile)!!
+        userNickName = this.getString(R.styleable.ComponentSmallUser_small_userNickName)!!
+        date = this.getString(R.styleable.ComponentSmallUser_small_time)!!
+        userExercise = this.getString(R.styleable.ComponentSmallUser_small_exercise)!!
+        userLevel = this.getString(R.styleable.ComponentSmallUser_small_level)!!
     }
 }

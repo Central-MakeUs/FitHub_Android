@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -38,20 +39,21 @@
             android:id="@+id/exercise_certificate_detail_layout_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:exercise="클라이밍"
             app:layout_constraintTop_toBottomOf="@id/exercise_certificate_detail_layout_toolbar"
-            app:level="1"
-            app:time="2023.07.18"
-            app:userNickName="춘배"
-            app:userProfile="@drawable/ic_launcher_background" />
+            app:big_exercise="클라이밍"
+            app:big_level="1"
+            app:big_time="2023.07.18"
+            app:big_userNickName="춘배"
+            app:big_userProfile="@drawable/ic_launcher_background" />
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="20dp"
             android:overScrollMode="never"
-            app:layout_constraintTop_toBottomOf="@id/exercise_certificate_detail_layout_user"
-            app:layout_constraintBottom_toTopOf="@id/exercise_certificate_detail_layout_comment">
+            android:fillViewport="true"
+            app:layout_constraintBottom_toTopOf="@id/exercise_certificate_detail_layout_comment"
+            app:layout_constraintTop_toBottomOf="@id/exercise_certificate_detail_layout_user">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -85,20 +87,20 @@
                     android:id="@+id/exercise_certificate_detail_tv_tag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="@id/exercise_certificate_detail_tv_content"
-                    app:layout_constraintTop_toBottomOf="@id/exercise_certificate_detail_tv_content"
-                    android:textColor="@color/purple_secondary"
-                    android:textAppearance="@style/Label_large_regular"
-                    android:includeFontPadding="false"
                     android:layout_marginTop="15dp"
-                    android:text="#클라이밍" />
+                    android:includeFontPadding="false"
+                    android:text="#클라이밍"
+                    android:textAppearance="@style/Label_large_regular"
+                    android:textColor="@color/purple_secondary"
+                    app:layout_constraintStart_toStartOf="@id/exercise_certificate_detail_tv_content"
+                    app:layout_constraintTop_toBottomOf="@id/exercise_certificate_detail_tv_content" />
 
                 <ImageView
                     android:id="@+id/exercise_certificate_detail_iv_heart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_heart_empty"
                     android:layout_marginTop="15dp"
+                    android:src="@drawable/ic_heart_empty"
                     app:layout_constraintStart_toStartOf="@id/exercise_certificate_detail_tv_tag"
                     app:layout_constraintTop_toBottomOf="@id/exercise_certificate_detail_tv_tag" />
 
@@ -107,56 +109,65 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
-                    android:text="123"
-
-                    android:textAppearance="@style/Body_small_regular"
-                    android:includeFontPadding="false"
-                    android:textColor="@color/text_sub02"
                     android:layout_marginStart="3dp"
-                    app:layout_constraintTop_toTopOf="@id/exercise_certificate_detail_iv_heart"
+
+                    android:includeFontPadding="false"
+                    android:text="123"
+                    android:textAppearance="@style/Body_small_regular"
+                    android:textColor="@color/text_sub02"
                     app:layout_constraintBottom_toBottomOf="@id/exercise_certificate_detail_iv_heart"
-                    app:layout_constraintStart_toEndOf="@id/exercise_certificate_detail_iv_heart"/>
+                    app:layout_constraintStart_toEndOf="@id/exercise_certificate_detail_iv_heart"
+                    app:layout_constraintTop_toTopOf="@id/exercise_certificate_detail_iv_heart" />
 
                 <ImageView
                     android:id="@+id/exercise_certificate_detail_iv_comment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_comment"
                     android:layout_marginStart="24dp"
-                    app:layout_constraintTop_toTopOf="@id/exercise_certificate_detail_iv_heart"
+                    android:src="@drawable/ic_comment"
                     app:layout_constraintBottom_toBottomOf="@id/exercise_certificate_detail_iv_heart"
-                    app:layout_constraintStart_toEndOf="@id/exercise_certificate_detail_tv_heart_count" />
+                    app:layout_constraintStart_toEndOf="@id/exercise_certificate_detail_tv_heart_count"
+                    app:layout_constraintTop_toTopOf="@id/exercise_certificate_detail_iv_heart" />
 
                 <TextView
                     android:id="@+id/exercise_certificate_detail_tv_comment_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
-                    android:text="23"
+                    android:layout_marginStart="3dp"
 
+                    android:text="23"
                     android:textAppearance="@style/Body_small_regular"
                     android:textColor="@color/text_sub02"
-                    android:layout_marginStart="3dp"
-                    app:layout_constraintTop_toTopOf="@id/exercise_certificate_detail_iv_comment"
                     app:layout_constraintBottom_toBottomOf="@id/exercise_certificate_detail_iv_comment"
-                    app:layout_constraintStart_toEndOf="@id/exercise_certificate_detail_iv_comment" />
+                    app:layout_constraintStart_toEndOf="@id/exercise_certificate_detail_iv_comment"
+                    app:layout_constraintTop_toTopOf="@id/exercise_certificate_detail_iv_comment" />
 
                 <View
                     android:id="@+id/exercise_certificate_detail_view_divider"
                     android:layout_width="match_parent"
                     android:layout_height="10dp"
-                    android:backgroundTint="@color/divider_01"
                     android:layout_marginTop="24dp"
+                    android:backgroundTint="@color/divider_01"
                     app:layout_constraintTop_toBottomOf="@id/exercise_certificate_detail_iv_heart" />
 
-
-
-
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/exercise_certificate_detail_rv_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:paddingHorizontal="20dp"
+                    android:overScrollMode="never"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toBottomOf="@id/exercise_certificate_detail_view_divider"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:listitem="@layout/item_community_comment"/>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/exercise_certificate_detail_layout_comment"
@@ -201,11 +212,11 @@
                     android:layout_marginVertical="7dp"
                     android:layout_marginStart="15dp"
                     android:background="@android:color/transparent"
+                    android:hint="@string/community_save_comment"
                     android:includeFontPadding="false"
                     android:textAppearance="@style/Body_medium_regular"
                     android:textColor="@color/text_default"
                     android:textColorHint="@color/text_info"
-                    android:hint="@string/community_save_comment"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/exercise_certificate_detail_btn_comment_save"
                     app:layout_constraintStart_toStartOf="parent"
@@ -216,9 +227,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="15dp"
+                    android:includeFontPadding="false"
                     android:text="@string/common_upload"
                     android:textAppearance="@style/Body_medium_medium"
-                    android:includeFontPadding="false"
                     android:textColor="@color/selector_tv_enabled_or_not"
                     app:layout_constraintBottom_toBottomOf="@id/exercise_certificate_detail_tv_comment"
                     app:layout_constraintEnd_toEndOf="parent" />

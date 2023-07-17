@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="15dp">
+
+        <com.proteam.fithub.presentation.component.ComponentSmallUser
+            android:id="@+id/item_community_comment_layout_user"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+
+            app:small_userProfile="@drawable/ic_launcher_background"
+            app:small_userNickName="춘배"
+            app:small_time="10분 전"
+            app:small_exercise="크로스핏"
+            app:small_level="1"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_three_dots"
+            app:layout_constraintBottom_toBottomOf="@id/item_community_comment_layout_user"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/item_community_comment_layout_user" />
+
+        <TextView
+            android:id="@+id/item_community_comment_tv_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="8dp"
+            android:includeFontPadding="false"
+            android:textAppearance="@style/Body_medium_regular"
+            android:textColor="@color/text_sub01"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/item_community_comment_layout_user"
+
+            android:text="댓글 코멘트 텍스트 댓글 코멘트 텍스트댓글 코멘트 텍스트댓글 코멘트 텍스트댓글 코멘트 텍스트댓글 코멘트 텍스트" />
+
+
+        <ImageView
+            android:id="@+id/item_community_comment_iv_heart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:src="@drawable/ic_heart_small_empty"
+
+            android:layout_marginTop="8dp"
+            android:paddingEnd="4dp"
+            app:layout_constraintTop_toBottomOf="@id/item_community_comment_tv_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/item_community_comment_tv_heart_count"
+            />
+
+        <TextView
+            android:id="@+id/item_community_comment_tv_heart_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="12"
+            android:textColor="@color/text_sub02"
+
+            android:textAppearance="@style/Label_small_regular"
+
+            app:layout_constraintTop_toTopOf="@id/item_community_comment_iv_heart"
+            app:layout_constraintBottom_toBottomOf="@id/item_community_comment_iv_heart"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

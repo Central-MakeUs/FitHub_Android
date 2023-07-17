@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="data"
+            type="com.proteam.fithub.data.data.ComponentUserData" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/component_user_big_iv_profile"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginVertical="4.5dp"
+            common_Circle_Image="@{data.userProfile}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/component_user_big_tv_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{data.nickname}"
+            android:textColor="@color/text_default"
+            android:textAppearance="@style/Body_medium_medium"
+            android:includeFontPadding="false"
+            android:layout_marginStart="10dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/component_user_big_iv_profile" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{data.date}"
+            android:textAppearance="@style/Body_small_regular"
+            android:includeFontPadding="false"
+            android:textColor="@color/icon_enabled"
+            app:layout_constraintStart_toStartOf="@id/component_user_big_tv_nickname"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
