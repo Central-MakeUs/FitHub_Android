@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.proteam.fithub.R
+import com.proteam.fithub.data.remote.response.ExamCertificateData
 import com.proteam.fithub.data.remote.response.ResponseExercises
 import com.proteam.fithub.domain.repository.ExerciseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,11 +25,14 @@ class CommunityViewModel @Inject constructor(
     private val _isRecentSort = MutableLiveData<Boolean>(true)
     val isRecentSort : LiveData<Boolean> = _isRecentSort
 
+    private val _certificateItems = MutableLiveData<MutableList<ExamCertificateData>>()
+    val certificateItems : LiveData<MutableList<ExamCertificateData>> = _certificateItems
+
     init {
-        loadExerciseFilterList()
+        requestExerciseFilterList()
     }
 
-    private fun loadExerciseFilterList() {
+    private fun requestExerciseFilterList() {
         viewModelScope.launch {
             exerciseRepository.requestExercises()
                 .onSuccess { _exerciseFilters.value = it as MutableList }
@@ -44,6 +49,17 @@ class CommunityViewModel @Inject constructor(
 
     fun closeFabDialog() {
         _isFabClicked.value = false
+    }
+
+    fun requestCertificateItems() {
+        _certificateItems.value = certificate()
+    }
+
+    /** Dummy **/
+    private fun certificate() : MutableList<ExamCertificateData> = mutableListOf<ExamCertificateData>().apply {
+        for(i in 0 until 6) {
+            add(ExamCertificateData(i, R.drawable.ic_launcher_background, true, 5))
+        }
     }
 
 

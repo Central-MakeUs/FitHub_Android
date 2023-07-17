@@ -72,6 +72,20 @@
         <item name="lineHeight">20dp</item>
     </style>
 
+    <style name="Body_small_regular" parent="Widget.AppCompat.TextView">
+        <item name="fontFamily">@font/pretendard_regular</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">12sp</item>
+        <item name="lineHeight">16dp</item>
+    </style>
+
+    <style name="Body_medium_medium" parent="Widget.AppCompat.TextView">
+        <item name="fontFamily">@font/pretendard_medium</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">14sp</item>
+        <item name="lineHeight">20dp</item>
+    </style>
+
     <style name="Body_small_medium" parent="Widget.AppCompat.TextView">
         <item name="fontFamily">@font/pretendard_medium</item>
         <item name="android:includeFontPadding">false</item>
@@ -91,6 +105,13 @@
         <item name="fontFamily">@font/pretendard_regular</item>
         <item name="android:includeFontPadding">false</item>
         <item name="android:textSize">12sp</item>
+        <item name="lineHeight">16dp</item>
+    </style>
+
+    <style name="Label_small_regular" parent="Widget.AppCompat.TextView">
+        <item name="fontFamily">@font/pretendard_regular</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">11sp</item>
         <item name="lineHeight">16dp</item>
     </style>
 

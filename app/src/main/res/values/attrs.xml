@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ComponentBigUser">
+        <attr name="big_userProfile" format="reference"/> <!--String-->
+        <attr name="big_userNickName" format="string"/>
+        <attr name="big_time" format="string"/>
+        <attr name="big_exercise" format="string"/>
+        <attr name="big_level" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="ComponentSmallUser">
+        <attr name="small_userProfile" format="reference"/> <!--String-->
+        <attr name="small_userNickName" format="string"/>
+        <attr name="small_time" format="string"/>
+        <attr name="small_exercise" format="string"/>
+        <attr name="small_level" format="string" />
+    </declare-styleable>
+</resources>
