@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="fragment"
+            type="com.proteam.fithub.presentation.ui.signup.finish.SignUpFinishFragment" />
 
         <variable
             name="viewModel"
@@ -73,8 +76,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/selector_bg_btn_signin"
-                android:enabled="false"
-
+                android:enabled="true"
+                android:onClick="@{() -> fragment.onFinishClicked()}"
                 android:fontFamily="@font/pretendard_medium"
                 android:includeFontPadding="false"
                 android:lineHeight="24dp"

@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentSignUpPhoneNumberAuthBinding
+import com.proteam.fithub.presentation.component.ComponentDialogYesNo
 import com.proteam.fithub.presentation.ui.signup.SignUpActivity
 import com.proteam.fithub.presentation.ui.signup.authcode.SignUpAuthCodeFragment
 import com.proteam.fithub.presentation.ui.signup.phone.dialog.SignUpPhoneNumberSelectTelecomDialog
@@ -109,13 +110,30 @@ class SignUpPhoneNumberFragment : Fragment() {
 
     private fun openCheckAuthCode() {
         saveUserInputData()
-        (requireActivity() as SignUpActivity).changeFragments(SignUpAuthCodeFragment())
+        requestAuthCode()
         hideKeyboard()
+    }
+
+    private fun requestAuthCode() {
+        viewModel.requestSMSAuthCode()
+        observeSmsSendState()
+    }
+
+    private fun observeSmsSendState() {
+        viewModel.smsSendState.observe(viewLifecycleOwner) {
+            if(it == 2000) (requireActivity() as SignUpActivity).changeFragments(SignUpAuthCodeFragment())
+            else if(it == 4018) ComponentDialogYesNo(::moveToSignIn).show(requireActivity().supportFragmentManager, "4018")
+        }
+    }
+
+    private fun moveToSignIn() {
+        requireActivity().finish()
     }
 
     private fun saveUserInputData() {
         viewModel.setUserPhoneNumber(binding.fgSignUpPhoneNumberEdtPhoneNumber.returnUserInputContent())
-        viewModel.setUserBirth(binding.fgSignUpBirthdayEdtBirth.getUserInputContent())
+        viewModel.setUserBirth(binding.fgSignUpBirthdayEdtBirth.getUserInputBirth())
+        viewModel.setUserGender(binding.fgSignUpBirthdayEdtBirth.getUserInputGender())
         viewModel.setUserName(binding.fgSignUpPhoneNumberEdtName.getUserInputContent())
     }
 

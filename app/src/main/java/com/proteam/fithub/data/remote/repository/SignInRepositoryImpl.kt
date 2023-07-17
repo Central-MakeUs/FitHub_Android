@@ -1,6 +1,7 @@
 package com.proteam.fithub.data.remote.repository
 
 import com.proteam.fithub.data.remote.request.RequestSignInKakao
+import com.proteam.fithub.data.remote.request.RequestSignInPhone
 import com.proteam.fithub.data.remote.response.ResponseSignIn
 import com.proteam.fithub.domain.repository.SignInRepository
 import com.proteam.fithub.domain.source.SharedPreferenceSource
@@ -16,7 +17,11 @@ class SignInRepositoryImpl @Inject constructor(
         return source.signInWithKakao(body)
     }
 
-    override suspend fun saveAccessToken(accessToken: String) {
-        localSource.saveAccessToken(accessToken)
+    override suspend fun signInWithPhone(body: RequestSignInPhone): Result<ResponseSignIn> {
+        return source.signInWithPhone(body)
+    }
+
+    override suspend fun saveUserData(userId: Int?, accessToken: String) {
+        localSource.saveAccessToken(userId, accessToken)
     }
 }

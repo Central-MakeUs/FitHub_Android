@@ -6,6 +6,7 @@ data class RequestSignUpWithPhone (
     val name : String,
     val nickname : String,
     val password : String,
-    val birthNum : String,
+    val birth : String,
+    val gender : String,
     val preferExercises : List<Int>
 )

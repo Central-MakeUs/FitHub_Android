@@ -277,7 +277,8 @@ class ComponentBirthDay(context: Context, attrs: AttributeSet) :
 
     /** Etc **/
 
-    fun getUserInputContent(): String =
+    fun getUserInputBirth(): String =
         binding.componentEdtInputBirthEdtBirthday.text.toString()
+    fun getUserInputGender() : String = binding.componentEdtInputBirthEdtGender.text.toString()
     fun birthDayEdt(): EditText = binding.componentEdtInputBirthEdtBirthday
 }

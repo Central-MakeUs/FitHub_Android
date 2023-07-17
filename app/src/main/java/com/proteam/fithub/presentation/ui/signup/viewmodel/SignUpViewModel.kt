@@ -9,8 +9,11 @@ import com.proteam.fithub.R
 import com.proteam.fithub.data.data.SignUpAgreement
 import com.proteam.fithub.data.remote.request.RequestCheckSMSAuth
 import com.proteam.fithub.data.remote.request.RequestSMSAuth
+import com.proteam.fithub.data.remote.request.RequestSignUpWithPhone
 import com.proteam.fithub.data.remote.response.ResponseExercises
+import com.proteam.fithub.data.remote.response.ResponseSignUpWithPhone
 import com.proteam.fithub.domain.repository.ExerciseRepository
+import com.proteam.fithub.domain.repository.SignInRepository
 import com.proteam.fithub.domain.repository.SignUpRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -18,6 +21,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
+    private val signInRepository: SignInRepository,
     private val signUpRepository: SignUpRepository,
     private val exerciseRepository: ExerciseRepository
 ) : ViewModel() {
@@ -52,12 +56,19 @@ class SignUpViewModel @Inject constructor(
     private val userInputPhoneNumber = MutableLiveData<String>()
     private val userInputName = MutableLiveData<String>()
     private val userInputBirth = MutableLiveData<String>()
+    private val userInputGender = MutableLiveData<String>()
     private val userInputPassword = MutableLiveData<String>()
 
     private val _userInputNickName = MutableLiveData<String>()
     val userInputNickName : LiveData<String> = _userInputNickName
 
     var selectTelecom = MutableLiveData<String>()
+
+    private val _smsSendState = MutableLiveData<Int>()
+    val smsSendState : LiveData<Int> = _smsSendState
+
+    private val _signUpState = MutableLiveData<Boolean>()
+    val signUpState : LiveData<Boolean> = _signUpState
 
     /** SignIn Type **/
     fun setType(type : String) {
@@ -135,6 +146,10 @@ class SignUpViewModel @Inject constructor(
         userInputBirth.value = birth
     }
 
+    fun setUserGender(gender : String) {
+        userInputGender.value = gender
+    }
+
     fun setUserPhoneNumber(number: String) {
         userInputPhoneNumber.value = number
     }
@@ -144,20 +159,22 @@ class SignUpViewModel @Inject constructor(
     fun requestSMSAuthCode() {
         viewModelScope.launch {
             signUpRepository.requestSMSAuth(RequestSMSAuth(userInputPhoneNumber.value!!))
-                .onSuccess { }
+                .onSuccess { _smsSendState.value = it.code }
+                .onFailure { _smsSendState.value = it.message?.toInt() }
         }
     }
 
     fun requestCheckSMSAuthCode(userAuthCode: String) {
         viewModelScope.launch {
-            signUpRepository.requestCheckSMSAuth(
-                RequestCheckSMSAuth(
-                    userInputPhoneNumber.value!!,
-                    userAuthCode.toInt()
-                )
-            )
-                .onSuccess { _authResult.value = it.code }
+            signUpRepository.requestCheckSMSAuth(RequestCheckSMSAuth(userInputPhoneNumber.value!!, userAuthCode.toInt()))
+                .onSuccess { _authResult.putValue(it.code) }
+                .onFailure { _authResult.putValue(it.message?.toInt()) }
         }
+        initAuthResult()
+    }
+
+    private fun MutableLiveData<*>.putValue(param : Any?) {
+        this.value = param
     }
 
     fun requestCheckSameNickName(nickname: String) {
@@ -174,13 +191,40 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    fun requestSignUpWithPhone() {
+    fun requestSignUp() {
         if(viewType.value == "Phone") {
-            //폰번호로 회원가입
+            requestPhoneSignUp()
         } else {
             //소셜 회원가입
         }
         Log.d("----", "showAllUserInputData: ${signUpAgreements.value?.count { it.checked } == 5} / ${userInputPhoneNumber.value} / ${userInputPassword.value} / ${userInputName.value} / ${_userInputNickName.value} / ${userInputBirth.value} / ${selectExercises.value}")
+    }
+
+    private fun requestPhoneSignUp() {
+        viewModelScope.launch {
+            signUpRepository.requestSignUpWithPhone(mapToSignUpWithPhone())
+                .onSuccess { setUserData(it.result) }
+        }
+    }
+
+    private fun mapToSignUpWithPhone() : RequestSignUpWithPhone{
+        return RequestSignUpWithPhone(
+            marketingAgree = signUpAgreements.value?.count { it.checked } == 5,
+            phoneNumber = userInputPhoneNumber.value!!,
+            name = userInputName.value!!,
+            nickname = userInputNickName.value!!,
+            password = userInputPassword.value!!,
+            birth = userInputBirth.value!!,
+            gender = userInputGender.value!!,
+            preferExercises = selectExercises.value!!
+        )
+    }
+
+    private fun setUserData(result : ResponseSignUpWithPhone.ResultSignUpWithPhone) {
+        viewModelScope.launch {
+            signInRepository.saveUserData(result.userId, result.accessToken)
+        }
+        _signUpState.value = true
     }
 
     /** Dummy **/

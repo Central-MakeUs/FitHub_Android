@@ -70,7 +70,14 @@ class SelectInterestSportsFragment : Fragment() {
 
     fun onFinishSignUp() {
         when(tag) {
-            "Sign_Up" -> (requireActivity() as SignUpActivity).changeFragments(SignUpFinishFragment())
+            "Sign_Up" -> viewModel.requestSignUp()
+        }
+        observeSignUpResult()
+    }
+
+    private fun observeSignUpResult() {
+        viewModel.signUpState.observe(viewLifecycleOwner) {
+            if(it) (requireActivity() as SignUpActivity).changeFragments(SignUpFinishFragment())
         }
     }
 }

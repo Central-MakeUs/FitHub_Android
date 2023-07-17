@@ -51,18 +51,15 @@ class FindPasswordAuthPhoneNumberFragment : Fragment() {
     }
 
     fun onSendAuthClicked() {
-        //:TODO 랜덤으로 다이얼로그 / 성공 구분해둠 수정해야함!!
-
         setUserNumber()
-        showDialogWhenNoAccount()
+        viewModel.requestUserNumberAvailable()
+        observePhoneNumberAvailable()
+    }
 
-        /*val rand = Random.nextInt(0,2)
-        if(rand == 0) {
-            (requireActivity() as FindPasswordActivity).changeFragments(SignUpAuthCodeFragment())
-        } else {
-
-        }*/
-
+    private fun observePhoneNumberAvailable() {
+        viewModel.userPhoneNumberAvailable.observe(viewLifecycleOwner) {
+            if(it) (requireActivity() as FindPasswordActivity).changeFragments(SignUpAuthCodeFragment()) else showDialogWhenNoAccount()
+        }
     }
 
     private fun setUserNumber() {
@@ -74,7 +71,7 @@ class FindPasswordAuthPhoneNumberFragment : Fragment() {
     }
 
     private fun onDialogActionClicked() {
-        startActivity(Intent(requireActivity(), SignUpActivity::class.java))
+        startActivity(Intent(requireActivity(), SignUpActivity::class.java).setType("Phone"))
         requireActivity().finish()
     }
 

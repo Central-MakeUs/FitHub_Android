@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentFinishSignUpBinding
+import com.proteam.fithub.presentation.ui.signup.SignUpActivity
 import com.proteam.fithub.presentation.ui.signup.viewmodel.SignUpViewModel
 
 class SignUpFinishFragment : Fragment() {
@@ -27,8 +28,14 @@ class SignUpFinishFragment : Fragment() {
     }
 
     private fun initBinding() {
+        binding.fragment = this
         binding.viewModel = viewModel
     }
 
-    //:TODO 버튼 클릭시 메인으로 보내기
+    fun onFinishClicked() {
+        when(tag) {
+            "Sign_Up" -> (requireActivity() as SignUpActivity).onFinishSignUp()
+        }
+
+    }
 }
