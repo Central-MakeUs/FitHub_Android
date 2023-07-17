@@ -1,19 +1,24 @@
-package com.proteam.fithub.presentation.ui.auth
+package com.proteam.fithub.presentation.ui.auth.signin
 
+import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.google.android.material.snackbar.Snackbar
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.ActivitySignInBinding
-import com.proteam.fithub.presentation.ui.auth.viewmodel.SignInViewModel
+import com.proteam.fithub.presentation.component.ComponentAlertToast
+import com.proteam.fithub.presentation.ui.auth.signin.viewmodel.SignInViewModel
+import com.proteam.fithub.presentation.ui.auth.signinphone.SignInWithPhoneNumberActivity
+import com.proteam.fithub.presentation.ui.main.MainActivity
 import com.proteam.fithub.presentation.ui.signup.SignUpActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -42,11 +47,10 @@ class SignInActivity : AppCompatActivity() {
             signInWithKakaoAccount()
         }
     }
-    fun signInWithKakaoTalk() {
+    private fun signInWithKakaoTalk() {
         UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
             if (error != null) {
                 if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
-                    /** 유저의 의도적인 로그인 취소의 경우 앱 끄기 **/
                     finish()
                     return@loginWithKakaoTalk
                 }
@@ -77,15 +81,37 @@ class SignInActivity : AppCompatActivity() {
 
     private fun observeSignInState() {
         viewModel.signInState.observe(this) {
-            startActivity(Intent(this, SignUpActivity::class.java).setType("Social"))
-            if(it == "회원가입") {
-
+            if(it == 2004) {
+                openMainActivity()
+            } else if(it == 2005) {
+                openSocialSignUp()
             }
         }
     }
     
     fun onPhoneSignInClicked() {
-        // TODO: 추후 Result를 받아와, 현재 페이지를 Finish할지 여부를 판단해야 할 듯 하다. 
-        startActivity(Intent(this, SignInWithPhoneNumberActivity::class.java))
+        /** 로그인 화면 **/
+        this.requestProcessFinished.launch(Intent(this, SignInWithPhoneNumberActivity::class.java))
     }
+
+    private fun openSocialSignUp() {
+        /** 회원가입 화면 **/
+        this.requestProcessFinished.launch(Intent(this, SignUpActivity::class.java).setType("Social"))
+    }
+
+    private fun openMainActivity() {
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
+    }
+
+    private val requestProcessFinished =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                val state = it.data!!.extras?.get("state") as Boolean
+                if(state) {
+                    finish()
+                    startActivity(Intent(this, MainActivity::class.java))
+                }
+            }
+        }
 }

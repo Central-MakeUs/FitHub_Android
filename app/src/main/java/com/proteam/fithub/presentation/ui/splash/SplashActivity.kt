@@ -4,8 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.proteam.fithub.presentation.ui.auth.SignInActivity
-import com.proteam.fithub.presentation.ui.main.MainActivity
+import com.proteam.fithub.presentation.ui.auth.signin.SignInActivity
 
 class SplashActivity : AppCompatActivity(){
 

@@ -5,7 +5,7 @@
     <data>
         <variable
             name="activity"
-            type="com.proteam.fithub.presentation.ui.auth.SignInWithPhoneNumberActivity" />
+            type="com.proteam.fithub.presentation.ui.auth.signinphone.SignInWithPhoneNumberActivity" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -24,6 +24,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_arrow_back"
                 app:tint="@color/icon_default"
+                android:onClick="@{() -> activity.onBackPress()}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

@@ -54,8 +54,8 @@ class ComponentDialogYesNo(private val onActionClick : () -> Unit) : DialogFragm
     private fun initUi() {
         when(tag) {
             "NO_USER_INFO" -> case_NO_USER_INFO()
-            "ALREADY_SIGN_UP_NUMBER" -> case_ALREADY_SIGN_UP_NUMBER()
             "NO_ACCOUNT_INFO" -> case_NO_ACCOUNT_INFO()
+            "4018" -> case_4018()
         }
     }
 
@@ -65,16 +65,16 @@ class ComponentDialogYesNo(private val onActionClick : () -> Unit) : DialogFragm
         binding.componentDialogTvAction.text = "회원가입 하기"
     }
 
-    private fun case_ALREADY_SIGN_UP_NUMBER() {
-        binding.componentDialogTvTitle.text = "안내"
-        binding.componentDialogTvNotice.text = "이미 가입된 휴대폰번호입니다.\n로그인을 진행할까요?"
-        binding.componentDialogTvAction.text = "로그인 하러가기"
-    }
-
     private fun case_NO_ACCOUNT_INFO() {
         binding.componentDialogTvTitle.text = "미가입 계정"
         binding.componentDialogTvNotice.text = "해당 번호로 가입된 계정이 없습니다."
         binding.componentDialogTvAction.text = "회원가입 하기"
+    }
+
+    private fun case_4018() {
+        binding.componentDialogTvTitle.text = "안내"
+        binding.componentDialogTvNotice.text = "이미 가입된 휴대폰번호 입니다.\n로그인을 진행할까요?"
+        binding.componentDialogTvAction.text = "로그인 하러가기"
     }
 
     fun onActionClick() {

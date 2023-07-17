@@ -13,11 +13,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentSignUpAuthCodeBinding
+import com.proteam.fithub.presentation.component.ComponentAlertToast
 import com.proteam.fithub.presentation.ui.findpassword.FindPasswordActivity
 import com.proteam.fithub.presentation.ui.findpassword.viewmodel.FindPasswordViewModel
 import com.proteam.fithub.presentation.ui.signup.SignUpActivity
 import com.proteam.fithub.presentation.ui.signup.password.SignUpSetPasswordFragment
 import com.proteam.fithub.presentation.ui.signup.viewmodel.SignUpViewModel
+import com.proteam.fithub.presentation.util.FithubToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,6 +29,8 @@ class SignUpAuthCodeFragment : Fragment() {
 
     private val findPasswordViewModel : FindPasswordViewModel by activityViewModels()
     private val signUpViewModel : SignUpViewModel by activityViewModels()
+
+    private val alertToast = ComponentAlertToast()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,14 +51,13 @@ class SignUpAuthCodeFragment : Fragment() {
 
     private fun validateTAG() {
         when(tag) {
-            "SignUp" -> {}
+            "Sign_Up" -> {}
             "Find_Password" -> {}
         }
     }
 
     private fun requestAuthCode() {
         when(tag) {
-            "SignUp" -> { (signUpViewModel.requestSMSAuthCode()) }
             "Find_Password" -> { findPasswordViewModel.requestSMSAuthCode() }
         }
 
@@ -122,7 +125,7 @@ class SignUpAuthCodeFragment : Fragment() {
             if(it == 2000) {
                 (requireActivity() as SignUpActivity).changeFragments(SignUpSetPasswordFragment())
                 signUpViewModel.initAuthResult()
-            } else {
+            } else if(it in 4000..4999){
                 checkWhenNumberAuthFailed(it)
             }
         }
@@ -133,13 +136,14 @@ class SignUpAuthCodeFragment : Fragment() {
             if(it == 2000) {
                 (requireActivity() as FindPasswordActivity).changeFragments(SignUpSetPasswordFragment())
                 findPasswordViewModel.initAuthResult()
-            } else {
+            } else if(it in 4000..4999) {
                 checkWhenNumberAuthFailed(it)
             }
         }
     }
 
     private fun checkWhenNumberAuthFailed(code : Int) {
-        //:TODO 인증번호 실패했을 때 에러코드 분기처리
+        binding.fgSignUpAuthCodeBtnNext.isEnabled = false
+        alertToast.show(requireActivity().supportFragmentManager, code.toString())
     }
 }

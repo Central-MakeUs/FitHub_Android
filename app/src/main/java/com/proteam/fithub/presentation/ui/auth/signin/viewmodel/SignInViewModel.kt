@@ -1,6 +1,5 @@
-package com.proteam.fithub.presentation.ui.auth.viewmodel
+package com.proteam.fithub.presentation.ui.auth.signin.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,27 +13,26 @@ import javax.inject.Inject
 @HiltViewModel
 class SignInViewModel @Inject constructor(private val signInRepo : SignInRepository,
 ): ViewModel() {
-    private val _signInState = MutableLiveData<String>()
-    val signInState : LiveData<String> = _signInState
+    private val _signInState = MutableLiveData<Int>()
+    val signInState : LiveData<Int> = _signInState
 
     fun sendKakaoToken(signatureID : Long) {
         viewModelScope.launch {
             signInRepo.signInWithKakao(RequestSignInKakao(signatureID.toString()))
                 .onSuccess {
-                    saveUserJWT(it.result.accessToken)
-                    setState(if(it.code == 2004) "로그인" else if(it.code == 2005) "회원가입" else "실패")
+                    saveUserJWT(it.result.jwt)
+                    setState(it.code)
                 }
-                .onFailure { setState("카카오 로그인에 실패했습니다.") }
         }
     }
 
     fun saveUserJWT(jwt : String) {
         viewModelScope.launch {
-            signInRepo.saveAccessToken(jwt)
+            signInRepo.saveUserData(null, jwt)
         }
     }
 
-    fun setState(state : String) {
+    fun setState(state : Int) {
         _signInState.value = state
     }
 }
