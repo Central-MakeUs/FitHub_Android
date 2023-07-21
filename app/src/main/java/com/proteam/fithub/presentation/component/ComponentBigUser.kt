@@ -14,24 +14,15 @@ import com.proteam.fithub.databinding.ComponentUserInfoBigBinding
 
 class ComponentBigUser(context : Context, attrs : AttributeSet) : ConstraintLayout(context, attrs) {
     private lateinit var binding : ComponentUserInfoBigBinding
-
-    lateinit var userProfile : Drawable /** String **/
-    lateinit var userNickName : String
-    lateinit var userExercise : String
-    lateinit var userLevel : String
-    lateinit var date : String
+    private lateinit var userData : ComponentUserData
 
     init {
-        context.obtainStyledAttributes(attrs, R.styleable.ComponentBigUser).getAttributeData()
         initBinding()
-        initUi()
     }
 
-    private fun getUserData() : ComponentUserData {
-        return ComponentUserData(
-            userProfile, userNickName, date, userExercise, userLevel
-        )
-
+    fun getUserData(userData : ComponentUserData) {
+        this.userData = userData
+        initUi()
     }
 
     private fun initBinding() {
@@ -40,14 +31,8 @@ class ComponentBigUser(context : Context, attrs : AttributeSet) : ConstraintLayo
     }
 
     private fun initUi() {
-        binding.data = getUserData()
-    }
-
-    private fun TypedArray.getAttributeData() {
-        userProfile = this.getDrawable(R.styleable.ComponentBigUser_big_userProfile)!!
-        userNickName = this.getString(R.styleable.ComponentBigUser_big_userNickName)!!
-        date = this.getString(R.styleable.ComponentBigUser_big_time)!!
-        userExercise = this.getString(R.styleable.ComponentBigUser_big_exercise)!!
-        userLevel = this.getString(R.styleable.ComponentBigUser_big_level)!!
+        binding.data = userData
+        binding.componentUserBigLayoutExercise.getExercise(userData.exercise)
+        binding.componentUserBigLayoutLevel.getLevel(userData.level)
     }
 }

@@ -1,5 +1,6 @@
 package com.proteam.fithub.presentation.util
 
+import android.util.Log
 import com.proteam.fithub.presentation.util.ErrorConverter.convertAndGetCode
 
 import okhttp3.ResponseBody
@@ -7,7 +8,7 @@ import retrofit2.Response
 
 object ErrorConverter {
     fun ResponseBody.convertAndGetCode() : Int {
-        return this.string().split(",")[1].split(":")[1].toInt()
+        return this.string().split(",")[1].split(":")[1].trim().toInt()
     }
 
     fun setValidate(res : Response<*>) : Result<Any> {

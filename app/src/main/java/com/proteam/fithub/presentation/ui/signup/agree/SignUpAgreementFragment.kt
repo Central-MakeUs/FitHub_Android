@@ -16,6 +16,7 @@ import com.proteam.fithub.presentation.ui.signup.interest.SelectInterestSportsFr
 import com.proteam.fithub.presentation.ui.signup.password.SignUpSetPasswordFragment
 import com.proteam.fithub.presentation.ui.signup.phone.SignUpPhoneNumberFragment
 import com.proteam.fithub.presentation.ui.signup.profile.SignUpUserProfileFragment
+import com.proteam.fithub.presentation.ui.signup.social.SignUpSocialFragment
 import com.proteam.fithub.presentation.ui.signup.viewmodel.SignUpViewModel
 
 class SignUpAgreementFragment : Fragment() {
@@ -73,7 +74,11 @@ class SignUpAgreementFragment : Fragment() {
     }
 
     fun onNextBtnClicked() {
-        (requireActivity() as SignUpActivity).changeFragments(SignUpPhoneNumberFragment())
+        when(tag) {
+            "Phone" -> (requireActivity() as SignUpActivity).changeFragments(SignUpPhoneNumberFragment())
+            "Social" -> (requireActivity() as SignUpActivity).changeFragments(SignUpSocialFragment())
+        }
+
     }
 
 }

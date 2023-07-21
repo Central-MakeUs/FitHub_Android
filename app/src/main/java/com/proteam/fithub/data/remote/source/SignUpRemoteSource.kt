@@ -6,8 +6,10 @@ import com.proteam.fithub.data.remote.request.RequestCheckSMSAuth
 import com.proteam.fithub.data.remote.request.RequestPhoneNumberAvailable
 import com.proteam.fithub.data.remote.request.RequestSMSAuth
 import com.proteam.fithub.data.remote.request.RequestSignUpWithPhone
+import com.proteam.fithub.data.remote.request.RequestSignUpWithSocial
 import com.proteam.fithub.data.remote.response.ResponseChangePassword
 import com.proteam.fithub.data.remote.response.ResponseSignUpWithPhone
+import com.proteam.fithub.data.remote.response.ResponseSignUpWithSocial
 import com.proteam.fithub.data.remote.service.SignUpService
 import com.proteam.fithub.domain.source.SignUpSource
 import com.proteam.fithub.presentation.util.BaseResponse
@@ -40,6 +42,11 @@ class SignUpRemoteSource @Inject constructor(private val service : SignUpService
     override suspend fun requestSignUpWithPhone(body: RequestSignUpWithPhone): Result<ResponseSignUpWithPhone> {
         val res = service.requestSignUpWithPhone(body)
         return setValidate(res) as Result<ResponseSignUpWithPhone>
+    }
+
+    override suspend fun requestSignUpWithSocial(body: RequestSignUpWithSocial): Result<ResponseSignUpWithSocial> {
+        val res = service.requestSignUpWithSocial(body)
+        return setValidate(res) as Result<ResponseSignUpWithSocial>
     }
 
     override suspend fun requestChangePassword(body: RequestChangePassword): Result<ResponseChangePassword> {

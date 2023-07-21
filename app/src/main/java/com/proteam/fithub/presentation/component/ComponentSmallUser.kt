@@ -13,24 +13,15 @@ import com.proteam.fithub.databinding.ComponentUserInfoSmallBinding
 
 class ComponentSmallUser(context : Context, attrs : AttributeSet) : ConstraintLayout(context, attrs) {
     private lateinit var binding : ComponentUserInfoSmallBinding
-
-    lateinit var userProfile : Drawable /** String **/
-    lateinit var userNickName : String
-    lateinit var userExercise : String
-    lateinit var userLevel : String
-    lateinit var date : String
+    private lateinit var userData : ComponentUserData
 
     init {
-        context.obtainStyledAttributes(attrs, R.styleable.ComponentSmallUser).getAttributeData()
         initBinding()
-        initUi()
     }
 
-    private fun getUserData() : ComponentUserData {
-        return ComponentUserData(
-            userProfile, userNickName, date, userExercise, userLevel
-        )
-
+    fun getUserData(userData : ComponentUserData) {
+        this.userData = userData
+        initUi()
     }
 
     private fun initBinding() {
@@ -39,14 +30,8 @@ class ComponentSmallUser(context : Context, attrs : AttributeSet) : ConstraintLa
     }
 
     private fun initUi() {
-        binding.data = getUserData()
-    }
-
-    private fun TypedArray.getAttributeData() {
-        userProfile = this.getDrawable(R.styleable.ComponentSmallUser_small_userProfile)!!
-        userNickName = this.getString(R.styleable.ComponentSmallUser_small_userNickName)!!
-        date = this.getString(R.styleable.ComponentSmallUser_small_time)!!
-        userExercise = this.getString(R.styleable.ComponentSmallUser_small_exercise)!!
-        userLevel = this.getString(R.styleable.ComponentSmallUser_small_level)!!
+        binding.data = userData
+        binding.componentUserSmallLayoutExercise.getExercise(userData.exercise)
+        binding.componentUserSmallLayoutLevel.getLevel(userData.level)
     }
 }

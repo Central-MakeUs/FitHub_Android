@@ -7,12 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.animation.doOnEnd
+import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.chip.Chip
 import com.google.android.material.tabs.TabLayoutMediator
 import com.proteam.fithub.R
+import com.proteam.fithub.data.remote.response.ResponseExercises
 import com.proteam.fithub.databinding.FragmentCommunityBinding
 import com.proteam.fithub.presentation.ui.main.MainActivity
 import com.proteam.fithub.presentation.ui.main.community.adapter.CommunityPagerAdapter
@@ -35,8 +38,10 @@ class CommunityFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_community, container, false)
+
         initBinding()
         initUi()
+        observeFilterExercises()
 
 
         return binding.root
@@ -51,6 +56,7 @@ class CommunityFragment : Fragment() {
     private fun initUi() {
         initPager()
         initFab()
+        initChipGroup()
     }
 
     private fun initPager() {
@@ -89,6 +95,72 @@ class CommunityFragment : Fragment() {
 
     private fun onBoardClicked() {
         Log.d("----", "onBoardClicked: ")
+    }
+
+    private fun initChipGroup() {
+        binding.fgCommunityChipgroupExerciseFilter.apply {
+            isSingleSelection = true
+
+            setOnCheckedStateChangeListener { _, _ ->
+                if(checkedChipId == -1) return@setOnCheckedStateChangeListener
+
+                for(i in 0 until this.childCount) {
+                    this[i].isClickable = true
+                }
+                this[checkedChipId].isClickable = false
+                requestAPI(checkedChipId)
+            }
+        }
+    }
+
+    private fun observeFilterExercises() {
+        viewModel.exerciseFilters.observe(viewLifecycleOwner) {
+            addChips(it)
+        }
+    }
+
+    private fun addChips(items : MutableList<ResponseExercises.ExercisesList>) {
+        binding.fgCommunityChipgroupExerciseFilter.apply {
+            for(i in getChipList(items)) {
+                this.addView(i)
+            }
+            this[0].id.apply {
+                check(this)
+                requestAPI(this)
+            }
+        }
+    }
+
+    private fun requestAPI(checkedId : Int) {
+        Log.d("----", "initChipGroup: ${checkedId}")
+    }
+
+    private fun getChipList(items : MutableList<ResponseExercises.ExercisesList>) : List<Chip> {
+        return mutableListOf<Chip>().apply {
+            for(item in items) {
+                add(Chip(requireContext()).apply {
+                    id = item.id
+                    text = item.name
+                    setChipStyles()
+                })
+            }
+            add(0, Chip(requireContext()).apply {
+                id = 0
+                text = "전체"
+                setChipStyles()
+            })
+        }
+    }
+
+    private fun Chip.setChipStyles() {
+        this.apply {
+            setTextAppearance(R.style.Certificate_Chip_Text_Style)
+            setChipBackgroundColorResource(R.color.selector_bg_chip_selected)
+            setChipStrokeColorResource(R.color.selector_stroke_chip_selected)
+            chipStrokeWidth = 0.5F
+            isCheckable = true
+            isCheckedIconVisible = false
+        }
     }
 
     /** Dummy **/

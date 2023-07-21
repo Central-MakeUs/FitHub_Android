@@ -41,7 +41,7 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun initFragments() {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.sign_up_layout_container, if(viewModel.viewType.value == "Phone") SignUpAgreementFragment() else SignUpSocialFragment()).commit()
+            .replace(R.id.sign_up_layout_container, SignUpAgreementFragment(), viewModel.viewType.value).commit()
     }
 
     fun changeFragments(fragment : Fragment) {
