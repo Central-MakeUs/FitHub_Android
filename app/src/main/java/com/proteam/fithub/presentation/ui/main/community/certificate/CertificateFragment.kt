@@ -34,7 +34,6 @@ class CertificateFragment : Fragment() {
         initBinding()
         initUi()
         requestData()
-        observeFilterExercises()
 
         return binding.root
     }
@@ -46,7 +45,6 @@ class CertificateFragment : Fragment() {
     }
 
     private fun initUi() {
-        initChipGroup()
         initRV()
     }
 
@@ -77,68 +75,4 @@ class CertificateFragment : Fragment() {
         //상세화면으로 이동 API
     }
 
-    private fun initChipGroup() {
-        binding.fgCommunityCertificateChipgroupExerciseFilter.apply {
-            isSingleSelection = true
-
-            setOnCheckedStateChangeListener { _, _ ->
-                if(checkedChipId == -1) return@setOnCheckedStateChangeListener
-                for(i in 0 until this.childCount) {
-                    this[i].isClickable = true
-                }
-                this[checkedChipId].isClickable = false
-                requestAPI(checkedChipId)
-            }
-        }
-    }
-
-    private fun observeFilterExercises() {
-        viewModel.exerciseFilters.observe(viewLifecycleOwner) {
-            addChips(it)
-        }
-    }
-
-    private fun addChips(items : MutableList<ResponseExercises.ExercisesList>) {
-        binding.fgCommunityCertificateChipgroupExerciseFilter.apply {
-            for(i in getChipList(items)) {
-                this.addView(i)
-            }
-            this[0].id.apply {
-                check(this)
-                requestAPI(this)
-            }
-        }
-    }
-
-    private fun requestAPI(checkedId : Int) {
-        Log.d("----", "initChipGroup: ${checkedId}")
-    }
-
-    private fun getChipList(items : MutableList<ResponseExercises.ExercisesList>) : List<Chip> {
-        return mutableListOf<Chip>().apply {
-            for(item in items) {
-                add(Chip(requireContext()).apply {
-                    id = item.id
-                    text = item.name
-                    setChipStyles()
-                })
-            }
-            add(0, Chip(requireContext()).apply {
-                id = 0
-                text = "전체"
-                setChipStyles()
-            })
-        }
-    }
-
-    private fun Chip.setChipStyles() {
-        this.apply {
-            setTextAppearance(R.style.Certificate_Chip_Text_Style)
-            setChipBackgroundColorResource(R.color.selector_bg_chip_selected)
-            setChipStrokeColorResource(R.color.selector_stroke_chip_selected)
-            chipStrokeWidth = 0.5F
-            isCheckable = true
-            isCheckedIconVisible = false
-        }
-    }
 }

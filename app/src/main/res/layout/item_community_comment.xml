@@ -3,6 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,17 +18,14 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-
-            app:small_userProfile="@drawable/ic_launcher_background"
-            app:small_userNickName="춘배"
-            app:small_time="10분 전"
-            app:small_exercise="크로스핏"
-            app:small_level="1"/>
+            app:layout_constraintEnd_toStartOf="@id/item_community_comment_btn_etc"
+            android:layout_marginEnd="10dp" />
 
         <ImageView
+            android:id="@+id/item_community_comment_btn_etc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_three_dots"
+            android:src="@drawable/ic_three_dots_small"
             app:layout_constraintBottom_toBottomOf="@id/item_community_comment_layout_user"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/item_community_comment_layout_user" />

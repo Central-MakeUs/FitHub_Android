@@ -1,6 +1,5 @@
 package com.proteam.fithub.presentation.ui.signup.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,8 +9,10 @@ import com.proteam.fithub.data.data.SignUpAgreement
 import com.proteam.fithub.data.remote.request.RequestCheckSMSAuth
 import com.proteam.fithub.data.remote.request.RequestSMSAuth
 import com.proteam.fithub.data.remote.request.RequestSignUpWithPhone
+import com.proteam.fithub.data.remote.request.RequestSignUpWithSocial
 import com.proteam.fithub.data.remote.response.ResponseExercises
 import com.proteam.fithub.data.remote.response.ResponseSignUpWithPhone
+import com.proteam.fithub.data.remote.response.ResponseSignUpWithSocial
 import com.proteam.fithub.domain.repository.ExerciseRepository
 import com.proteam.fithub.domain.repository.SignInRepository
 import com.proteam.fithub.domain.repository.SignUpRepository
@@ -195,15 +196,14 @@ class SignUpViewModel @Inject constructor(
         if(viewType.value == "Phone") {
             requestPhoneSignUp()
         } else {
-            //소셜 회원가입
+            requestSocialSignUp()
         }
-        Log.d("----", "showAllUserInputData: ${signUpAgreements.value?.count { it.checked } == 5} / ${userInputPhoneNumber.value} / ${userInputPassword.value} / ${userInputName.value} / ${_userInputNickName.value} / ${userInputBirth.value} / ${selectExercises.value}")
     }
 
     private fun requestPhoneSignUp() {
         viewModelScope.launch {
             signUpRepository.requestSignUpWithPhone(mapToSignUpWithPhone())
-                .onSuccess { setUserData(it.result) }
+                .onSuccess { setUserDataWhenPhone(it.result) }
         }
     }
 
@@ -220,9 +220,34 @@ class SignUpViewModel @Inject constructor(
         )
     }
 
-    private fun setUserData(result : ResponseSignUpWithPhone.ResultSignUpWithPhone) {
+    private fun requestSocialSignUp() {
+        viewModelScope.launch {
+            signUpRepository.requestSignUpWithSocial(mapToSignUpWithSocial())
+                .onSuccess { setUserDataWhenSocial(it.result) }
+        }
+    }
+
+    private fun mapToSignUpWithSocial() : RequestSignUpWithSocial {
+        return RequestSignUpWithSocial(
+            marketingAgree = signUpAgreements.value?.count { it.checked } == 5,
+            name = userInputName.value!!,
+            nickname = userInputNickName.value!!,
+            birth = userInputBirth.value!!,
+            gender = userInputGender.value!!,
+            preferExercises = selectExercises.value!!
+        )
+    }
+
+    private fun setUserDataWhenPhone(result : ResponseSignUpWithPhone.ResultSignUpWithPhone) {
         viewModelScope.launch {
             signInRepository.saveUserData(result.userId, result.accessToken)
+        }
+        _signUpState.value = true
+    }
+
+    private fun setUserDataWhenSocial(result : ResponseSignUpWithSocial.ResultSignUpWithSocial) {
+        viewModelScope.launch {
+            signInRepository.saveUserData(result.userId, null)
         }
         _signUpState.value = true
     }

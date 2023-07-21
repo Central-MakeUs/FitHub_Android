@@ -21,7 +21,7 @@ class SignInRepositoryImpl @Inject constructor(
         return source.signInWithPhone(body)
     }
 
-    override suspend fun saveUserData(userId: Int?, accessToken: String) {
+    override suspend fun saveUserData(userId: Int?, accessToken: String?) {
         localSource.saveAccessToken(userId, accessToken)
     }
 }

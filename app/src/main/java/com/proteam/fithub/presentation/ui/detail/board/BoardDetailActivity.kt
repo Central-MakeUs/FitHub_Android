@@ -1,15 +1,20 @@
-package com.proteam.fithub.presentation.ui.detail.certificate
+package com.proteam.fithub.presentation.ui.detail.board
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.proteam.fithub.R
 import com.proteam.fithub.data.data.ComponentUserData
-import com.proteam.fithub.databinding.ActivityExerciseCertificateDetailBinding
+import com.proteam.fithub.databinding.ActivityBoardDetailBinding
 import com.proteam.fithub.presentation.ui.detail.adapter.CommunityDetailCommentAdapter
+import com.proteam.fithub.presentation.ui.detail.board.adapter.BoardImageAdapter
 
-class ExerciseCertificateDetailActivity : AppCompatActivity() {
-    private lateinit var binding : ActivityExerciseCertificateDetailBinding
+class BoardDetailActivity : AppCompatActivity() {
+    private lateinit var binding : ActivityBoardDetailBinding
+
+    private val boardImageAdapter by lazy {
+        BoardImageAdapter()
+    }
 
     private val commentAdapter by lazy {
         CommunityDetailCommentAdapter(::onCommentHeartClicked)
@@ -17,7 +22,7 @@ class ExerciseCertificateDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_exercise_certificate_detail)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_board_detail)
 
         initUi()
 
@@ -25,8 +30,9 @@ class ExerciseCertificateDetailActivity : AppCompatActivity() {
 
     private fun initUi() {
         initCommentRV()
+        initImageRV()
 
-        binding.exerciseCertificateDetailLayoutUser.getUserData(
+        binding.boardDetailLayoutUser.getUserData(
             ComponentUserData(
                 R.drawable.ic_launcher_background,
                 "춘배",
@@ -35,10 +41,15 @@ class ExerciseCertificateDetailActivity : AppCompatActivity() {
                 "1"
             )
         )
+
     }
 
     private fun initCommentRV() {
-        binding.exerciseCertificateDetailRvComment.adapter = commentAdapter
+        binding.boardDetailRvComment.adapter = commentAdapter
+    }
+
+    private fun initImageRV() {
+        binding.boardDetailRvImages.adapter = boardImageAdapter
     }
 
     private fun onCommentHeartClicked(index : Int) {

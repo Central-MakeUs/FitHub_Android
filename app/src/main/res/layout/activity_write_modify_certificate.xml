@@ -40,7 +40,7 @@
                 android:id="@+id/write_modify_certificate_tv_toolbar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:lineHeight="24dp"
+                android:textAppearance="@style/Title_medium_semibold"
                 android:textColor="@color/text_default"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"

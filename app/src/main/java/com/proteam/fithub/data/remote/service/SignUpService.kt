@@ -5,8 +5,10 @@ import com.proteam.fithub.data.remote.request.RequestCheckSMSAuth
 import com.proteam.fithub.data.remote.request.RequestPhoneNumberAvailable
 import com.proteam.fithub.data.remote.request.RequestSMSAuth
 import com.proteam.fithub.data.remote.request.RequestSignUpWithPhone
+import com.proteam.fithub.data.remote.request.RequestSignUpWithSocial
 import com.proteam.fithub.data.remote.response.ResponseChangePassword
 import com.proteam.fithub.data.remote.response.ResponseSignUpWithPhone
+import com.proteam.fithub.data.remote.response.ResponseSignUpWithSocial
 import com.proteam.fithub.presentation.util.BaseResponse
 import retrofit2.Response
 import retrofit2.http.Body
@@ -36,6 +38,11 @@ interface SignUpService {
     suspend fun requestSignUpWithPhone(
         @Body body : RequestSignUpWithPhone
     ) : Response<ResponseSignUpWithPhone>
+
+    @PATCH("users/sign-up/oauth")
+    suspend fun requestSignUpWithSocial(
+        @Body body : RequestSignUpWithSocial
+    ) : Response<ResponseSignUpWithSocial>
 
     @POST("users/password")
     suspend fun requestPhoneNumberAvailable(

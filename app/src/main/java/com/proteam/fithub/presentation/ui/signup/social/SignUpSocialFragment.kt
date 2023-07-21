@@ -6,14 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentSignUpSocialBinding
 import com.proteam.fithub.presentation.ui.signup.SignUpActivity
 import com.proteam.fithub.presentation.ui.signup.profile.SignUpUserProfileFragment
+import com.proteam.fithub.presentation.ui.signup.viewmodel.SignUpViewModel
 
 class SignUpSocialFragment : Fragment() {
     private lateinit var binding : FragmentSignUpSocialBinding
-
+    private val viewModel : SignUpViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -47,7 +49,14 @@ class SignUpSocialFragment : Fragment() {
         }
     }
 
+    private fun setUserData() {
+        viewModel.setUserName(binding.fgSignUpSocialEdtName.getUserInputContent())
+        viewModel.setUserBirth(binding.fgSignUpSocialEdtBirth.getUserInputBirth())
+        viewModel.setUserGender(binding.fgSignUpSocialEdtBirth.getUserInputGender())
+    }
+
     fun onNextClicked() {
+        setUserData()
         (requireActivity() as SignUpActivity).changeFragments(SignUpUserProfileFragment())
     }
 }

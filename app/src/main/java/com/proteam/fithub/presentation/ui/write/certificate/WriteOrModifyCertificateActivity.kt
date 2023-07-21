@@ -5,11 +5,15 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputFilter
+import android.text.Spanned
 import android.text.TextWatcher
+import android.text.method.KeyListener
 import android.util.Log
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.inputmethod.EditorInfo
+import android.widget.EditText
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -116,6 +120,7 @@ class WriteOrModifyCertificateActivity : AppCompatActivity() {
     }
 
     private fun setTag() {
+        binding.writeModifyCertificateEdtTag.banSpaceInput()
         binding.writeModifyCertificateEdtTag.setOnEditorActionListener { _, i, keyEvent ->
             if(i == EditorInfo.IME_NULL && keyEvent.action == MotionEvent.ACTION_DOWN) {
                 addTagChip()
@@ -181,6 +186,24 @@ class WriteOrModifyCertificateActivity : AppCompatActivity() {
 
     private fun finishActivity() {
         finish()
+    }
+
+    private fun EditText.banSpaceInput() {
+        this.filters = arrayOf(object : InputFilter {
+            override fun filter(
+                p0: CharSequence,
+                p1: Int,
+                p2: Int,
+                p3: Spanned?,
+                p4: Int,
+                p5: Int
+            ): CharSequence {
+                if(p0 == "" || !p0.contains(" ")) {
+                    return p0
+                }
+                return p0.trim()
+            }
+        })
     }
 
     /** Dummy **/

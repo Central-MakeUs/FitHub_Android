@@ -6,10 +6,10 @@ import com.proteam.fithub.presentation.ui.FitHub.Companion.mSharedPreferences
 
 class SharedPreferenceLocalSource : SharedPreferenceSource {
 
-    override suspend fun saveAccessToken(userId : Int?, accessToken : String) {
+    override suspend fun saveAccessToken(userId : Int?, accessToken : String?) {
         try {
             mSharedPreferences.edit().apply{
-                putString("jwt", accessToken).apply()
+                accessToken?.let { putString("jwt", it).apply() }
                 userId?.let { putString("userId", it.toString()) }
             }
         } catch (exception : Exception) {
