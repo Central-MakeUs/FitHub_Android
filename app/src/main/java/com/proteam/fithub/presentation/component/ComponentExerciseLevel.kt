@@ -14,21 +14,23 @@ class ComponentExerciseLevel(context : Context, attrs : AttributeSet) : Constrai
     private lateinit var binding : ComponentExerciseLevelBinding
 
     lateinit var type : String
-    lateinit var exercise : String
-    lateinit var level : String
+    var exercise : String? = null
+    var level : Int? = 0
+    var levelTitle : String? = null
 
     init {
         context.obtainStyledAttributes(attrs, R.styleable.ComponentExerciseLevel).getAttributeData()
         initBinding()
     }
 
-    fun getExercise(exercise : String) {
+    fun getExercise(exercise : String?) {
         this.exercise = exercise
         initUi()
     }
 
-    fun getLevel(level : String) {
+    fun getLevel(level : Int?, title : String?) {
         this.level = level
+        this.levelTitle = title
         initUi()
     }
 
@@ -38,31 +40,25 @@ class ComponentExerciseLevel(context : Context, attrs : AttributeSet) : Constrai
     }
 
     private fun initUi() {
-        binding.content = if(type == "Exercise") exercise else level.mappingLevel()
+        binding.content = if(type == "Exercise") exercise else level?.mappingLevel(levelTitle)
 
         binding.componentExerciseLevelContent.setTextColor(setTextColor(type))
     }
 
-    private fun String.mappingLevel() : String {
-        return when(this) {
-            "1" -> "Lv1. 우주먼지"
-            "2" -> "Lv2. 성운"
-            "3" -> "Lv3. 태양"
-            "4" -> "Lv4. 블랙홀"
-            else -> "Lv5. 은하"
-        }
+    private fun Int.mappingLevel(title : String?) : String {
+        return "Lv${this}. $title"
     }
 
     private fun setTextColor(type : String) : Int {
-        return if(type == "Exercise") resources.getColor(R.color.text_sub02, null) else level.validateColor()
+        return if(type == "Exercise") resources.getColor(R.color.text_sub02, null) else level?.validateColor() ?: resources.getColor(R.color.color_level_5, null)
     }
 
-    private fun String.validateColor() : Int {
+    private fun Int?.validateColor() : Int {
         return when(this) {
-            "1" -> resources.getColor(R.color.color_level_1, null)
-            "2" -> resources.getColor(R.color.color_level_2, null)
-            "3" -> resources.getColor(R.color.color_level_3, null)
-            "4" -> resources.getColor(R.color.color_level_4, null)
+            1 -> resources.getColor(R.color.color_level_1, null)
+            2 -> resources.getColor(R.color.color_level_2, null)
+            3 -> resources.getColor(R.color.color_level_3, null)
+            4 -> resources.getColor(R.color.color_level_4, null)
             else -> resources.getColor(R.color.color_level_5, null)
         }
     }

@@ -14,13 +14,15 @@ import com.proteam.fithub.databinding.ComponentUserInfoSmallBinding
 class ComponentSmallUser(context : Context, attrs : AttributeSet) : ConstraintLayout(context, attrs) {
     private lateinit var binding : ComponentUserInfoSmallBinding
     private lateinit var userData : ComponentUserData
+    private lateinit var time : String
 
     init {
         initBinding()
     }
 
-    fun getUserData(userData : ComponentUserData) {
+    fun getUserData(userData : ComponentUserData, time : String) {
         this.userData = userData
+        this.time = time
         initUi()
     }
 
@@ -31,7 +33,8 @@ class ComponentSmallUser(context : Context, attrs : AttributeSet) : ConstraintLa
 
     private fun initUi() {
         binding.data = userData
-        binding.componentUserSmallLayoutExercise.getExercise(userData.exercise)
-        binding.componentUserSmallLayoutLevel.getLevel(userData.level)
+        binding.time = time
+        binding.componentUserSmallLayoutExercise.getExercise(userData.mainExerciseInfo?.category)
+        binding.componentUserSmallLayoutLevel.getLevel(userData.mainExerciseInfo?.level, userData.mainExerciseInfo?.gradeName)
     }
 }

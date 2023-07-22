@@ -7,7 +7,7 @@ import com.proteam.fithub.presentation.ui.main.community.board.BoardFragment
 import com.proteam.fithub.presentation.ui.main.community.certificate.CertificateFragment
 
 class CommunityPagerAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
-    private var fragments = mutableListOf<Fragment>()
+    var fragments = mutableListOf<Fragment>()
 
     override fun getItemCount(): Int = fragments.size
 

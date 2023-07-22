@@ -13,6 +13,7 @@ import com.proteam.fithub.presentation.ui.detail.certificate.ExerciseCertificate
 import com.proteam.fithub.presentation.ui.main.community.CommunityFragment
 import com.proteam.fithub.presentation.ui.main.community.viewmodel.CommunityViewModel
 import com.proteam.fithub.presentation.ui.main.home.HomeFragment
+import com.proteam.fithub.presentation.ui.write.board.WriteOrModifyBoardActivity
 import com.proteam.fithub.presentation.ui.write.certificate.WriteOrModifyCertificateActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,6 +23,8 @@ class MainActivity : AppCompatActivity() {
     private val viewModel : MainViewModel by viewModels()
 
     private val communityViewModel : CommunityViewModel by viewModels()
+
+    var needNotifyCertificate : Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -66,6 +69,10 @@ class MainActivity : AppCompatActivity() {
 
     fun openCertificateDetailActivity(index : Int) {
         startActivity(Intent(this, ExerciseCertificateDetailActivity::class.java).setType(index.toString()))
+    }
+
+    fun openWriteOrModifyBoard(tag : String) {
+        startActivity(Intent(this, WriteOrModifyBoardActivity::class.java).setType(tag))
     }
 
     fun openBoardDetailActivity(index : Int) {

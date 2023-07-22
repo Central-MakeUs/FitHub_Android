@@ -1,5 +1,8 @@
 package com.proteam.fithub.presentation.di
 
+import com.proteam.fithub.data.remote.service.ArticleService
+import com.proteam.fithub.data.remote.service.CertificateService
+import com.proteam.fithub.data.remote.service.CommentService
 import com.proteam.fithub.data.remote.service.ExerciseService
 import com.proteam.fithub.data.remote.service.SignInService
 import com.proteam.fithub.data.remote.service.SignUpService
@@ -26,4 +29,16 @@ class ServiceModule {
     @Provides
     @Singleton
     fun provideExerciseService(retrofit: Retrofit) : ExerciseService = retrofit.create(ExerciseService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideCertificateService(retrofit: Retrofit) : CertificateService = retrofit.create(CertificateService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideCommentService(retrofit: Retrofit) : CommentService = retrofit.create(CommentService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideArticleService(retrofit: Retrofit) : ArticleService = retrofit.create(ArticleService::class.java)
 }

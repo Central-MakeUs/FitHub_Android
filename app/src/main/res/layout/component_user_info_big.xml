@@ -7,6 +7,10 @@
         <variable
             name="data"
             type="com.proteam.fithub.data.data.ComponentUserData" />
+
+        <variable
+            name="time"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,7 +19,7 @@
 
         <ImageView
             android:id="@+id/component_user_big_iv_profile"
-            common_Circle_Image="@{data.userProfile}"
+            common_Circle_Image="@{data.profileUrl}"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="20dp"
@@ -61,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
-            android:text="@{data.date}"
+            android:text="@{time}"
             android:textAppearance="@style/Body_small_regular"
             android:textColor="@color/icon_enabled"
             app:layout_constraintBottom_toBottomOf="@id/component_user_big_iv_profile"

@@ -3,7 +3,7 @@
     <data>
         <variable
             name="path"
-            type="Integer" />
+            type="String" />
         <!-- String -->
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout

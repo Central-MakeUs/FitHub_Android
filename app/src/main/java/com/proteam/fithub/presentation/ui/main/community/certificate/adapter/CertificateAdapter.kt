@@ -1,26 +1,28 @@
 package com.proteam.fithub.presentation.ui.main.community.certificate.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.proteam.fithub.data.remote.response.ExamCertificateData
+import com.proteam.fithub.data.remote.response.ResponseCertificateData
 import com.proteam.fithub.databinding.ItemRvExerciseCertificateBinding
 
 class CertificateAdapter(
     private val heartClick : (Int) -> Unit,
     private val itemClick : (Int) -> Unit
-) : RecyclerView.Adapter<CertificateAdapter.CertificateViewHolder>() {
-    var items = mutableListOf<ExamCertificateData>()
-
+) : PagingDataAdapter<ResponseCertificateData.ResultCertificateData, CertificateAdapter.CertificateViewHolder>(
+    diffCallback) {
     inner class CertificateViewHolder(private val binding : ItemRvExerciseCertificateBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item : ExamCertificateData) {
+        fun bind(item : ResponseCertificateData.ResultCertificateData) {
             binding.data = item
-            //:TODO AdapterPosition -> Index
             binding.itemRvExerciseCertificateIvHeart.setOnClickListener {
-                heartClick.invoke(adapterPosition)
-                changeHeartState(adapterPosition)
+                heartClick.invoke(item.recordId)
+                changeHeartState(absoluteAdapterPosition)
             }
-            binding.root.setOnClickListener { itemClick.invoke(adapterPosition) }
+            binding.root.setOnClickListener { itemClick.invoke(getItem(position)!!.recordId) }
         }
     }
 
@@ -28,14 +30,26 @@ class CertificateAdapter(
         return CertificateViewHolder(ItemRvExerciseCertificateBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
-    override fun getItemCount(): Int = items.size
-
     override fun onBindViewHolder(holder: CertificateViewHolder, position: Int) {
-        holder.bind(items[position])
+        getItem(position)?.let { holder.bind(it) }
     }
 
-    private fun changeHeartState(position : Int) {
-        items[position].isHearted = items[position].isHearted.not()
+    fun changeHeartState(position : Int) {
+        getItem(position)?.isLiked = getItem(position)?.isLiked!!.not()
+        getItem(position)?.likes = if(getItem(position)?.isLiked == true) getItem(position)?.likes?.plus(1)!! else getItem(position)?.likes?.minus(1)!!
         notifyItemChanged(position)
+    }
+
+    companion object {
+        private val diffCallback = object : DiffUtil.ItemCallback<ResponseCertificateData.ResultCertificateData>() {
+
+            override fun areItemsTheSame(oldItem: ResponseCertificateData.ResultCertificateData, newItem: ResponseCertificateData.ResultCertificateData): Boolean {
+                return oldItem.recordId == newItem.recordId
+            }
+
+            override fun areContentsTheSame(oldItem: ResponseCertificateData.ResultCertificateData, newItem: ResponseCertificateData.ResultCertificateData): Boolean {
+                return oldItem == newItem
+            }
+        }
     }
 }

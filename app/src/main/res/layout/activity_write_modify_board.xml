@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="activity"
+            type="com.proteam.fithub.presentation.ui.write.board.WriteOrModifyBoardActivity" />
+
+        <variable
+            name="viewModel"
+            type="com.proteam.fithub.presentation.ui.write.board.viewmodel.WriteOrModifyBoardViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_default">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/write_modify_board_layout_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:onClick="@{() -> activity.onBackPress()}"
+                android:src="@drawable/ic_arrow_back"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/icon_default" />
+
+            <TextView
+                android:id="@+id/write_modify_board_tv_toolbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Title_medium_semibold"
+                android:textColor="@color/text_default"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:enabled="@{viewModel.saveButtonEnabled}"
+                android:onClick="@{() -> activity.onSaveClicked()}"
+                android:text="@string/common_upload"
+                android:textAppearance="@style/Body_medium_regular"
+                android:textColor="@color/selector_tv_enabled_or_not"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:overScrollMode="never"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/write_modify_board_layout_toolbar">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/write_modify_board_edt_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/board_title_hint"
+                    android:text="@={viewModel.userInputTitle}"
+                    android:textColorHint="@color/text_info"
+                    android:textColor="@color/text_default"
+                    android:textAppearance="@style/Title_medium_semibold"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <EditText
+                    android:id="@+id/write_modify_board_edt_content"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/board_content_hint"
+                    android:paddingVertical="10dp"
+                    android:text="@={viewModel.userInputContent}"
+                    android:textAppearance="@style/Body_medium_regular"
+                    android:textColor="@color/text_default"
+                    android:textColorHint="@color/text_sub02"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/write_modify_board_edt_title" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/write_modify_board_btn_open_gallery"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="40dp"
+                    android:onClick="@{() -> activity.openGallery()}"
+                    android:background="@drawable/btn_stroke_write_board_input_image"
+                    app:layout_constraintTop_toBottomOf="@id/write_modify_board_edt_content"
+                    app:layout_constraintStart_toStartOf="@id/write_modify_board_edt_title">
+
+                    <ImageView
+                        android:id="@+id/write_modify_board_iv_open_gallery"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_camera_open_gallery"
+                        android:layout_marginTop="29dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{@string/board_selected_photo_count(viewModel.userSelectedImages.size)}"
+                        android:textAppearance="@style/Label_small_regular"
+                        android:includeFontPadding="false"
+                        android:textColor="@color/text_sub02"
+                        android:layout_marginTop="2dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/write_modify_board_iv_open_gallery" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/write_modify_board_rv_images"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:orientation="horizontal"
+                    android:layout_marginStart="5dp"
+                    android:paddingEnd="10dp"
+                    android:clipToPadding="false"
+                    android:overScrollMode="never"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constrainedHeight="true"
+                    app:layout_constraintTop_toTopOf="@id/write_modify_board_btn_open_gallery"
+                    app:layout_constraintBottom_toBottomOf="@id/write_modify_board_btn_open_gallery"
+                    app:layout_constraintStart_toEndOf="@id/write_modify_board_btn_open_gallery"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/write_modify_board_chipgroup_tag"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="25dp"
+                    app:layout_constraintTop_toBottomOf="@id/write_modify_board_btn_open_gallery">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="7dp">
+
+                        <EditText
+                            android:id="@+id/write_modify_board_edt_tag"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_write_modify_certificate_tag"
+                            android:enabled="@{viewModel.userInputTagList.size() &lt; 4}"
+                            android:gravity="center_vertical"
+                            android:hint="@string/certificate_tag_hint"
+                            android:imeOptions="actionDone"
+                            android:maxLines="1"
+                            android:paddingHorizontal="12dp"
+                            android:paddingVertical="6dp"
+                            android:text="@={viewModel.userInputTag}"
+                            android:textAppearance="@style/Label_large_regular"
+                            android:textColor="@color/text_default"
+                            android:textColorHint="@color/selector_write_modify_edt_hint"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.chip.ChipGroup>
+
+                <TextView
+                    android:id="@+id/write_modify_board_tv_tag_notice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/certificate_tag_notice"
+                    android:textAppearance="@style/Label_medium_regular"
+                    android:textColor="@color/text_info"
+                    app:layout_constraintStart_toStartOf="@id/write_modify_board_chipgroup_tag"
+                    app:layout_constraintTop_toBottomOf="@id/write_modify_board_chipgroup_tag" />
+
+                <View
+                    android:id="@+id/write_modify_board_view_divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_marginTop="30dp"
+                    android:background="@color/divider_01"
+                    app:layout_constraintTop_toBottomOf="@id/write_modify_board_tv_tag_notice" />
+
+                <TextView
+                    android:id="@+id/write_modify_board_tv_select_exercise"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="30dp"
+                    android:includeFontPadding="false"
+                    android:text="@string/certificate_select_exercise"
+                    android:textAppearance="@style/Title_medium_semibold"
+                    android:textColor="@color/text_default"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/write_modify_board_view_divider" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:src="@drawable/ic_notice_required"
+                    app:layout_constraintStart_toEndOf="@id/write_modify_board_tv_select_exercise"
+                    app:layout_constraintTop_toTopOf="@id/write_modify_board_tv_select_exercise" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/write_modify_board_rv_select_exercise"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical"
+                    android:overScrollMode="never"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@id/write_modify_board_tv_select_exercise"
+                    app:spanCount="4"
+                    tools:listitem="@layout/item_interest_sports_small" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginVertical="40dp"
+                    android:includeFontPadding="false"
+                    android:text="@string/certificate_notice"
+                    android:textAppearance="@style/Label_medium_regular"
+                    android:textColor="@color/text_info"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/write_modify_board_rv_select_exercise"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

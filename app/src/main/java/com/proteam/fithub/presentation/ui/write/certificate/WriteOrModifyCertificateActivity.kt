@@ -2,8 +2,11 @@ package com.proteam.fithub.presentation.ui.write.certificate
 
 import android.app.Activity
 import android.content.Intent
+import android.database.Cursor
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.InputFilter
 import android.text.Spanned
@@ -180,8 +183,23 @@ class WriteOrModifyCertificateActivity : AppCompatActivity() {
     }
 
     fun onSaveClicked() {
-        //:TODO 서버에 운동 저장
+        viewModel.postCertificate((viewModel.userSelectedImage.value as Uri).getAbsolutePath())
+        observeSaveState()
+    }
+    private fun Uri.getAbsolutePath() : String {
+        val proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
+        val c : Cursor = contentResolver.query(this, proj, null, null, null)!!
+        val index = c.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+        c.moveToFirst()
+        return c.getString(index)
+    }
 
+    private fun observeSaveState() {
+        viewModel.saveState.observe(this) {
+            if(it == 2000) {
+                finishActivity()
+            }
+        }
     }
 
     private fun finishActivity() {
