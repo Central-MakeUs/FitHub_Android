@@ -55,6 +55,7 @@
             android:id="@+id/item_rv_community_board_iv_thumbnail"
             android:layout_width="70dp"
             android:layout_height="70dp"
+            android:adjustViewBounds="true"
             android:visibility='@{data.pictureUrl == null ? View.GONE : View.VISIBLE}'
             common_iv_radius_5="@{data.pictureUrl}"
             app:layout_constraintTop_toTopOf="@id/item_rv_community_board_tv_title"

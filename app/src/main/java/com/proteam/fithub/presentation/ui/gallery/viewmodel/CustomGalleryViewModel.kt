@@ -14,7 +14,7 @@ import java.io.File
 private const val INDEX_MEDIA_ID = MediaStore.MediaColumns._ID
 private const val INDEX_MEDIA_URI = MediaStore.MediaColumns.DATA
 private const val INDEX_ALBUM_NAME = MediaStore.Images.Media.BUCKET_DISPLAY_NAME
-private const val INDEX_DATE_ADDED = MediaStore.MediaColumns.DATE_ADDED
+const val INDEX_DATE_ADDED = MediaStore.MediaColumns.DATE_ADDED
 
 class CustomGalleryViewModel : ViewModel() {
 
@@ -60,8 +60,7 @@ class CustomGalleryViewModel : ViewModel() {
 
     fun changeImageClicked(position : Int) {
         _imageItemList.value!![position].isChecked = _imageItemList.value!![position].isChecked.not()
-
-        _checkedSize.value = _imageItemList.value!!.count{ it.isChecked}
+        _checkedSize.value = _imageItemList.value!!.count{ it.isChecked }
     }
 
 }

@@ -3,17 +3,12 @@ package com.proteam.fithub.presentation.ui.write.certificate
 import android.app.Activity
 import android.content.Intent
 import android.database.Cursor
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.text.Editable
 import android.text.InputFilter
 import android.text.Spanned
-import android.text.TextWatcher
-import android.text.method.KeyListener
 import android.util.Log
-import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
@@ -21,8 +16,8 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.coordinatorlayout.widget.CoordinatorLayout.Behavior.setTag
-import androidx.core.widget.addTextChangedListener
+import androidx.core.net.toUri
+import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.chip.Chip
 import com.proteam.fithub.R
@@ -31,8 +26,13 @@ import com.proteam.fithub.databinding.ActivityWriteModifyCertificateBinding
 import com.proteam.fithub.presentation.component.ComponentDialogYesNo
 import com.proteam.fithub.presentation.ui.write.certificate.adapter.WriteOrModifyCertificateExerciseAdapter
 import com.proteam.fithub.presentation.ui.write.certificate.viewmodel.WriteOrModifyCertificateViewModel
+import com.proteam.fithub.presentation.util.ConvertBitmap.ConvertWhenSingle
+import com.proteam.fithub.presentation.util.ConvertBitmap.deletePic
 import dagger.hilt.android.AndroidEntryPoint
-import okhttp3.internal.notify
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
 @AndroidEntryPoint
 class WriteOrModifyCertificateActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWriteModifyCertificateBinding
@@ -91,12 +91,16 @@ class WriteOrModifyCertificateActivity : AppCompatActivity() {
 
     private fun validateType() {
         viewModel.type.observe(this) {
-            if (it == "Write") openGallery()
+            if (it == "Write") openGallery() else requestLegacyData()
             binding.writeModifyCertificateTvToolbar.text =
                 if (it == "Write") resources.getString(R.string.write_certificate) else resources.getString(
                     R.string.modify_certificate
                 )
         }
+    }
+
+    private fun requestLegacyData() {
+        viewModel.requestLegacyData()
     }
 
     fun openGallery() {
@@ -124,18 +128,33 @@ class WriteOrModifyCertificateActivity : AppCompatActivity() {
 
     private fun setTag() {
         binding.writeModifyCertificateEdtTag.banSpaceInput()
+        observeTag()
         binding.writeModifyCertificateEdtTag.setOnEditorActionListener { _, i, keyEvent ->
             if(i == EditorInfo.IME_NULL && keyEvent.action == MotionEvent.ACTION_DOWN) {
-                addTagChip()
-                initTag()
+                saveTag()
             }
             return@setOnEditorActionListener true
         }
     }
 
-    private fun addTagChip() {
+    private fun saveTag() {
+        viewModel.initTag()
+        binding.writeModifyCertificateEdtTag.setText("")
+    }
+
+    private fun observeTag() {
+        viewModel.userInputTagList.observe(this) {
+            val count = it.size - binding.writeModifyCertificateChipgroupTag.childCount
+            for (i in it.size - (count+1) until it.size) {
+                addTagChip(it[i])
+            }
+        }
+    }
+
+    private fun addTagChip(chipText : String) {
         binding.writeModifyCertificateChipgroupTag.addView(Chip(this).apply {
-            text = viewModel.userInputTag.value
+            text = chipText
+            tag = chipText
             setChipStyles()
 
             setOnCloseIconClickListener {
@@ -159,16 +178,17 @@ class WriteOrModifyCertificateActivity : AppCompatActivity() {
         }
     }
 
-    private fun initTag() {
-        viewModel.initTag()
-        binding.writeModifyCertificateEdtTag.setText("")
-    }
-
     private fun observeExercises() {
         viewModel.exercises.observe(this) {
             exerciseAdapter.sports = it
             exerciseAdapter.selected = returnSelectedList(it.size)
             exerciseAdapter.notifyItemRangeChanged(0, it.size)
+        }
+
+        viewModel.userSelectExercise.observe(this) {
+            val position = exerciseAdapter.sports.indexOf(exerciseAdapter.sports.find { it2 -> it2.name == it.name })
+            exerciseAdapter.selected[position] = true
+            exerciseAdapter.notifyItemChanged(position)
         }
     }
 
@@ -183,9 +203,24 @@ class WriteOrModifyCertificateActivity : AppCompatActivity() {
     }
 
     fun onSaveClicked() {
-        viewModel.postCertificate((viewModel.userSelectedImage.value as Uri).getAbsolutePath())
+
+
+        CoroutineScope(Dispatchers.Default).launch {
+            viewModel.requestPostCertificate(Convert().also { viewModel.setPathForDelete(it) }.getAbsolutePath())
+        }
+
+        viewModel.requestPostCertificate((viewModel.userSelectedImage.value as Uri).getAbsolutePath())
         observeSaveState()
     }
+
+    private fun Convert() : Uri {
+        val res = (viewModel.userSelectedImage.value!!.toString().toUri().getAbsolutePath()).ConvertWhenSingle(this@WriteOrModifyCertificateActivity)
+
+        return "content://${res.substring(9)}".toUri()
+    }
+
+
+
     private fun Uri.getAbsolutePath() : String {
         val proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
         val c : Cursor = contentResolver.query(this, proj, null, null, null)!!
@@ -197,6 +232,7 @@ class WriteOrModifyCertificateActivity : AppCompatActivity() {
     private fun observeSaveState() {
         viewModel.saveState.observe(this) {
             if(it == 2000) {
+                viewModel.imagePaths.value?.deletePic(this@WriteOrModifyCertificateActivity)
                 finishActivity()
             }
         }

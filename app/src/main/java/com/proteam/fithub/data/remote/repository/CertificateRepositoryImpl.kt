@@ -11,6 +11,7 @@ import com.proteam.fithub.data.remote.service.CertificateService
 import com.proteam.fithub.data.remote.source.CertificatePagingSource
 import com.proteam.fithub.domain.repository.CertificateRepository
 import com.proteam.fithub.domain.source.CertificateSource
+import com.proteam.fithub.presentation.util.BaseResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import okhttp3.MultipartBody
@@ -38,10 +39,14 @@ class CertificateRepositoryImpl @Inject constructor(
         categoryId: Int,
         contents: String,
         exerciseTag: String,
-        hashTagList: List<String>,
+        hashTagList: List<String>?,
         image: MultipartBody.Part
     ): Result<ResponsePostCertificateData> {
         return source.requestPostCertificateData(categoryId, contents, exerciseTag, hashTagList, image)
+    }
+
+    override suspend fun requestDeleteCertificateData(recordId: Int): Result<BaseResponse> {
+        return source.requestDeleteCertificateData(recordId)
     }
 
 

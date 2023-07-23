@@ -66,4 +66,10 @@ class ExerciseCertificateDetailViewModel @Inject constructor(
             isLiked = isLiked.not()
         }
     }
+
+    fun requestDeleteCertificate() {
+        viewModelScope.launch {
+            certificateRepository.requestDeleteCertificateData(_certificateData.value!!.recordId)
+        }
+    }
 }

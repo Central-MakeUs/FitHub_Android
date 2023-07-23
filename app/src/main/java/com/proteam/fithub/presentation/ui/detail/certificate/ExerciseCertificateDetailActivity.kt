@@ -1,5 +1,6 @@
 package com.proteam.fithub.presentation.ui.detail.certificate
 
+import android.content.Intent
 import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
@@ -12,8 +13,11 @@ import androidx.lifecycle.lifecycleScope
 import com.proteam.fithub.R
 import com.proteam.fithub.data.data.ComponentUserData
 import com.proteam.fithub.databinding.ActivityExerciseCertificateDetailBinding
+import com.proteam.fithub.presentation.component.ComponentBottomDialogSelectReportDelete
+import com.proteam.fithub.presentation.component.ComponentDialogYesNo
 import com.proteam.fithub.presentation.ui.detail.adapter.CommunityDetailCommentAdapter
 import com.proteam.fithub.presentation.ui.detail.certificate.viewmodel.ExerciseCertificateDetailViewModel
+import com.proteam.fithub.presentation.ui.write.certificate.WriteOrModifyCertificateActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -45,7 +49,7 @@ class ExerciseCertificateDetailActivity : AppCompatActivity() {
         viewModel.certificateData.observe(this) { it ->
             binding.exerciseCertificateDetailLayoutUser.getUserData(it.userInfo, it.createdAt)
             binding.detailData = it
-            binding.tags = "#" + it.recordCategory.name + it.hashtags.hashtags.map { it.name }.joinToString { " #" }
+            binding.tags = it.hashtags.hashtags.map { it.name }.joinToString()
 
             requestComment()
         }
@@ -99,5 +103,34 @@ class ExerciseCertificateDetailActivity : AppCompatActivity() {
 
     private fun initCommentInput() {
         binding.exerciseCertificateDetailTvComment.setText("")
+    }
+
+    fun onOptionClicked() {
+        if(viewModel.certificateData.value!!.userInfo.ownerId == 1) {
+            ComponentBottomDialogSelectReportDelete(::modifyCertificate, ::checkReallyDelete).show(supportFragmentManager, "MINE")
+        } else {
+            ComponentBottomDialogSelectReportDelete(::reportPost, ::reportUser).show(supportFragmentManager, "NOT_MINE")
+        }
+    }
+
+    private fun checkReallyDelete() {
+        ComponentDialogYesNo(::deleteCertificate).show(supportFragmentManager, "MY_CERTIFICATE_ARTICLE")
+    }
+    private fun deleteCertificate() {
+        viewModel.requestDeleteCertificate()
+        finish()
+    }
+
+    private fun modifyCertificate() {
+        startActivity(Intent(this, WriteOrModifyCertificateActivity::class.java).setType("${viewModel.certificateData.value?.recordId}"))
+        finish()
+    }
+
+    private fun reportPost() {
+        //:TODO 게시글 신고로직
+    }
+
+    private fun reportUser() {
+        //:TODO 유저 신고로직
     }
 }

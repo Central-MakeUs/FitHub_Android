@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import com.proteam.fithub.data.remote.request.RequestPostComment
-import com.proteam.fithub.data.remote.response.ResponseArticleData
 import com.proteam.fithub.data.remote.response.ResponseArticleDetailData
 import com.proteam.fithub.data.remote.response.ResponseArticleHeartClicked
 import com.proteam.fithub.data.remote.response.ResponseArticleScrapClicked
@@ -82,5 +81,10 @@ class BoardDetailViewModel @Inject constructor(private val repository: ArticleRe
         }
     }
 
+    fun requestDeleteArticle() {
+        viewModelScope.launch {
+            repository.requestDeleteArticleData(_articleData.value!!.articleId)
+        }
+    }
 
 }

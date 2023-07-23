@@ -8,7 +8,9 @@ import retrofit2.Response
 
 object ErrorConverter {
     fun ResponseBody.convertAndGetCode() : Int {
-        return this.string().split(",")[1].split(":")[1].trim().toInt()
+        Log.e("----", "convertAndGetCode: ${this.string()}")
+        return 0
+        //return this.string().split(",")[1].split(":")[1].trim().toInt()
     }
 
     fun setValidate(res : Response<*>) : Result<Any> {

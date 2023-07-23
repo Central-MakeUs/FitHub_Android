@@ -4,9 +4,11 @@ import com.proteam.fithub.data.remote.response.ResponseCertificateData
 import com.proteam.fithub.data.remote.response.ResponseCertificateDetailData
 import com.proteam.fithub.data.remote.response.ResponseCertificateHeartClicked
 import com.proteam.fithub.data.remote.response.ResponsePostCertificateData
+import com.proteam.fithub.presentation.util.BaseResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
@@ -45,7 +47,13 @@ interface CertificateService {
         @Path("categoryId") categoryId: Int,
         @Part("contents") contents : String,
         @Part("exerciseTag") exerciseTag : String,
-        @Part("hashTagList") hashTagList : List<String>,
+        @Part("hashTagList") hashTagList : List<String>?,
         @Part image : MultipartBody.Part
     ) : Response<ResponsePostCertificateData>
+
+
+    @DELETE("record/{recordId}")
+    suspend fun deleteCertificateData(
+        @Path("recordId") recordId: Int
+    ) : Response<BaseResponse>
 }

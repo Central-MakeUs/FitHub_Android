@@ -18,7 +18,6 @@ class GalleryAdapter(private val onClick: (Int) -> Unit, private val onOverClick
                 if(galleryData.count{ it.isChecked} == 10 && !item.isChecked) {
                     onOverClicked.invoke()
                 } else {
-                    binding.checkbox.isChecked = binding.checkbox.isChecked.not()
                     onClick.invoke(adapterPosition)
                 }
             }

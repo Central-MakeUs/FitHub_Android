@@ -4,9 +4,15 @@ import com.proteam.fithub.data.remote.response.ResponseArticleData
 import com.proteam.fithub.data.remote.response.ResponseArticleDetailData
 import com.proteam.fithub.data.remote.response.ResponseArticleHeartClicked
 import com.proteam.fithub.data.remote.response.ResponseArticleScrapClicked
+import com.proteam.fithub.data.remote.response.ResponsePostArticleData
+import com.proteam.fithub.presentation.util.BaseResponse
+import okhttp3.MultipartBody
 import retrofit2.Response
+import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -40,4 +46,19 @@ interface ArticleService {
         @Path("articleId") articleId: Int
     ): Response<ResponseArticleScrapClicked.ResultArticleScrapClicked>
 
+    @Multipart
+    @POST("/articles/{categoryId}")
+    suspend fun requestPostArticle(
+        @Path("categoryId") categoryId: Int,
+        @Part("title") title : String,
+        @Part("contents") contents : String,
+        @Part("exerciseTag") exerciseTag : String,
+        @Part("tagList") tagList : List<String>?,
+        @Part pictureList : MutableList<MultipartBody.Part>?
+    ) : Response<ResponsePostArticleData>
+
+    @DELETE("articles/{articleId}")
+    suspend fun deleteArticleData(
+        @Path("articleId") articleId: Int
+    ) : Response<BaseResponse>
 }

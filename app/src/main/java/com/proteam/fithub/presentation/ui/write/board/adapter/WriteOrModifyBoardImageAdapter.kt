@@ -1,15 +1,19 @@
 package com.proteam.fithub.presentation.ui.write.board.adapter
 
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.proteam.fithub.databinding.ItemWriteBoardImagesBinding
+import java.io.File
+import java.nio.file.Files
+import kotlin.io.path.Path
 
 class WriteOrModifyBoardImageAdapter(private val onDeleteClicked : (Int) -> Unit) : RecyclerView.Adapter<WriteOrModifyBoardImageAdapter.WriteOrModifyBoardImageViewHolder>() {
-    var paths = mutableListOf<Uri>()
+    var paths = mutableListOf<String>()
     inner class WriteOrModifyBoardImageViewHolder(private val binding : ItemWriteBoardImagesBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item : Uri) {
+        fun bind(item : String) {
             binding.path = item
             binding.itemWriteBoardImagesBtnDelete.setOnClickListener { onDeleteClicked.invoke(absoluteAdapterPosition) }
         }

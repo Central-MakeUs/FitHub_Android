@@ -1,5 +1,6 @@
 package com.proteam.fithub.presentation.ui.main.community.board.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
@@ -19,6 +20,7 @@ class BoardAdapter(
     inner class BoardViewHolder(private val binding: ItemRvCommunityBoardBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ResponseArticleData.ResultArticleData) {
+            Log.e("----", "bind: ${item.title}", )
             binding.data = item
             binding.itemRvCommunityBoardLayoutUser.getUserData(item.userInfo, item.createdAt)
 

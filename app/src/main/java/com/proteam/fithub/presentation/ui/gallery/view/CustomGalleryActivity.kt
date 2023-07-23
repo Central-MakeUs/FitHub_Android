@@ -51,6 +51,7 @@ class CustomGalleryActivity : AppCompatActivity() {
 
     private fun onImageClick(position : Int) {
         viewModel.changeImageClicked(position)
+        galleryAdapter.notifyItemChanged(position)
     }
 
     private fun snackbarWhenOverLength() {
