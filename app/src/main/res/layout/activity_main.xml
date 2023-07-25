@@ -25,6 +25,17 @@
             android:layout_height="?actionBarSize"
             app:layout_constraintTop_toTopOf="parent">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/logo_letter_small"
+                android:layout_marginStart="20dp"
+                android:visibility='@{viewModel.curFragmentTag == "HOME" ? View.VISIBLE : View.GONE}'
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/main_toolbar_layout_search"
                 android:layout_width="0dp"
