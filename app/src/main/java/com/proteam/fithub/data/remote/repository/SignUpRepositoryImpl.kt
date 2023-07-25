@@ -12,6 +12,7 @@ import com.proteam.fithub.data.remote.response.ResponseSignUpWithSocial
 import com.proteam.fithub.domain.repository.SignUpRepository
 import com.proteam.fithub.domain.source.SignUpSource
 import com.proteam.fithub.presentation.util.BaseResponse
+import okhttp3.MultipartBody
 import javax.inject.Inject
 
 class SignUpRepositoryImpl @Inject constructor(private val source : SignUpSource) : SignUpRepository {
@@ -31,8 +32,18 @@ class SignUpRepositoryImpl @Inject constructor(private val source : SignUpSource
         return source.requestUserNumberAvailable(phoneNumber)
     }
 
-    override suspend fun requestSignUpWithPhone(body: RequestSignUpWithPhone): Result<ResponseSignUpWithPhone> {
-        return source.requestSignUpWithPhone(body)
+    override suspend fun requestSignUpWithPhone(
+        marketingAgree: Boolean,
+        phoneNumber: String,
+        name: String,
+        nickname: String,
+        password: String,
+        birth: String,
+        gender: String,
+        preferExercises: List<Int>,
+        profileImage: MultipartBody.Part
+    ): Result<ResponseSignUpWithPhone> {
+        return source.requestSignUpWithPhone(marketingAgree, phoneNumber, name, nickname, password, birth, gender, preferExercises, profileImage)
     }
 
     override suspend fun requestSignUpWithSocial(body: RequestSignUpWithSocial): Result<ResponseSignUpWithSocial> {

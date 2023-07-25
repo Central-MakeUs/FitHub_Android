@@ -129,8 +129,8 @@ class WriteOrModifyCertificateActivity : AppCompatActivity() {
     private fun setTag() {
         binding.writeModifyCertificateEdtTag.banSpaceInput()
         observeTag()
-        binding.writeModifyCertificateEdtTag.setOnEditorActionListener { _, i, keyEvent ->
-            if(i == EditorInfo.IME_NULL && keyEvent.action == MotionEvent.ACTION_DOWN) {
+        binding.writeModifyCertificateEdtTag.setOnEditorActionListener { text, i, keyEvent ->
+            if(text.text.isNotEmpty() && i == EditorInfo.IME_NULL && keyEvent.action == MotionEvent.ACTION_DOWN) {
                 saveTag()
             }
             return@setOnEditorActionListener true
@@ -203,13 +203,9 @@ class WriteOrModifyCertificateActivity : AppCompatActivity() {
     }
 
     fun onSaveClicked() {
-
-
         CoroutineScope(Dispatchers.Default).launch {
             viewModel.requestPostCertificate(Convert().also { viewModel.setPathForDelete(it) }.getAbsolutePath())
         }
-
-        viewModel.requestPostCertificate((viewModel.userSelectedImage.value as Uri).getAbsolutePath())
         observeSaveState()
     }
 

@@ -37,6 +37,7 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun initBinding() {
         binding.activity = this
+        binding.lifecycleOwner = this
     }
 
     private fun initFragments() {

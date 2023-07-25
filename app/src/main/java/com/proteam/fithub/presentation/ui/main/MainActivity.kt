@@ -13,6 +13,7 @@ import com.proteam.fithub.presentation.ui.detail.certificate.ExerciseCertificate
 import com.proteam.fithub.presentation.ui.main.community.CommunityFragment
 import com.proteam.fithub.presentation.ui.main.community.viewmodel.CommunityViewModel
 import com.proteam.fithub.presentation.ui.main.home.HomeFragment
+import com.proteam.fithub.presentation.ui.search.SearchActivity
 import com.proteam.fithub.presentation.ui.write.board.WriteOrModifyBoardActivity
 import com.proteam.fithub.presentation.ui.write.certificate.WriteOrModifyCertificateActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -77,6 +78,10 @@ class MainActivity : AppCompatActivity() {
 
     fun openBoardDetailActivity(index : Int) {
         startActivity(Intent(this, BoardDetailActivity::class.java).setType(index.toString()))
+    }
+
+    fun openSearchActivity() {
+        startActivity(Intent(this, SearchActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
     }
 
 

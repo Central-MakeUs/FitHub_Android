@@ -63,7 +63,6 @@ class WriteOrModifyCertificateViewModel @Inject constructor(
 
     fun setSelectedImage(path: Any) {
         _userSelectedImage.value = path
-        Log.e("----", "setSelectedImage: ${path}", )
         checkSaveEnabled()
     }
 
@@ -137,7 +136,7 @@ class WriteOrModifyCertificateViewModel @Inject constructor(
     private fun setLegacyDataToUi(data : ResponseCertificateDetailData.ResultCertificateDetailData) {
         data.apply {
             _userSelectedImage.value = pictureImage
-            toolsForUserInputTagList = hashtags.hashtags.map { it.name } as MutableList
+            toolsForUserInputTagList = (hashtags.hashtags.map { it.name } as MutableList).also { it.removeLast() }
             userInputContent.value = contents
             _userSelectExercise.value = ResponseExercises.ExercisesList(recordCategory.categoryId, "", recordCategory.name)
         }

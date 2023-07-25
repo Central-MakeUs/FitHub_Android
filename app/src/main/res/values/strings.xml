@@ -37,6 +37,9 @@
     <string name="common_to_home">홈으로</string>
     <string name="common_upload">등록</string>
     <string name="common_send_authcode">인증번호 전송</string>
+    <string name="common_see_more">더보기</string>
+    <string name="common_certificate">운동인증</string>
+    <string name="common_board">핏사이트</string>
 
 
 
@@ -117,5 +120,8 @@
 
     <!-- 커뮤니티 공통 -->
     <string name="community_save_comment">댓글 남기기</string>
+
+    <!-- 검색 -->
+    <string name="search_recommend_keywords">추천 검색어</string>
 
 </resources>

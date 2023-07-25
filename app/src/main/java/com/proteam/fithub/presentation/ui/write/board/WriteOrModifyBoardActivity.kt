@@ -160,8 +160,8 @@ class WriteOrModifyBoardActivity : AppCompatActivity() {
 
     private fun setTag() {
         binding.writeModifyBoardEdtTag.banSpaceInput()
-        binding.writeModifyBoardEdtTag.setOnEditorActionListener { _, i, keyEvent ->
-            if (i == EditorInfo.IME_NULL && keyEvent.action == MotionEvent.ACTION_DOWN) {
+        binding.writeModifyBoardEdtTag.setOnEditorActionListener { text, i, keyEvent ->
+            if (text.text.isNotEmpty() && i == EditorInfo.IME_NULL && keyEvent.action == MotionEvent.ACTION_DOWN) {
                 addTagChip()
                 initTag()
             }

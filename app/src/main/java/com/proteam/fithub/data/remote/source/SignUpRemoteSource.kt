@@ -15,6 +15,7 @@ import com.proteam.fithub.domain.source.SignUpSource
 import com.proteam.fithub.presentation.util.BaseResponse
 import com.proteam.fithub.presentation.util.ErrorConverter.convertAndGetCode
 import com.proteam.fithub.presentation.util.ErrorConverter.setValidate
+import okhttp3.MultipartBody
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -39,10 +40,24 @@ class SignUpRemoteSource @Inject constructor(private val service : SignUpService
         return setValidate(res) as Result<BaseResponse>
     }
 
-    override suspend fun requestSignUpWithPhone(body: RequestSignUpWithPhone): Result<ResponseSignUpWithPhone> {
-        val res = service.requestSignUpWithPhone(body)
-        return setValidate(res) as Result<ResponseSignUpWithPhone>
+    override suspend fun requestSignUpWithPhone(
+        marketingAgree: Boolean,
+        phoneNumber: String,
+        name: String,
+        nickname: String,
+        password: String,
+        birth: String,
+        gender: String,
+        preferExercises: List<Int>,
+        profileImage: MultipartBody.Part
+    ): Result<ResponseSignUpWithPhone> {
+        val res = service.requestSignUpWithPhone(marketingAgree, phoneNumber, name, nickname, password, birth, gender, preferExercises, profileImage)
+        return when(res.code()) {
+            in 200..399 -> Result.success(res.body()!!)
+            else -> Result.failure(IllegalArgumentException(res.errorBody()?.convertAndGetCode().toString()))
+        }
     }
+
 
     override suspend fun requestSignUpWithSocial(body: RequestSignUpWithSocial): Result<ResponseSignUpWithSocial> {
         val res = service.requestSignUpWithSocial(body)

@@ -8,5 +8,6 @@ data class ResponseSignUpWithSocial(
     data class ResultSignUpWithSocial(
         val userId : Int,
         val nickname : String,
+        val accessToken : String
     )
 }

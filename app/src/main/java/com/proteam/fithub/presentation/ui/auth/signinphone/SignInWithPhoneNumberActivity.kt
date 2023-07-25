@@ -65,8 +65,7 @@ class SignInWithPhoneNumberActivity : AppCompatActivity() {
             if (it.resultCode == Activity.RESULT_OK) {
                 val state = it.data!!.extras?.get("state") as Boolean
                 if(state) {
-                    setResult(RESULT_OK, Intent(this, SignInActivity::class.java).putExtra("state", true))
-                    finish()
+                    onSignInSuccess()
                 }
             }
         }

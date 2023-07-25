@@ -30,7 +30,7 @@
             app:tabIndicatorGravity="bottom"
             app:tabIndicatorHeight="2dp"
             app:tabTextAppearance="@style/CommunityTabText"
-            app:tabTextColor="@color/text_default">
+            app:tabTextColor="@color/selector_tv_tab_selected">
 
         </com.google.android.material.tabs.TabLayout>
 

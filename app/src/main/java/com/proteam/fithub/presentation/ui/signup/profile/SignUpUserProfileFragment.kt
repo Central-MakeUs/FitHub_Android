@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,6 +60,7 @@ class SignUpUserProfileFragment : Fragment() {
 
     private fun initInclude() {
         viewModel.initProfile()
+        Log.e("----", "initInclude: clear", )
         binding.fgSignUpUserProfileEdtNickname.setErrorEnable(true)
     }
 
@@ -85,14 +87,14 @@ class SignUpUserProfileFragment : Fragment() {
         this.requestGalleryActivity.launch(intent)
     }
 
-    private val requestGalleryActivity =
+  private val requestGalleryActivity =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode == Activity.RESULT_OK && it.data?.data != null) { //갤러리 캡쳐 결과값
+            if (it.resultCode == Activity.RESULT_OK && it.data?.data != null) {
                 val clipData = it?.data?.clipData
                 if (clipData == null) {
                     it.data!!.data?.let { it1 ->
                         viewModel.setUserSelectedProfile(it1)
-                        binding.fgSignUpUserProfileIvProfile.setImageURI(it1)
+                        //binding.fgSignUpUserProfileIvProfile.setImageURI(it1)
                     }
                 }
             }
