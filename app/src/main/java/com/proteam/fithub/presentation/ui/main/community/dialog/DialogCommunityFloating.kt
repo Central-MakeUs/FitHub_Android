@@ -1,6 +1,7 @@
 package com.proteam.fithub.presentation.ui.main.community.dialog
 
 import android.animation.ObjectAnimator
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -8,7 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.addCallback
+import androidx.activity.OnBackPressedCallback
 import androidx.core.animation.doOnEnd
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
@@ -18,20 +19,25 @@ import com.proteam.fithub.databinding.DialogCommunityFloatingBinding
 import com.proteam.fithub.presentation.ui.main.community.viewmodel.CommunityViewModel
 
 class DialogCommunityFloating(
-    private val certificate : () -> Unit,
-    private val board : () -> Unit
+    private val certificate: () -> Unit,
+    private val board: () -> Unit
 ) : DialogFragment() {
     private lateinit var binding: DialogCommunityFloatingBinding
-    private val viewModel : CommunityViewModel by activityViewModels()
+    private val viewModel: CommunityViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.dialog_community_floating, container, false)
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.dialog_community_floating, container, false)
 
         initBinding()
+
+        dialog?.setOnDismissListener {
+            setDismiss()
+        }
 
         return binding.root
     }
@@ -39,6 +45,10 @@ class DialogCommunityFloating(
     private fun initBinding() {
         binding.dialog = this
         binding.viewModel = viewModel
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
     }
 
 
@@ -53,7 +63,12 @@ class DialogCommunityFloating(
 
     fun setDismiss() {
         viewModel.closeFabDialog()
-        val anim = ObjectAnimator.ofFloat(binding.dialogCommunityFloatingFabWriteOnDialog as View, "rotation", -45f, 0f).setDuration(100)
+        val anim = ObjectAnimator.ofFloat(
+            binding.dialogCommunityFloatingFabWriteOnDialog as View,
+            "rotation",
+            -45f,
+            0f
+        ).setDuration(100)
         anim.doOnEnd {
             initAnim()
             dismiss()
