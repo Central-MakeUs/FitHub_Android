@@ -10,6 +10,7 @@ import com.proteam.fithub.data.remote.response.ResponseChangePassword
 import com.proteam.fithub.data.remote.response.ResponseSignUpWithPhone
 import com.proteam.fithub.data.remote.response.ResponseSignUpWithSocial
 import com.proteam.fithub.presentation.util.BaseResponse
+import okhttp3.MultipartBody
 
 interface SignUpRepository {
 
@@ -21,7 +22,7 @@ interface SignUpRepository {
 
     suspend fun requestUserNumberAvailable(phoneNumber : RequestPhoneNumberAvailable) : Result<BaseResponse>
 
-    suspend fun requestSignUpWithPhone(body : RequestSignUpWithPhone) : Result<ResponseSignUpWithPhone>
+    suspend fun requestSignUpWithPhone(marketingAgree : Boolean, phoneNumber : String, name : String, nickname : String, password : String, birth : String, gender : String, preferExercises : List<Int>, profileImage : MultipartBody.Part) : Result<ResponseSignUpWithPhone>
 
     suspend fun requestSignUpWithSocial(body : RequestSignUpWithSocial) : Result<ResponseSignUpWithSocial>
 

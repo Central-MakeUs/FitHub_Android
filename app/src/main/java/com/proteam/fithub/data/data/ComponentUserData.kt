@@ -1,11 +1,14 @@
 package com.proteam.fithub.data.data
 
-import android.graphics.drawable.Drawable
-
 data class ComponentUserData (
-    val userProfile : Int, /* String */
+    val ownerId : Int,
     val nickname : String,
-    val date : String,
-    val exercise : String,
-    val level : String
-)
+    val profileUrl : String?,
+    val mainExerciseInfo : UserExerciseInfo?
+) {
+    data class UserExerciseInfo(
+        val category : String?,
+        val level : Int,
+        val gradeName : String
+    )
+}

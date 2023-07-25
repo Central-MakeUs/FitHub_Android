@@ -57,6 +57,13 @@
     <!-- Font -->
 
     <!-- Title -->
+    <style name="Title_large_semibold" parent="Widget.AppCompat.TextView">
+        <item name="fontFamily">@font/pretendard_semibold</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">22sp</item>
+        <item name="lineHeight">28dp</item>
+    </style>
+
     <style name="Title_medium_semibold" parent="Widget.AppCompat.TextView">
         <item name="fontFamily">@font/pretendard_semibold</item>
         <item name="android:includeFontPadding">false</item>
@@ -65,6 +72,13 @@
     </style>
 
     <!-- Body -->
+    <style name="Body_large_regular" parent="Widget.AppCompat.TextView">
+        <item name="fontFamily">@font/pretendard_regular</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">16sp</item>
+        <item name="lineHeight">24dp</item>
+    </style>
+
     <style name="Body_medium_regular" parent="Widget.AppCompat.TextView">
         <item name="fontFamily">@font/pretendard_regular</item>
         <item name="android:includeFontPadding">false</item>

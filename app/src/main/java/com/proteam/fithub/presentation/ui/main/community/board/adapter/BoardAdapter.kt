@@ -1,29 +1,56 @@
 package com.proteam.fithub.presentation.ui.main.community.board.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.proteam.fithub.data.data.dummy.DummyCommunityData
+import com.proteam.fithub.data.remote.response.ResponseArticleData
+import com.proteam.fithub.data.remote.response.ResponseCertificateData
 import com.proteam.fithub.databinding.ItemRvCommunityBoardBinding
 
-class BoardAdapter (private val dummy : List<DummyCommunityData>, private val onBoardClick : (Int) -> Unit): RecyclerView.Adapter<BoardAdapter.BoardViewHolder>() {
+class BoardAdapter(
+    private val heartClick: (Int) -> Unit,
+    private val itemClick: (Int) -> Unit) :
+    PagingDataAdapter<ResponseArticleData.ResultArticleData, BoardAdapter.BoardViewHolder>(
+        diffCallback) {
 
-    inner class BoardViewHolder(private val binding : ItemRvCommunityBoardBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item : DummyCommunityData) {
-            binding.dummy = item
-            binding.itemRvCommunityBoardLayoutUser.getUserData(item.user)
+    inner class BoardViewHolder(private val binding: ItemRvCommunityBoardBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: ResponseArticleData.ResultArticleData) {
+            Log.e("----", "bind: ${item.title}", )
+            binding.data = item
+            binding.itemRvCommunityBoardLayoutUser.getUserData(item.userInfo, item.createdAt)
 
-            binding.root.setOnClickListener { onBoardClick.invoke(adapterPosition) }
+            binding.root.setOnClickListener { itemClick.invoke(item.articleId) }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BoardViewHolder {
-        return BoardViewHolder(ItemRvCommunityBoardBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return BoardViewHolder(
+            ItemRvCommunityBoardBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
+    }
+    override fun onBindViewHolder(holder: BoardViewHolder, position: Int) {
+        getItem(position)?.let { holder.bind(it) }
     }
 
-    override fun getItemCount(): Int = dummy.size
+    companion object {
+        private val diffCallback = object : DiffUtil.ItemCallback<ResponseArticleData.ResultArticleData>() {
 
-    override fun onBindViewHolder(holder: BoardViewHolder, position: Int) {
-        holder.bind(dummy[position])
+            override fun areItemsTheSame(oldItem: ResponseArticleData.ResultArticleData, newItem: ResponseArticleData.ResultArticleData): Boolean {
+                return oldItem.articleId == newItem.articleId
+            }
+
+            override fun areContentsTheSame(oldItem: ResponseArticleData.ResultArticleData, newItem: ResponseArticleData.ResultArticleData): Boolean {
+                return oldItem == newItem
+            }
+        }
     }
 }

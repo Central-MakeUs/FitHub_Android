@@ -15,13 +15,16 @@ import com.proteam.fithub.databinding.ComponentUserInfoBigBinding
 class ComponentBigUser(context : Context, attrs : AttributeSet) : ConstraintLayout(context, attrs) {
     private lateinit var binding : ComponentUserInfoBigBinding
     private lateinit var userData : ComponentUserData
+    private lateinit var time : String
 
     init {
         initBinding()
     }
 
-    fun getUserData(userData : ComponentUserData) {
+    fun getUserData(userData : ComponentUserData, time : String) {
         this.userData = userData
+        this.time = time
+
         initUi()
     }
 
@@ -32,7 +35,8 @@ class ComponentBigUser(context : Context, attrs : AttributeSet) : ConstraintLayo
 
     private fun initUi() {
         binding.data = userData
-        binding.componentUserBigLayoutExercise.getExercise(userData.exercise)
-        binding.componentUserBigLayoutLevel.getLevel(userData.level)
+        binding.time = time
+        binding.componentUserBigLayoutExercise.getExercise(userData.mainExerciseInfo?.category)
+        binding.componentUserBigLayoutLevel.getLevel(userData.mainExerciseInfo?.level, userData.mainExerciseInfo?.gradeName)
     }
 }

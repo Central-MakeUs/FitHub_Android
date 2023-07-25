@@ -1,5 +1,7 @@
 package com.proteam.fithub.presentation.ui.signup.viewmodel
 
+import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,6 +20,10 @@ import com.proteam.fithub.domain.repository.SignInRepository
 import com.proteam.fithub.domain.repository.SignUpRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
@@ -50,9 +56,11 @@ class SignUpViewModel @Inject constructor(
     val selectExercises: LiveData<MutableList<Int>> = _selectedExercises
     private val toolSelectInterestSports = mutableListOf<Int>()
 
-    private val _userSelectedProfileImage =
-        MutableLiveData<Any>()
-    val userSelectedProfileImage: LiveData<Any> = _userSelectedProfileImage
+    private val _userSelectedProfileImage = MutableLiveData<Uri>()
+    val userSelectedProfileImage: LiveData<Uri> = _userSelectedProfileImage
+
+    private val _imagePaths = MutableLiveData<Uri>()
+    val imagePaths : LiveData<Uri> = _imagePaths
 
     private val userInputPhoneNumber = MutableLiveData<String>()
     private val userInputName = MutableLiveData<String>()
@@ -88,7 +96,7 @@ class SignUpViewModel @Inject constructor(
     }
 
     fun initProfile() {
-        _userSelectedProfileImage.value = R.drawable.ic_sign_up_default_profile
+        _userSelectedProfileImage.value = null
     }
 
     /** Agreement **/
@@ -130,9 +138,14 @@ class SignUpViewModel @Inject constructor(
         _selectedExercises.value = toolSelectInterestSports
     }
 
-    fun setUserSelectedProfile(path: Any) {
+    fun setUserSelectedProfile(path: Uri) {
         _userSelectedProfileImage.value = path
     }
+
+    fun setPathForDelete(paths : Uri) {
+        _imagePaths.postValue(paths)
+    }
+
 
     fun setUserNickname(nickName : String) {
         _userInputNickName.value = nickName
@@ -192,42 +205,40 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    fun requestSignUp() {
+    fun requestSignUp(path : String) {
         if(viewType.value == "Phone") {
-            requestPhoneSignUp()
+            requestPhoneSignUp(path)
         } else {
-            requestSocialSignUp()
+            requestSocialSignUp(path)
         }
     }
 
-    private fun requestPhoneSignUp() {
+    private fun requestPhoneSignUp(path : String) {
         viewModelScope.launch {
-            signUpRepository.requestSignUpWithPhone(mapToSignUpWithPhone())
+            signUpRepository.requestSignUpWithPhone(
+                marketingAgree = signUpAgreements.value?.count { it.checked } == 5,
+                phoneNumber = userInputPhoneNumber.value!!,
+                name = userInputName.value!!,
+                nickname = userInputNickName.value!!,
+                password = userInputPassword.value!!,
+                birth = userInputBirth.value!!,
+                gender = userInputGender.value!!,
+                preferExercises = selectExercises.value!!,
+                profileImage = path.mapToMultipart())
                 .onSuccess { setUserDataWhenPhone(it.result) }
+                .onFailure { Log.e("----", "requestPhoneSignUp: ${it.message}", ) }
         }
     }
 
-    private fun mapToSignUpWithPhone() : RequestSignUpWithPhone{
-        return RequestSignUpWithPhone(
-            marketingAgree = signUpAgreements.value?.count { it.checked } == 5,
-            phoneNumber = userInputPhoneNumber.value!!,
-            name = userInputName.value!!,
-            nickname = userInputNickName.value!!,
-            password = userInputPassword.value!!,
-            birth = userInputBirth.value!!,
-            gender = userInputGender.value!!,
-            preferExercises = selectExercises.value!!
-        )
-    }
 
-    private fun requestSocialSignUp() {
+    private fun requestSocialSignUp(path : String) {
         viewModelScope.launch {
-            signUpRepository.requestSignUpWithSocial(mapToSignUpWithSocial())
+            signUpRepository.requestSignUpWithSocial(mapToSignUpWithSocial(path))
                 .onSuccess { setUserDataWhenSocial(it.result) }
         }
     }
 
-    private fun mapToSignUpWithSocial() : RequestSignUpWithSocial {
+    private fun mapToSignUpWithSocial(path : String) : RequestSignUpWithSocial {
         return RequestSignUpWithSocial(
             marketingAgree = signUpAgreements.value?.count { it.checked } == 5,
             name = userInputName.value!!,
@@ -247,9 +258,15 @@ class SignUpViewModel @Inject constructor(
 
     private fun setUserDataWhenSocial(result : ResponseSignUpWithSocial.ResultSignUpWithSocial) {
         viewModelScope.launch {
-            signInRepository.saveUserData(result.userId, null)
+            signInRepository.saveUserData(result.userId, result.accessToken)
         }
         _signUpState.value = true
+    }
+
+    private fun String.mapToMultipart(): MultipartBody.Part {
+        val file = File(this)
+        val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+        return MultipartBody.Part.createFormData("profileImage", file.name, requestFile)
     }
 
     /** Dummy **/

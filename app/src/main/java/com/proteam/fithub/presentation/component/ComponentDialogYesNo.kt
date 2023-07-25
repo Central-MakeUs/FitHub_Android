@@ -57,6 +57,8 @@ class ComponentDialogYesNo(private val onActionClick : () -> Unit) : DialogFragm
             "NO_ACCOUNT_INFO" -> case_NO_ACCOUNT_INFO()
             "4018" -> case_4018()
             "BACK_PRESSED_WHILE_WRITE" -> case_BACK_PRESSED_WHILE_WRITE()
+            "MY_CERTIFICATE_ARTICLE" -> case_MY_CERTIFICATE_ARTICLE()
+            "OTHER_USER_REPORT" -> case_OTHER_USER_REPORT()
         }
     }
 
@@ -82,6 +84,18 @@ class ComponentDialogYesNo(private val onActionClick : () -> Unit) : DialogFragm
         binding.componentDialogTvTitle.text = "작성을 종료하시겠습니까?"
         binding.componentDialogTvNotice.text = "작성하신 내용이 저장되지 않습니다."
         binding.componentDialogTvAction.text = "확인"
+    }
+
+    private fun case_MY_CERTIFICATE_ARTICLE() {
+        binding.componentDialogTvTitle.text = "게시글을 삭제하시겠어요?"
+        binding.componentDialogTvNotice.text = "해당 게시글은 영구 삭제됩니다."
+        binding.componentDialogTvAction.text = "삭제"
+    }
+
+    private fun case_OTHER_USER_REPORT() {
+        binding.componentDialogTvTitle.text = "사용자를 신고하시겠습니까?"
+        binding.componentDialogTvNotice.text = "신고된 사용자는 차단되어 글과 댓글이\n 숨겨지고, 차단은 취소할 수 없습니다."
+        binding.componentDialogTvAction.text = "신고"
     }
 
     fun onActionClick() {

@@ -7,7 +7,7 @@
 
         <variable
             name="data"
-            type="com.proteam.fithub.data.remote.response.ExamCertificateData" />
+            type="com.proteam.fithub.data.remote.response.ResponseCertificateData.ResultCertificateData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -34,14 +34,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    android:src="@{data.path}"
+                    common_set_Image="@{data.pictureUrl}"
                     tools:src="@drawable/ic_launcher_background"/>
 
                 <ImageView
                     android:id="@+id/item_rv_exercise_certificate_iv_heart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src='@{data.hearted ? @drawable/ic_heart_clicked : @drawable/ic_heart_not_clicked}'
+                    android:src='@{data.liked ? @drawable/ic_heart_clicked : @drawable/ic_heart_not_clicked}'
                     android:layout_margin="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -49,7 +49,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{String.valueOf(data.heartCount)}"
+                    android:text="@{String.valueOf(data.likes)}"
                     android:textColor="@color/text_default"
                     android:textAppearance="@style/Body_small_medium"
                     android:layout_marginStart="2dp"

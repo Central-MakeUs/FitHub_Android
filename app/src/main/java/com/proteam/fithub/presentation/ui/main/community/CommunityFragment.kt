@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.google.android.material.chip.Chip
 import com.google.android.material.tabs.TabLayoutMediator
 import com.proteam.fithub.R
@@ -43,7 +44,6 @@ class CommunityFragment : Fragment() {
         initUi()
         observeFilterExercises()
 
-
         return binding.root
     }
 
@@ -68,6 +68,13 @@ class CommunityFragment : Fragment() {
             }.attach()
             offscreenPageLimit = 1
         }
+
+        binding.fgCommunityVpContainer.registerOnPageChangeCallback(object : OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                viewModel.notifyChangeFragment(position)
+            }
+        })
     }
 
     private fun initFab() {
@@ -94,7 +101,7 @@ class CommunityFragment : Fragment() {
     }
 
     private fun onBoardClicked() {
-        Log.d("----", "onBoardClicked: ")
+        (requireActivity() as MainActivity).openWriteOrModifyBoard("Write")
     }
 
     private fun initChipGroup() {
@@ -132,7 +139,7 @@ class CommunityFragment : Fragment() {
     }
 
     private fun requestAPI(checkedId : Int) {
-        Log.d("----", "initChipGroup: ${checkedId}")
+        viewModel.setSelectedFilter(checkedId)
     }
 
     private fun getChipList(items : MutableList<ResponseExercises.ExercisesList>) : List<Chip> {

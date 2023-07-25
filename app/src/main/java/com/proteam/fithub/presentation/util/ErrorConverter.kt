@@ -18,4 +18,12 @@ object ErrorConverter {
             else -> Result.failure(IllegalArgumentException())
         }
     }
+
+    fun setValidate2(res : Response<*>) : Result<Any> {
+        return when(res.code()) {
+            in 200..399 -> Result.success(res)
+            in 400..499 -> Result.failure(IllegalArgumentException(res.errorBody()?.convertAndGetCode().toString()))
+            else -> Result.failure(IllegalArgumentException())
+        }
+    }
 }

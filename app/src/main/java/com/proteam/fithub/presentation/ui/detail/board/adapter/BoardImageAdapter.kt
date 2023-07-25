@@ -4,14 +4,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.proteam.fithub.R
+import com.proteam.fithub.data.remote.response.ResponseArticleDetailData
 import com.proteam.fithub.databinding.ItemRvCommunityBoardImageBinding
 
 class BoardImageAdapter : RecyclerView.Adapter<BoardImageAdapter.BoardImageViewHolder>() {
-
+    var images = mutableListOf<ResponseArticleDetailData.ArticlePictureResult>()
     inner class BoardImageViewHolder(private val binding : ItemRvCommunityBoardImageBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind() {
-            /** String **/
-            binding.path = R.drawable.ic_launcher_background
+        fun bind(item : ResponseArticleDetailData.ArticlePictureResult) {
+            binding.path = item.pictureUrl
+
+            //:TODO 클릭리스너
         }
     }
 
@@ -19,9 +21,9 @@ class BoardImageAdapter : RecyclerView.Adapter<BoardImageAdapter.BoardImageViewH
         return BoardImageViewHolder(ItemRvCommunityBoardImageBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
-    override fun getItemCount(): Int  = 5
+    override fun getItemCount(): Int  = images.size
 
     override fun onBindViewHolder(holder: BoardImageViewHolder, position: Int) {
-        holder.bind()
+        holder.bind(images[position])
     }
 }
