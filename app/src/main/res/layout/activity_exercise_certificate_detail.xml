@@ -19,6 +19,10 @@
         <variable
             name="viewModel"
             type="com.proteam.fithub.presentation.ui.detail.certificate.viewmodel.ExerciseCertificateDetailViewModel" />
+
+        <variable
+            name="commentCount"
+            type="Integer" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -147,9 +151,8 @@
                     android:id="@+id/exercise_certificate_detail_tv_comment_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
                     android:layout_marginStart="3dp"
-                    android:text="12"
+                    android:text="@{String.valueOf(commentCount)}"
                     android:textAppearance="@style/Body_small_regular"
                     android:textColor="@color/text_sub02"
                     app:layout_constraintBottom_toBottomOf="@id/exercise_certificate_detail_iv_comment"

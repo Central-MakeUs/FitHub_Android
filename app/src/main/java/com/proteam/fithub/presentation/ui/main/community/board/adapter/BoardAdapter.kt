@@ -20,8 +20,7 @@ class BoardAdapter(
     inner class BoardViewHolder(private val binding: ItemRvCommunityBoardBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ResponseArticleData.ResultArticleData) {
-            Log.e("----", "bind: ${item.title}", )
-            binding.data = item
+            binding.data = item.apply { this.exerciseTag = "#${this.exerciseTag}" }
             binding.itemRvCommunityBoardLayoutUser.getUserData(item.userInfo, item.createdAt)
 
             binding.root.setOnClickListener { itemClick.invoke(item.articleId) }

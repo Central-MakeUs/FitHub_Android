@@ -56,7 +56,7 @@ class BoardDetailActivity : AppCompatActivity() {
         viewModel.articleData.observe(this) { it ->
             binding.boardDetailLayoutUser.getUserData(it.userInfo, it.createdAt)
             binding.data = it
-            binding.tag = "#" + it.articleCategory.name + it.hashtags.hashtags.map { it.name }.joinToString { " #" }
+            binding.tag = it.hashtags.hashtags.map { "#${it.name}" }.joinToString(" ")
             requestComment()
             if(it.articlePictureList.pictureList.isNotEmpty()) setImages(it.articlePictureList.pictureList)
         }

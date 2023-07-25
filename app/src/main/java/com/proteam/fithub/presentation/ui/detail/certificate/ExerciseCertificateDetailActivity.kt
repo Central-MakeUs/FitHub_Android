@@ -8,8 +8,10 @@ import android.provider.MediaStore
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.map
 import com.proteam.fithub.R
 import com.proteam.fithub.data.data.ComponentUserData
 import com.proteam.fithub.databinding.ActivityExerciseCertificateDetailBinding
@@ -49,7 +51,7 @@ class ExerciseCertificateDetailActivity : AppCompatActivity() {
         viewModel.certificateData.observe(this) { it ->
             binding.exerciseCertificateDetailLayoutUser.getUserData(it.userInfo, it.createdAt)
             binding.detailData = it
-            binding.tags = it.hashtags.hashtags.map { it.name }.joinToString()
+            binding.tags = it.hashtags.hashtags.map { "#${it.name}" }.joinToString(" ")
 
             requestComment()
         }

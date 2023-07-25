@@ -107,6 +107,7 @@ class WriteOrModifyCertificateViewModel @Inject constructor(
     }
 
     fun requestPostCertificate(path : String) {
+        Log.e("----", "requestPostCertificate: ${userInputContent.value!!} / ${userInputTagList.value!!}", )
         viewModelScope.launch {
             certificateRepository.requestPostCertificateData(
                 userSelectExercise.value!!.id,
