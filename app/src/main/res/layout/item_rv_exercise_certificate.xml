@@ -41,7 +41,7 @@
                     android:id="@+id/item_rv_exercise_certificate_iv_heart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src='@{data.liked ? @drawable/ic_heart_clicked : @drawable/ic_heart_not_clicked}'
+                    android:src='@{data.liked ? @drawable/ic_heart_clicked : @drawable/ic_heart_half_filled}'
                     android:layout_margin="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
