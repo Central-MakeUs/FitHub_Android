@@ -28,7 +28,7 @@ class BoardDetailActivity : AppCompatActivity() {
     }
 
     private val commentAdapter by lazy {
-        CommunityDetailCommentAdapter(::onCommentHeartClicked)
+        CommunityDetailCommentAdapter(::onCommentHeartClicked, ::onCommentOptionClicked)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -108,8 +108,12 @@ class BoardDetailActivity : AppCompatActivity() {
         binding.boardDetailTvComment.setText("")
     }
 
-    private fun onCommentHeartClicked(index : Int) {
+    private fun onCommentHeartClicked(position : Int, index : Int) {
         //하트추가 로직
+    }
+
+    private fun onCommentOptionClicked(position : Int, index : Int) {
+
     }
 
     private fun observeHeartClicked() {

@@ -2,18 +2,14 @@ package com.proteam.fithub.presentation.ui.signup
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.ActivitySignUpBinding
-import com.proteam.fithub.presentation.ui.auth.signin.SignInActivity
 import com.proteam.fithub.presentation.ui.auth.signinphone.SignInWithPhoneNumberActivity
-import com.proteam.fithub.presentation.ui.main.MainActivity
-import com.proteam.fithub.presentation.ui.signup.agree.SignUpAgreementFragment
-import com.proteam.fithub.presentation.ui.signup.social.SignUpSocialFragment
+import com.proteam.fithub.presentation.ui.sign.up.common.agreement.AgreementFragment
 import com.proteam.fithub.presentation.ui.signup.viewmodel.SignUpViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -42,7 +38,7 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun initFragments() {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.sign_up_layout_container, SignUpAgreementFragment(), viewModel.viewType.value).commit()
+            .replace(R.id.sign_up_layout_container, AgreementFragment(), viewModel.viewType.value).commit()
     }
 
     fun changeFragments(fragment : Fragment) {

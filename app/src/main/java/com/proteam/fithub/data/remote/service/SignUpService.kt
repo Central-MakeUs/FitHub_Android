@@ -4,11 +4,9 @@ import com.proteam.fithub.data.remote.request.RequestChangePassword
 import com.proteam.fithub.data.remote.request.RequestCheckSMSAuth
 import com.proteam.fithub.data.remote.request.RequestPhoneNumberAvailable
 import com.proteam.fithub.data.remote.request.RequestSMSAuth
-import com.proteam.fithub.data.remote.request.RequestSignUpWithPhone
-import com.proteam.fithub.data.remote.request.RequestSignUpWithSocial
 import com.proteam.fithub.data.remote.response.ResponseChangePassword
 import com.proteam.fithub.data.remote.response.ResponseSignUpWithPhone
-import com.proteam.fithub.data.remote.response.ResponseSignUpWithSocial
+import com.proteam.fithub.data.remote.response.ResponseSignUp
 import com.proteam.fithub.presentation.util.BaseResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -51,10 +49,17 @@ interface SignUpService {
         @Part profileImage : MultipartBody.Part
     ) : Response<ResponseSignUpWithPhone>
 
+    @Multipart
     @PATCH("users/sign-up/oauth")
     suspend fun requestSignUpWithSocial(
-        @Body body : RequestSignUpWithSocial
-    ) : Response<ResponseSignUpWithSocial>
+        @Part("marketingAgree") marketingAgree : Boolean,
+        @Part("name") name : String,
+        @Part("nickname") nickname : String,
+        @Part("birth") birth : String,
+        @Part("gender") gender : String,
+        @Part("preferExercises") preferExercises : List<Int>,
+        @Part profileImage : MultipartBody.Part
+    ) : Response<ResponseSignUp>
 
     @POST("users/password")
     suspend fun requestPhoneNumberAvailable(

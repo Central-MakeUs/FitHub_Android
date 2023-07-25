@@ -1,5 +1,6 @@
 package com.proteam.fithub.data.local.source
 
+import android.util.Log
 import com.proteam.fithub.data.remote.response.ResponseSignIn
 import com.proteam.fithub.domain.source.SharedPreferenceSource
 import com.proteam.fithub.presentation.ui.FitHub.Companion.mSharedPreferences
@@ -11,7 +12,7 @@ class SharedPreferenceLocalSource : SharedPreferenceSource {
             mSharedPreferences.edit().apply{
                 accessToken?.let { putString("jwt", it).apply() }
                 userId?.let { putString("userId", it.toString()) }
-            }
+            }.commit()
         } catch (exception : Exception) {
             throw exception
         }

@@ -1,5 +1,6 @@
 package com.proteam.fithub.presentation.ui.detail.certificate.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,6 +10,7 @@ import com.proteam.fithub.data.remote.request.RequestPostComment
 import com.proteam.fithub.data.remote.response.ResponseCertificateDetailData
 import com.proteam.fithub.data.remote.response.ResponseCertificateHeartClicked
 import com.proteam.fithub.data.remote.response.ResponseCommentData
+import com.proteam.fithub.data.remote.response.ResponseCommentHeartClicked
 import com.proteam.fithub.domain.repository.CertificateRepository
 import com.proteam.fithub.domain.repository.CommentRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,6 +32,11 @@ class ExerciseCertificateDetailViewModel @Inject constructor(
         MutableLiveData<ResponseCertificateHeartClicked.ResultCertificateHeartClicked>()
     val heartResult: LiveData<ResponseCertificateHeartClicked.ResultCertificateHeartClicked> =
         _heartResult
+
+    private val _commentHeartResult =
+        MutableLiveData<ResponseCommentHeartClicked.ResultCommentHeartClicked>()
+    val commentHeartResult: LiveData<ResponseCommentHeartClicked.ResultCommentHeartClicked> =
+        _commentHeartResult
 
     var userInputComment = MutableLiveData<String>().apply { value = "" }
     private val _postCommentState = MutableLiveData<Int>()
@@ -70,6 +77,14 @@ class ExerciseCertificateDetailViewModel @Inject constructor(
     fun requestDeleteCertificate() {
         viewModelScope.launch {
             certificateRepository.requestDeleteCertificateData(_certificateData.value!!.recordId)
+        }
+    }
+
+    fun requestCommentHeartClicked(index : Int) {
+        viewModelScope.launch {
+            commentRepository.postCommentHeartClicked("records", certificateData.value!!.recordId, index)
+                .onSuccess { _commentHeartResult.value = it }
+                .onFailure { Log.e("----", "requestCommentHeartClicked: ${it.message}", ) }
         }
     }
 }

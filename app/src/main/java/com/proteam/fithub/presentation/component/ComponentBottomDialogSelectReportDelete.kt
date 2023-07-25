@@ -56,6 +56,8 @@ class ComponentBottomDialogSelectReportDelete(
         when (tag) {
             "MINE" -> case_MINE()
             "NOT_MINE" -> case_NOT_MINE()
+            "MINE_COMMENT" -> case_MINE_COMMENT()
+            "NOT_MINE_COMMENT" -> case_NOT_MINE_COMMENT()
         }
     }
 
@@ -74,6 +76,30 @@ class ComponentBottomDialogSelectReportDelete(
     private fun case_NOT_MINE() {
         binding.dialogBottomSelectReportDeleteTvFirst.apply {
             text = "게시글 신고하기"
+            setTextColor(resources.getColor(R.color.color_error, null))
+        }
+
+        binding.dialogBottomSelectReportDeleteTvSecond.apply {
+            text = "사용자 신고하기"
+            setTextColor(resources.getColor(R.color.color_error, null))
+        }
+    }
+
+    private fun case_MINE_COMMENT() {
+        binding.dialogBottomSelectReportDeleteTvFirst.apply {
+            text = "수정하기"
+            setTextColor(resources.getColor(R.color.text_default, null))
+        }
+
+        binding.dialogBottomSelectReportDeleteTvSecond.apply {
+            text = "삭제하기"
+            setTextColor(resources.getColor(R.color.color_error, null))
+        }
+    }
+
+    private fun case_NOT_MINE_COMMENT() {
+        binding.dialogBottomSelectReportDeleteTvFirst.apply {
+            text = "댓글 신고하기"
             setTextColor(resources.getColor(R.color.color_error, null))
         }
 

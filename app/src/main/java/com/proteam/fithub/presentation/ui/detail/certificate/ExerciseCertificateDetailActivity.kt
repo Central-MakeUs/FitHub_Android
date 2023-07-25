@@ -1,22 +1,16 @@
 package com.proteam.fithub.presentation.ui.detail.certificate
 
 import android.content.Intent
-import android.database.Cursor
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.map
 import com.proteam.fithub.R
-import com.proteam.fithub.data.data.ComponentUserData
 import com.proteam.fithub.databinding.ActivityExerciseCertificateDetailBinding
 import com.proteam.fithub.presentation.component.ComponentBottomDialogSelectReportDelete
 import com.proteam.fithub.presentation.component.ComponentDialogYesNo
+import com.proteam.fithub.presentation.ui.FitHub.Companion.mSharedPreferences
 import com.proteam.fithub.presentation.ui.detail.adapter.CommunityDetailCommentAdapter
 import com.proteam.fithub.presentation.ui.detail.certificate.viewmodel.ExerciseCertificateDetailViewModel
 import com.proteam.fithub.presentation.ui.write.certificate.WriteOrModifyCertificateActivity
@@ -28,7 +22,7 @@ class ExerciseCertificateDetailActivity : AppCompatActivity() {
     private lateinit var binding : ActivityExerciseCertificateDetailBinding
     private val viewModel : ExerciseCertificateDetailViewModel by viewModels()
     private val commentAdapter by lazy {
-        CommunityDetailCommentAdapter(::onCommentHeartClicked)
+        CommunityDetailCommentAdapter(::onCommentHeartClicked, ::onCommentOptionClicked)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,8 +73,23 @@ class ExerciseCertificateDetailActivity : AppCompatActivity() {
         binding.exerciseCertificateDetailRvComment.adapter = commentAdapter
     }
 
-    private fun onCommentHeartClicked(index : Int) {
+    private fun onCommentHeartClicked(position : Int, index : Int) {
+        viewModel.requestCommentHeartClicked(index)
+        observeCommentHeartClicked(position)
+    }
 
+    private fun observeCommentHeartClicked(position : Int) {
+        viewModel.commentHeartResult.observe(this) {
+            commentAdapter.setHeartAction(position, it.newLikes)
+        }
+    }
+
+    private fun onCommentOptionClicked(userIndex : Int, commentIndex : Int) {
+        if(userIndex == mSharedPreferences.getString("userId", "0")?.toInt()) {
+            ComponentBottomDialogSelectReportDelete(::modifyComment, ::checkCommentReallyDelete).show(supportFragmentManager, "MINE_COMMENT")
+        } else {
+            ComponentBottomDialogSelectReportDelete(::reportComment, ::reportCommentUser).show(supportFragmentManager, "NOT_MINE_COMMENT")
+        }
     }
 
     private fun observeHeartClicked() {
@@ -134,5 +143,25 @@ class ExerciseCertificateDetailActivity : AppCompatActivity() {
 
     private fun reportUser() {
         //:TODO 유저 신고로직
+    }
+
+    private fun modifyComment() {
+        //:TODO 댓글 수정로직
+    }
+
+    private fun checkCommentReallyDelete() {
+        ComponentDialogYesNo(::deleteComment).show(supportFragmentManager, "MY_COMMENT")
+    }
+
+    private fun deleteComment() {
+        //:TODO 댓글 삭제로직
+    }
+
+    private fun reportComment() {
+        //:TODO 댓글 신고로직
+    }
+
+    private fun reportCommentUser() {
+        //:TODO 댓글 유저 신고로직
     }
 }

@@ -6,11 +6,11 @@
     <data>
         <variable
             name="fragment"
-            type="com.proteam.fithub.presentation.ui.signup.agree.SignUpAgreementFragment" />
+            type="com.proteam.fithub.presentation.ui.sign.up.common.agreement.AgreementFragment" />
 
         <variable
             name="viewModel"
-            type="com.proteam.fithub.presentation.ui.signup.viewmodel.SignUpViewModel" />
+            type="com.proteam.fithub.presentation.ui.sign.up.common.agreement.viewmodel.AgreementViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -7,6 +7,8 @@ data class ResponseSignIn(
 ) : BaseResponse() {
 
     data class ResultSignIn(
+        val userId : Int,
+        val accessToken : String,
         val jwt : String
     )
 }

@@ -6,15 +6,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.proteam.fithub.R
-import com.proteam.fithub.data.data.SignUpAgreement
+import com.proteam.fithub.data.data.Agreements
 import com.proteam.fithub.data.remote.request.RequestCheckSMSAuth
 import com.proteam.fithub.data.remote.request.RequestSMSAuth
-import com.proteam.fithub.data.remote.request.RequestSignUpWithPhone
 import com.proteam.fithub.data.remote.request.RequestSignUpWithSocial
 import com.proteam.fithub.data.remote.response.ResponseExercises
 import com.proteam.fithub.data.remote.response.ResponseSignUpWithPhone
-import com.proteam.fithub.data.remote.response.ResponseSignUpWithSocial
+import com.proteam.fithub.data.remote.response.ResponseSignUp
 import com.proteam.fithub.domain.repository.ExerciseRepository
 import com.proteam.fithub.domain.repository.SignInRepository
 import com.proteam.fithub.domain.repository.SignUpRepository
@@ -36,7 +34,7 @@ class SignUpViewModel @Inject constructor(
     val viewType : LiveData<String> = _viewType
 
     var signUpAgreements =
-        MutableLiveData<MutableList<SignUpAgreement>>().also { it.value = agreementData() }
+        MutableLiveData<MutableList<Agreements>>().also { it.value = agreementData() }
     var signUpAllAgreements = MutableLiveData<Boolean>()
 
     var agreementNextEnable = MutableLiveData<Boolean>(false)
@@ -96,14 +94,14 @@ class SignUpViewModel @Inject constructor(
     }
 
     fun initProfile() {
-        _userSelectedProfileImage.value = null
+        //_userSelectedProfileImage.value = null
     }
 
     /** Agreement **/
 
     fun manageAllAgreements(status: Boolean) {
         for (i in 0 until signUpAgreements.value!!.size) {
-            signUpAgreements.value!![i] = signUpAgreements.value!![i].also { it.checked = status }
+            //signUpAgreements.value!![i] = signUpAgreements.value!![i].also { it.checked = status }
         }
         checkAgreementFinished()
     }
@@ -232,10 +230,10 @@ class SignUpViewModel @Inject constructor(
 
 
     private fun requestSocialSignUp(path : String) {
-        viewModelScope.launch {
+        /*viewModelScope.launch {
             signUpRepository.requestSignUpWithSocial(mapToSignUpWithSocial(path))
                 .onSuccess { setUserDataWhenSocial(it.result) }
-        }
+        }*/
     }
 
     private fun mapToSignUpWithSocial(path : String) : RequestSignUpWithSocial {
@@ -256,7 +254,7 @@ class SignUpViewModel @Inject constructor(
         _signUpState.value = true
     }
 
-    private fun setUserDataWhenSocial(result : ResponseSignUpWithSocial.ResultSignUpWithSocial) {
+    private fun setUserDataWhenSocial(result : ResponseSignUp.ResultSignUp) {
         viewModelScope.launch {
             signInRepository.saveUserData(result.userId, result.accessToken)
         }
@@ -270,12 +268,12 @@ class SignUpViewModel @Inject constructor(
     }
 
     /** Dummy **/
-    fun agreementData(): MutableList<SignUpAgreement> = mutableListOf(
-        SignUpAgreement("(필수) 개인정보 수집 및 이용에 동의합니다.", false, true, "123"),
-        SignUpAgreement("(필수) 이용약관에 동의합니다.", false, true, "123"),
-        SignUpAgreement("(필수) 위치 기반 서비스 약관에 동의합니다.", false, true, "123"),
-        SignUpAgreement("(필수) 만 14세 이상 입니다.", false, true, "123"),
-        SignUpAgreement("(선택) 마케팅 정보 수신에 동의합니다.", false, false, "123")
+    fun agreementData(): MutableList<Agreements> = mutableListOf(
+        Agreements("(필수) 개인정보 수집 및 이용에 동의합니다.", false, true, "123"),
+        Agreements("(필수) 이용약관에 동의합니다.", false, true, "123"),
+        Agreements("(필수) 위치 기반 서비스 약관에 동의합니다.", false, true, "123"),
+        Agreements("(필수) 만 14세 이상 입니다.", false, true, "123"),
+        Agreements("(선택) 마케팅 정보 수신에 동의합니다.", false, false, "123")
     )
 
 }

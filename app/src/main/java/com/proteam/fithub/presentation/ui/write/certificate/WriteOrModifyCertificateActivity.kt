@@ -210,7 +210,7 @@ class WriteOrModifyCertificateActivity : AppCompatActivity() {
     }
 
     private fun Convert() : Uri {
-        val res = (viewModel.userSelectedImage.value!!.toString().toUri().getAbsolutePath()).ConvertWhenSingle(this@WriteOrModifyCertificateActivity)
+        val res = (viewModel.userSelectedImage.value!!.toString().toUri().getAbsolutePath()).ConvertWhenSingle(this)
 
         return "content://${res.substring(9)}".toUri()
     }

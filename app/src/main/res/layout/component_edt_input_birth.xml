@@ -21,7 +21,7 @@
             app:cardCornerRadius="5dp"
             app:cardElevation="0dp"
             app:layout_constraintTop_toTopOf="parent"
-            app:strokeColor="@color/gray_400"
+            app:strokeColor="@color/icon_enabled"
             app:strokeWidth="1dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -90,11 +90,11 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_sign_up_birth_div"
                     android:layout_marginStart="10dp"
-                    app:layout_constraintTop_toTopOf="@id/component_edt_input_birth_edt_gender"
+                    android:src="@drawable/ic_sign_up_birth_div"
                     app:layout_constraintBottom_toBottomOf="@id/component_edt_input_birth_edt_gender"
-                    app:layout_constraintStart_toEndOf="@id/component_edt_input_birth_edt_gender" />
+                    app:layout_constraintStart_toEndOf="@id/component_edt_input_birth_edt_gender"
+                    app:layout_constraintTop_toTopOf="@id/component_edt_input_birth_edt_gender" />
 
                 <ImageView
                     android:id="@+id/component_edt_input_birth_btn_clear"

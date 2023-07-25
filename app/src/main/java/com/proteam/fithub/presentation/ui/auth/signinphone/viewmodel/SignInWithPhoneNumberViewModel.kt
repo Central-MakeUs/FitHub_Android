@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.proteam.fithub.data.remote.request.RequestSignInPhone
+import com.proteam.fithub.data.remote.response.ResponseSignIn
 import com.proteam.fithub.domain.repository.SignInRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -22,7 +23,10 @@ class SignInWithPhoneNumberViewModel @Inject constructor(
     fun requestSignIn(number : String, password : String) {
         viewModelScope.launch {
             signInRepository.signInWithPhone(RequestSignInPhone(number, password))
-                .onSuccess { validateCode(it.code) }
+                .onSuccess {
+                    validateCode(it.code)
+                    saveUserData(it.result)
+                }
                 .onFailure { validateCode(it.message!!.toInt()) }
         }
     }
@@ -33,6 +37,12 @@ class SignInWithPhoneNumberViewModel @Inject constructor(
             4019 -> "NO_USER_INFO"
             4020 -> "INVALIDATE_PASSWORD"
             else -> "ERROR"
+        }
+    }
+
+    private fun saveUserData(result : ResponseSignIn.ResultSignIn) {
+        viewModelScope.launch {
+            signInRepository.saveUserData(result.userId, result.accessToken)
         }
     }
 

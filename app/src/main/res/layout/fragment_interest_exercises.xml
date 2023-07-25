@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="fragment"
+            type="com.proteam.fithub.presentation.ui.sign.up.common.exercise.InterestExerciseFragment" />
+
+        <variable
+            name="viewModel"
+            type="com.proteam.fithub.presentation.ui.sign.up.common.exercise.viewmodel.InterestExerciseViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="20dp"
+        android:background="@color/bg_default"
+        android:clickable="true">
+
+        <TextView
+            android:id="@+id/fg_sign_up_select_interest_sports_tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/pretendard_semibold"
+            android:includeFontPadding="false"
+            android:lineHeight="32dp"
+            android:text="@string/sign_up_with_phone_interest_sports"
+            android:textColor="@color/text_default"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/fg_sign_up_select_interest_sports_tv_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sign_up_with_phone_interest_sports_notice"
+            android:fontFamily="@font/pretendard_regular"
+            android:textSize="14sp"
+            android:lineHeight="20dp"
+            android:layout_marginTop="8dp"
+            android:includeFontPadding="false"
+            android:textColor="@color/text_sub01"
+            app:layout_constraintTop_toBottomOf="@id/fg_sign_up_select_interest_sports_tv_title"
+            app:layout_constraintStart_toStartOf="@id/fg_sign_up_select_interest_sports_tv_title"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fg_sign_up_select_interest_sports_rv_contents"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            app:layout_constraintTop_toBottomOf="@id/fg_sign_up_select_interest_sports_tv_subtitle"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            android:orientation="vertical"
+            app:spanCount="3" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/fg_sign_up_select_interest_sports_card_finish"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="10dp"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/fg_sign_up_select_interest_sports_btn_finish"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/selector_bg_btn_signin"
+                android:enabled="@{!viewModel.selectExercises.empty}"
+                android:onClick="@{() -> fragment.onRequestSignUp()}"
+                android:fontFamily="@font/pretendard_medium"
+                android:includeFontPadding="false"
+                android:lineHeight="24dp"
+                android:text="@string/finish_sign_up"
+                android:textColor="@color/text_main_btn"
+                android:textSize="16sp" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

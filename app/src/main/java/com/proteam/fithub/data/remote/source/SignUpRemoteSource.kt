@@ -1,22 +1,18 @@
 package com.proteam.fithub.data.remote.source
 
-import android.util.Log
 import com.proteam.fithub.data.remote.request.RequestChangePassword
 import com.proteam.fithub.data.remote.request.RequestCheckSMSAuth
 import com.proteam.fithub.data.remote.request.RequestPhoneNumberAvailable
 import com.proteam.fithub.data.remote.request.RequestSMSAuth
-import com.proteam.fithub.data.remote.request.RequestSignUpWithPhone
-import com.proteam.fithub.data.remote.request.RequestSignUpWithSocial
 import com.proteam.fithub.data.remote.response.ResponseChangePassword
 import com.proteam.fithub.data.remote.response.ResponseSignUpWithPhone
-import com.proteam.fithub.data.remote.response.ResponseSignUpWithSocial
+import com.proteam.fithub.data.remote.response.ResponseSignUp
 import com.proteam.fithub.data.remote.service.SignUpService
 import com.proteam.fithub.domain.source.SignUpSource
 import com.proteam.fithub.presentation.util.BaseResponse
 import com.proteam.fithub.presentation.util.ErrorConverter.convertAndGetCode
 import com.proteam.fithub.presentation.util.ErrorConverter.setValidate
 import okhttp3.MultipartBody
-import retrofit2.Response
 import javax.inject.Inject
 
 class SignUpRemoteSource @Inject constructor(private val service : SignUpService): SignUpSource {
@@ -58,11 +54,22 @@ class SignUpRemoteSource @Inject constructor(private val service : SignUpService
         }
     }
 
-
-    override suspend fun requestSignUpWithSocial(body: RequestSignUpWithSocial): Result<ResponseSignUpWithSocial> {
-        val res = service.requestSignUpWithSocial(body)
-        return setValidate(res) as Result<ResponseSignUpWithSocial>
+    override suspend fun requestSignUpWithSocial(
+        marketingAgree: Boolean,
+        name: String,
+        nickname: String,
+        birth: String,
+        gender: String,
+        preferExercises: List<Int>,
+        profileImage: MultipartBody.Part
+    ): Result<ResponseSignUp> {
+        val res = service.requestSignUpWithSocial(marketingAgree, name, nickname, birth, gender, preferExercises, profileImage)
+        return when(res.code()) {
+            in 200..399 -> Result.success(res.body()!!)
+            else -> Result.failure(IllegalArgumentException(res.errorBody()?.convertAndGetCode().toString()))
+        }
     }
+
 
     override suspend fun requestChangePassword(body: RequestChangePassword): Result<ResponseChangePassword> {
         val res = service.requestChangePassword(body)

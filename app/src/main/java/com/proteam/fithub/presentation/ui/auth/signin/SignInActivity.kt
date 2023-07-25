@@ -36,7 +36,7 @@ class SignInActivity : AppCompatActivity() {
     }
 
     private fun initBinding() {
-        binding.activity = this
+        //binding.activity = this
     }
 
 

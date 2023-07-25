@@ -69,6 +69,18 @@
             android:exported="false" />
         <activity android:name=".presentation.ui.search.SearchActivity"
             android:exported="false" />
+
+
+        <!-- SIGN IN -->
+        <activity android:name=".presentation.ui.sign.in.social.SocialSignInActivity"
+            android:exported="false" />
+
+        <!-- SIGN UP -->
+        <activity android:name=".presentation.ui.sign.up.social.SocialSignUpActivity"
+            android:exported="true" />
+        <activity android:name=".presentation.ui.sign.result.SignUpResultActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

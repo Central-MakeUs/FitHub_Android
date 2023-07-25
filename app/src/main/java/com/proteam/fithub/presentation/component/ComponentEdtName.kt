@@ -3,6 +3,7 @@ package com.proteam.fithub.presentation.component
 import android.content.Context
 import android.text.Editable
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -190,4 +191,5 @@ class ComponentEdtName(context: Context, attrs: AttributeSet) :
         } else Pattern.matches(namePattern, value.toString())
     }
 
+    var nameComponent = binding.componentEdtInputNameEdtContent
 }

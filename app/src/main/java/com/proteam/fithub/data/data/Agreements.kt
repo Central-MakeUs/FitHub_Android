@@ -1,6 +1,6 @@
 package com.proteam.fithub.data.data
 
-data class SignUpAgreement(
+data class Agreements(
     var content : String,
     var checked : Boolean,
     var required : Boolean,

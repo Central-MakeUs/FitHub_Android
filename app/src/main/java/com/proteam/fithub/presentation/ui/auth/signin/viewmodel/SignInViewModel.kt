@@ -20,7 +20,7 @@ class SignInViewModel @Inject constructor(private val signInRepo : SignInReposit
         viewModelScope.launch {
             signInRepo.signInWithKakao(RequestSignInKakao(signatureID.toString()))
                 .onSuccess {
-                    saveUserJWT(it.result.jwt)
+                    saveUserJWT(it.result.accessToken)
                     setState(it.code)
                 }
         }
