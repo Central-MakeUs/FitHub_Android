@@ -56,6 +56,14 @@
 
     <!-- Font -->
 
+    <!-- HeadLine -->
+    <style name="Headline_small_semibold" parent="Widget.AppCompat.TextView">
+        <item name="fontFamily">@font/pretendard_semibold</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">24sp</item>
+        <item name="lineHeight">32dp</item>
+    </style>
+
     <!-- Title -->
     <style name="Title_large_semibold" parent="Widget.AppCompat.TextView">
         <item name="fontFamily">@font/pretendard_semibold</item>

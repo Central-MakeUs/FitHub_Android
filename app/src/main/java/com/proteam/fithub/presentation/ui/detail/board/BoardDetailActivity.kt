@@ -13,10 +13,12 @@ import com.proteam.fithub.presentation.component.ComponentBottomDialogSelectRepo
 import com.proteam.fithub.presentation.component.ComponentDialogYesNo
 import com.proteam.fithub.presentation.ui.detail.adapter.CommunityDetailCommentAdapter
 import com.proteam.fithub.presentation.ui.detail.board.adapter.BoardImageAdapter
+import com.proteam.fithub.presentation.ui.detail.board.image.FullSizeImageFragment
 import com.proteam.fithub.presentation.ui.detail.board.viewmodel.BoardDetailViewModel
 import com.proteam.fithub.presentation.ui.write.board.WriteOrModifyBoardActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.io.Serializable
 
 @AndroidEntryPoint
 class BoardDetailActivity : AppCompatActivity() {
@@ -24,7 +26,7 @@ class BoardDetailActivity : AppCompatActivity() {
     private val viewModel : BoardDetailViewModel by viewModels()
 
     private val boardImageAdapter by lazy {
-        BoardImageAdapter()
+        BoardImageAdapter(::onImageClicked)
     }
 
     private val commentAdapter by lazy {
@@ -88,6 +90,10 @@ class BoardDetailActivity : AppCompatActivity() {
 
     private fun initImageRV() {
         binding.boardDetailRvImages.adapter = boardImageAdapter
+    }
+
+    private fun onImageClicked(position : Int) {
+        supportFragmentManager.beginTransaction().add(R.id.board_detail_layout_container, FullSizeImageFragment(), position.toString()).commit()
     }
 
     fun onPostComment() {

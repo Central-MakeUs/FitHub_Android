@@ -21,11 +21,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="15dp"
-            android:fontFamily="@font/pretendard_semibold"
-            android:lineHeight="32dp"
             android:text="@string/sign_up_with_phone_number"
             android:textColor="@color/text_default"
-            android:textSize="24sp"
+            android:textAppearance="@style/Headline_small_semibold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,12 +32,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:fontFamily="@font/pretendard_regular"
+            android:textAppearance="@style/Body_medium_regular"
             android:includeFontPadding="false"
-            android:lineHeight="20dp"
             android:text="@string/sign_up_with_phone_number_notice"
             android:textColor="@color/text_sub02"
-            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@+id/fg_sign_up_phone_number_title"
             app:layout_constraintTop_toBottomOf="@id/fg_sign_up_phone_number_title" />
 
@@ -88,13 +84,11 @@
             android:layout_height="56dp"
             android:background="@color/selector_bg_btn_signin"
             android:enabled="false"
-            android:fontFamily="@font/pretendard_medium"
+            android:textAppearance="@style/Body_large_medium"
             android:includeFontPadding="false"
-            android:lineHeight="24dp"
             android:onClick="@{() -> fragment.onNextClicked()}"
             android:text="@string/common_send_authcode"
             android:textColor="@color/black"
-            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

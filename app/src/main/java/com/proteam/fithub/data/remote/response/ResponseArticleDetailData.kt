@@ -4,6 +4,7 @@ import com.proteam.fithub.data.data.CategoryData
 import com.proteam.fithub.data.data.ComponentUserData
 import com.proteam.fithub.data.data.HashTagData
 import com.proteam.fithub.presentation.util.BaseResponse
+import java.io.Serializable
 
 data class ResponseArticleDetailData(
     val result : ResultArticleDetailData

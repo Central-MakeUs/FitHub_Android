@@ -7,13 +7,15 @@ import com.proteam.fithub.R
 import com.proteam.fithub.data.remote.response.ResponseArticleDetailData
 import com.proteam.fithub.databinding.ItemRvCommunityBoardImageBinding
 
-class BoardImageAdapter : RecyclerView.Adapter<BoardImageAdapter.BoardImageViewHolder>() {
+class BoardImageAdapter (
+    private val onImageClick : (Int) -> Unit
+        ) : RecyclerView.Adapter<BoardImageAdapter.BoardImageViewHolder>() {
     var images = mutableListOf<ResponseArticleDetailData.ArticlePictureResult>()
     inner class BoardImageViewHolder(private val binding : ItemRvCommunityBoardImageBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item : ResponseArticleDetailData.ArticlePictureResult) {
             binding.path = item.pictureUrl
 
-            //:TODO 클릭리스너
+            binding.root.setOnClickListener { onImageClick.invoke(absoluteAdapterPosition) }
         }
     }
 

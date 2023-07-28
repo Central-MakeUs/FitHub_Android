@@ -3,10 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="activity"
             type="com.proteam.fithub.presentation.ui.sign.in.number.NumberSignInActivity" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,12 +24,12 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_arrow_back"
-                app:tint="@color/icon_default"
                 android:onClick="@{() -> activity.onBackPress()}"
+                android:src="@drawable/ic_arrow_back"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/icon_default" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -36,11 +38,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:fontFamily="@font/pretendard_semibold"
-            android:lineHeight="32dp"
             android:text="@string/sign_in_with_phone_title"
+            android:textAppearance="@style/Headline_small_semibold"
             android:textColor="@color/text_default"
-            android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/sign_in_with_phone_layout_toolbar" />
 
@@ -77,13 +77,11 @@
                 android:layout_height="match_parent"
                 android:background="@color/selector_bg_btn_signin"
                 android:enabled="@{activity.phoneBinding().isFinished &amp;&amp; activity.passwordBinding().isFinished}"
-                android:onClick="@{() -> activity.onSignInClicked()}"
-                android:fontFamily="@font/pretendard_medium"
+                android:textAppearance="@style/Body_large_medium"
                 android:includeFontPadding="false"
-                android:lineHeight="24dp"
+                android:onClick="@{() -> activity.onSignInClicked()}"
                 android:text="@string/common_sign_in"
-                android:textColor="@color/gray_900"
-                android:textSize="16sp" />
+                android:textColor="@color/gray_900" />
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -91,23 +89,21 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginBottom="15dp"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toTopOf="@id/sign_in_with_phone_card_sign_in"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/common_find_password"
-                android:fontFamily="@font/pretendard_regular"
                 android:includeFontPadding="false"
                 android:onClick="@{() -> activity.onFindPasswordClicked()}"
-                android:textSize="14sp"
-                android:lineHeight="20dp"
+                android:text="@string/common_find_password"
+                android:textAppearance="@style/Body_medium_regular"
                 android:textColor="@color/text_sub02" />
-            
+
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
@@ -118,12 +114,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/common_sign_up"
-                android:onClick="@{() -> activity.onSignUpClicked()}"
-                android:fontFamily="@font/pretendard_regular"
                 android:includeFontPadding="false"
-                android:textSize="14sp"
-                android:lineHeight="20dp"
+                android:onClick="@{() -> activity.onSignUpClicked()}"
+                android:text="@string/common_sign_up"
+                android:textAppearance="@style/Body_medium_regular"
                 android:textColor="@color/text_sub02" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
