@@ -17,7 +17,7 @@ import com.proteam.fithub.databinding.ComponentToastBinding
 
 class ComponentAlertToast() : DialogFragment() {
     private lateinit var binding: ComponentToastBinding
-
+    private var handler : Handler? = Handler()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -61,8 +61,8 @@ class ComponentAlertToast() : DialogFragment() {
             "4020" -> case_4020()
             else -> tag
         }
-        Handler().postDelayed(Runnable {
-            dismissDialog()
+            handler?.postDelayed(Runnable {
+            dismiss()
         }, 3000)
     }
 
@@ -75,5 +75,8 @@ class ComponentAlertToast() : DialogFragment() {
     private fun case_4019() = "존재하지 않는 유저입니다"
     private fun case_4020()  = "비밀번호가 일치하지 않습니다"
 
-    private fun dismissDialog() = dismiss()
+    override fun onDestroy() {
+        super.onDestroy()
+        handler = null
+    }
 }

@@ -1,6 +1,5 @@
 package com.proteam.fithub.presentation.ui.sign.`in`.social
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
@@ -13,8 +12,8 @@ import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.ActivitySignInBinding
-import com.proteam.fithub.presentation.ui.auth.signinphone.SignInWithPhoneNumberActivity
 import com.proteam.fithub.presentation.ui.main.MainActivity
+import com.proteam.fithub.presentation.ui.sign.`in`.number.NumberSignInActivity
 import com.proteam.fithub.presentation.ui.sign.`in`.social.viewmodel.SocialSignInViewModel
 import com.proteam.fithub.presentation.ui.sign.up.social.SocialSignUpActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -94,7 +93,7 @@ class SocialSignInActivity : AppCompatActivity() {
 
     fun onPhoneSignInClicked() {
         /** 로그인 화면 **/
-        this.requestProcessFinished.launch(Intent(this, SignInWithPhoneNumberActivity::class.java))
+        this.requestProcessFinished.launch(Intent(this, NumberSignInActivity::class.java))
     }
 
     private fun onNeedSignUp() {
@@ -104,11 +103,10 @@ class SocialSignInActivity : AppCompatActivity() {
 
     private val requestProcessFinished =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode == Activity.RESULT_OK) {
+            if (it.resultCode == RESULT_OK) {
                 val state = it.data!!.extras?.getBoolean("state")
                 if(state == true) {
                     finish()
-                    startActivity(Intent(this, MainActivity::class.java))
                 }
             }
         }

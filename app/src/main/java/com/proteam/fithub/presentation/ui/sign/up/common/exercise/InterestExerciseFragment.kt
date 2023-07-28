@@ -1,10 +1,6 @@
 package com.proteam.fithub.presentation.ui.sign.up.common.exercise
 
-import android.database.Cursor
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,10 +10,12 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentInterestExercisesBinding
+import com.proteam.fithub.presentation.ui.sign.up.common.exercise.adapter.InterestExerciseAdapter
 import com.proteam.fithub.presentation.ui.sign.up.common.exercise.viewmodel.InterestExerciseViewModel
+import com.proteam.fithub.presentation.ui.sign.up.number.NumberSignUpActivity
+import com.proteam.fithub.presentation.ui.sign.up.number.viewmodel.NumberSignUpViewModel
 import com.proteam.fithub.presentation.ui.sign.up.social.SocialSignUpActivity
 import com.proteam.fithub.presentation.ui.sign.up.social.viewmodel.SocialSignUpViewModel
-import com.proteam.fithub.presentation.ui.signup.interest.adapter.SignUpSelectInterestSportsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,8 +23,9 @@ class InterestExerciseFragment : Fragment() {
     private lateinit var binding : FragmentInterestExercisesBinding
     private val viewModel : InterestExerciseViewModel by viewModels()
     private val socialViewModel : SocialSignUpViewModel by activityViewModels()
+    private val numberViewModel : NumberSignUpViewModel by activityViewModels()
     private val adapter by lazy {
-        SignUpSelectInterestSportsAdapter(::onSelectSports)
+        InterestExerciseAdapter(::onSelectSports)
     }
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,10 +70,11 @@ class InterestExerciseFragment : Fragment() {
 
     private fun initExerciseRV() {
         binding.fgSignUpSelectInterestSportsRvContents.adapter = adapter
+        adapter.selected = select() as MutableList
     }
 
-    private fun onSelectSports(item : Int, checked : Boolean) {
-        if(checked) viewModel.addSelectInterestSports(item) else viewModel.removeSelectInterestSports(item)
+    private fun onSelectSports(item : Int) {
+        viewModel.setInterestSports(item)
     }
 
     fun onRequestSignUp() {
@@ -83,6 +83,12 @@ class InterestExerciseFragment : Fragment() {
                 socialViewModel.setUserInterestExercise(viewModel.selectExercises.value!!)
                 (requireActivity() as SocialSignUpActivity).requestSocialSignUp()
             }
+            "Number" -> {
+                numberViewModel.setUserInterestExercise(viewModel.selectExercises.value!!)
+                (requireActivity() as NumberSignUpActivity).requestNumberSignUp()
+            }
         }
     }
+
+    private fun select() : List<Boolean> = listOf(false, false, false, false,false, false)
 }

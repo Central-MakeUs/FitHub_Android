@@ -1,4 +1,4 @@
-package com.proteam.fithub.presentation.ui.sign.up.social
+package com.proteam.fithub.presentation.ui.sign.up.number
 
 import android.content.Intent
 import android.database.Cursor
@@ -12,25 +12,25 @@ import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.proteam.fithub.R
-import com.proteam.fithub.databinding.ActivitySocialSignUpBinding
+import com.proteam.fithub.databinding.ActivityNumberSignUpBinding
 import com.proteam.fithub.presentation.component.ComponentAlertToast
-import com.proteam.fithub.presentation.ui.main.MainActivity
+import com.proteam.fithub.presentation.ui.sign.`in`.number.NumberSignInActivity
 import com.proteam.fithub.presentation.ui.sign.`in`.social.SocialSignInActivity
 import com.proteam.fithub.presentation.ui.sign.result.SignUpResultActivity
 import com.proteam.fithub.presentation.ui.sign.up.common.agreement.AgreementFragment
-import com.proteam.fithub.presentation.ui.sign.up.social.viewmodel.SocialSignUpViewModel
+import com.proteam.fithub.presentation.ui.sign.up.number.viewmodel.NumberSignUpViewModel
 import com.proteam.fithub.presentation.util.ConvertBitmap.ConvertWhenSingle
-import com.proteam.fithub.presentation.util.ConvertBitmap.deletePic
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SocialSignUpActivity : AppCompatActivity() {
-    private lateinit var binding : ActivitySocialSignUpBinding
-    private val viewModel : SocialSignUpViewModel by viewModels()
+class NumberSignUpActivity : AppCompatActivity() {
+    private lateinit var binding : ActivityNumberSignUpBinding
+    private val viewModel : NumberSignUpViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_social_sign_up)
+
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_number_sign_up)
 
         initBinding()
         initUi()
@@ -45,11 +45,11 @@ class SocialSignUpActivity : AppCompatActivity() {
     }
 
     private fun initDefaultFragment() {
-        supportFragmentManager.beginTransaction().replace(R.id.social_sign_up_layout_container, AgreementFragment(), "Social").commit()
+        supportFragmentManager.beginTransaction().replace(R.id.number_sign_up_layout_container, AgreementFragment(), "Number").commit()
     }
 
     fun changeFragments(fragment : Fragment) {
-        supportFragmentManager.beginTransaction().addToBackStack(fragment.id.toString()).add(R.id.social_sign_up_layout_container, fragment, "Social").commit()
+        supportFragmentManager.beginTransaction().addToBackStack(fragment.id.toString()).add(R.id.number_sign_up_layout_container, fragment, "Number").commit()
     }
 
     fun onBackPress() {
@@ -61,8 +61,8 @@ class SocialSignUpActivity : AppCompatActivity() {
         }
     }
 
-    fun requestSocialSignUp() {
-        viewModel.requestSocialSignUp(Convert()?.also { viewModel.setPathForDelete(it) }?.getAbsolutePath())
+    fun requestNumberSignUp() {
+        viewModel.requestNumberSignUp(Convert()?.also { viewModel.setPathForDelete(it) }?.getAbsolutePath())
         observeSignUpResult()
     }
 
@@ -74,20 +74,20 @@ class SocialSignUpActivity : AppCompatActivity() {
                 }
                 else -> ComponentAlertToast().show(supportFragmentManager, "$it")
             }
+            viewModel.initState()
         }
     }
 
     private fun openSignUpResultActivity() {
-        setResult(RESULT_OK, Intent(this, SocialSignInActivity::class.java).putExtra("state", true))
-        startActivity(Intent(this, SignUpResultActivity::class.java).setType(viewModel.userInputNickName.value))
+        setResult(RESULT_OK, Intent(this, NumberSignInActivity::class.java).putExtra("state", true))
+        startActivity(Intent(this, SignUpResultActivity::class.java).setType(viewModel.userInputNickname.value))
         finish()
     }
-
 
     /** Resize Profile Image **/
 
     private fun Convert() : Uri? {
-        val res = viewModel.userInputImage.value?.let { (it.toUri().getAbsolutePath())?.ConvertWhenSingle(this) }
+        val res = viewModel.userInputProfileImage.value?.let { (it.toUri().getAbsolutePath())?.ConvertWhenSingle(this) }
         return if(res == null) null else "content://${res.substring(9)}".toUri()
     }
 

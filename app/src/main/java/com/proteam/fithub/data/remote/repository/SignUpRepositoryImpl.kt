@@ -38,8 +38,8 @@ class SignUpRepositoryImpl @Inject constructor(private val source : SignUpSource
         password: String,
         birth: String,
         gender: String,
-        preferExercises: List<Int>,
-        profileImage: MultipartBody.Part
+        preferExercises: Int,
+        profileImage: MultipartBody.Part?
     ): Result<ResponseSignUpWithPhone> {
         return source.requestSignUpWithPhone(marketingAgree, phoneNumber, name, nickname, password, birth, gender, preferExercises, profileImage)
     }
@@ -50,13 +50,17 @@ class SignUpRepositoryImpl @Inject constructor(private val source : SignUpSource
         nickname: String,
         birth: String,
         gender: String,
-        preferExercises: List<Int>,
-        profileImage: MultipartBody.Part
+        preferExercises: Int,
+        profileImage: MultipartBody.Part?
     ): Result<ResponseSignUp> {
         return source.requestSignUpWithSocial(marketingAgree, name, nickname, birth, gender, preferExercises, profileImage)
     }
 
     override suspend fun requestChangePassword(body: RequestChangePassword): Result<ResponseChangePassword> {
         return source.requestChangePassword(body)
+    }
+
+    override suspend fun requestExistPhone(body: RequestPhoneNumberAvailable): Result<BaseResponse> {
+        return source.requestExistPhone(body)
     }
 }

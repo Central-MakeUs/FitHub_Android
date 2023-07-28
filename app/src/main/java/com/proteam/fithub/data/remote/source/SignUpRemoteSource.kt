@@ -5,17 +5,18 @@ import com.proteam.fithub.data.remote.request.RequestCheckSMSAuth
 import com.proteam.fithub.data.remote.request.RequestPhoneNumberAvailable
 import com.proteam.fithub.data.remote.request.RequestSMSAuth
 import com.proteam.fithub.data.remote.response.ResponseChangePassword
-import com.proteam.fithub.data.remote.response.ResponseSignUpWithPhone
 import com.proteam.fithub.data.remote.response.ResponseSignUp
+import com.proteam.fithub.data.remote.response.ResponseSignUpWithPhone
 import com.proteam.fithub.data.remote.service.SignUpService
 import com.proteam.fithub.domain.source.SignUpSource
 import com.proteam.fithub.presentation.util.BaseResponse
+import com.proteam.fithub.presentation.util.ConvertToRequestBody.textConverter
 import com.proteam.fithub.presentation.util.ErrorConverter.convertAndGetCode
 import com.proteam.fithub.presentation.util.ErrorConverter.setValidate
 import okhttp3.MultipartBody
 import javax.inject.Inject
 
-class SignUpRemoteSource @Inject constructor(private val service : SignUpService): SignUpSource {
+class SignUpRemoteSource @Inject constructor(private val service: SignUpService) : SignUpSource {
     override suspend fun requestSMSAuth(body: RequestSMSAuth): Result<BaseResponse> {
         val res = service.requestPhoneAuthCode(body)
         return setValidate(res) as Result<BaseResponse>
@@ -44,13 +45,27 @@ class SignUpRemoteSource @Inject constructor(private val service : SignUpService
         password: String,
         birth: String,
         gender: String,
-        preferExercises: List<Int>,
-        profileImage: MultipartBody.Part
+        preferExercises: Int,
+        profileImage: MultipartBody.Part?
     ): Result<ResponseSignUpWithPhone> {
-        val res = service.requestSignUpWithPhone(marketingAgree, phoneNumber, name, nickname, password, birth, gender, preferExercises, profileImage)
-        return when(res.code()) {
+        val res = service.requestSignUpWithPhone(
+            marketingAgree,
+            phoneNumber.textConverter(),
+            name.textConverter(),
+            nickname.textConverter(),
+            password.textConverter(),
+            birth.textConverter(),
+            gender.textConverter(),
+            preferExercises,
+            profileImage
+        )
+        return when (res.code()) {
             in 200..399 -> Result.success(res.body()!!)
-            else -> Result.failure(IllegalArgumentException(res.errorBody()?.convertAndGetCode().toString()))
+            else -> Result.failure(
+                IllegalArgumentException(
+                    res.errorBody()?.convertAndGetCode().toString()
+                )
+            )
         }
     }
 
@@ -60,13 +75,25 @@ class SignUpRemoteSource @Inject constructor(private val service : SignUpService
         nickname: String,
         birth: String,
         gender: String,
-        preferExercises: List<Int>,
-        profileImage: MultipartBody.Part
+        preferExercises: Int,
+        profileImage: MultipartBody.Part?
     ): Result<ResponseSignUp> {
-        val res = service.requestSignUpWithSocial(marketingAgree, name, nickname, birth, gender, preferExercises, profileImage)
-        return when(res.code()) {
+        val res = service.requestSignUpWithSocial(
+            marketingAgree,
+            name.textConverter(),
+            nickname.textConverter(),
+            birth.textConverter(),
+            gender.textConverter(),
+            preferExercises,
+            profileImage
+        )
+        return when (res.code()) {
             in 200..399 -> Result.success(res.body()!!)
-            else -> Result.failure(IllegalArgumentException(res.errorBody()?.convertAndGetCode().toString()))
+            else -> Result.failure(
+                IllegalArgumentException(
+                    res.errorBody()?.convertAndGetCode().toString()
+                )
+            )
         }
     }
 
@@ -74,5 +101,17 @@ class SignUpRemoteSource @Inject constructor(private val service : SignUpService
     override suspend fun requestChangePassword(body: RequestChangePassword): Result<ResponseChangePassword> {
         val res = service.requestChangePassword(body)
         return setValidate(res) as Result<ResponseChangePassword>
+    }
+
+    override suspend fun requestExistPhone(body: RequestPhoneNumberAvailable): Result<BaseResponse> {
+        val res = service.requestExistPhone(body)
+        return when (res.code()) {
+            in 200..399 -> Result.success(res.body()!!)
+            else -> Result.failure(
+                IllegalArgumentException(
+                    res.errorBody()?.convertAndGetCode().toString()
+                )
+            )
+        }
     }
 }

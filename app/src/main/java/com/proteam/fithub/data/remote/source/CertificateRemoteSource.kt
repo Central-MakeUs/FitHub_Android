@@ -7,6 +7,8 @@ import com.proteam.fithub.data.remote.response.ResponsePostCertificateData
 import com.proteam.fithub.data.remote.service.CertificateService
 import com.proteam.fithub.domain.source.CertificateSource
 import com.proteam.fithub.presentation.util.BaseResponse
+import com.proteam.fithub.presentation.util.ConvertToRequestBody.listConverter
+import com.proteam.fithub.presentation.util.ConvertToRequestBody.textConverter
 import com.proteam.fithub.presentation.util.ErrorConverter.convertAndGetCode
 import com.proteam.fithub.presentation.util.ErrorConverter.setValidate
 import com.proteam.fithub.presentation.util.ErrorConverter.setValidate2
@@ -38,7 +40,7 @@ class CertificateRemoteSource @Inject constructor(private val service : Certific
         hashTagList: List<String>?,
         image: MultipartBody.Part
     ): Result<ResponsePostCertificateData> {
-        val res = service.postCertificateData(categoryId, contents, exerciseTag, hashTagList, image)
+        val res = service.postCertificateData(categoryId, contents.textConverter(), exerciseTag.textConverter(), hashTagList?.listConverter(), image)
         return when(res.code()) {
             in 200..399 -> Result.success(res.body()!!)
             else -> Result.failure(IllegalArgumentException(res.errorBody()?.convertAndGetCode().toString()))

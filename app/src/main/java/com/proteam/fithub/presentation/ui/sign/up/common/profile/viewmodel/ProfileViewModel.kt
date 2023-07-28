@@ -13,8 +13,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(private val signUpRepository: SignUpRepository): ViewModel() {
-    val profileUploaded = MutableLiveData<Boolean>(false)
-
     private val _userSelectedProfileImage = MutableLiveData<Any>().apply { value = R.drawable.ic_sign_up_default_profile }
     val userSelectedProfileImage: LiveData<Any> = _userSelectedProfileImage
 
@@ -30,7 +28,6 @@ class ProfileViewModel @Inject constructor(private val signUpRepository: SignUpR
     }
 
     fun setUserSelectedProfile(path: Uri) {
-        profileUploaded.value = true
         _userSelectedProfileImage.value = path
     }
 }

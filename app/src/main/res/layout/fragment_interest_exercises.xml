@@ -72,7 +72,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/selector_bg_btn_signin"
-                android:enabled="@{!viewModel.selectExercises.empty}"
+                android:enabled="@{viewModel.selectExercises != null}"
                 android:onClick="@{() -> fragment.onRequestSignUp()}"
                 android:fontFamily="@font/pretendard_medium"
                 android:includeFontPadding="false"

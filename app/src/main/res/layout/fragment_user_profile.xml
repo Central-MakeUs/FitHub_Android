@@ -88,7 +88,7 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:background="@color/selector_bg_btn_signin"
-            android:enabled="@{viewModel.profileUploaded &amp;&amp; fragment.nicknameBinding().isFinished}"
+            android:enabled="@{fragment.nicknameBinding().isFinished}"
             android:fontFamily="@font/pretendard_medium"
             android:includeFontPadding="false"
             android:lineHeight="24dp"

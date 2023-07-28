@@ -16,9 +16,8 @@ class InterestExerciseViewModel @Inject constructor(private val exerciseReposito
     private val _exercises = MutableLiveData<MutableList<ResponseExercises.ExercisesList>>()
     val exercises: LiveData<MutableList<ResponseExercises.ExercisesList>> = _exercises
 
-    private val _selectedExercises = MutableLiveData<MutableList<Int>>().apply { value = mutableListOf() }
-    val selectExercises: LiveData<MutableList<Int>> = _selectedExercises
-    private val toolSelectInterestSports = mutableListOf<Int>()
+    private val _selectedExercises = MutableLiveData<Int>()
+    val selectExercises: LiveData<Int> = _selectedExercises
 
     fun requestExercises() {
         viewModelScope.launch {
@@ -27,17 +26,7 @@ class InterestExerciseViewModel @Inject constructor(private val exerciseReposito
         }
     }
 
-    fun addSelectInterestSports(sportsId: Int) {
-        toolSelectInterestSports.add(sportsId)
-        notifyExercises()
-    }
-
-    fun removeSelectInterestSports(sportsId: Int) {
-        toolSelectInterestSports.remove(sportsId)
-        notifyExercises()
-    }
-
-    private fun notifyExercises() {
-        _selectedExercises.value = toolSelectInterestSports
+    fun setInterestSports(sportsId: Int) {
+        _selectedExercises.value = sportsId
     }
 }

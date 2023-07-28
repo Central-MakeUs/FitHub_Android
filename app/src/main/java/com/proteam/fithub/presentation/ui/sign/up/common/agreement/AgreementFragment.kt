@@ -12,18 +12,19 @@ import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentAgreementBinding
 import com.proteam.fithub.presentation.ui.sign.up.common.agreement.adapter.AgreementAdapter
 import com.proteam.fithub.presentation.ui.sign.up.common.agreement.viewmodel.AgreementViewModel
+import com.proteam.fithub.presentation.ui.sign.up.number.NumberSignUpActivity
+import com.proteam.fithub.presentation.ui.sign.up.number.info.NumberInfoFragment
+import com.proteam.fithub.presentation.ui.sign.up.number.viewmodel.NumberSignUpViewModel
 import com.proteam.fithub.presentation.ui.sign.up.social.SocialSignUpActivity
 import com.proteam.fithub.presentation.ui.sign.up.social.info.SocialInfoFragment
 import com.proteam.fithub.presentation.ui.sign.up.social.viewmodel.SocialSignUpViewModel
-import com.proteam.fithub.presentation.ui.signup.SignUpActivity
-import com.proteam.fithub.presentation.ui.signup.phone.SignUpPhoneNumberFragment
-import com.proteam.fithub.presentation.ui.signup.social.SignUpSocialFragment
 
 class AgreementFragment : Fragment() {
     private lateinit var binding : FragmentAgreementBinding
     private val viewModel : AgreementViewModel by viewModels()
 
     private val socialViewModel : SocialSignUpViewModel by activityViewModels()
+    private val numberViewModel : NumberSignUpViewModel by activityViewModels()
 
     private val adapter by lazy {
         AgreementAdapter(::onAgreementClicked)
@@ -82,9 +83,9 @@ class AgreementFragment : Fragment() {
 
     fun onNextBtnClicked() {
         when(tag) {
-            "Phone" -> {
-                (requireActivity() as SignUpActivity).changeFragments(SignUpPhoneNumberFragment())
-
+            "Number" -> {
+                (requireActivity() as NumberSignUpActivity).changeFragments(NumberInfoFragment())
+                numberViewModel.setUserAgreements(viewModel.returnUserAgreeResult())
             }
             "Social" -> {
                 (requireActivity() as SocialSignUpActivity).changeFragments(SocialInfoFragment())

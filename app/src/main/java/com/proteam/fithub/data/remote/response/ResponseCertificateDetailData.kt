@@ -17,6 +17,7 @@ data class ResponseCertificateDetailData(
         val createdAt : String,
         var likes : Int,
         var isLiked : Boolean,
-        val hashtags : HashTagData
+        val hashtags : HashTagData,
+        var comments : Int
     )
 }

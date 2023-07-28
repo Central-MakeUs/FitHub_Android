@@ -16,6 +16,7 @@ import retrofit2.http.Part
 import retrofit2.http.PartMap
 import retrofit2.http.Path
 import retrofit2.http.Query
+import java.util.Base64.Encoder
 
 interface CertificateService {
 
@@ -42,12 +43,13 @@ interface CertificateService {
     ) : Response<ResponseCertificateHeartClicked>
 
     @Multipart
+    @JvmSuppressWildcards
     @POST("records/{categoryId}")
     suspend fun postCertificateData(
-        @Path("categoryId") categoryId: Int,
-        @Part("contents") contents : String,
-        @Part("exerciseTag") exerciseTag : String,
-        @Part("hashTagList") hashTagList : List<String>?,
+        @Path("categoryId", encoded = true) categoryId: Int,
+        @Part("contents", encoding = "utf-8") contents : RequestBody,
+        @Part("exerciseTag", encoding = "utf-8") exerciseTag : RequestBody,
+        @Part("hashTagList", encoding = "utf-8") hashTagList : List<RequestBody>?,
         @Part image : MultipartBody.Part
     ) : Response<ResponsePostCertificateData>
 

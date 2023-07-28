@@ -74,10 +74,15 @@
         <!-- SIGN IN -->
         <activity android:name=".presentation.ui.sign.in.social.SocialSignInActivity"
             android:exported="false" />
+        <activity android:name=".presentation.ui.sign.in.number.NumberSignInActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
 
         <!-- SIGN UP -->
         <activity android:name=".presentation.ui.sign.up.social.SocialSignUpActivity"
-            android:exported="true" />
+            android:exported="false" />
+        <activity android:name=".presentation.ui.sign.up.number.NumberSignUpActivity"
+            android:exported="false" />
         <activity android:name=".presentation.ui.sign.result.SignUpResultActivity"
             android:exported="false" />
 

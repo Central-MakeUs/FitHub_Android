@@ -9,6 +9,5 @@ data class ResponseSignIn(
     data class ResultSignIn(
         val userId : Int,
         val accessToken : String,
-        val jwt : String
     )
 }

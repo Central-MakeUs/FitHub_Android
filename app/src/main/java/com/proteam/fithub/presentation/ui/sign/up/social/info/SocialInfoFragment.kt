@@ -12,8 +12,6 @@ import com.proteam.fithub.databinding.FragmentSocialInfoBinding
 import com.proteam.fithub.presentation.ui.sign.up.common.profile.UserProfileFragment
 import com.proteam.fithub.presentation.ui.sign.up.social.SocialSignUpActivity
 import com.proteam.fithub.presentation.ui.sign.up.social.viewmodel.SocialSignUpViewModel
-import com.proteam.fithub.presentation.ui.signup.profile.SignUpUserProfileFragment
-import dagger.hilt.android.AndroidEntryPoint
 
 class SocialInfoFragment : Fragment() {
     private lateinit var binding : FragmentSocialInfoBinding

@@ -15,9 +15,8 @@ import com.proteam.fithub.databinding.FragmentFindPasswordAuthPhoneNumberBinding
 import com.proteam.fithub.presentation.component.ComponentDialogYesNo
 import com.proteam.fithub.presentation.ui.findpassword.FindPasswordActivity
 import com.proteam.fithub.presentation.ui.findpassword.viewmodel.FindPasswordViewModel
-import com.proteam.fithub.presentation.ui.signup.SignUpActivity
-import com.proteam.fithub.presentation.ui.signup.authcode.SignUpAuthCodeFragment
-import kotlin.random.Random
+import com.proteam.fithub.presentation.ui.sign.up.common.authcode.AuthCodeFragment
+import com.proteam.fithub.presentation.ui.sign.up.number.NumberSignUpActivity
 
 class FindPasswordAuthPhoneNumberFragment : Fragment() {
     private lateinit var binding : FragmentFindPasswordAuthPhoneNumberBinding
@@ -58,7 +57,7 @@ class FindPasswordAuthPhoneNumberFragment : Fragment() {
 
     private fun observePhoneNumberAvailable() {
         viewModel.userPhoneNumberAvailable.observe(viewLifecycleOwner) {
-            if(it) (requireActivity() as FindPasswordActivity).changeFragments(SignUpAuthCodeFragment()) else showDialogWhenNoAccount()
+            if(it) (requireActivity() as FindPasswordActivity).changeFragments(AuthCodeFragment()) else showDialogWhenNoAccount()
         }
     }
 
@@ -71,8 +70,7 @@ class FindPasswordAuthPhoneNumberFragment : Fragment() {
     }
 
     private fun onDialogActionClicked() {
-        startActivity(Intent(requireActivity(), SignUpActivity::class.java).setType("Phone"))
+        startActivity(Intent(requireActivity(), NumberSignUpActivity::class.java).setType("Number"))
         requireActivity().finish()
     }
-
 }

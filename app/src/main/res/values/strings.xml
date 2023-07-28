@@ -73,8 +73,8 @@
     <string name="sign_up_with_phone_user_profile_notice">나를 표현할 사진과 닉네임을 등록해주세요.</string>
     <string name="sign_up_with_phone_user_profile_additional">한글 혹은 영문을 포함하여 1 ~ 10자로 입력해주세요.</string>
 
-    <string name="sign_up_with_phone_interest_sports">평소 관심있거나, 하고있는\n운동 1개 이상 선택해주세요.</string>
-    <string name="sign_up_with_phone_interest_sports_notice">선택하신 운동에 따라 맞춤 정보가 제공돼요!</string>
+    <string name="sign_up_with_phone_interest_sports">핏허브에서 인증하고 싶은\n메인 운동 1개를 선택해 주세요.</string>
+    <string name="sign_up_with_phone_interest_sports_notice">메인운동은 언제든 수정이 가능해요!</string>
 
     <string name="finish_sign_up">핏허브 입장하기</string>
 

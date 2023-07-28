@@ -9,6 +9,7 @@ import com.proteam.fithub.data.remote.response.ResponseSignUpWithPhone
 import com.proteam.fithub.data.remote.response.ResponseSignUp
 import com.proteam.fithub.presentation.util.BaseResponse
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -39,26 +40,26 @@ interface SignUpService {
     @POST("/users/sign-up")
     suspend fun requestSignUpWithPhone(
         @Part("marketingAgree") marketingAgree : Boolean,
-        @Part("phoneNumber") phoneNumber : String,
-        @Part("name") name : String,
-        @Part("nickname") nickname : String,
-        @Part("password") password : String,
-        @Part("birth") birth : String,
-        @Part("gender") gender : String,
-        @Part("preferExercises") preferExercises : List<Int>,
-        @Part profileImage : MultipartBody.Part
+        @Part("phoneNumber") phoneNumber : RequestBody,
+        @Part("name") name : RequestBody,
+        @Part("nickname") nickname : RequestBody,
+        @Part("password") password : RequestBody,
+        @Part("birth") birth : RequestBody,
+        @Part("gender") gender : RequestBody,
+        @Part("preferExercises") preferExercises : Int,
+        @Part profileImage : MultipartBody.Part?
     ) : Response<ResponseSignUpWithPhone>
 
     @Multipart
     @PATCH("users/sign-up/oauth")
     suspend fun requestSignUpWithSocial(
         @Part("marketingAgree") marketingAgree : Boolean,
-        @Part("name") name : String,
-        @Part("nickname") nickname : String,
-        @Part("birth") birth : String,
-        @Part("gender") gender : String,
-        @Part("preferExercises") preferExercises : List<Int>,
-        @Part profileImage : MultipartBody.Part
+        @Part("name") name : RequestBody,
+        @Part("nickname") nickname : RequestBody,
+        @Part("birth") birth : RequestBody,
+        @Part("gender") gender : RequestBody,
+        @Part("preferExercises") preferExercises : Int,
+        @Part profileImage : MultipartBody.Part?
     ) : Response<ResponseSignUp>
 
     @POST("users/password")
@@ -70,4 +71,9 @@ interface SignUpService {
     suspend fun requestChangePassword(
         @Body body : RequestChangePassword
     ) : Response<ResponseChangePassword>
+
+    @POST("users/exist-phone/")
+    suspend fun requestExistPhone(
+        @Body body : RequestPhoneNumberAvailable
+    ) : Response<BaseResponse>
 }

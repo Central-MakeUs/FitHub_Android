@@ -20,8 +20,7 @@ class SocialSignInViewModel @Inject constructor(private val signInRepo : SignInR
         viewModelScope.launch {
             signInRepo.signInWithKakao(RequestSignInKakao(signatureID.toString()))
                 .onSuccess {
-                    //:TODO 명칭 획일화하기
-                    saveUserJWT(it.result.jwt)
+                    saveUserJWT(it.result.accessToken)
                     setState(it.code)
                 }
         }

@@ -31,7 +31,7 @@ class FindPasswordActivity : AppCompatActivity() {
     }
 
     fun changeFragments(fragment : Fragment) {
-        supportFragmentManager.beginTransaction().addToBackStack(fragment.id.toString()).add(R.id.find_password_layout_container, fragment, "Find_Password").commit()
+        supportFragmentManager.beginTransaction().addToBackStack(fragment.id.toString()).add(R.id.find_password_layout_container, fragment, "Find").commit()
     }
 
     fun onBackPress() {
