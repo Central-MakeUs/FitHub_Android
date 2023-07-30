@@ -4,12 +4,14 @@ import com.proteam.fithub.data.remote.source.ArticleRemoteSource
 import com.proteam.fithub.data.remote.source.CertificateRemoteSource
 import com.proteam.fithub.data.remote.source.CommentRemoteSource
 import com.proteam.fithub.data.remote.source.ExerciseRemoteSource
+import com.proteam.fithub.data.remote.source.SearchRemoteSource
 import com.proteam.fithub.data.remote.source.SignInRemoteSource
 import com.proteam.fithub.data.remote.source.SignUpRemoteSource
 import com.proteam.fithub.domain.source.ArticleSource
 import com.proteam.fithub.domain.source.CertificateSource
 import com.proteam.fithub.domain.source.CommentSource
 import com.proteam.fithub.domain.source.ExerciseSource
+import com.proteam.fithub.domain.source.SearchSource
 import com.proteam.fithub.domain.source.SignInSource
 import com.proteam.fithub.domain.source.SignUpSource
 import dagger.Binds
@@ -38,4 +40,7 @@ abstract class SourceModule {
 
     @Binds
     abstract fun bindArticleRemoteSource(articleRemoteSource: ArticleRemoteSource) : ArticleSource
+
+    @Binds
+    abstract fun bindSearchRemoteSource(searchRemoteSource: SearchRemoteSource) : SearchSource
 }

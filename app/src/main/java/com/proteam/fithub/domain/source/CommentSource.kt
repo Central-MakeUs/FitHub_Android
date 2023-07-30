@@ -8,5 +8,7 @@ interface CommentSource {
 
     suspend fun postComment(type : String, id : Int, body : RequestPostComment) : Result<BaseResponse>
 
-    suspend fun postCommentHeartClicked(type : String, id : Int, commentId : Int) : Result<ResponseCommentHeartClicked.ResultCommentHeartClicked>
+    suspend fun postCommentHeartClicked(type : String, id : Int, commentId : Int) : Result<ResponseCommentHeartClicked>
+
+    suspend fun postDeleteComment(type : String, id : Int, commentId : Int) : Result<BaseResponse>
 }

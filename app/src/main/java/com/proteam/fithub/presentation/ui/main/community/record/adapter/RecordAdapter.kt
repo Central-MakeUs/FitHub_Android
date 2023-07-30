@@ -1,4 +1,4 @@
-package com.proteam.fithub.presentation.ui.main.community.certificate.adapter
+package com.proteam.fithub.presentation.ui.main.community.record.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,18 +10,13 @@ import com.proteam.fithub.data.remote.response.ExamCertificateData
 import com.proteam.fithub.data.remote.response.ResponseCertificateData
 import com.proteam.fithub.databinding.ItemRvExerciseCertificateBinding
 
-class CertificateAdapter(
-    private val heartClick : (Int) -> Unit,
+class RecordAdapter(
     private val itemClick : (Int) -> Unit
-) : PagingDataAdapter<ResponseCertificateData.ResultCertificateData, CertificateAdapter.CertificateViewHolder>(
+) : PagingDataAdapter<ResponseCertificateData.ResultCertificateData, RecordAdapter.CertificateViewHolder>(
     diffCallback) {
     inner class CertificateViewHolder(private val binding : ItemRvExerciseCertificateBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item : ResponseCertificateData.ResultCertificateData) {
             binding.data = item
-            binding.itemRvExerciseCertificateIvHeart.setOnClickListener {
-                heartClick.invoke(item.recordId)
-                changeHeartState(absoluteAdapterPosition)
-            }
             binding.root.setOnClickListener { itemClick.invoke(getItem(position)!!.recordId) }
         }
     }
@@ -32,12 +27,6 @@ class CertificateAdapter(
 
     override fun onBindViewHolder(holder: CertificateViewHolder, position: Int) {
         getItem(position)?.let { holder.bind(it) }
-    }
-
-    fun changeHeartState(position : Int) {
-        getItem(position)?.isLiked = getItem(position)?.isLiked!!.not()
-        getItem(position)?.likes = if(getItem(position)?.isLiked == true) getItem(position)?.likes?.plus(1)!! else getItem(position)?.likes?.minus(1)!!
-        notifyItemChanged(position)
     }
 
     companion object {

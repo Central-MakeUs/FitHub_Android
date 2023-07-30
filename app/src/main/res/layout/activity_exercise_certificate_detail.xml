@@ -242,7 +242,7 @@
                     android:layout_marginEnd="15dp"
                     android:includeFontPadding="false"
                     android:text="@string/common_upload"
-                    android:onClick="@{() -> activity.onPostComment()}"
+                    android:onClick="@{() -> activity.requestPostComment()}"
                     android:enabled="@{!viewModel.userInputComment.empty}"
                     android:textAppearance="@style/Body_medium_medium"
                     android:textColor="@color/selector_tv_enabled_or_not"

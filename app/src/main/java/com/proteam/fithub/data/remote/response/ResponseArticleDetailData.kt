@@ -26,7 +26,7 @@ data class ResponseArticleDetailData(
     )
 
     data class ArticlePictureItems(
-        val pictureList : List<ArticlePictureResult>
+        val pictureList : List<ArticlePictureResult?>
     )
 
     data class ArticlePictureResult(

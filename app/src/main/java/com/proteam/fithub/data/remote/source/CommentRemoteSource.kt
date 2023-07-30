@@ -24,10 +24,22 @@ class CommentRemoteSource @Inject constructor(private val service : CommentServi
         type: String,
         id: Int,
         commentId: Int
-    ): Result<ResponseCommentHeartClicked.ResultCommentHeartClicked> {
+    ): Result<ResponseCommentHeartClicked> {
         val res = service.requestCommentHeartClicked(type, id, commentId)
         return when(res.code()) {
-            in 200..399 -> Result.success(res.body()?.result!!)
+            in 200..399 -> Result.success(res.body()!!)
+            else -> Result.failure(IllegalArgumentException(res.errorBody()?.convertAndGetCode().toString()))
+        }
+    }
+
+    override suspend fun postDeleteComment(
+        type: String,
+        id: Int,
+        commentId: Int
+    ): Result<BaseResponse> {
+        val res = service.requestDeleteComment(type, id, commentId)
+        return when(res.code()) {
+            in 200..399 -> Result.success(res.body()!!)
             else -> Result.failure(IllegalArgumentException(res.errorBody()?.convertAndGetCode().toString()))
         }
     }

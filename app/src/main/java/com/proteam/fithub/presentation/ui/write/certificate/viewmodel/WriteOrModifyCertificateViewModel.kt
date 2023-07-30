@@ -45,8 +45,8 @@ class WriteOrModifyCertificateViewModel @Inject constructor(
     var userInputContent = MutableLiveData<String>().apply { value = "" }
     var userInputTag = MutableLiveData<String>().apply { value = "" }
 
-    private val _userInputTagList = MutableLiveData<MutableList<String>>()
-    val userInputTagList: LiveData<MutableList<String>> = _userInputTagList
+    private val _userInputTagList = MutableLiveData<MutableList<String>?>()
+    val userInputTagList: LiveData<MutableList<String>?> = _userInputTagList
     private var toolsForUserInputTagList = mutableListOf<String>()
 
     private val _userSelectExercise = MutableLiveData<ResponseExercises.ExercisesList>()
@@ -56,6 +56,8 @@ class WriteOrModifyCertificateViewModel @Inject constructor(
 
     private val _saveState = MutableLiveData<Int>()
     val saveState : LiveData<Int> = _saveState
+
+    private val _legacyId = MutableLiveData<Int>()
 
     fun setType(type: String) {
         _type.value = type
@@ -107,7 +109,6 @@ class WriteOrModifyCertificateViewModel @Inject constructor(
     }
 
     fun requestPostCertificate(path : String) {
-        Log.e("----", "requestPostCertificate: ${userInputContent.value!!} / ${userInputTagList.value!!}", )
         viewModelScope.launch {
             certificateRepository.requestPostCertificateData(
                 userSelectExercise.value!!.id,
@@ -115,6 +116,22 @@ class WriteOrModifyCertificateViewModel @Inject constructor(
                 userSelectExercise.value!!.name,
                 userInputTagList.value,
                 path.mapToMultipart()
+            )
+                .onSuccess { _saveState.value = it.code }
+                .onFailure { _saveState.value = it.message?.toInt() }
+        }
+    }
+
+    fun requestModifyCertificate(path : String?) {
+        viewModelScope.launch {
+            certificateRepository.requestModifyCertificateData(
+                _legacyId.value!!,
+                userSelectExercise.value!!.id,
+                userInputContent.value!!,
+                userSelectExercise.value!!.name,
+                userInputTagList.value,
+                path?.mapToMultipart(),
+                _userSelectedImage.value.toString()
             )
                 .onSuccess { _saveState.value = it.code }
                 .onFailure { _saveState.value = it.message?.toInt() }
@@ -130,19 +147,19 @@ class WriteOrModifyCertificateViewModel @Inject constructor(
     fun requestLegacyData() {
         viewModelScope.launch {
             certificateRepository.requestCertificateDetail(type.value!!.toInt())
-                .onSuccess { setLegacyDataToUi(it) }
+                .onSuccess { setLegacyDataToUi(it.result) }
         }
     }
 
     private fun setLegacyDataToUi(data : ResponseCertificateDetailData.ResultCertificateDetailData) {
         data.apply {
+            _legacyId.value = recordId
             _userSelectedImage.value = pictureImage
-            toolsForUserInputTagList = (hashtags.hashtags.map { it.name } as MutableList).also { it.removeLast() }
+            hashtags.hashtags?.let { toolsForUserInputTagList = (it.map { it.name } as MutableList).also { if(it.isNotEmpty()) it.removeFirst() } }
             userInputContent.value = contents
             _userSelectExercise.value = ResponseExercises.ExercisesList(recordCategory.categoryId, "", recordCategory.name)
         }
         notifyTagList()
-
     }
 
 }

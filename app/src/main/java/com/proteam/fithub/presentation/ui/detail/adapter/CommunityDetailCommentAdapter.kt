@@ -1,5 +1,6 @@
 package com.proteam.fithub.presentation.ui.detail.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
@@ -23,9 +24,7 @@ class CommunityDetailCommentAdapter
         fun bind(item: ResponseCommentData.ResultCommentItems) {
             binding.comment = item
             binding.itemCommunityCommentLayoutUser.getUserData(item.userInfo, item.createdAt)
-            binding.itemCommunityCommentIvHeart.setOnClickListener {
-                onHeartClicked.invoke(absoluteAdapterPosition, item.commentId)
-            }
+            binding.itemCommunityCommentIvHeart.setOnClickListener { onHeartClicked.invoke(absoluteAdapterPosition, item.commentId) }
             binding.itemCommunityCommentBtnEtc.setOnClickListener { onOptionClicked.invoke(item.userInfo.ownerId, item.commentId) }
         }
     }
@@ -46,6 +45,13 @@ class CommunityDetailCommentAdapter
         position: Int
     ) {
         getItem(position)?.let { holder.bind(it) }
+    }
+
+    fun getItemIndex(index : Int) : Int {
+        for (i in 0 until itemCount){
+            if (getItem(i)?.commentId == index) return i
+        }
+        return 0
     }
 
     fun setHeartAction(index : Int, count : Int) {

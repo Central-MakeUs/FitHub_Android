@@ -40,7 +40,15 @@ class CommentRepositoryImpl @Inject constructor(
         type: String,
         id: Int,
         commentId: Int
-    ): Result<ResponseCommentHeartClicked.ResultCommentHeartClicked> {
+    ): Result<ResponseCommentHeartClicked> {
         return source.postCommentHeartClicked(type, id, commentId)
+    }
+
+    override suspend fun postDeleteComment(
+        type: String,
+        id: Int,
+        commentId: Int
+    ): Result<BaseResponse> {
+        return source.postDeleteComment(type, id, commentId)
     }
 }

@@ -4,6 +4,8 @@ import com.proteam.fithub.data.remote.service.ArticleService
 import com.proteam.fithub.data.remote.service.CertificateService
 import com.proteam.fithub.data.remote.service.CommentService
 import com.proteam.fithub.data.remote.service.ExerciseService
+import com.proteam.fithub.data.remote.service.RecordService
+import com.proteam.fithub.data.remote.service.SearchService
 import com.proteam.fithub.data.remote.service.SignInService
 import com.proteam.fithub.data.remote.service.SignUpService
 import dagger.Module
@@ -33,6 +35,9 @@ class ServiceModule {
     @Provides
     @Singleton
     fun provideCertificateService(retrofit: Retrofit) : CertificateService = retrofit.create(CertificateService::class.java)
+    @Provides
+    @Singleton
+    fun provideRecordService(retrofit: Retrofit) : RecordService = retrofit.create(RecordService::class.java)
 
     @Provides
     @Singleton
@@ -41,4 +46,8 @@ class ServiceModule {
     @Provides
     @Singleton
     fun provideArticleService(retrofit: Retrofit) : ArticleService = retrofit.create(ArticleService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideSearchService(retrofit: Retrofit) : SearchService = retrofit.create(SearchService::class.java)
 }

@@ -24,8 +24,6 @@ class BoardDetailViewModel @Inject constructor(private val repository: ArticleRe
     val articleData : LiveData<ResponseArticleDetailData.ResultArticleDetailData> = _articleData
 
     var userInputComment = MutableLiveData<String>().apply { value = "" }
-    private val _postCommentState = MutableLiveData<Int>()
-    val postCommentState : LiveData<Int> = _postCommentState
 
     private val _heartResult =
         MutableLiveData<ResponseArticleHeartClicked.ResultArticleHeartClicked>()
@@ -40,17 +38,6 @@ class BoardDetailViewModel @Inject constructor(private val repository: ArticleRe
         viewModelScope.launch {
             repository.requestArticleDetailData(index)
                 .onSuccess { _articleData.value = it }
-        }
-    }
-
-    fun requestComment(): Flow<PagingData<ResponseCommentData.ResultCommentItems>> {
-        return commentRepository.requestComments("articles", _articleData.value!!.articleId)
-    }
-
-    fun requestPostComment() {
-        viewModelScope.launch {
-            commentRepository.postComment("articles", _articleData.value!!.articleId, RequestPostComment(userInputComment.value!!))
-                .onSuccess { _postCommentState.value = it.code }
         }
     }
 

@@ -3,10 +3,11 @@ package com.proteam.fithub.presentation.ui.search.result.adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.proteam.fithub.presentation.ui.main.community.board.BoardFragment
-import com.proteam.fithub.presentation.ui.main.community.certificate.CertificateFragment
+import com.proteam.fithub.presentation.ui.search.result.article.SearchResultArticleFragment
+import com.proteam.fithub.presentation.ui.search.result.certificate.SearchResultCertificateFragment
+import com.proteam.fithub.presentation.ui.search.result.total.SearchResultTotalFragment
 
-class SearchResultPagerAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
+class SearchResultPagerAdapter(fragmentActivity: Fragment) : FragmentStateAdapter(fragmentActivity) {
     var fragments = mutableListOf<Fragment>()
 
     override fun getItemCount(): Int = fragments.size
@@ -15,11 +16,12 @@ class SearchResultPagerAdapter(fragmentActivity: FragmentActivity) : FragmentSta
         return fragments[position]
     }
 
+
     fun setFragments() {
         fragments.apply {
-            add(Fragment())
-            add(Fragment())
-            add(Fragment())
+            add(SearchResultTotalFragment())
+            add(SearchResultCertificateFragment())
+            add(SearchResultArticleFragment())
         }
     }
 }

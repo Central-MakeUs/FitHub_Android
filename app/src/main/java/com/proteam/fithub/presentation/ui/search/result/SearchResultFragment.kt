@@ -1,11 +1,13 @@
 package com.proteam.fithub.presentation.ui.search.result
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.proteam.fithub.R
@@ -14,9 +16,8 @@ import com.proteam.fithub.presentation.ui.search.result.adapter.SearchResultPage
 
 class SearchResultFragment : Fragment() {
     private lateinit var binding : FragmentSearchResultBinding
-    private val resultPagerAdapter by lazy {
-        SearchResultPagerAdapter(requireActivity()).also { it.setFragments() }
-    }
+
+    private var resultPagerAdapter : SearchResultPagerAdapter? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -25,13 +26,17 @@ class SearchResultFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search_result, container ,false)
 
         initBinding()
-        //:TODO 검색결과 랜더링하기
 
         return binding.root
     }
 
     private fun initBinding() {
+        initAdapter()
         initTab()
+    }
+
+    private fun initAdapter() {
+        resultPagerAdapter = SearchResultPagerAdapter(this).also { it.setFragments() }
     }
 
     private fun initTab() {
@@ -43,6 +48,10 @@ class SearchResultFragment : Fragment() {
             }.attach()
             offscreenPageLimit = 1
         }
+    }
+
+    fun changeCurrentTab(position : Int) {
+        binding.fgSearchResultVpContainer.setCurrentItem(position, false)
     }
 
     /** Dummy **/

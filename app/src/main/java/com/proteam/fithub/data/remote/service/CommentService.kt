@@ -6,6 +6,7 @@ import com.proteam.fithub.data.remote.response.ResponseCommentHeartClicked
 import com.proteam.fithub.presentation.util.BaseResponse
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -33,4 +34,11 @@ interface CommentService {
         @Path("id") id : Int,
         @Path("commentId") commentId : Int
     ) : Response<ResponseCommentHeartClicked>
+
+    @DELETE ("/{type}/{id}/comments/{commentId}")
+    suspend fun requestDeleteComment(
+        @Path("type") type : String,
+        @Path("id") id : Int,
+        @Path("commentId") commentId : Int
+    ) : Response<BaseResponse>
 }

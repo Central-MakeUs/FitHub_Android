@@ -68,6 +68,7 @@ class SocialSignUpActivity : AppCompatActivity() {
 
     private fun observeSignUpResult() {
         viewModel.signUpState.observe(this) {
+            deletePhoto()
             when(it) {
                 2000 -> {
                     openSignUpResultActivity()
@@ -101,5 +102,9 @@ class SocialSignUpActivity : AppCompatActivity() {
             c.moveToFirst()
             c.getString(index)
         }
+    }
+
+    private fun deletePhoto() {
+        viewModel.imagePaths.value?.deletePic(this)
     }
 }

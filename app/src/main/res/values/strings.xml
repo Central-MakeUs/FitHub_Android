@@ -123,6 +123,8 @@
 
     <!-- 검색 -->
     <string name="search_recommend_keywords">추천 검색어</string>
+    <string name="search_none_title">\'%s\'에 대한 검색 결과가 없어요.</string>
+    <string name="search_none_notice">다른 검색어를 입력해보세요!</string>
     
     <!-- 홈 -->
     <string name="home_user_notice">오늘도 힘내서 운동 해봐요!</string>

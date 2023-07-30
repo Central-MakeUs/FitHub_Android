@@ -54,6 +54,19 @@ class ArticleRepositoryImpl @Inject constructor(
         return source.requestPostArticleData(categoryId, title, contents, exerciseTag, tagList, pictureList)
     }
 
+    override suspend fun requestModifyArticleData(
+        articleId: Int,
+        title: String,
+        contents: String,
+        category: Int,
+        exerciseTag: String,
+        hashTagList: List<String>?,
+        newPictureList: MutableList<MultipartBody.Part>?,
+        remainPictureUrlList: List<String>?
+    ): Result<ResponsePostArticleData> {
+        return source.requestModifyArticleData(articleId, title, contents, category, exerciseTag, hashTagList, newPictureList, remainPictureUrlList)
+    }
+
     override suspend fun requestDeleteArticleData(articleId: Int): Result<BaseResponse> {
         return source.requestDeleteBoardData(articleId)
     }

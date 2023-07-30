@@ -11,8 +11,7 @@ object ConvertToRequestBody {
         return this.toRequestBody("text/plain".toMediaTypeOrNull())
     }
 
-
     fun List<String>?.listConverter() : List<RequestBody>? {
-        return this?.let { map { it.toRequestBody("text/plain".toMediaTypeOrNull()) } }
+        return this?.map { it.toRequestBody("text/plain".toMediaTypeOrNull()) }
     }
 }

@@ -20,6 +20,7 @@ import com.proteam.fithub.presentation.ui.sign.result.SignUpResultActivity
 import com.proteam.fithub.presentation.ui.sign.up.common.agreement.AgreementFragment
 import com.proteam.fithub.presentation.ui.sign.up.number.viewmodel.NumberSignUpViewModel
 import com.proteam.fithub.presentation.util.ConvertBitmap.ConvertWhenSingle
+import com.proteam.fithub.presentation.util.ConvertBitmap.deletePic
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -68,6 +69,7 @@ class NumberSignUpActivity : AppCompatActivity() {
 
     private fun observeSignUpResult() {
         viewModel.signUpState.observe(this) {
+            deletePhoto()
             when(it) {
                 2000 -> {
                     openSignUpResultActivity()
@@ -101,5 +103,8 @@ class NumberSignUpActivity : AppCompatActivity() {
             c.moveToFirst()
             c.getString(index)
         }
+    }
+    private fun deletePhoto() {
+        viewModel.imagePaths.value?.deletePic(this)
     }
 }

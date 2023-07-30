@@ -50,9 +50,9 @@ class FullSizeImageFragment : Fragment() {
     }
 
     private fun initRV() {
-        binding.fgFullsizeImageVpImages.adapter = fullSizeImageAdapter
+        /*binding.fgFullsizeImageVpImages.adapter = fullSizeImageAdapter
         fullSizeImageAdapter.images = viewModel.articleData.value?.articlePictureList?.pictureList as MutableList
-        binding.fgFullsizeImageVpImages.setCurrentItem(tag!!.toInt(), false)
+        binding.fgFullsizeImageVpImages.setCurrentItem(tag!!.toInt(), false) */
     }
 
     fun dismissClicked() {

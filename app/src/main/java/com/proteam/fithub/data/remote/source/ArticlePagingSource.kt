@@ -32,10 +32,8 @@ class ArticlePagingSource(
 
             val responseCertificates = response.result.articleList
 
-            val prevKey = if(page == 0) null else responseCertificates.first().articleId
-            val nextKey = if(responseCertificates.isEmpty()) null else responseCertificates.last().articleId
-
-            Log.e("----", "load: ${responseCertificates}", )
+            val prevKey = if(page == 0) null else page - 1
+            val nextKey = if(responseCertificates.isEmpty()) null else page + 1
 
             LoadResult.Page(
                 data = responseCertificates,

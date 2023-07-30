@@ -7,6 +7,7 @@ data class ResponseCertificateHeartClicked(
 ) : BaseResponse() {
     data class ResultCertificateHeartClicked(
         val recordId : Int,
-        val newLikes : Int
+        val newLikes : Int,
+        val isLiked : Boolean
     )
 }

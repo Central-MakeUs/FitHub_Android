@@ -27,11 +27,11 @@ class CertificateRepositoryImpl @Inject constructor(
         }.flow
     }
 
-    override suspend fun requestCertificateDetail(recordId: Int): Result<ResponseCertificateDetailData.ResultCertificateDetailData> {
+    override suspend fun requestCertificateDetail(recordId: Int): Result<ResponseCertificateDetailData> {
         return source.requestCertificateDetail(recordId)
     }
 
-    override suspend fun requestCertificateHeartClicked(recordId: Int): Result<ResponseCertificateHeartClicked.ResultCertificateHeartClicked> {
+    override suspend fun requestCertificateHeartClicked(recordId: Int): Result<ResponseCertificateHeartClicked> {
         return source.requestCertificateHeartClicked(recordId)
     }
 
@@ -47,6 +47,18 @@ class CertificateRepositoryImpl @Inject constructor(
 
     override suspend fun requestDeleteCertificateData(recordId: Int): Result<BaseResponse> {
         return source.requestDeleteCertificateData(recordId)
+    }
+
+    override suspend fun requestModifyCertificateData(
+        recordId: Int,
+        category: Int,
+        contents: String,
+        exerciseTag: String,
+        hashTagList: List<String>?,
+        newImage: MultipartBody.Part?,
+        remainImageUrl: String?
+    ): Result<ResponsePostCertificateData> {
+        return source.requestModifyCertificateData(recordId, category, contents, exerciseTag, hashTagList, newImage, remainImageUrl)
     }
 
 

@@ -1,6 +1,5 @@
 package com.proteam.fithub.data.remote.source
 
-import android.util.Log
 import com.proteam.fithub.data.remote.response.ResponseCertificateDetailData
 import com.proteam.fithub.data.remote.response.ResponseCertificateHeartClicked
 import com.proteam.fithub.data.remote.response.ResponsePostCertificateData
@@ -10,25 +9,23 @@ import com.proteam.fithub.presentation.util.BaseResponse
 import com.proteam.fithub.presentation.util.ConvertToRequestBody.listConverter
 import com.proteam.fithub.presentation.util.ConvertToRequestBody.textConverter
 import com.proteam.fithub.presentation.util.ErrorConverter.convertAndGetCode
-import com.proteam.fithub.presentation.util.ErrorConverter.setValidate
-import com.proteam.fithub.presentation.util.ErrorConverter.setValidate2
 import okhttp3.MultipartBody
 import javax.inject.Inject
 
 class CertificateRemoteSource @Inject constructor(private val service : CertificateService): CertificateSource {
 
-    override suspend fun requestCertificateDetail(recordId: Int): Result<ResponseCertificateDetailData.ResultCertificateDetailData> {
+    override suspend fun requestCertificateDetail(recordId: Int): Result<ResponseCertificateDetailData> {
         val res = service.requestCertificateDetailData(recordId)
         return when(res.code()) {
-            in 200..399 -> Result.success(res.body()?.result!!)
+            in 200..399 -> Result.success(res.body()!!)
             else -> Result.failure(IllegalArgumentException(res.errorBody()?.convertAndGetCode().toString()))
         }
     }
 
-    override suspend fun requestCertificateHeartClicked(recordId: Int): Result<ResponseCertificateHeartClicked.ResultCertificateHeartClicked> {
+    override suspend fun requestCertificateHeartClicked(recordId: Int): Result<ResponseCertificateHeartClicked> {
         val res = service.requestClickCertificateHeart(recordId)
         return when(res.code()) {
-            in 200..399 -> Result.success(res.body()?.result!!)
+            in 200..399 -> Result.success(res.body()!!)
             else -> Result.failure(IllegalArgumentException(res.errorBody()?.convertAndGetCode().toString()))
         }
     }
@@ -54,4 +51,21 @@ class CertificateRemoteSource @Inject constructor(private val service : Certific
             else -> Result.failure(IllegalArgumentException(res.errorBody()?.convertAndGetCode().toString()))
         }
     }
+
+    override suspend fun requestModifyCertificateData(
+        recordId: Int,
+        category: Int,
+        contents: String,
+        exerciseTag: String,
+        hashTagList: List<String>?,
+        newImage: MultipartBody.Part?,
+        remainImageUrl: String?
+    ): Result<ResponsePostCertificateData> {
+        val res = service.modifyCertificateData(recordId, category, contents.textConverter(), exerciseTag.textConverter(), hashTagList?.listConverter(), newImage, remainImageUrl?.textConverter())
+        return when(res.code()) {
+            in 200..399 -> Result.success(res.body()!!)
+            else -> Result.failure(IllegalArgumentException(res.errorBody()?.convertAndGetCode().toString()))
+        }
+    }
+
 }

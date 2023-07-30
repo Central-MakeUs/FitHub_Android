@@ -11,6 +11,7 @@ import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Multipart
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.PartMap
@@ -58,4 +59,17 @@ interface CertificateService {
     suspend fun deleteCertificateData(
         @Path("recordId") recordId: Int
     ) : Response<BaseResponse>
+
+    @Multipart
+    @JvmSuppressWildcards
+    @PATCH("/record/{recordId}")
+    suspend fun modifyCertificateData(
+        @Path("recordId") recordId: Int,
+        @Part("category", encoding = "utf-8") category : Int,
+        @Part("contents", encoding = "utf-8") contents : RequestBody,
+        @Part("exerciseTag", encoding = "utf-8") exerciseTag : RequestBody,
+        @Part("hashTagList", encoding = "utf-8") hashTagList : List<RequestBody>?,
+        @Part newImage : MultipartBody.Part?,
+        @Part("remainImageUrl") remainImageUrl : RequestBody?
+    ) : Response<ResponsePostCertificateData>
 }

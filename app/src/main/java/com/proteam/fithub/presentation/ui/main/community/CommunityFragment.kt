@@ -47,6 +47,8 @@ class CommunityFragment : Fragment() {
         return binding.root
     }
 
+    /** Init **/
+
     private fun initBinding() {
         binding.fragment = this
         binding.viewModel = viewModel
@@ -59,23 +61,7 @@ class CommunityFragment : Fragment() {
         initChipGroup()
     }
 
-    private fun initPager() {
-        binding.fgCommunityVpContainer.apply {
-            adapter = pagerAdapter
-            this.getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
-            TabLayoutMediator(binding.fgCommunityTabCertAndBoard, this) { mTab, position ->
-                mTab.text = setTabTitles()[position]
-            }.attach()
-            offscreenPageLimit = 1
-        }
-
-        binding.fgCommunityVpContainer.registerOnPageChangeCallback(object : OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                viewModel.notifyChangeFragment(position)
-            }
-        })
-    }
+    /** Floating Action Button **/
 
     private fun initFab() {
         observeForFab()
@@ -96,6 +82,19 @@ class CommunityFragment : Fragment() {
         anim.start()
     }
 
+    /** Tab & Pager **/
+
+    private fun initPager() {
+        binding.fgCommunityVpContainer.apply {
+            adapter = pagerAdapter
+            this.getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+            TabLayoutMediator(binding.fgCommunityTabCertAndBoard, this) { mTab, position ->
+                mTab.text = setTabTitles()[position]
+            }.attach()
+            offscreenPageLimit = 1
+        }
+    }
+
     private fun onCertificateClicked() {
         (requireActivity() as MainActivity).openWriteOrModifyCertificate("Write")
     }
@@ -103,6 +102,8 @@ class CommunityFragment : Fragment() {
     private fun onBoardClicked() {
         (requireActivity() as MainActivity).openWriteOrModifyBoard("Write")
     }
+
+    /** Filter Chip **/
 
     private fun initChipGroup() {
         binding.fgCommunityChipgroupExerciseFilter.apply {
@@ -138,10 +139,6 @@ class CommunityFragment : Fragment() {
         }
     }
 
-    private fun requestAPI(checkedId : Int) {
-        viewModel.setSelectedFilter(checkedId)
-    }
-
     private fun getChipList(items : MutableList<ResponseExercises.ExercisesList>) : List<Chip> {
         return mutableListOf<Chip>().apply {
             for(item in items) {
@@ -169,6 +166,13 @@ class CommunityFragment : Fragment() {
             isCheckedIconVisible = false
         }
     }
+
+    /** Request **/
+
+    private fun requestAPI(checkedId : Int) {
+        viewModel.setSelectedFilter(checkedId)
+    }
+
 
     /** Dummy **/
     private fun setTabTitles() : List<String> = listOf("운동 인증", "핏사이트")
