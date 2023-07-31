@@ -23,13 +23,13 @@ interface ArticleService {
     @GET("/articles/{categoryId}")
     suspend fun requestArticleData(
         @Path("categoryId") categoryId: Int,
-        @Query("last") last: Int?
+        @Query("pageIndex") pageIndex: Int?
     ): ResponseArticleData
 
     @GET("/articles/{categoryId}/likes")
     suspend fun requestArticleDataByLike(
         @Path("categoryId") categoryId: Int,
-        @Query("last") last: Int?
+        @Query("pageIndex") pageIndex: Int?
     ): ResponseArticleData
 
     @GET("/articles/{articleId}/spec")

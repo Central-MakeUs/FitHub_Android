@@ -45,7 +45,7 @@ class ArticleFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        observeData(if(viewModel.isArticleRecentSort.value == true) "date" else "like", communityViewModel.selectedFilter.value ?: 0)
+        boardAdapter.refresh()
     }
 
     /** Init **/

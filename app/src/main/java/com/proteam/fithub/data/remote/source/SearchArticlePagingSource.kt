@@ -23,15 +23,15 @@ class SearchArticlePagingSource(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ResponseArticleData.ResultArticleData> {
         return try {
-            val page = params.key
+            val page = params.key ?: 0
             val response = withContext(ioDispatcher) {
-                if(type == "date") service.getSearchArticleData(tag = tag, last = page)
-                else service.getSearchArticleDataByLike(tag = tag, last = page)
+                if(type == "date") service.getSearchArticleData(tag = tag, pageIndex = page)
+                else service.getSearchArticleDataByLike(tag = tag, pageIndex = page)
             }
 
             val responseCertificates = response.result.articleList
-            val prevKey = if(page == 0) null else 0
-            val nextKey = if(responseCertificates.isEmpty()) null else responseCertificates.last().articleId
+            val prevKey = if(page == 0) null else page - 1
+            val nextKey = if(responseCertificates.isEmpty()) null else page + 1
             LoadResult.Page(
                 data = responseCertificates,
                 prevKey = prevKey,

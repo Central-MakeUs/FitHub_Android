@@ -26,8 +26,8 @@ class ArticlePagingSource(
             val page = params.key ?: 0
 
             val response = withContext(ioDispatcher) {
-                if(type == "date") service.requestArticleData(categoryId = category, last = page)
-                else service.requestArticleDataByLike(categoryId = category, last = page)
+                if(type == "date") service.requestArticleData(categoryId = category, pageIndex = page)
+                else service.requestArticleDataByLike(categoryId = category, pageIndex = page)
             }
 
             val responseCertificates = response.result.articleList

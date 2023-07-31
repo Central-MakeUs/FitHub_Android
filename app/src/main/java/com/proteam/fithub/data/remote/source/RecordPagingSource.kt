@@ -30,14 +30,13 @@ class RecordPagingSource(
                 )
                 else service.requestCertificateDataWithCategoryByLike(
                     categoryId = category,
-                    last = page
+                    pageIndex = page
                 )
             }
             val responseCertificates = response.result
 
             val prevKey = if(page == 0) null else page - 1
             val nextKey = if (page == responseCertificates.totalPage - 1) null else page + 1
-            Log.e("----", "load: prev : $prevKey / next : $nextKey", )
             LoadResult.Page(
                 data = responseCertificates.recordList,
                 prevKey = prevKey,

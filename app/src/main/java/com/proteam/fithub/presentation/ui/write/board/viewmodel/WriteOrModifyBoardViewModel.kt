@@ -123,22 +123,22 @@ class WriteOrModifyBoardViewModel @Inject constructor(
                 userInputContent.value!!,
                 userSelectExercise.value!!.name,
                 userInputTagList.value,
-                path?.mapToMultipart()
+                path?.mapToMultipartWhenPost()
             )
                 .onSuccess { _saveState.value = it.code }
                 .onFailure { _saveState.value = it.message?.toInt() }
         }
     }
 
-    private fun List<String>.mapToMultipart(): MutableList<MultipartBody.Part> {
+    private fun List<String>.mapToMultipartWhenPost(): MutableList<MultipartBody.Part> {
         val files = mutableListOf<MultipartBody.Part>()
         for (i in this) {
-            files.add(i.convertToMultiPart())
+            files.add(i.convertToMultiPartWhenPost())
         }
         return files
     }
 
-    private fun String.convertToMultiPart(): MultipartBody.Part {
+    private fun String.convertToMultiPartWhenPost(): MultipartBody.Part {
         val cont = File(this)
         val requestFile = cont.asRequestBody("image/*".toMediaTypeOrNull())
         return MultipartBody.Part.createFormData("pictureList", cont.name, requestFile)
@@ -161,13 +161,15 @@ class WriteOrModifyBoardViewModel @Inject constructor(
             userInputTitle.value = this?.title
             userInputContent.value = this?.contents
             _userSelectedImages.value = this?.articlePictureList?.pictureList?.filterNotNull()?.map { it.pictureUrl.toUri() } as MutableList
-            _userInputTagList.value = (this.hashtags.hashtags?.let { it.map { it2 -> it2.name } } as MutableList).also { it.removeFirst() }
+            toolsForUserInputTagList = (this.hashtags.hashtags?.let { it.map { it2 -> it2.name } } as MutableList).also { it.removeFirst() }
             _userSelectExercise.value = ResponseExercises.ExercisesList(this.articleCategory.categoryId, "", this.articleCategory.name)
         }
+        notifyTagList()
         checkSaveEnabled()
     }
 
     fun requestModifyArticle(path : List<String>?) {
+        Log.e("----", "requestModifyArticle: $path / ${_userSelectedImages.value}", )
         viewModelScope.launch {
             articleRepository.requestModifyArticleData(
                 legacyArticleData.value!!.articleId,
@@ -176,12 +178,26 @@ class WriteOrModifyBoardViewModel @Inject constructor(
                 userSelectExercise.value!!.id,
                 userSelectExercise.value!!.name,
                 userInputTagList.value,
-                path?.mapToMultipart(),
-                _userSelectedImages.value?.map { it.toString() }
+                path?.mapToMultipartWhenModify(),
+                if(path?.isEmpty() == true) _userSelectedImages.value?.map { it.toString() } else null
             )
                 .onSuccess { _saveState.value = it.code }
                 .onFailure { _saveState.value = it.message?.toInt() }
         }
+    }
+
+    private fun List<String>.mapToMultipartWhenModify(): MutableList<MultipartBody.Part> {
+        val files = mutableListOf<MultipartBody.Part>()
+        for (i in this) {
+            files.add(i.convertToMultiPartWhenModify())
+        }
+        return files
+    }
+
+    private fun String.convertToMultiPartWhenModify(): MultipartBody.Part {
+        val cont = File(this)
+        val requestFile = cont.asRequestBody("image/*".toMediaTypeOrNull())
+        return MultipartBody.Part.createFormData("newPictureList", cont.name, requestFile)
     }
 
 }

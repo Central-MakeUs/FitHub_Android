@@ -18,7 +18,7 @@ interface CommentService {
     suspend fun requestCommentData(
         @Path("type") type : String,
         @Path("id") id : Int,
-        @Query("last") last : Int?
+        @Query("pageIndex") pageIndex : Int?
     ) : ResponseCommentData
 
     @POST("/{type}/{id}/comments")

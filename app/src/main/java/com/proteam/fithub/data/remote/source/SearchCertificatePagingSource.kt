@@ -22,22 +22,21 @@ class SearchCertificatePagingSource(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ResponseCertificateData.ResultCertificateData> {
         return try {
-            val page = params.key
+            val page = params.key ?: 0
             val response = withContext(ioDispatcher) {
-                if(type == "date") service.getSearchCertificateData(tag = tag, last = page)
-                else service.getSearchCertificateDataByLike(tag = tag, last = page)
+                if(type == "date") service.getSearchCertificateData(tag = tag, pageIndex = page)
+                else service.getSearchCertificateDataByLike(tag = tag, pageIndex = page)
             }
 
             val responseCertificates = response.result.recordList
-            val prevKey = if(page == 0) null else 0
-            val nextKey = if(responseCertificates.isEmpty()) null else responseCertificates.last().recordId
+            val prevKey = if(page == 0) null else page - 1
+            val nextKey = if(responseCertificates.isEmpty()) null else page + 1
             LoadResult.Page(
                 data = responseCertificates,
                 prevKey = prevKey,
                 nextKey = nextKey
             )
         } catch (exception : Exception) {
-            Log.e("----", "load: ${exception}", )
             return LoadResult.Error(exception)
         }
     }

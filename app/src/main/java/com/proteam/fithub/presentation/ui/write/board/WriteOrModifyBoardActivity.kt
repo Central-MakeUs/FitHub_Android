@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.InputFilter
 import android.text.Spanned
+import android.util.Log
 import android.view.MotionEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
@@ -129,6 +130,7 @@ class WriteOrModifyBoardActivity : AppCompatActivity() {
 
     private fun onDropSelectedImage(position: Int) {
         viewModel.dropSelectedImages(position)
+        imageAdapter.notifyItemChanged(position)
     }
 
     private val requestGalleryActivity =
@@ -305,14 +307,14 @@ class WriteOrModifyBoardActivity : AppCompatActivity() {
     }
 
     private fun requestModifyArticle() {
-        viewModel.userInputTagList.value.let {
+        viewModel.userSelectedImages.value.let {
             if(it.isNullOrEmpty()) {
                 viewModel.requestModifyArticle(null)
-            } else if(it.first().javaClass.toString().contains("Uri")) {
+            } else if(it.first().javaClass.toString().contains("https://")) {
                 viewModel.requestModifyArticle(null)
             }else {
                 CoroutineScope(Dispatchers.Default).launch {
-                    viewModel.requestPostArticle(Convert().also { viewModel.setPathForDelete(it) }
+                    viewModel.requestModifyArticle(Convert().also { viewModel.setPathForDelete(it) }
                         .map { it.getAbsolutePath() })
                 }
             }

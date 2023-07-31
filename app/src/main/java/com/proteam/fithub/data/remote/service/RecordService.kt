@@ -16,7 +16,7 @@ interface RecordService {
     @GET("/records/{categoryId}likes")
     suspend fun requestCertificateDataWithCategoryByLike(
         @Path("categoryId") categoryId : Int,
-        @Query("last") last : Int?
+        @Query("pageIndex") pageIndex : Int?
     ) : ResponseCertificateData
 
 }
