@@ -2,6 +2,7 @@ package com.proteam.fithub.presentation.ui.main.home
 
 import android.graphics.Rect
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,19 +14,24 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.proteam.fithub.R
+import com.proteam.fithub.data.remote.response.ResponseHomeData
 import com.proteam.fithub.databinding.FragmentHomeBinding
 import com.proteam.fithub.presentation.ui.main.MainViewModel
+import com.proteam.fithub.presentation.ui.main.home.adapter.HomeBestRankAdapter
 import com.proteam.fithub.presentation.ui.main.home.adapter.HomeNearGymAdapter
 import com.proteam.fithub.presentation.ui.main.home.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
-    private lateinit var binding : FragmentHomeBinding
-    private val viewModel : HomeViewModel by viewModels()
-    private val mainViewModel : MainViewModel by activityViewModels()
-    private val gymAdapter : HomeNearGymAdapter by lazy {
+    private lateinit var binding: FragmentHomeBinding
+    private val viewModel: HomeViewModel by viewModels()
+    private val mainViewModel: MainViewModel by activityViewModels()
+    private val gymAdapter: HomeNearGymAdapter by lazy {
         HomeNearGymAdapter(::onGymClicked)
+    }
+    private val rankingAdapter : HomeBestRankAdapter by lazy {
+        HomeBestRankAdapter()
     }
 
     override fun onCreateView(
@@ -39,6 +45,7 @@ class HomeFragment : Fragment() {
         binding.fgHomeCardCertificatePercentLayoutExercise.getExercise("폴댄스")
 
         initUi()
+        initBinding()
         requestData()
 
         return binding.root
@@ -46,6 +53,11 @@ class HomeFragment : Fragment() {
 
     private fun initUi() {
         initGymRV()
+        initRankingRV()
+    }
+
+    private fun initBinding() {
+        binding.lifecycleOwner = viewLifecycleOwner
     }
 
     private fun initGymRV() {
@@ -64,8 +76,20 @@ class HomeFragment : Fragment() {
     }
 
     private fun requestData() {
+        viewModel.requestHomeData()
         viewModel.requestExerciseCategory()
+        observeHome()
         observeSports()
+    }
+
+    private fun observeHome() {
+        viewModel.homeData.observe(viewLifecycleOwner) {
+            if(it.code == 2000) {
+                notifyUi(it.result)
+            } else {
+                Log.e("----", "observeHome: ${it.code}", )
+            }
+        }
     }
 
     private fun observeSports() {
@@ -75,7 +99,30 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun onGymClicked(index : Int) {
+    private fun notifyUi(item: ResponseHomeData.ResultHomeData) {
+        binding.homeData = item
+        binding.fgHomeTvUserLevel.setTextColor(resources.getColor(
+            when (item.userInfo.gradeName) {
+                "우주먼지" -> R.color.color_level_1
+                "성운" -> R.color.color_level_2
+                "태양" -> R.color.color_level_3
+                "블랙홀" -> R.color.color_level_4
+                "은하" -> R.color.color_level_5
+                else -> R.color.transparent
+            }, null)
+        )
+        rankingAdapter.apply {
+            rankingData = item.bestRecorderList as MutableList
+            notifyItemRangeChanged(0, item.bestRecorderList.size)
+        }
+
+    }
+
+    private fun initRankingRV() {
+        binding.fgHomeRvBestRank.adapter = rankingAdapter
+    }
+
+    private fun onGymClicked(index: Int) {
         Toast.makeText(requireContext(), index, Toast.LENGTH_SHORT).show()
     }
 }

@@ -127,6 +127,7 @@
     <string name="search_none_notice">다른 검색어를 입력해보세요!</string>
     
     <!-- 홈 -->
+    <string name="home_user_nickname"> %s님,</string>
     <string name="home_user_notice">오늘도 힘내서 운동 해봐요!</string>
     <string name="home_goto_certificate">운동 인증하러 가기</string>
     <string name="home_certificate_percent">인증 달성률</string>
@@ -138,5 +139,7 @@
     <string name="home_look_around_gym_near_me">내 근처 운동시설 둘러보기</string>
     <string name="home_best_certificate_user">최고의 운동 인증러</string>
     <string name="home_best_certificate_standard">%s 기준</string>
+    <string name="home_best_certificate_times">%d회</string>
+    <string name="home_best_certificate_rank_see_more">랭킹 더보기</string>
 
 </resources>

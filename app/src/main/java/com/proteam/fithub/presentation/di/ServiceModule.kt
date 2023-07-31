@@ -4,6 +4,7 @@ import com.proteam.fithub.data.remote.service.ArticleService
 import com.proteam.fithub.data.remote.service.CertificateService
 import com.proteam.fithub.data.remote.service.CommentService
 import com.proteam.fithub.data.remote.service.ExerciseService
+import com.proteam.fithub.data.remote.service.HomeService
 import com.proteam.fithub.data.remote.service.RecordService
 import com.proteam.fithub.data.remote.service.SearchService
 import com.proteam.fithub.data.remote.service.SignInService
@@ -50,4 +51,8 @@ class ServiceModule {
     @Provides
     @Singleton
     fun provideSearchService(retrofit: Retrofit) : SearchService = retrofit.create(SearchService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideHomeService(retrofit: Retrofit) : HomeService = retrofit.create(HomeService::class.java)
 }
