@@ -1,5 +1,6 @@
 package com.proteam.fithub.presentation.ui.detail.board.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -57,10 +58,10 @@ class BoardDetailViewModel @Inject constructor(
         }
     }
 
-    fun setEffectHeart() {
+    fun setEffectHeart(heartResult : ResponseArticleHeartClicked.ResultArticleHeartClicked) {
         _articleData.value = _articleData.value?.apply {
-            if (isLiked) likes -= 1 else likes += 1
-            isLiked = isLiked.not()
+            this.isLiked = heartResult.isLiked
+            this.likes = heartResult.articleLikes
         }
     }
 

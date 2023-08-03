@@ -28,7 +28,7 @@ class ArticleRemoteSource @Inject constructor(private val service : ArticleServi
     override suspend fun requestArticleHeartClicked(articleId: Int): Result<ResponseArticleHeartClicked.ResultArticleHeartClicked> {
         val res = service.requestArticleHeartClicked(articleId)
         return when(res.code()) {
-            in 200..399 -> Result.success(res.body()!!)
+            in 200..399 -> Result.success(res.body()!!.result)
             else -> Result.failure(IllegalArgumentException(res.errorBody()?.convertAndGetCode().toString()))
         }
     }

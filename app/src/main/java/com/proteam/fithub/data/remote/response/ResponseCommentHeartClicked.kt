@@ -7,6 +7,7 @@ data class ResponseCommentHeartClicked(
 ) : BaseResponse() {
     data class ResultCommentHeartClicked(
         val commentId : Int,
-        val newLikes : Int
+        val newLikes : Int,
+        val isLiked : Boolean
     )
 }

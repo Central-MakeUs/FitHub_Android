@@ -131,7 +131,7 @@ class WriteOrModifyCertificateViewModel @Inject constructor(
                 userSelectExercise.value!!.name,
                 userInputTagList.value,
                 path?.mapToMultipartWhenModify(),
-                if(path.isNullOrEmpty()) _userSelectedImage.value.toString() else ""
+                if(path.isNullOrEmpty()) _userSelectedImage.value.toString() else null
             )
                 .onSuccess { _saveState.value = it.code }
                 .onFailure { _saveState.value = it.message?.toInt() }

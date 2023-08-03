@@ -129,9 +129,8 @@ class ExerciseCertificateDetailActivity : AppCompatActivity() {
     /** Observe **/
 
     private fun observeCommentHeartClicked() {
-        //:TODO 수정!
         commentViewModel.commentHeartResult.observe(this) {
-            commentAdapter.setHeartAction(commentAdapter.getItemIndex(it.result.commentId), it.result.newLikes)
+            commentAdapter.setHeartAction(commentAdapter.getItemIndex(it.result.commentId), it.result.newLikes, it.result.isLiked)
         }
     }
 

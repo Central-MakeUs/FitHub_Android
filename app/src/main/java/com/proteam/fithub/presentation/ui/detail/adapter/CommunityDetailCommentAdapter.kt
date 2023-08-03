@@ -54,9 +54,9 @@ class CommunityDetailCommentAdapter
         return 0
     }
 
-    fun setHeartAction(index : Int, count : Int) {
+    fun setHeartAction(index : Int, count : Int, status : Boolean) {
         getItem(index)?.apply {
-            isLiked = getItem(index)?.isLiked!!.not()
+            isLiked = status
             likes = count
         }
         notifyItemChanged(index)

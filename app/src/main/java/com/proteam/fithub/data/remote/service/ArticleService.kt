@@ -41,7 +41,7 @@ interface ArticleService {
     @POST("/articles/{articleId}/likes")
     suspend fun requestArticleHeartClicked(
         @Path("articleId") articleId: Int
-    ): Response<ResponseArticleHeartClicked.ResultArticleHeartClicked>
+    ): Response<ResponseArticleHeartClicked>
 
     @POST("/articles/{articleId}/scrap")
     suspend fun requestArticleScrapClicked(

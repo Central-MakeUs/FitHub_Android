@@ -1,11 +1,10 @@
 package com.proteam.fithub.presentation.ui.detail.board
 
-import android.app.ProgressDialog.show
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.proteam.fithub.R
@@ -25,7 +24,6 @@ import com.proteam.fithub.presentation.ui.write.board.WriteOrModifyBoardActivity
 import com.proteam.fithub.presentation.util.CustomSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.io.Serializable
 
 @AndroidEntryPoint
 class BoardDetailActivity : AppCompatActivity() {
@@ -126,10 +124,10 @@ class BoardDetailActivity : AppCompatActivity() {
 
     private fun onCommentHeartClicked(position : Int, index : Int) {
         commentViewModel.requestCommentHeartClicked("articles", viewModel.articleData.value!!.articleId, index)
-        observeHeartStatus(position)
+        observeCommentHeartStatus(position)
     }
 
-    private fun observeHeartStatus(position : Int) {
+    private fun observeCommentHeartStatus(position : Int) {
         commentViewModel.heartStatus.observe(this) {
             if (it == 0) return@observe
             if(it == 2000) observeCommentHeartClicked()
@@ -140,7 +138,7 @@ class BoardDetailActivity : AppCompatActivity() {
     private fun observeCommentHeartClicked() {
         //:TODO 수정!
         commentViewModel.commentHeartResult.observe(this) {
-            commentAdapter.setHeartAction(commentAdapter.getItemIndex(it.result.commentId), it.result.newLikes)
+            commentAdapter.setHeartAction(commentAdapter.getItemIndex(it.result.commentId), it.result.newLikes, it.result.isLiked)
         }
     }
 
@@ -156,7 +154,7 @@ class BoardDetailActivity : AppCompatActivity() {
 
     private fun observeHeartClicked() {
         viewModel.heartResult.observe(this) {
-            viewModel.setEffectHeart()
+            viewModel.setEffectHeart(it)
         }
     }
 
