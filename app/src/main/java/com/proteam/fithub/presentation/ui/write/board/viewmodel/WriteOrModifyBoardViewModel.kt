@@ -1,11 +1,13 @@
 package com.proteam.fithub.presentation.ui.write.board.viewmodel
 
 import android.net.Uri
+import android.util.Log
 import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.proteam.fithub.data.remote.response.ResponseArticleDetailData
 import com.proteam.fithub.data.remote.response.ResponseExercises
 import com.proteam.fithub.domain.repository.ArticleRepository
 import com.proteam.fithub.domain.repository.ExerciseRepository
@@ -34,6 +36,7 @@ class WriteOrModifyBoardViewModel @Inject constructor(
     //:TODO 수정
     private val _userSelectedImages = MutableLiveData<MutableList<Uri>>()
     val userSelectedImages: LiveData<MutableList<Uri>> = _userSelectedImages
+    val notifySelectedImages = mutableListOf<Uri>()
 
     private val _imagePaths = MutableLiveData<MutableList<Uri>>()
     val imagePaths : LiveData<MutableList<Uri>> = _imagePaths
@@ -62,8 +65,8 @@ class WriteOrModifyBoardViewModel @Inject constructor(
     }
 
     fun setSelectedImages(path: MutableList<Uri>) {
-        _userSelectedImages.postValue(path.map { it.toString().substring(7).toUri() } as MutableList)
-
+        Log.e("----", "setSelectedImages: $path", )
+        _userSelectedImages.value = path.map { it.toString().substring(7).toUri() } as MutableList
         checkSaveEnabled()
     }
 
@@ -112,7 +115,7 @@ class WriteOrModifyBoardViewModel @Inject constructor(
     }
 
 
-    fun postArticle(path : List<String>) {
+    fun requestPostArticle(path : List<String>?) {
         viewModelScope.launch {
             articleRepository.requestPostArticleData(
                 userSelectExercise.value!!.id,
@@ -120,25 +123,81 @@ class WriteOrModifyBoardViewModel @Inject constructor(
                 userInputContent.value!!,
                 userSelectExercise.value!!.name,
                 userInputTagList.value,
-                path.mapToMultipart()
+                path?.mapToMultipartWhenPost()
             )
                 .onSuccess { _saveState.value = it.code }
                 .onFailure { _saveState.value = it.message?.toInt() }
         }
     }
 
-    private fun List<String>.mapToMultipart(): MutableList<MultipartBody.Part> {
+    private fun List<String>.mapToMultipartWhenPost(): MutableList<MultipartBody.Part> {
         val files = mutableListOf<MultipartBody.Part>()
         for (i in this) {
-            files.add(i.convertToMultiPart())
+            files.add(i.convertToMultiPartWhenPost())
         }
         return files
     }
 
-    private fun String.convertToMultiPart(): MultipartBody.Part {
+    private fun String.convertToMultiPartWhenPost(): MultipartBody.Part {
         val cont = File(this)
         val requestFile = cont.asRequestBody("image/*".toMediaTypeOrNull())
         return MultipartBody.Part.createFormData("pictureList", cont.name, requestFile)
+    }
+
+    /** Modify **/
+
+    private val _legacyArticleData = MutableLiveData<ResponseArticleDetailData.ResultArticleDetailData>()
+    val legacyArticleData : LiveData<ResponseArticleDetailData.ResultArticleDetailData> = _legacyArticleData
+
+    fun requestLegacyData() {
+        viewModelScope.launch {
+            articleRepository.requestArticleDetailData(type.value!!.toInt())
+                .onSuccess { _legacyArticleData.value = it }
+        }
+    }
+
+    fun setLegacyToUi() {
+        legacyArticleData.value.apply {
+            userInputTitle.value = this?.title
+            userInputContent.value = this?.contents
+            _userSelectedImages.value = this?.articlePictureList?.pictureList?.filterNotNull()?.map { it.pictureUrl.toUri() } as MutableList
+            toolsForUserInputTagList = (this.hashtags.hashtags?.let { it.map { it2 -> it2.name } } as MutableList).also { it.removeFirst() }
+            _userSelectExercise.value = ResponseExercises.ExercisesList(this.articleCategory.categoryId, "", this.articleCategory.name)
+        }
+        notifyTagList()
+        checkSaveEnabled()
+    }
+
+    fun requestModifyArticle(path : List<String>?) {
+        Log.e("----", "requestModifyArticle: $path / ${_userSelectedImages.value}", )
+        viewModelScope.launch {
+            articleRepository.requestModifyArticleData(
+                legacyArticleData.value!!.articleId,
+                userInputTitle.value!!,
+                userInputContent.value!!,
+                userSelectExercise.value!!.id,
+                userSelectExercise.value!!.name,
+                userInputTagList.value,
+                path?.mapToMultipartWhenModify(),
+                if(path.isNullOrEmpty()) _userSelectedImages.value?.map { it.toString() } else null
+            )
+                .onSuccess { _saveState.value = it.code }
+                .onFailure { _saveState.value = it.message?.toInt() }
+        }
+    }
+
+    private fun List<String>.mapToMultipartWhenModify(): MutableList<MultipartBody.Part> {
+        val files = mutableListOf<MultipartBody.Part>()
+        for (i in this) {
+            files.add(i.convertToMultiPartWhenModify())
+        }
+        return files
+    }
+
+    private fun String.convertToMultiPartWhenModify(): MultipartBody.Part {
+        val cont = File(this)
+        val requestFile = cont.asRequestBody("image/*".toMediaTypeOrNull())
+        return MultipartBody.Part.createFormData("newPictureList", cont.name, requestFile)
     }
 
 }

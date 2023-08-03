@@ -16,6 +16,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.coordinatorlayout.widget.CoordinatorLayout.Behavior.setTag
 import androidx.core.net.toUri
 import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
@@ -28,6 +29,7 @@ import com.proteam.fithub.presentation.ui.write.certificate.adapter.WriteOrModif
 import com.proteam.fithub.presentation.ui.write.certificate.viewmodel.WriteOrModifyCertificateViewModel
 import com.proteam.fithub.presentation.util.ConvertBitmap.ConvertWhenSingle
 import com.proteam.fithub.presentation.util.ConvertBitmap.deletePic
+import com.proteam.fithub.presentation.util.EditTextHelper.banSpaceInput
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -51,35 +53,22 @@ class WriteOrModifyCertificateActivity : AppCompatActivity() {
         initUi()
         initBackPressed()
 
-        observeTagInserted()
+        setTag()
         observeExercises()
         observeUserInputContent()
     }
 
-    private fun initBackPressed() {
-        this.onBackPressedDispatcher.addCallback(this, callback)
-    }
-
-    private val callback = object : OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() {
-            onBackPress()
-        }
-    }
-
-    fun onBackPress() {
-        ComponentDialogYesNo(::finishActivity).show(supportFragmentManager, "BACK_PRESSED_WHILE_WRITE")
-    }
-
-    private fun initType() {
-        intent.type?.let { viewModel.setType(it) }
-        validateType()
-    }
-
+    /** Init **/
 
     private fun initBinding() {
         binding.activity = this
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
+    }
+
+    private fun initType() {
+        intent.type?.let { viewModel.setType(it) }
+        validateType()
     }
 
     private fun initUi() {
@@ -89,19 +78,13 @@ class WriteOrModifyCertificateActivity : AppCompatActivity() {
         }
     }
 
-    private fun validateType() {
-        viewModel.type.observe(this) {
-            if (it == "Write") openGallery() else requestLegacyData()
-            binding.writeModifyCertificateTvToolbar.text =
-                if (it == "Write") resources.getString(R.string.write_certificate) else resources.getString(
-                    R.string.modify_certificate
-                )
-        }
+    private fun initBackPressed() {
+        this.onBackPressedDispatcher.addCallback(this, callback)
     }
 
-    private fun requestLegacyData() {
-        viewModel.requestLegacyData()
-    }
+
+
+    /** Gallery **/
 
     fun openGallery() {
         val intent = Intent()
@@ -110,21 +93,31 @@ class WriteOrModifyCertificateActivity : AppCompatActivity() {
         this.requestGalleryActivity.launch(intent)
     }
 
-    private val requestGalleryActivity =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode == Activity.RESULT_OK && it.data?.data != null) {
-                val clipData = it?.data?.clipData
-                if (clipData == null) {
-                    it.data!!.data?.let { it1 ->
-                        viewModel.setSelectedImage(it1)
-                    }
-                }
+
+    /** Request **/
+
+    private fun requestLegacyData() { /** When Modify **/
+        viewModel.requestLegacyData()
+    }
+
+    private fun requestWrite() {
+        CoroutineScope(Dispatchers.Default).launch {
+            viewModel.requestPostCertificate(Convert().also { viewModel.setPathForDelete(it) }.getAbsolutePath())
+        }
+    }
+
+    private fun requestModify() {
+        CoroutineScope(Dispatchers.Default).launch {
+            if(viewModel.userSelectedImage.value?.toString()!!.contains("https://")) {
+                viewModel.requestModifyCertificate(null)
+            } else {
+                viewModel.requestModifyCertificate(Convert().also { viewModel.setPathForDelete(it) }
+                    .getAbsolutePath())
             }
         }
-
-    private fun observeTagInserted() {
-        setTag()
     }
+
+    /** Tag **/
 
     private fun setTag() {
         binding.writeModifyCertificateEdtTag.banSpaceInput()
@@ -144,9 +137,11 @@ class WriteOrModifyCertificateActivity : AppCompatActivity() {
 
     private fun observeTag() {
         viewModel.userInputTagList.observe(this) {
-            val count = it.size - binding.writeModifyCertificateChipgroupTag.childCount
-            for (i in it.size - (count+1) until it.size) {
-                addTagChip(it[i])
+            if(!it.isNullOrEmpty()) {
+                val count = it.size - binding.writeModifyCertificateChipgroupTag.childCount
+                for (i in it.size - (count + 1) until it.size) {
+                    addTagChip(it[i])
+                }
             }
         }
     }
@@ -178,6 +173,8 @@ class WriteOrModifyCertificateActivity : AppCompatActivity() {
         }
     }
 
+    /** Exercise **/
+
     private fun observeExercises() {
         viewModel.exercises.observe(this) {
             exerciseAdapter.sports = it
@@ -196,33 +193,12 @@ class WriteOrModifyCertificateActivity : AppCompatActivity() {
         viewModel.setUserSelectedExercise(exercise)
     }
 
+    /** Observe **/
+
     private fun observeUserInputContent() {
         viewModel.userInputContent.observe(this) {
             viewModel.checkSaveEnabled()
         }
-    }
-
-    fun onSaveClicked() {
-        CoroutineScope(Dispatchers.Default).launch {
-            viewModel.requestPostCertificate(Convert().also { viewModel.setPathForDelete(it) }.getAbsolutePath())
-        }
-        observeSaveState()
-    }
-
-    private fun Convert() : Uri {
-        val res = (viewModel.userSelectedImage.value!!.toString().toUri().getAbsolutePath()).ConvertWhenSingle(this@WriteOrModifyCertificateActivity)
-
-        return "content://${res.substring(9)}".toUri()
-    }
-
-
-
-    private fun Uri.getAbsolutePath() : String {
-        val proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
-        val c : Cursor = contentResolver.query(this, proj, null, null, null)!!
-        val index = c.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-        c.moveToFirst()
-        return c.getString(index)
     }
 
     private fun observeSaveState() {
@@ -234,27 +210,70 @@ class WriteOrModifyCertificateActivity : AppCompatActivity() {
         }
     }
 
+    /** Etc **/
+
+    fun onBackPress() {
+        ComponentDialogYesNo(::finishActivity).show(supportFragmentManager, "BACK_PRESSED_WHILE_WRITE")
+    }
+
+    private fun validateType() {
+        viewModel.type.observe(this) {
+            if (it == "Write") openGallery() else requestLegacyData()
+            binding.writeModifyCertificateTvToolbar.text =
+                if (it == "Write") resources.getString(R.string.write_certificate) else resources.getString(
+                    R.string.modify_certificate
+                )
+        }
+    }
+
+    fun onSaveClicked() {
+        when(intent?.type) {
+            "Write" -> requestWrite()
+            else -> requestModify()
+        }
+
+        observeSaveState()
+    }
+
     private fun finishActivity() {
         finish()
     }
 
-    private fun EditText.banSpaceInput() {
-        this.filters = arrayOf(object : InputFilter {
-            override fun filter(
-                p0: CharSequence,
-                p1: Int,
-                p2: Int,
-                p3: Spanned?,
-                p4: Int,
-                p5: Int
-            ): CharSequence {
-                if(p0 == "" || !p0.contains(" ")) {
-                    return p0
-                }
-                return p0.trim()
-            }
-        })
+    /** MultiPart **/
+
+    private fun Convert() : Uri {
+        val res = (viewModel.userSelectedImage.value?.toString()!!.toUri().getAbsolutePath()).ConvertWhenSingle(this)
+
+        return "content://${res.substring(9)}".toUri()
     }
+
+    private fun Uri.getAbsolutePath() : String {
+        val proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
+        val c : Cursor = contentResolver.query(this, proj, null, null, null)!!
+        val index = c.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+        c.moveToFirst()
+        return c.getString(index)
+    }
+
+    /** Callback **/
+
+    private val callback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            onBackPress()
+        }
+    }
+
+    private val requestGalleryActivity =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK && it.data?.data != null) {
+                val clipData = it?.data?.clipData
+                if (clipData == null) {
+                    it.data!!.data?.let { it1 ->
+                        viewModel.setSelectedImage(it1)
+                    }
+                }
+            }
+        }
 
     /** Dummy **/
 

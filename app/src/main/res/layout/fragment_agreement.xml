@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="fragment"
+            type="com.proteam.fithub.presentation.ui.sign.up.common.agreement.AgreementFragment" />
+
+        <variable
+            name="viewModel"
+            type="com.proteam.fithub.presentation.ui.sign.up.common.agreement.viewmodel.AgreementViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_default"
+        android:paddingHorizontal="20dp">
+
+        <TextView
+            android:id="@+id/fg_sign_up_agreement_tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:includeFontPadding="false"
+            android:text="@string/sign_up_agreement_notice"
+            android:textColor="@color/text_default"
+            android:textAppearance="@style/Headline_small_semibold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fg_sign_up_agreement_layout_check_all"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/bg_signup_agreement_select_all"
+            app:layout_constraintTop_toBottomOf="@id/fg_sign_up_agreement_tv_title">
+
+            <CheckBox
+                android:id="@+id/fg_sign_up_agreement_check_all"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5dp"
+                android:layout_marginHorizontal="10dp"
+                android:background="@android:color/transparent"
+                android:button="@android:color/transparent"
+                android:checked="@={viewModel.signUpAllAgreements}"
+                android:onClick="@{() -> fragment.onAllAgreementClicked()}"
+                android:drawableStart="@drawable/selector_sign_up_agreement_checkbox"
+                android:drawablePadding="10dp"
+                android:textAppearance="@style/Body_large_medium"
+                android:includeFontPadding="false"
+                android:text="@string/sign_up_agreement_agree_all"
+                android:textColor="@color/text_default"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fg_sign_up_agreement_rv_contents"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="6dp"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/fg_sign_up_agreement_layout_check_all"
+            tools:listitem="@layout/item_sign_up_agreement_checkbox" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/sign_up_agreement_card_next"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="10dp"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/selector_bg_btn_signin"
+                android:enabled="@{viewModel.agreementNextEnable}"
+                android:onClick="@{() -> fragment.onNextBtnClicked()}"
+                android:includeFontPadding="false"
+                android:text="@string/common_next"
+                android:textAppearance="@style/Body_large_medium"
+                android:textColor="@color/black" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -32,5 +32,15 @@ interface ArticleRepository {
         pictureList: MutableList<MultipartBody.Part>?
     ): Result<ResponsePostArticleData>
 
+    suspend fun requestModifyArticleData(
+        articleId: Int,
+        title: String,
+        contents: String,
+        category : Int,
+        exerciseTag: String,
+        hashTagList: List<String>?,
+        newPictureList: MutableList<MultipartBody.Part>?,
+        remainPictureUrlList : List<String>?
+    ): Result<ResponsePostArticleData>
     suspend fun requestDeleteArticleData(articleId: Int) : Result<BaseResponse>
 }

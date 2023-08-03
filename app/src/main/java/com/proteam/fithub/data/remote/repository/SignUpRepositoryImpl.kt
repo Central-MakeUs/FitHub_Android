@@ -4,11 +4,9 @@ import com.proteam.fithub.data.remote.request.RequestChangePassword
 import com.proteam.fithub.data.remote.request.RequestCheckSMSAuth
 import com.proteam.fithub.data.remote.request.RequestPhoneNumberAvailable
 import com.proteam.fithub.data.remote.request.RequestSMSAuth
-import com.proteam.fithub.data.remote.request.RequestSignUpWithPhone
-import com.proteam.fithub.data.remote.request.RequestSignUpWithSocial
 import com.proteam.fithub.data.remote.response.ResponseChangePassword
 import com.proteam.fithub.data.remote.response.ResponseSignUpWithPhone
-import com.proteam.fithub.data.remote.response.ResponseSignUpWithSocial
+import com.proteam.fithub.data.remote.response.ResponseSignUp
 import com.proteam.fithub.domain.repository.SignUpRepository
 import com.proteam.fithub.domain.source.SignUpSource
 import com.proteam.fithub.presentation.util.BaseResponse
@@ -40,17 +38,29 @@ class SignUpRepositoryImpl @Inject constructor(private val source : SignUpSource
         password: String,
         birth: String,
         gender: String,
-        preferExercises: List<Int>,
-        profileImage: MultipartBody.Part
+        preferExercises: Int,
+        profileImage: MultipartBody.Part?
     ): Result<ResponseSignUpWithPhone> {
         return source.requestSignUpWithPhone(marketingAgree, phoneNumber, name, nickname, password, birth, gender, preferExercises, profileImage)
     }
 
-    override suspend fun requestSignUpWithSocial(body: RequestSignUpWithSocial): Result<ResponseSignUpWithSocial> {
-        return source.requestSignUpWithSocial(body)
+    override suspend fun requestSignUpWithSocial(
+        marketingAgree: Boolean,
+        name: String,
+        nickname: String,
+        birth: String,
+        gender: String,
+        preferExercises: Int,
+        profileImage: MultipartBody.Part?
+    ): Result<ResponseSignUp> {
+        return source.requestSignUpWithSocial(marketingAgree, name, nickname, birth, gender, preferExercises, profileImage)
     }
 
     override suspend fun requestChangePassword(body: RequestChangePassword): Result<ResponseChangePassword> {
         return source.requestChangePassword(body)
+    }
+
+    override suspend fun requestExistPhone(body: RequestPhoneNumberAvailable): Result<BaseResponse> {
+        return source.requestExistPhone(body)
     }
 }

@@ -26,16 +26,14 @@ class ArticlePagingSource(
             val page = params.key ?: 0
 
             val response = withContext(ioDispatcher) {
-                if(type == "date") service.requestArticleData(categoryId = category, last = page)
-                else service.requestArticleDataByLike(categoryId = category, last = page)
+                if(type == "date") service.requestArticleData(categoryId = category, pageIndex = page)
+                else service.requestArticleDataByLike(categoryId = category, pageIndex = page)
             }
 
             val responseCertificates = response.result.articleList
 
-            val prevKey = if(page == 0) null else responseCertificates.first().articleId
-            val nextKey = if(responseCertificates.isEmpty()) null else responseCertificates.last().articleId
-
-            Log.e("----", "load: ${responseCertificates}", )
+            val prevKey = if(page == 0) null else page - 1
+            val nextKey = if(responseCertificates.isEmpty()) null else page + 1
 
             LoadResult.Page(
                 data = responseCertificates,

@@ -22,6 +22,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/board_detail_layout_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/bg_default">
@@ -224,7 +225,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="20dp"
-                android:src="@drawable/ic_launcher_background"
+                common_Circle_Image="@{data.loginUserProfileUrl}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
 

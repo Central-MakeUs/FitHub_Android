@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="activity"
+            type="com.proteam.fithub.presentation.ui.sign.in.number.NumberSignInActivity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_default"
+        android:paddingHorizontal="20dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/sign_in_with_phone_layout_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> activity.onBackPress()}"
+                android:src="@drawable/ic_arrow_back"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/icon_default" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/sign_in_with_phone_tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/sign_in_with_phone_title"
+            android:textAppearance="@style/Headline_small_semibold"
+            android:textColor="@color/text_default"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sign_in_with_phone_layout_toolbar" />
+
+        <com.proteam.fithub.presentation.component.ComponentPhoneNumber
+            android:id="@+id/sign_in_with_phone_layout_phone_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="29dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sign_in_with_phone_tv_title" />
+
+        <com.proteam.fithub.presentation.component.ComponentPassword
+            android:id="@+id/sign_in_with_phone_layout_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sign_in_with_phone_layout_phone_number" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/sign_in_with_phone_card_sign_in"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="10dp"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/sign_in_with_phone_btn_sign_in"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/selector_bg_btn_signin"
+                android:enabled="@{activity.phoneBinding().isFinished &amp;&amp; activity.passwordBinding().isFinished}"
+                android:textAppearance="@style/Body_large_medium"
+                android:includeFontPadding="false"
+                android:onClick="@{() -> activity.onSignInClicked()}"
+                android:text="@string/common_sign_in"
+                android:textColor="@color/gray_900" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@id/sign_in_with_phone_card_sign_in"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:onClick="@{() -> activity.onFindPasswordClicked()}"
+                android:text="@string/common_find_password"
+                android:textAppearance="@style/Body_medium_regular"
+                android:textColor="@color/text_sub02" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginVertical="5dp"
+                android:background="@color/gray_400" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:onClick="@{() -> activity.onSignUpClicked()}"
+                android:text="@string/common_sign_up"
+                android:textAppearance="@style/Body_medium_regular"
+                android:textColor="@color/text_sub02" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

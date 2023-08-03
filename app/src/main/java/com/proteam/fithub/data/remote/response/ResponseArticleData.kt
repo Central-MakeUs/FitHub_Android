@@ -11,16 +11,16 @@ data class ResponseArticleData (
         val articleList : List<ResultArticleData>
     )
     data class ResultArticleData(
-       val articleId : Int,
-       val userInfo : ComponentUserData,
-       val articleCategory : CategoryData,
-       val title : String,
-       val contents : String,
-       val pictureUrl : String?,
-       val exerciseTag : String,
-       var likes : Int,
-       var isLiked : Boolean,
-       val comments : Int,
-       val createdAt : String
+        val articleId : Int,
+        val userInfo : ComponentUserData,
+        val articleCategory : CategoryData,
+        val title : String,
+        val contents : String,
+        val pictureUrl : String?,
+        var exerciseTag : String,
+        var likes : Int,
+        var isLiked : Boolean,
+        val comments : Int,
+        val createdAt : String
     )
 }

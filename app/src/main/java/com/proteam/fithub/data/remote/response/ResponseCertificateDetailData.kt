@@ -11,12 +11,14 @@ data class ResponseCertificateDetailData(
     data class ResultCertificateDetailData(
         val recordId : Int,
         val recordCategory : CategoryData,
+        val loginUserProfileUrl : String,
         val userInfo : ComponentUserData,
         val contents : String,
         val pictureImage : String,
         val createdAt : String,
         var likes : Int,
         var isLiked : Boolean,
-        val hashtags : HashTagData
+        val hashtags : HashTagData,
+        var comments : Int
     )
 }

@@ -6,7 +6,8 @@ data class ResponseCertificateData (
     val result : ListResultCertificateData
 ) : BaseResponse() {
     data class ListResultCertificateData(
-        val recordList : List<ResultCertificateData>
+        val recordList : List<ResultCertificateData>,
+        val totalPage : Int
     )
     data class ResultCertificateData(
        val recordId : Int,

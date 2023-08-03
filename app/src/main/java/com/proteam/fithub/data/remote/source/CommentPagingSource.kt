@@ -23,13 +23,13 @@ class CommentPagingSource(
             val page = params.key ?: 0
 
             val response = withContext(ioDispatcher) {
-                service.requestCommentData(type = type, id = id, last = page)
+                service.requestCommentData(type = type, id = id,  pageIndex = page)
             }
 
             val responseComments = response.result.commentList
 
-            val prevKey = if(page == 0) null else responseComments.first().commentId
-            val nextKey = if(responseComments.isEmpty()) null else responseComments.last().commentId
+            val prevKey = if(page == 0) null else page - 1
+            val nextKey = if(responseComments.isEmpty()) null else page + 1
             LoadResult.Page(
                 data = responseComments,
                 prevKey = prevKey,

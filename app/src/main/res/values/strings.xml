@@ -73,8 +73,8 @@
     <string name="sign_up_with_phone_user_profile_notice">나를 표현할 사진과 닉네임을 등록해주세요.</string>
     <string name="sign_up_with_phone_user_profile_additional">한글 혹은 영문을 포함하여 1 ~ 10자로 입력해주세요.</string>
 
-    <string name="sign_up_with_phone_interest_sports">평소 관심있거나, 하고있는\n운동 1개 이상 선택해주세요.</string>
-    <string name="sign_up_with_phone_interest_sports_notice">선택하신 운동에 따라 맞춤 정보가 제공돼요!</string>
+    <string name="sign_up_with_phone_interest_sports">핏허브에서 인증하고 싶은\n메인 운동 1개를 선택해 주세요.</string>
+    <string name="sign_up_with_phone_interest_sports_notice">메인운동은 언제든 수정이 가능해요!</string>
 
     <string name="finish_sign_up">핏허브 입장하기</string>
 
@@ -123,5 +123,23 @@
 
     <!-- 검색 -->
     <string name="search_recommend_keywords">추천 검색어</string>
+    <string name="search_none_title">\'%s\'에 대한 검색 결과가 없어요.</string>
+    <string name="search_none_notice">다른 검색어를 입력해보세요!</string>
+    
+    <!-- 홈 -->
+    <string name="home_user_nickname"> %s님,</string>
+    <string name="home_user_notice">오늘도 힘내서 운동 해봐요!</string>
+    <string name="home_goto_certificate">운동 인증하러 가기</string>
+    <string name="home_certificate_percent">인증 달성률</string>
+    <string name="home_certificate_percent_count"> / %d</string>
+    <string name="home_certificate_count_this_month">이번 달 인증 횟수</string>
+    <string name="home_certificate_count_continue">연속 인증 일수</string>
+    <string name="home_certificate_count_this_month_count">%d회</string>
+    <string name="home_certificate_count_continue_count">%d일</string>
+    <string name="home_look_around_gym_near_me">내 근처 운동시설 둘러보기</string>
+    <string name="home_best_certificate_user">최고의 운동 인증러</string>
+    <string name="home_best_certificate_standard">%s 기준</string>
+    <string name="home_best_certificate_times">%d회</string>
+    <string name="home_best_certificate_rank_see_more">랭킹 더보기</string>
 
 </resources>

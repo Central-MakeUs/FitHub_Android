@@ -147,9 +147,8 @@
                     android:id="@+id/exercise_certificate_detail_tv_comment_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
                     android:layout_marginStart="3dp"
-                    android:text="12"
+                    android:text="@{String.valueOf(viewModel.certificateData.comments)}"
                     android:textAppearance="@style/Body_small_regular"
                     android:textColor="@color/text_sub02"
                     app:layout_constraintBottom_toBottomOf="@id/exercise_certificate_detail_iv_comment"
@@ -200,7 +199,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="20dp"
-                android:src="@drawable/ic_launcher_background"
+                common_Circle_Image="@{detailData.loginUserProfileUrl}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
 
@@ -243,7 +242,7 @@
                     android:layout_marginEnd="15dp"
                     android:includeFontPadding="false"
                     android:text="@string/common_upload"
-                    android:onClick="@{() -> activity.onPostComment()}"
+                    android:onClick="@{() -> activity.requestPostComment()}"
                     android:enabled="@{!viewModel.userInputComment.empty}"
                     android:textAppearance="@style/Body_medium_medium"
                     android:textColor="@color/selector_tv_enabled_or_not"

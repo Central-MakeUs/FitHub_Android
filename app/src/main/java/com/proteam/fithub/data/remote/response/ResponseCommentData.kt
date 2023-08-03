@@ -13,8 +13,8 @@ data class ResponseCommentData(
         val commentId : Int,
         val userInfo : ComponentUserData,
         val contents : String,
-        val likes : Int,
-        val isLiked : Boolean,
+        var likes : Int,
+        var isLiked : Boolean,
         val createdAt : String
     )
 }

@@ -5,6 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.proteam.fithub.data.remote.request.RequestPostComment
 import com.proteam.fithub.data.remote.response.ResponseCommentData
+import com.proteam.fithub.data.remote.response.ResponseCommentHeartClicked
 import com.proteam.fithub.data.remote.service.CommentService
 import com.proteam.fithub.data.remote.source.CommentPagingSource
 import com.proteam.fithub.domain.repository.CommentRepository
@@ -33,5 +34,21 @@ class CommentRepositoryImpl @Inject constructor(
         body: RequestPostComment
     ): Result<BaseResponse> {
         return source.postComment(type, id, body)
+    }
+
+    override suspend fun postCommentHeartClicked(
+        type: String,
+        id: Int,
+        commentId: Int
+    ): Result<ResponseCommentHeartClicked> {
+        return source.postCommentHeartClicked(type, id, commentId)
+    }
+
+    override suspend fun postDeleteComment(
+        type: String,
+        id: Int,
+        commentId: Int
+    ): Result<BaseResponse> {
+        return source.postDeleteComment(type, id, commentId)
     }
 }

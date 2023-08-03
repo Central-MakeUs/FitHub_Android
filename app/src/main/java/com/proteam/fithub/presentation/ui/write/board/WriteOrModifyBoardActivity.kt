@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.InputFilter
 import android.text.Spanned
+import android.util.Log
 import android.view.MotionEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
@@ -55,10 +56,6 @@ class WriteOrModifyBoardActivity : AppCompatActivity() {
         initType()
         initUi()
         initBackPressed()
-
-        observeTagInserted()
-        observeExercises()
-        observeUserInputContent()
     }
 
     private fun initBackPressed() {
@@ -107,71 +104,59 @@ class WriteOrModifyBoardActivity : AppCompatActivity() {
                 if (it == "Write") resources.getString(R.string.write_board) else resources.getString(
                     R.string.modify_board
                 )
+
+            if (it == "Write") initWhenWrite() else requestLegacyData()
         }
+    }
+
+    private fun initWhenWrite() {
+        observeTagInserted()
+        observeExercises()
+        observeUserInputContent()
     }
 
     fun openGallery() {
         val intent = Intent(this, CustomGalleryActivity::class.java)
         this.requestGalleryActivity.launch(intent)
         observeSelectedImage()
-        /*val intent = Intent()
-        intent.type = "image/*"
-        intent.action = Intent.ACTION_PICK
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-        this.requestGalleryActivity.launch(intent)
-        */*/
     }
-
-    /*private val requestGalleryActivity =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode == Activity.RESULT_OK) {
-                val clipData = it?.data?.clipData
-                val test = mutableListOf<Uri>()
-                for(i in 0 until clipData!!.itemCount) {
-                    test.add(clipData.getItemAt(i).uri)
-                }
-                viewModel.setSelectedImages(test)
-            }
-        }*/
-
-
 
     private fun observeSelectedImage() {
         viewModel.userSelectedImages.observe(this) {
             imageAdapter.paths = it.map { it.toString() } as MutableList
-            imageAdapter.notifyItemChanged(0, it.size)
+            imageAdapter.notifyItemRangeChanged(0, it.size)
         }
     }
 
     private fun onDropSelectedImage(position: Int) {
         viewModel.dropSelectedImages(position)
+        imageAdapter.notifyItemChanged(position)
     }
 
     private val requestGalleryActivity =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { it ->
             if (it.resultCode == Activity.RESULT_OK) {
-                viewModel.setSelectedImages(it.data?.extras?.getStringArrayList("Images")?.map { it.toUri() } as MutableList<Uri>)
+                viewModel.setSelectedImages(
+                    it.data?.extras?.getStringArrayList("Images")
+                        ?.map { it.toUri() } as MutableList<Uri>)
             }
         }
 
     private fun observeTagInserted() {
-        setTag()
-    }
-
-    private fun setTag() {
         binding.writeModifyBoardEdtTag.banSpaceInput()
         binding.writeModifyBoardEdtTag.setOnEditorActionListener { text, i, keyEvent ->
             if (text.text.isNotEmpty() && i == EditorInfo.IME_NULL && keyEvent.action == MotionEvent.ACTION_DOWN) {
-                addTagChip()
                 initTag()
             }
             return@setOnEditorActionListener true
         }
     }
 
-    private fun addTagChip() {
+
+    private fun addTagChip(chipText: String) {
         binding.writeModifyBoardChipgroupTag.addView(Chip(this).apply {
-            text = viewModel.userInputTag.value
+            text = chipText
+            tag = chipText
             setChipStyles()
 
             setOnCloseIconClickListener {
@@ -219,14 +204,25 @@ class WriteOrModifyBoardActivity : AppCompatActivity() {
     }
 
     fun onSaveClicked() {
-        CoroutineScope(Dispatchers.Default).launch {
-            viewModel.postArticle(Convert().also { viewModel.setPathForDelete(it) }.map { it.getAbsolutePath() })
+        when(intent.type) {
+            "Write" -> requestPostArticle()
+            else -> requestModifyArticle()
         }
-
         observeSaveState()
     }
 
-    suspend fun Convert() : MutableList<Uri> {
+    private fun requestPostArticle() {
+        if (viewModel.userSelectedImages.value.isNullOrEmpty()) {
+            viewModel.requestPostArticle(null)
+        } else {
+            CoroutineScope(Dispatchers.Default).launch {
+                viewModel.requestPostArticle(Convert().also { viewModel.setPathForDelete(it) }
+                    .map { it.getAbsolutePath() })
+            }
+        }
+    }
+
+    suspend fun Convert(): MutableList<Uri> {
         val a = CoroutineScope(Dispatchers.Default).async {
             viewModel.userSelectedImages.value!!.map { it.toString() }
                 .ConvertWhenList(this@WriteOrModifyBoardActivity).map { it.toUri() }
@@ -236,14 +232,13 @@ class WriteOrModifyBoardActivity : AppCompatActivity() {
     }
 
 
-    private fun Uri.getAbsolutePath() : String {
+    private fun Uri.getAbsolutePath(): String {
         val proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
-        val c : Cursor = contentResolver.query(this, proj, null, null, null)!!
+        val c: Cursor = contentResolver.query(this, proj, null, null, null)!!
         val index = c.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
         c.moveToFirst()
         return c.getString(index)
     }
-
 
 
     private fun observeSaveState() {
@@ -276,6 +271,56 @@ class WriteOrModifyBoardActivity : AppCompatActivity() {
             }
         })
     }
+
+
+    /** Modify **/
+
+    private fun requestLegacyData() {
+        viewModel.requestLegacyData()
+        observeLegacy()
+        observeSelectedImage()
+        observeExercises()
+        observeTag()
+        observeTagInserted()
+    }
+
+    private fun observeLegacy() {
+        viewModel.legacyArticleData.observe(this) {
+            viewModel.setLegacyToUi()
+
+            val selectedPosition =
+                exerciseAdapter.sports.indexOfFirst { it2 -> it2.id == it.articleCategory.categoryId }
+            exerciseAdapter.selected[selectedPosition] = true
+            exerciseAdapter.notifyItemChanged(selectedPosition)
+        }
+    }
+
+    private fun observeTag() {
+        viewModel.userInputTagList.observe(this) {
+            if (!it.isNullOrEmpty()) {
+                val count = it.size - binding.writeModifyBoardChipgroupTag.childCount
+                for (i in it.size - (count + 1) until it.size) {
+                    addTagChip(it[i])
+                }
+            }
+        }
+    }
+
+    private fun requestModifyArticle() {
+        viewModel.userSelectedImages.value.let {
+            if(it.isNullOrEmpty()) {
+                viewModel.requestModifyArticle(null)
+            } else if(it.first().toString().contains("https://")) {
+                viewModel.requestModifyArticle(null)
+            }else {
+                CoroutineScope(Dispatchers.Default).launch {
+                    viewModel.requestModifyArticle(Convert().also { viewModel.setPathForDelete(it) }
+                        .map { it.getAbsolutePath() })
+                }
+            }
+        }
+    }
+
 
     /** Dummy **/
 

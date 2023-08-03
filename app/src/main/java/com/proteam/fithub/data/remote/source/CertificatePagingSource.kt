@@ -27,7 +27,6 @@ class CertificatePagingSource(
                 if(type == "date") service.requestCertificateData(categoryId = category, last = page)
                 else service.requestCertificateDataByLike(categoryId = category, last = page)
             }
-
             val responseCertificates = response.result.recordList
 
             val prevKey = if(page == 0) null else responseCertificates.first().recordId

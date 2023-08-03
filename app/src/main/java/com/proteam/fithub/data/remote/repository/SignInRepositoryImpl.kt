@@ -13,6 +13,10 @@ class SignInRepositoryImpl @Inject constructor(
     private val source: SignInSource,
     private val localSource: SharedPreferenceSource
 ) : SignInRepository {
+    override suspend fun autoSignIn(): Result<BaseResponse> {
+        return source.autoSignIn()
+    }
+
     override suspend fun signInWithKakao(body: RequestSignInKakao): Result<ResponseSignIn> {
         return source.signInWithKakao(body)
     }

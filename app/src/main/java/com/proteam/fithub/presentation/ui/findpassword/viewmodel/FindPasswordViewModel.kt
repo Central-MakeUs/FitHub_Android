@@ -23,7 +23,8 @@ class FindPasswordViewModel @Inject constructor(private val signUpRepository: Si
     private val _authResult = MutableLiveData<Int>()
     val authResult: LiveData<Int> = _authResult
 
-    private val userInputPhoneNumber = MutableLiveData<String>()
+    private val _userInputPhoneNumber = MutableLiveData<String>()
+    val userInputPhoneNumber : LiveData<String> = _userInputPhoneNumber
 
     private val _passwordResult = MutableLiveData<Int>()
     val passwordResult : LiveData<Int> = _passwordResult
@@ -37,7 +38,7 @@ class FindPasswordViewModel @Inject constructor(private val signUpRepository: Si
     /** Set User Data **/
 
     fun setUserPhoneNumber(number : String) {
-        userInputPhoneNumber.value = number
+        _userInputPhoneNumber.value = number
     }
 
     /** Request **/
@@ -48,21 +49,6 @@ class FindPasswordViewModel @Inject constructor(private val signUpRepository: Si
                 .onFailure { _userPhoneNumberAvailable.value = false }
         }
         initAuthResult()
-    }
-
-    fun requestSMSAuthCode() {
-        viewModelScope.launch {
-            signUpRepository.requestSMSAuth(RequestSMSAuth(userInputPhoneNumber.value!!))
-                .onSuccess { }
-        }
-    }
-
-    fun requestCheckSMSAuthCode(userAuthCode: String) {
-        viewModelScope.launch {
-            signUpRepository.requestCheckSMSAuth(RequestCheckSMSAuth(userInputPhoneNumber.value!!, userAuthCode.toInt()))
-                .onSuccess { _authResult.value = it.code }
-                .onFailure { _authResult.value = it.message?.toInt() }
-        }
     }
 
     fun requestChangePassword(password : String) {

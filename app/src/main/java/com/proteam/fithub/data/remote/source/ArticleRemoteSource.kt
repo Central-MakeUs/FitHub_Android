@@ -9,6 +9,8 @@ import com.proteam.fithub.data.remote.response.ResponsePostArticleData
 import com.proteam.fithub.data.remote.service.ArticleService
 import com.proteam.fithub.domain.source.ArticleSource
 import com.proteam.fithub.presentation.util.BaseResponse
+import com.proteam.fithub.presentation.util.ConvertToRequestBody.listConverter
+import com.proteam.fithub.presentation.util.ConvertToRequestBody.textConverter
 import com.proteam.fithub.presentation.util.ErrorConverter.convertAndGetCode
 import com.proteam.fithub.presentation.util.ErrorConverter.setValidate
 import okhttp3.MultipartBody
@@ -26,7 +28,7 @@ class ArticleRemoteSource @Inject constructor(private val service : ArticleServi
     override suspend fun requestArticleHeartClicked(articleId: Int): Result<ResponseArticleHeartClicked.ResultArticleHeartClicked> {
         val res = service.requestArticleHeartClicked(articleId)
         return when(res.code()) {
-            in 200..399 -> Result.success(res.body()!!)
+            in 200..399 -> Result.success(res.body()!!.result)
             else -> Result.failure(IllegalArgumentException(res.errorBody()?.convertAndGetCode().toString()))
         }
     }
@@ -47,7 +49,24 @@ class ArticleRemoteSource @Inject constructor(private val service : ArticleServi
         tagList: List<String>?,
         pictureList: MutableList<MultipartBody.Part>?
     ): Result<ResponsePostArticleData> {
-        val res = service.requestPostArticle(categoryId, title, contents, exerciseTag, tagList, pictureList)
+        val res = service.requestPostArticle(categoryId, title.textConverter(), contents.textConverter(), exerciseTag.textConverter(), tagList.listConverter(), pictureList)
+        return when(res.code()) {
+            in 200..399 -> Result.success(res.body()!!)
+            else -> Result.failure(IllegalArgumentException(res.errorBody()?.convertAndGetCode().toString()))
+        }
+    }
+
+    override suspend fun requestModifyArticleData(
+        articleId: Int,
+        title: String,
+        contents: String,
+        category : Int,
+        exerciseTag: String,
+        hashTagList: List<String>?,
+        newPictureList: MutableList<MultipartBody.Part>?,
+        remainPictureUrlList: List<String>?
+    ): Result<ResponsePostArticleData> {
+        val res = service.requestModifyArticle(articleId, title.textConverter(), contents.textConverter(), category, exerciseTag.textConverter(), hashTagList.listConverter(), newPictureList, remainPictureUrlList.listConverter())
         return when(res.code()) {
             in 200..399 -> Result.success(res.body()!!)
             else -> Result.failure(IllegalArgumentException(res.errorBody()?.convertAndGetCode().toString()))

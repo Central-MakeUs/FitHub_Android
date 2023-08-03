@@ -6,7 +6,7 @@
     <data>
         <variable
             name="content"
-            type="com.proteam.fithub.data.data.SignUpAgreement" />
+            type="com.proteam.fithub.data.data.Agreements" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,12 +22,10 @@
             android:button="@android:color/transparent"
             android:drawableStart="@drawable/selector_sign_up_agreement_checkbox"
             android:drawablePadding="10dp"
-            android:fontFamily="@font/pretendard_regular"
             android:includeFontPadding="false"
-            android:lineHeight="20dp"
             android:checked="@={content.checked}"
             android:text="@{content.content}"
-            android:textSize="14sp"
+            android:textAppearance="@style/Body_medium_regular"
             android:textColor="@color/text_sub02"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
