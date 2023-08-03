@@ -5,6 +5,7 @@ import com.proteam.fithub.data.remote.source.CertificateRemoteSource
 import com.proteam.fithub.data.remote.source.CommentRemoteSource
 import com.proteam.fithub.data.remote.source.ExerciseRemoteSource
 import com.proteam.fithub.data.remote.source.HomeRemoteSource
+import com.proteam.fithub.data.remote.source.ReportRemoteSource
 import com.proteam.fithub.data.remote.source.SearchRemoteSource
 import com.proteam.fithub.data.remote.source.SignInRemoteSource
 import com.proteam.fithub.data.remote.source.SignUpRemoteSource
@@ -13,6 +14,7 @@ import com.proteam.fithub.domain.source.CertificateSource
 import com.proteam.fithub.domain.source.CommentSource
 import com.proteam.fithub.domain.source.ExerciseSource
 import com.proteam.fithub.domain.source.HomeSource
+import com.proteam.fithub.domain.source.ReportSource
 import com.proteam.fithub.domain.source.SearchSource
 import com.proteam.fithub.domain.source.SignInSource
 import com.proteam.fithub.domain.source.SignUpSource
@@ -48,4 +50,7 @@ abstract class SourceModule {
 
     @Binds
     abstract fun bindHomeRemoteSource(homeRemoteSource: HomeRemoteSource) : HomeSource
+
+    @Binds
+    abstract fun bindReportRemoteSource(reportRemoteSource: ReportRemoteSource) : ReportSource
 }

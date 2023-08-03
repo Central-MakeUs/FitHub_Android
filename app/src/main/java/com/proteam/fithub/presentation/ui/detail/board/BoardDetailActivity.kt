@@ -22,6 +22,7 @@ import com.proteam.fithub.presentation.ui.detail.board.image.FullSizeImageFragme
 import com.proteam.fithub.presentation.ui.detail.board.viewmodel.BoardDetailViewModel
 import com.proteam.fithub.presentation.ui.detail.common.CommentViewModel
 import com.proteam.fithub.presentation.ui.write.board.WriteOrModifyBoardActivity
+import com.proteam.fithub.presentation.util.CustomSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.Serializable
@@ -187,15 +188,39 @@ class BoardDetailActivity : AppCompatActivity() {
     }
 
     private fun reportPost(noinline : Int?) {
-        //:TODO 게시글 신고로직
+        viewModel.requestReportArticle(viewModel.articleData.value!!.articleId)
+        observeReportArticleStatus()
+    }
+
+    private fun observeReportArticleStatus() {
+        viewModel.reportArticleStatus.observe(this) {
+            if(it == 2000) {
+                CustomSnackBar.makeSnackBar(binding.root, "게시글 신고가 완료되었습니다.")
+                finish()
+            } else {
+                CustomSnackBar.makeSnackBar(binding.root, it.toString())
+            }
+        }
     }
 
     private fun reportUser(noinline : Int?) {
-        //:TODO 유저 신고로직
+        viewModel.requestReportUser(viewModel.articleData.value!!.userInfo.ownerId)
+        observeReportUserStatus("Article")
+    }
+
+    private fun observeReportUserStatus(type : String) {
+        viewModel.reportUserStatus.observe(this) {
+            if(it == 2000) {
+                CustomSnackBar.makeSnackBar(binding.root, "유저 신고가 완료되었습니다.")
+                if(type == "Comment") commentAdapter.refresh() else finish()
+            } else {
+                CustomSnackBar.makeSnackBar(binding.root, it.toString())
+            }
+        }
     }
 
     private fun modifyComment(index : Int?) {
-        //:TODO 댓글 수정로직
+        //:TODO 기획 축소로 인해 삭제
     }
 
     private fun checkCommentReallyDelete(index : Int?) {
@@ -208,11 +233,24 @@ class BoardDetailActivity : AppCompatActivity() {
     }
 
     private fun reportComment(index : Int?) {
-        //:TODO 댓글 신고로직
+        viewModel.requestReportComment(index!!)
+        observeReportCommentStatus()
     }
 
     private fun reportCommentUser(user : Int?) {
-        //:TODO 댓글 유저 신고로직
+        viewModel.requestReportUser(user!!)
+        observeReportUserStatus("Comment")
+    }
+
+    private fun observeReportCommentStatus() {
+        viewModel.reportCommentStatus.observe(this) {
+            if(it == 2000) {
+                CustomSnackBar.makeSnackBar(binding.root, "댓글 신고가 완료되었습니다.")
+                commentAdapter.refresh()
+            } else {
+                CustomSnackBar.makeSnackBar(binding.root, it.toString())
+            }
+        }
     }
 
     private fun String.showAlert() {

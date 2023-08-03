@@ -67,7 +67,7 @@ class RecordFragment(private val type: String) : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        recordAdapter.refresh()
+        requestWhenCommunity(communityViewModel.selectedFilter.value ?: 0)
     }
 
     private fun observeWhenCommunity() {

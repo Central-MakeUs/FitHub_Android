@@ -123,6 +123,7 @@ class WriteOrModifyCertificateViewModel @Inject constructor(
     }
 
     fun requestModifyCertificate(path : String?) {
+        Log.e("----", "requestModifyCertificate: $path", )
         viewModelScope.launch {
             certificateRepository.requestModifyCertificateData(
                 _legacyId.value!!,
@@ -131,7 +132,7 @@ class WriteOrModifyCertificateViewModel @Inject constructor(
                 userSelectExercise.value!!.name,
                 userInputTagList.value,
                 path?.mapToMultipart(),
-                _userSelectedImage.value.toString()
+                if(path.isNullOrEmpty()) _userSelectedImage.value.toString() else null
             )
                 .onSuccess { _saveState.value = it.code }
                 .onFailure { _saveState.value = it.message?.toInt() }

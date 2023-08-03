@@ -21,6 +21,7 @@ import com.proteam.fithub.presentation.ui.sign.up.common.authcode.viewmodel.Auth
 import com.proteam.fithub.presentation.ui.sign.up.common.password.PasswordFragment
 import com.proteam.fithub.presentation.ui.sign.up.number.NumberSignUpActivity
 import com.proteam.fithub.presentation.ui.sign.up.number.viewmodel.NumberSignUpViewModel
+import com.proteam.fithub.presentation.util.CustomSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -158,6 +159,6 @@ class AuthCodeFragment : Fragment() {
 
     private fun checkWhenNumberAuthFailed(code: Int) {
         binding.fgSignUpAuthCodeBtnNext.isEnabled = false
-        ComponentAlertToast().show(requireActivity().supportFragmentManager, code.toString())
+        CustomSnackBar.makeSnackBar(binding.root, code.toString())
     }
 }

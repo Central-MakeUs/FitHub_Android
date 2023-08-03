@@ -109,13 +109,11 @@ class ComponentBottomDialogSelectReportDelete(
     }
 
     private fun case_MINE_COMMENT() {
-        binding.dialogBottomSelectReportDeleteTvFirst.apply {
-            text = "수정하기"
-            setTextColor(resources.getColor(R.color.text_default, null))
-        }
+        binding.dialogBottomSelectReportDeleteTvFirst.visibility = View.GONE
+        binding.dialogBottomSelectReportDeleteViewDivider.visibility = View.GONE
 
         binding.dialogBottomSelectReportDeleteTvSecond.apply {
-            text = "삭제하기"
+            text = "댓글 삭제하기"
             setTextColor(resources.getColor(R.color.color_error, null))
         }
     }

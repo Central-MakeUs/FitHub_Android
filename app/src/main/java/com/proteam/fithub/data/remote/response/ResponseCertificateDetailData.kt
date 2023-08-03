@@ -11,6 +11,7 @@ data class ResponseCertificateDetailData(
     data class ResultCertificateDetailData(
         val recordId : Int,
         val recordCategory : CategoryData,
+        val loginUserProfileUrl : String,
         val userInfo : ComponentUserData,
         val contents : String,
         val pictureImage : String,

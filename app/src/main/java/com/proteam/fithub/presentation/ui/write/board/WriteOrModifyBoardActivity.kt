@@ -310,7 +310,7 @@ class WriteOrModifyBoardActivity : AppCompatActivity() {
         viewModel.userSelectedImages.value.let {
             if(it.isNullOrEmpty()) {
                 viewModel.requestModifyArticle(null)
-            } else if(it.first().javaClass.toString().contains("https://")) {
+            } else if(it.first().toString().contains("https://")) {
                 viewModel.requestModifyArticle(null)
             }else {
                 CoroutineScope(Dispatchers.Default).launch {

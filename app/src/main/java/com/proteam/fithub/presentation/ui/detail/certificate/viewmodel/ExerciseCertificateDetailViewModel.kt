@@ -1,27 +1,21 @@
 package com.proteam.fithub.presentation.ui.detail.certificate.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingData
-import com.proteam.fithub.data.remote.request.RequestPostComment
 import com.proteam.fithub.data.remote.response.ResponseCertificateDetailData
 import com.proteam.fithub.data.remote.response.ResponseCertificateHeartClicked
-import com.proteam.fithub.data.remote.response.ResponseCommentData
-import com.proteam.fithub.data.remote.response.ResponseCommentHeartClicked
 import com.proteam.fithub.domain.repository.CertificateRepository
-import com.proteam.fithub.domain.repository.CommentRepository
+import com.proteam.fithub.domain.repository.ReportRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ExerciseCertificateDetailViewModel @Inject constructor(
     private val certificateRepository: CertificateRepository,
-    private val commentRepository: CommentRepository
+    private val reportRepository: ReportRepository
 ) : ViewModel() {
     /** Status **/
     private val _certificateStatus = MutableLiveData<Int>()
@@ -32,6 +26,13 @@ class ExerciseCertificateDetailViewModel @Inject constructor(
 
     private val _heartStatus = MutableLiveData<Int>()
     val heartStatus : LiveData<Int> = _heartStatus
+
+    private val _reportUserStatus = MutableLiveData<Int>()
+    val reportUserStatus : LiveData<Int> = _reportUserStatus
+    private val _reportRecordStatus = MutableLiveData<Int>()
+    val reportRecordStatus : LiveData<Int> = _reportRecordStatus
+    private val _reportCommentStatus = MutableLiveData<Int>()
+    val reportCommentStatus : LiveData<Int> = _reportCommentStatus
 
     private val _certificateData =
         MutableLiveData<ResponseCertificateDetailData.ResultCertificateDetailData>()
@@ -79,6 +80,30 @@ class ExerciseCertificateDetailViewModel @Inject constructor(
             certificateRepository.requestDeleteCertificateData(_certificateData.value!!.recordId)
                 .onSuccess { _deleteCertificateStatus.value = it.code }
                 .onFailure { _deleteCertificateStatus.value = it.message?.toInt() }
+        }
+    }
+
+    fun requestReportUser(userId : Int) {
+        viewModelScope.launch {
+            reportRepository.requestReportUser(userId)
+                .onSuccess { _reportUserStatus.value = it.code }
+                .onFailure { _reportUserStatus.value = it.message?.toInt() }
+        }
+    }
+
+    fun requestReportRecord(recordId : Int) {
+        viewModelScope.launch {
+            reportRepository.requestReportRecord(recordId)
+                .onSuccess { _reportRecordStatus.value = it.code }
+                .onFailure { _reportRecordStatus.value = it.message?.toInt() }
+        }
+    }
+
+    fun requestReportComment(commentId : Int) {
+        viewModelScope.launch {
+            reportRepository.requestReportComment(commentId)
+                .onSuccess { _reportCommentStatus.value = it.code }
+                .onFailure { _reportCommentStatus.value = it.message?.toInt() }
         }
     }
 }

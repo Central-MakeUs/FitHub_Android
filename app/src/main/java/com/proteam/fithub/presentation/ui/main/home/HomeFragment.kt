@@ -20,6 +20,7 @@ import com.proteam.fithub.presentation.ui.main.MainViewModel
 import com.proteam.fithub.presentation.ui.main.home.adapter.HomeBestRankAdapter
 import com.proteam.fithub.presentation.ui.main.home.adapter.HomeNearGymAdapter
 import com.proteam.fithub.presentation.ui.main.home.viewmodel.HomeViewModel
+import com.proteam.fithub.presentation.util.CustomSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

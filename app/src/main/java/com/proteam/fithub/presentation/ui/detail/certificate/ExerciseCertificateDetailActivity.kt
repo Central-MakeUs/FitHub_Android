@@ -1,9 +1,7 @@
 package com.proteam.fithub.presentation.ui.detail.certificate
 
-import android.app.ProgressDialog.show
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -19,6 +17,7 @@ import com.proteam.fithub.presentation.ui.detail.adapter.CommunityDetailCommentA
 import com.proteam.fithub.presentation.ui.detail.certificate.viewmodel.ExerciseCertificateDetailViewModel
 import com.proteam.fithub.presentation.ui.detail.common.CommentViewModel
 import com.proteam.fithub.presentation.ui.write.certificate.WriteOrModifyCertificateActivity
+import com.proteam.fithub.presentation.util.CustomSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -157,7 +156,7 @@ class ExerciseCertificateDetailActivity : AppCompatActivity() {
         if(viewModel.certificateData.value!!.userInfo.ownerId == mSharedPreferences.getString("userId", "0")?.toInt()) {
             ComponentBottomDialogSelectReportDelete(::modifyCertificate, ::checkReallyDelete).show(supportFragmentManager, "MINE")
         } else {
-            ComponentBottomDialogSelectReportDelete(::reportPost, ::reportUser).show(supportFragmentManager, "NOT_MINE")
+            ComponentBottomDialogSelectReportDelete(::reportPost, ::reportRecordUser).show(supportFragmentManager, "NOT_MINE")
         }
     }
 
@@ -170,14 +169,36 @@ class ExerciseCertificateDetailActivity : AppCompatActivity() {
         ComponentDialogYesNo(::requestDeleteCertificate).show(supportFragmentManager, "MY_CERTIFICATE_ARTICLE")
     }
 
-    private fun reportPost(index : Int?) {
-        //:TODO 게시글 신고로직
-        //viewModel.certificateData.value.recordId
+    private fun reportPost(noinline : Int?) {
+        viewModel.requestReportRecord(viewModel.certificateData.value!!.recordId)
+        observeReportRecordStatus()
     }
 
-    private fun reportUser(index : Int?) {
-        //:TODO 유저 신고로직
-        //viewModel.certificateData.value.userInfo.ownerId
+    private fun observeReportRecordStatus() {
+        viewModel.reportRecordStatus.observe(this) {
+            if(it == 2000) {
+                CustomSnackBar.makeSnackBar(binding.root, "운동인증 신고가 완료되었습니다.")
+                finish()
+            } else {
+                CustomSnackBar.makeSnackBar(binding.root, it.toString())
+            }
+        }
+    }
+
+    private fun reportRecordUser(index : Int?) {
+        viewModel.requestReportUser(viewModel.certificateData.value!!.userInfo.ownerId)
+        observeReportUserStatus("Record")
+    }
+
+    private fun observeReportUserStatus(type : String) {
+        viewModel.reportUserStatus.observe(this) {
+            if(it == 2000) {
+                CustomSnackBar.makeSnackBar(binding.root, "유저 신고가 완료되었습니다.")
+                if(type == "Comment") commentAdapter.refresh() else finish()
+            } else {
+                CustomSnackBar.makeSnackBar(binding.root, it.toString())
+            }
+        }
     }
 
     /** Etc Comment **/
@@ -198,20 +219,32 @@ class ExerciseCertificateDetailActivity : AppCompatActivity() {
     private fun deleteComment(index : Int?) {
         commentViewModel.requestDeleteComment("records", viewModel.certificateData.value!!.recordId, index!!)
         requestComment()
+        requestData()
     }
 
     private fun modifyComment(index : Int?) {
-        Log.e("----", "modifyComment: $index", )
+        //: TODO 기획 축소로 삭제
     }
 
-    private fun reportComment(user : Int?) {
-        //:TODO 댓글 신고로직
-        Log.e("----", "reportComment: $user", )
+    private fun reportComment(index : Int?) {
+        viewModel.requestReportComment(index!!)
+        observeReportCommentStatus()
     }
 
-    private fun reportCommentUser(index : Int?) {
-        //:TODO 댓글 유저 신고로직
-        Log.e("----", "reportCommentUser: $index", )
+    private fun observeReportCommentStatus() {
+        viewModel.reportCommentStatus.observe(this) {
+            if(it == 2000) {
+                CustomSnackBar.makeSnackBar(binding.root, "유저 신고가 완료되었습니다.")
+                commentAdapter.refresh()
+            } else {
+                CustomSnackBar.makeSnackBar(binding.root, it.toString())
+            }
+        }
+    }
+
+    private fun reportCommentUser(user : Int?) {
+        viewModel.requestReportUser(user!!)
+        observeReportUserStatus("Comment")
     }
 
     private fun String.showAlert() {

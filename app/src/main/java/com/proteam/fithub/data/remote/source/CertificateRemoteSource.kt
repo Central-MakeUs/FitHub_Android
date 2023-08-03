@@ -1,5 +1,6 @@
 package com.proteam.fithub.data.remote.source
 
+import android.util.Log
 import com.proteam.fithub.data.remote.response.ResponseCertificateDetailData
 import com.proteam.fithub.data.remote.response.ResponseCertificateHeartClicked
 import com.proteam.fithub.data.remote.response.ResponsePostCertificateData

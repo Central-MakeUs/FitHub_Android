@@ -12,6 +12,7 @@ data class ResponseArticleDetailData(
     data class ResultArticleDetailData(
         val articleId : Int,
         val articleCategory : CategoryData,
+        val loginUserProfileUrl : String,
         val userInfo : ComponentUserData,
         val title : String,
         val contents : String,

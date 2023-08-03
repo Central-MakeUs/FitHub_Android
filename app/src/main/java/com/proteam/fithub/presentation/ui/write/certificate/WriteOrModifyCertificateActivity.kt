@@ -108,11 +108,11 @@ class WriteOrModifyCertificateActivity : AppCompatActivity() {
 
     private fun requestModify() {
         CoroutineScope(Dispatchers.Default).launch {
-            if(viewModel.userSelectedImage.value?.javaClass.toString().contains("Uri")) {
+            if(viewModel.userSelectedImage.value?.toString()!!.contains("https://")) {
+                viewModel.requestModifyCertificate(null)
+            } else {
                 viewModel.requestModifyCertificate(Convert().also { viewModel.setPathForDelete(it) }
                     .getAbsolutePath())
-            } else {
-                viewModel.requestModifyCertificate(null)
             }
         }
     }

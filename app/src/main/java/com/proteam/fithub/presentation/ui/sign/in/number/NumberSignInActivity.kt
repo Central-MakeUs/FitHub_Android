@@ -17,6 +17,7 @@ import com.proteam.fithub.presentation.ui.main.MainActivity
 import com.proteam.fithub.presentation.ui.sign.`in`.number.viewmodel.NumberSignInViewModel
 import com.proteam.fithub.presentation.ui.sign.`in`.social.SocialSignInActivity
 import com.proteam.fithub.presentation.ui.sign.up.number.NumberSignUpActivity
+import com.proteam.fithub.presentation.util.CustomSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -57,7 +58,7 @@ class NumberSignInActivity : AppCompatActivity() {
                 0 -> return@observe
                 2000 -> onSignInSuccess()
                 4019 -> ComponentDialogYesNo(::onSignUpClicked).show(supportFragmentManager, "NO_USER_INFO")
-                4020 -> ComponentAlertToast().show(supportFragmentManager, it.toString())
+                4020 -> CustomSnackBar.makeSnackBar(binding.root, it.toString())
             }
             viewModel.initState()
         }
