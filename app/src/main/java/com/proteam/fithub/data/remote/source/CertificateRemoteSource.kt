@@ -62,6 +62,7 @@ class CertificateRemoteSource @Inject constructor(private val service : Certific
         newImage: MultipartBody.Part?,
         remainImageUrl: String?
     ): Result<ResponsePostCertificateData> {
+        Log.e("----", "requestModifyCertificateData: ${remainImageUrl}", )
         val res = service.modifyCertificateData(recordId, category, contents.textConverter(), exerciseTag.textConverter(), hashTagList?.listConverter(), newImage, remainImageUrl?.textConverter())
         return when(res.code()) {
             in 200..399 -> Result.success(res.body()!!)

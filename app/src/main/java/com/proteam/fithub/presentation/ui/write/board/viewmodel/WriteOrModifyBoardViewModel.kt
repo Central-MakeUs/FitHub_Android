@@ -179,7 +179,7 @@ class WriteOrModifyBoardViewModel @Inject constructor(
                 userSelectExercise.value!!.name,
                 userInputTagList.value,
                 path?.mapToMultipartWhenModify(),
-                if(path?.isEmpty() == true) _userSelectedImages.value?.map { it.toString() } else null
+                if(path.isNullOrEmpty()) _userSelectedImages.value?.map { it.toString() } else null
             )
                 .onSuccess { _saveState.value = it.code }
                 .onFailure { _saveState.value = it.message?.toInt() }

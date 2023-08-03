@@ -115,7 +115,7 @@ class WriteOrModifyCertificateViewModel @Inject constructor(
                 userInputContent.value!!,
                 userSelectExercise.value!!.name,
                 userInputTagList.value,
-                path.mapToMultipart()
+                path.mapToMultipartWhenPost()
             )
                 .onSuccess { _saveState.value = it.code }
                 .onFailure { _saveState.value = it.message?.toInt() }
@@ -123,7 +123,6 @@ class WriteOrModifyCertificateViewModel @Inject constructor(
     }
 
     fun requestModifyCertificate(path : String?) {
-        Log.e("----", "requestModifyCertificate: $path", )
         viewModelScope.launch {
             certificateRepository.requestModifyCertificateData(
                 _legacyId.value!!,
@@ -131,18 +130,24 @@ class WriteOrModifyCertificateViewModel @Inject constructor(
                 userInputContent.value!!,
                 userSelectExercise.value!!.name,
                 userInputTagList.value,
-                path?.mapToMultipart(),
-                if(path.isNullOrEmpty()) _userSelectedImage.value.toString() else null
+                path?.mapToMultipartWhenModify(),
+                if(path.isNullOrEmpty()) _userSelectedImage.value.toString() else ""
             )
                 .onSuccess { _saveState.value = it.code }
                 .onFailure { _saveState.value = it.message?.toInt() }
         }
     }
 
-    private fun String.mapToMultipart(): MultipartBody.Part {
+    private fun String.mapToMultipartWhenPost(): MultipartBody.Part {
         val file = File(this)
         val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
         return MultipartBody.Part.createFormData("image", file.name, requestFile)
+    }
+
+    private fun String.mapToMultipartWhenModify(): MultipartBody.Part {
+        val file = File(this)
+        val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+        return MultipartBody.Part.createFormData("newImage", file.name, requestFile)
     }
 
     fun requestLegacyData() {
