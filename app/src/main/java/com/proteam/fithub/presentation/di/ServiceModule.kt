@@ -1,6 +1,7 @@
 package com.proteam.fithub.presentation.di
 
 import com.proteam.fithub.data.remote.service.ArticleService
+import com.proteam.fithub.data.remote.service.BookmarkService
 import com.proteam.fithub.data.remote.service.CertificateService
 import com.proteam.fithub.data.remote.service.CommentService
 import com.proteam.fithub.data.remote.service.ExerciseService
@@ -60,4 +61,8 @@ class ServiceModule {
     @Provides
     @Singleton
     fun provideReportService(retrofit: Retrofit) : ReportService = retrofit.create(ReportService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideBookmarkService(retrofit: Retrofit) : BookmarkService = retrofit.create(BookmarkService::class.java)
 }

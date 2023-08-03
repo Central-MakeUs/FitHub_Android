@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.ActivityMainBinding
+import com.proteam.fithub.presentation.ui.bookmark.BookMarkActivity
 import com.proteam.fithub.presentation.ui.detail.board.BoardDetailActivity
 import com.proteam.fithub.presentation.ui.detail.certificate.ExerciseCertificateDetailActivity
 import com.proteam.fithub.presentation.ui.main.community.CommunityFragment
@@ -82,6 +83,10 @@ class MainActivity : AppCompatActivity() {
 
     fun openSearchActivity() {
         startActivity(Intent(this, SearchActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
+    }
+
+    fun openBookmarkActivity() {
+        startActivity(Intent(this, BookMarkActivity::class.java))
     }
 
 

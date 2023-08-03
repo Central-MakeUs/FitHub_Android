@@ -142,4 +142,7 @@
     <string name="home_best_certificate_times">%d회</string>
     <string name="home_best_certificate_rank_see_more">랭킹 더보기</string>
 
+    <!-- 북마크 -->
+    <string name="bookmark_title">북마크</string>
+
 </resources>

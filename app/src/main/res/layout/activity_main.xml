@@ -97,6 +97,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
                 android:src="@drawable/ic_bookmark"
+                android:onClick="@{() -> activity.openBookmarkActivity()}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/main_toolbar_iv_alert"
                 app:layout_constraintTop_toTopOf="parent" />
