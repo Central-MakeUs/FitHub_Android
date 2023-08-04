@@ -8,7 +8,8 @@ data class ResponseHomeData (
         ) : BaseResponse() {
             data class ResultHomeData(
                 val userInfo : UserDetailData,
-                val bestRecorderList : List<RecorderItems>
+                val bestRecorderList : List<RecorderItems>,
+                val bestStandardDate : String
             )
 
             data class RecorderItems (

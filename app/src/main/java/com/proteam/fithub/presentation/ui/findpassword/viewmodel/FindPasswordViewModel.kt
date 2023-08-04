@@ -44,7 +44,7 @@ class FindPasswordViewModel @Inject constructor(private val signUpRepository: Si
     /** Request **/
     fun requestUserNumberAvailable() {
         viewModelScope.launch {
-            signUpRepository.requestUserNumberAvailable(RequestPhoneNumberAvailable(userInputPhoneNumber.value!!))
+            signUpRepository.requestExistPhone(1, RequestPhoneNumberAvailable(userInputPhoneNumber.value!!))
                 .onSuccess { _userPhoneNumberAvailable.value = true }
                 .onFailure { _userPhoneNumberAvailable.value = false }
         }

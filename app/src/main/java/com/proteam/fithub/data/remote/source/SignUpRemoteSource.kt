@@ -32,11 +32,6 @@ class SignUpRemoteSource @Inject constructor(private val service: SignUpService)
         return setValidate(res) as Result<BaseResponse>
     }
 
-    override suspend fun requestUserNumberAvailable(phoneNumber: RequestPhoneNumberAvailable): Result<BaseResponse> {
-        val res = service.requestPhoneNumberAvailable(phoneNumber)
-        return setValidate(res) as Result<BaseResponse>
-    }
-
     override suspend fun requestSignUpWithPhone(
         marketingAgree: Boolean,
         phoneNumber: String,
@@ -97,14 +92,13 @@ class SignUpRemoteSource @Inject constructor(private val service: SignUpService)
         }
     }
 
-
     override suspend fun requestChangePassword(body: RequestChangePassword): Result<ResponseChangePassword> {
         val res = service.requestChangePassword(body)
         return setValidate(res) as Result<ResponseChangePassword>
     }
 
-    override suspend fun requestExistPhone(body: RequestPhoneNumberAvailable): Result<BaseResponse> {
-        val res = service.requestExistPhone(body)
+    override suspend fun requestExistPhone(type : Int, body: RequestPhoneNumberAvailable): Result<BaseResponse> {
+        val res = service.requestExistPhone(type, body)
         return when (res.code()) {
             in 200..399 -> Result.success(res.body()!!)
             else -> Result.failure(

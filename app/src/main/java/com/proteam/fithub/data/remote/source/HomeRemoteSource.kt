@@ -1,6 +1,7 @@
 package com.proteam.fithub.data.remote.source
 
 import com.proteam.fithub.data.remote.response.ResponseHomeData
+import com.proteam.fithub.data.remote.response.ResponseMyLevelData
 import com.proteam.fithub.data.remote.service.HomeService
 import com.proteam.fithub.domain.source.HomeSource
 import com.proteam.fithub.presentation.util.ErrorConverter.convertAndGetCode
@@ -11,6 +12,14 @@ class HomeRemoteSource @Inject constructor(private val homeService : HomeService
         val res = homeService.requestHomeData()
         return when(res.code()) {
             in 200..399 -> Result.success(res.body()!!)
+            else -> Result.failure(IllegalArgumentException(res.errorBody()?.convertAndGetCode().toString()))
+        }
+    }
+
+    override suspend fun requestMyLevelData(): Result<ResponseMyLevelData.ResultMyLevelData> {
+        val res = homeService.requestMyLevelData()
+        return when(res.code()) {
+            in 200..399 -> Result.success(res.body()!!.result)
             else -> Result.failure(IllegalArgumentException(res.errorBody()?.convertAndGetCode().toString()))
         }
     }

@@ -1,6 +1,7 @@
 package com.proteam.fithub.presentation.di
 
 import com.proteam.fithub.data.remote.repository.ArticleRepositoryImpl
+import com.proteam.fithub.data.remote.repository.BookmarkRepositoryImpl
 import com.proteam.fithub.data.remote.repository.CertificateRepositoryImpl
 import com.proteam.fithub.data.remote.repository.CommentRepositoryImpl
 import com.proteam.fithub.data.remote.repository.ExerciseRepositoryImpl
@@ -11,6 +12,7 @@ import com.proteam.fithub.data.remote.repository.SearchRepositoryImpl
 import com.proteam.fithub.data.remote.repository.SignInRepositoryImpl
 import com.proteam.fithub.data.remote.repository.SignUpRepositoryImpl
 import com.proteam.fithub.domain.repository.ArticleRepository
+import com.proteam.fithub.domain.repository.BookmarkRepository
 import com.proteam.fithub.domain.repository.CertificateRepository
 import com.proteam.fithub.domain.repository.CommentRepository
 import com.proteam.fithub.domain.repository.ExerciseRepository
@@ -57,4 +59,7 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindReportRepository(reportRepositoryImpl: ReportRepositoryImpl) : ReportRepository
+
+    @Binds
+    abstract fun bindBookmarkRepository(bookmarkRepositoryImpl: BookmarkRepositoryImpl) : BookmarkRepository
 }

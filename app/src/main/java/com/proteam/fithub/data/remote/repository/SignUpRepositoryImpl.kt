@@ -26,10 +26,6 @@ class SignUpRepositoryImpl @Inject constructor(private val source : SignUpSource
         return source.requestCheckSameNickName(nickname)
     }
 
-    override suspend fun requestUserNumberAvailable(phoneNumber: RequestPhoneNumberAvailable): Result<BaseResponse> {
-        return source.requestUserNumberAvailable(phoneNumber)
-    }
-
     override suspend fun requestSignUpWithPhone(
         marketingAgree: Boolean,
         phoneNumber: String,
@@ -60,7 +56,7 @@ class SignUpRepositoryImpl @Inject constructor(private val source : SignUpSource
         return source.requestChangePassword(body)
     }
 
-    override suspend fun requestExistPhone(body: RequestPhoneNumberAvailable): Result<BaseResponse> {
-        return source.requestExistPhone(body)
+    override suspend fun requestExistPhone(type : Int, body: RequestPhoneNumberAvailable): Result<BaseResponse> {
+        return source.requestExistPhone(type, body)
     }
 }

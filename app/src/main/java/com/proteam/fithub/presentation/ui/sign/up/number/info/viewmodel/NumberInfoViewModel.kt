@@ -18,9 +18,6 @@ class NumberInfoViewModel @Inject constructor(private val signUpRepository: Sign
     private val _phoneAvailableState = MutableLiveData<Int>()
     val phoneAvailableState : LiveData<Int> = _phoneAvailableState
 
-    private val _smsSendState = MutableLiveData<Int>()
-    val smsSendState : LiveData<Int> = _smsSendState
-
     /** Set Data **/
 
 
@@ -29,17 +26,9 @@ class NumberInfoViewModel @Inject constructor(private val signUpRepository: Sign
 
     fun requestExistPhone(phoneNumber: String) {
         viewModelScope.launch {
-            signUpRepository.requestExistPhone(RequestPhoneNumberAvailable(phoneNumber))
+            signUpRepository.requestExistPhone(0, RequestPhoneNumberAvailable(phoneNumber))
                 .onSuccess { _phoneAvailableState.value = it.code }
                 .onFailure { _phoneAvailableState.value = it.message?.toInt() }
-        }
-    }
-
-    fun requestSMSAuthCode(phoneNumber : String) {
-        viewModelScope.launch {
-            signUpRepository.requestSMSAuth(RequestSMSAuth(phoneNumber))
-                .onSuccess { _smsSendState.value = it.code }
-                .onFailure { _smsSendState.value = it.message?.toInt() }
         }
     }
 }
