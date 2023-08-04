@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/logo_letter_small"
                 android:layout_marginStart="20dp"
-                android:visibility='@{viewModel.curFragmentTag == "HOME" ? View.VISIBLE : View.GONE}'
+                android:visibility='@{viewModel.curFragmentTag == "LOGO" ? View.VISIBLE : View.GONE}'
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -46,7 +46,7 @@
                 android:layout_marginEnd="13dp"
                 android:background="@drawable/bg_edt_sub01_rounded"
                 android:onClick="@{() -> activity.openSearchActivity()}"
-                android:visibility='@{viewModel.curFragmentTag == "COMMUNITY" ? View.VISIBLE : View.GONE}'
+                android:visibility='@{viewModel.curFragmentTag == "SEARCH" ? View.VISIBLE : View.GONE}'
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/main_toolbar_iv_bookmark"
                 app:layout_constraintStart_toStartOf="parent"

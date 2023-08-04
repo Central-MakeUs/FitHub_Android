@@ -15,6 +15,7 @@ import com.proteam.fithub.presentation.ui.detail.certificate.ExerciseCertificate
 import com.proteam.fithub.presentation.ui.main.community.CommunityFragment
 import com.proteam.fithub.presentation.ui.main.community.viewmodel.CommunityViewModel
 import com.proteam.fithub.presentation.ui.main.home.HomeFragment
+import com.proteam.fithub.presentation.ui.main.mypage.MyPageFragment
 import com.proteam.fithub.presentation.ui.mylevel.MyLevelActivity
 import com.proteam.fithub.presentation.ui.search.SearchActivity
 import com.proteam.fithub.presentation.ui.write.board.WriteOrModifyBoardActivity
@@ -52,13 +53,16 @@ class MainActivity : AppCompatActivity() {
         binding.mainLayoutBottomNavigation.apply {
             setOnItemSelectedListener {
                 when(it.itemId) {
-                    R.id.main_bottom_home -> changeFragments(HomeFragment(), "HOME")
-                    R.id.main_bottom_community -> changeFragments(CommunityFragment(), "COMMUNITY")
+                    R.id.main_bottom_home -> changeFragments(HomeFragment(), "LOGO")
+                    R.id.main_bottom_community -> changeFragments(CommunityFragment(), "SEARCH")
+                    R.id.main_bottom_my -> changeFragments(MyPageFragment(), "LOGO")
                 }
                 return@setOnItemSelectedListener true
             }
 
-         selectedItemId = R.id.main_bottom_home
+            selectedItemId = R.id.main_bottom_home
+
+            setOnItemReselectedListener { return@setOnItemReselectedListener }
         }
     }
 
@@ -93,7 +97,6 @@ class MainActivity : AppCompatActivity() {
 
     fun openBookmarkActivity() {
         requestProcessFinished.launch(Intent(this, BookMarkActivity::class.java))
-        //startActivity(Intent(this, BookMarkActivity::class.java))
     }
 
     private val requestProcessFinished =

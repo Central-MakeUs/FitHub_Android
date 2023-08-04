@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="myPageData"
+            type="com.proteam.fithub.data.remote.response.ResponseMyPageData.ResultMyPageData" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bg_default">
+
+            <ImageView
+                android:id="@+id/fg_mypage_iv_user_profile"
+                common_Circle_Image="@{myPageData.myInfo.profileUrl}"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/btn_profile_camera"
+                app:layout_constraintBottom_toBottomOf="@id/fg_mypage_iv_user_profile"
+                app:layout_constraintEnd_toEndOf="@id/fg_mypage_iv_user_profile" />
+
+            <TextView
+                android:id="@+id/fg_mypage_tv_user_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@{myPageData.myInfo.nickname}"
+                android:textAppearance="@style/Title_medium_semibold"
+                android:textColor="@color/text_default"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fg_mypage_iv_user_profile" />
+
+            <LinearLayout
+                android:id="@+id/fg_mypage_layout_level_exercise"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fg_mypage_tv_user_nickname">
+
+                <com.proteam.fithub.presentation.component.ComponentExerciseLevel
+                    android:id="@+id/fg_mypage_component_exercise"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    app:exercise_level_type="Exercise" />
+
+                <com.proteam.fithub.presentation.component.ComponentExerciseLevel
+                    android:id="@+id/fg_mypage_component_level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:exercise_level_type="Level" />
+
+            </LinearLayout>
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/fg_mypage_vp_exercises"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/fg_mypage_layout_level_exercise" />
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/fg_mypage_tab_exercise_indicator"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:background="@android:color/transparent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fg_mypage_vp_exercises"
+                app:tabBackground="@drawable/bg_mypage_exercise_vp_indicator"
+                app:tabGravity="center"
+                app:tabIndicator="@null"
+                app:tabMode="fixed"
+                app:tabPaddingEnd="7dp"
+                app:tabPaddingStart="7dp" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/fg_mypage_layout_manage_my_write"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginHorizontal="20dp"
+                app:layout_constraintTop_toBottomOf="@id/fg_mypage_tab_exercise_indicator">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/my_page_manage_my_write"
+                    android:textAppearance="@style/Body_large_medium"
+                    android:textColor="@color/text_default"
+                    android:layout_marginVertical="12dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_chevron_right"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/fg_mypage_view_divider_manage_my_write"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/divider_01"
+                android:layout_marginTop="15dp"
+                app:layout_constraintTop_toBottomOf="@id/fg_mypage_layout_manage_my_write"
+                app:layout_constraintStart_toStartOf="@id/fg_mypage_layout_manage_my_write"
+                app:layout_constraintEnd_toEndOf="@id/fg_mypage_layout_manage_my_write"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fg_mypage_rv_upper_menu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:overScrollMode="never"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="vertical"
+                android:paddingHorizontal="20dp"
+                app:layout_constraintTop_toBottomOf="@id/fg_mypage_view_divider_manage_my_write" />
+
+            <View
+                android:id="@+id/fg_mypage_view_divider_upper_menu"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/divider_01"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@id/fg_mypage_rv_upper_menu" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="30dp"
+                app:layout_constraintTop_toBottomOf="@id/fg_mypage_view_divider_upper_menu"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/fg_mypage_layout_version_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginHorizontal="20dp"
+                    app:layout_constraintTop_toBottomOf="@id/fg_mypage_tab_exercise_indicator">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/my_page_version_info"
+                        android:textAppearance="@style/Body_large_medium"
+                        android:textColor="@color/text_default"
+                        android:layout_marginVertical="12dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1.1.0.1"
+                        android:textAppearance="@style/Body_large_medium"
+                        android:includeFontPadding="false"
+                        android:textColor="@color/text_sub02"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/fg_mypage_layout_sign_out"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginHorizontal="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/my_page_sign_out"
+                        android:textAppearance="@style/Body_large_medium"
+                        android:textColor="@color/text_default"
+                        android:layout_marginVertical="12dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_chevron_right"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</layout>
