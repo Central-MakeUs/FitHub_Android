@@ -82,6 +82,9 @@
         <activity android:name=".presentation.ui.bookmark.BookMarkActivity"
             android:exported="false" />
 
+        <!-- My Level -->
+        <activity android:name=".presentation.ui.mylevel.MyLevelActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

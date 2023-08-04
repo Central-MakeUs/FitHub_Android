@@ -5,13 +5,18 @@
     <data>
 
         <variable
+            name="fragment"
+            type="com.proteam.fithub.presentation.ui.main.home.HomeFragment" />
+
+        <variable
             name="homeData"
             type="com.proteam.fithub.data.remote.response.ResponseHomeData.ResultHomeData" />
     </data>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:overScrollMode="never">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -59,6 +64,7 @@
                 android:layout_marginTop="10dp"
                 android:drawableEnd="@drawable/ic_arrow_back_small"
                 android:drawablePadding="2dp"
+                android:onClick="@{() -> fragment.onGotoCertificateClicked()}"
                 android:text="@string/home_goto_certificate"
                 android:textAppearance="@style/Body_medium_regular"
                 android:textColor="@color/text_sub01"
@@ -66,13 +72,14 @@
                 app:layout_constraintTop_toBottomOf="@id/fg_home_tv_user_notice" />
 
             <ImageView
-                android:layout_width="57dp"
-                android:layout_height="57dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_marginTop="18dp"
-                android:src="@{homeData.userInfo.gradeImageUrl}"
+                common_set_Image="@{homeData.userInfo.gradeImageUrl}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/fg_home_tv_user_notice"
-                app:layout_constraintTop_toTopOf="@id/fg_home_tv_user_level" />
+                app:layout_constraintTop_toTopOf="@id/fg_home_tv_user_level"
+                app:layout_constraintBottom_toBottomOf="@id/fg_home_tv_goto_certificate"/>
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/fg_home_card_certificate_percent"
@@ -114,6 +121,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="15dp"
                         android:src="@drawable/ic_home_level_info"
+                        android:onClick="@{() -> fragment.onMyLevelInfoClicked()}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -264,7 +272,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:includeFontPadding="false"
-                android:text="2023.07.25 12:00 기준"
+                android:text='@{@string/home_best_certificate_standard(homeData.bestStandardDate.replace("-", "."))}'
                 android:textAppearance="@style/Body_small_regular"
                 android:textColor="@color/gray_500"
                 app:layout_constraintStart_toStartOf="@id/fg_home_tv_best_user_title"
@@ -275,28 +283,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
+                android:layout_marginBottom="40dp"
                 android:layout_marginHorizontal="20dp"
                 android:orientation="vertical"
                 android:overScrollMode="never"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fg_home_tv_best_user_time" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/home_best_certificate_rank_see_more"
-                android:textColor="@color/text_sub02"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="40dp"
-                android:textAppearance="@style/Label_medium_regular"
-                android:drawablePadding="2dp"
-                android:drawableEnd="@drawable/ic_arrow_down"
-                app:layout_constraintTop_toBottomOf="@id/fg_home_rv_best_rank"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/fg_home_tv_best_user_time"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

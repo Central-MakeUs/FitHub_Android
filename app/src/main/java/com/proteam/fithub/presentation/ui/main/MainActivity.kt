@@ -3,6 +3,7 @@ package com.proteam.fithub.presentation.ui.main
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -14,6 +15,7 @@ import com.proteam.fithub.presentation.ui.detail.certificate.ExerciseCertificate
 import com.proteam.fithub.presentation.ui.main.community.CommunityFragment
 import com.proteam.fithub.presentation.ui.main.community.viewmodel.CommunityViewModel
 import com.proteam.fithub.presentation.ui.main.home.HomeFragment
+import com.proteam.fithub.presentation.ui.mylevel.MyLevelActivity
 import com.proteam.fithub.presentation.ui.search.SearchActivity
 import com.proteam.fithub.presentation.ui.write.board.WriteOrModifyBoardActivity
 import com.proteam.fithub.presentation.ui.write.certificate.WriteOrModifyCertificateActivity
@@ -85,9 +87,31 @@ class MainActivity : AppCompatActivity() {
         startActivity(Intent(this, SearchActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
     }
 
-    fun openBookmarkActivity() {
-        startActivity(Intent(this, BookMarkActivity::class.java))
+    fun openMyLevelActivity() {
+        startActivity(Intent(this, MyLevelActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
     }
+
+    fun openBookmarkActivity() {
+        requestProcessFinished.launch(Intent(this, BookMarkActivity::class.java))
+        //startActivity(Intent(this, BookMarkActivity::class.java))
+    }
+
+    private val requestProcessFinished =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            when(it.resultCode) {
+                1001 -> {
+                    //북마크 -> 커뮤니티
+                    changeFragments(CommunityFragment(), "COMMUNITY")
+                    binding.mainLayoutBottomNavigation.selectedItemId = R.id.main_bottom_community
+                }
+            }
+            if (it.resultCode == 1001) {
+                val state = it.data!!.extras?.getBoolean("state")
+                if(state == true) {
+                    finish()
+                }
+            }
+        }
 
 
 }

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.proteam.fithub.R
 import com.proteam.fithub.data.remote.response.ResponseHomeData
 import com.proteam.fithub.databinding.FragmentHomeBinding
+import com.proteam.fithub.presentation.ui.main.MainActivity
 import com.proteam.fithub.presentation.ui.main.MainViewModel
 import com.proteam.fithub.presentation.ui.main.home.adapter.HomeBestRankAdapter
 import com.proteam.fithub.presentation.ui.main.home.adapter.HomeNearGymAdapter
@@ -58,6 +59,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initBinding() {
+        binding.fragment = this
         binding.lifecycleOwner = viewLifecycleOwner
     }
 
@@ -125,5 +127,13 @@ class HomeFragment : Fragment() {
 
     private fun onGymClicked(index: Int) {
         Toast.makeText(requireContext(), index, Toast.LENGTH_SHORT).show()
+    }
+
+    fun onGotoCertificateClicked() {
+        (requireActivity() as MainActivity).openWriteOrModifyCertificate("Write")
+    }
+
+    fun onMyLevelInfoClicked() {
+        (requireActivity() as MainActivity).openMyLevelActivity()
     }
 }

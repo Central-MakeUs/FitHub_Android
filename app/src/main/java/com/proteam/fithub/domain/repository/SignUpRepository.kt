@@ -18,13 +18,11 @@ interface SignUpRepository {
 
     suspend fun requestCheckSameNickName(nickname : String) : Result<BaseResponse>
 
-    suspend fun requestUserNumberAvailable(phoneNumber : RequestPhoneNumberAvailable) : Result<BaseResponse>
-
     suspend fun requestSignUpWithPhone(marketingAgree : Boolean, phoneNumber : String, name : String, nickname : String, password : String, birth : String, gender : String, preferExercises : Int, profileImage : MultipartBody.Part?) : Result<ResponseSignUpWithPhone>
 
     suspend fun requestSignUpWithSocial(marketingAgree : Boolean, name : String, nickname : String, birth : String, gender : String, preferExercises : Int, profileImage : MultipartBody.Part?) : Result<ResponseSignUp>
 
     suspend fun requestChangePassword(body : RequestChangePassword) : Result<ResponseChangePassword>
 
-    suspend fun requestExistPhone(body : RequestPhoneNumberAvailable) : Result<BaseResponse>
+    suspend fun requestExistPhone(type : Int, body : RequestPhoneNumberAvailable) : Result<BaseResponse>
 }

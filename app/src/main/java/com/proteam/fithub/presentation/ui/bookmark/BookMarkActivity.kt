@@ -2,6 +2,7 @@ package com.proteam.fithub.presentation.ui.bookmark
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContentProviderCompat.requireContext
@@ -15,6 +16,8 @@ import com.proteam.fithub.databinding.ActivityBookmarkBinding
 import com.proteam.fithub.presentation.ui.bookmark.adapter.BookmarkAdapter
 import com.proteam.fithub.presentation.ui.bookmark.viewmodel.BookMarkViewModel
 import com.proteam.fithub.presentation.ui.detail.board.BoardDetailActivity
+import com.proteam.fithub.presentation.ui.main.MainActivity
+import com.proteam.fithub.presentation.ui.sign.`in`.social.SocialSignInActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -34,12 +37,17 @@ class BookMarkActivity : AppCompatActivity() {
         observeFilterExercises()
         observeSelectedFilters()
 
+        initBinding()
         initUi()
     }
 
     override fun onResume() {
         super.onResume()
         requestBookmark(viewModel.selectedFilter.value ?: 0)
+    }
+
+    private fun initBinding() {
+        binding.activity = this
     }
 
     private fun initUi() {
@@ -129,10 +137,18 @@ class BookMarkActivity : AppCompatActivity() {
                 bookmarkAdapter.submitData(it)
             }
         }
+
+        bookmarkAdapter.addLoadStateListener {
+            binding.bookmarkLayoutNone.visibility = if(it.append.endOfPaginationReached && bookmarkAdapter.itemCount == 0) View.VISIBLE else View.GONE
+        }
     }
 
     private fun onBookmarkClicked(index : Int) {
         startActivity(Intent(this, BoardDetailActivity::class.java).setType(index.toString()))
+    }
 
+    fun onSeeArticleClicked() {
+        this.setResult(1001, Intent(this, MainActivity::class.java))
+        finish()
     }
 }

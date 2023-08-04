@@ -26,10 +26,13 @@
 
         <CheckBox
             android:id="@+id/checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/selector_sign_up_agreement_checkbox"
+            android:button="@android:color/transparent"
             android:checked="@{galleryData.checked}"
             android:clickable="false"
+            android:layout_margin="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
