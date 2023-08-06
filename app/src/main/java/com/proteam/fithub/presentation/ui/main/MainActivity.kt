@@ -3,6 +3,7 @@ package com.proteam.fithub.presentation.ui.main
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
@@ -36,7 +37,6 @@ class MainActivity : AppCompatActivity() {
 
         initBinding()
         initUi()
-
     }
 
     private fun initBinding() {
@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initUi() {
         initBottomNavigation()
+        checkIntents()
     }
 
     private fun initBottomNavigation() {
@@ -103,8 +104,7 @@ class MainActivity : AppCompatActivity() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             when(it.resultCode) {
                 1001 -> {
-                    //북마크 -> 커뮤니티
-                    changeFragments(CommunityFragment(), "COMMUNITY")
+                    changeFragments(CommunityFragment(), "SEARCH")
                     binding.mainLayoutBottomNavigation.selectedItemId = R.id.main_bottom_community
                 }
             }
@@ -116,5 +116,20 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    private fun checkIntents() {
+        intent.extras?.let {
+            when(it.getString("View")) {
+                "ARTICLE" -> {
+                    openBoardDetailActivity(it.getString("PK")!!.toInt())
+                    binding.mainLayoutBottomNavigation.selectedItemId = R.id.main_bottom_community
+                }
+                "RECORD" -> {
+                    openCertificateDetailActivity(it.getString("PK")!!.toInt())
+                    binding.mainLayoutBottomNavigation.selectedItemId = R.id.main_bottom_community
+                }
+            }
+        }
+
+    }
 
 }

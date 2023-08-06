@@ -95,8 +95,8 @@
                 app:tabGravity="center"
                 app:tabIndicator="@null"
                 app:tabMode="fixed"
-                app:tabPaddingEnd="7dp"
-                app:tabPaddingStart="7dp" />
+                app:tabPaddingEnd="6dp"
+                app:tabPaddingStart="6dp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/fg_mypage_layout_manage_my_write"

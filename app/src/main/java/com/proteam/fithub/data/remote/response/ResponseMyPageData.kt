@@ -20,6 +20,8 @@ data class ResponseMyPageData (
     data class ExerciseData(
         val category : String,
         val level : Int,
-        val gradeName : String
+        val gradeName : String,
+        val exp : Int,
+        val maxExp : Int
     )
 }

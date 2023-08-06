@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "34071187459",
+    "project_id": "fithub-push-alarm",
+    "storage_bucket": "fithub-push-alarm.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:34071187459:android:57d0b3e7651cbb3d49fe36",
+        "android_client_info": {
+          "package_name": "com.proteam.fithub"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "34071187459-tpfg1uf397jbq49e1fvguremdm0qvs2r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.proteam.fithub",
+            "certificate_hash": "41342a194d7b2e339be97fc1ae8c1d68db4f826c"
+          }
+        },
+        {
+          "client_id": "34071187459-s19je183f295l5i8iguojcl0fhc0qamn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDu88fT-1CfkJ721aEhogfLAjGrC0YsibM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "34071187459-s19je183f295l5i8iguojcl0fhc0qamn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

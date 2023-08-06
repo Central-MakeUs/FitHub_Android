@@ -82,7 +82,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="15dp"
             android:includeFontPadding="false"
-            android:text='@{@string/home_certificate_percent_count(1200)}'
+            android:text='@{@string/home_certificate_percent_count(data.maxExp)}'
             android:textAppearance="@style/Body_small_medium"
             android:textColor="@color/text_info"
             app:layout_constraintEnd_toEndOf="parent"
@@ -92,7 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
-            android:text='@{800 + " "}'
+            android:text='@{data.exp + " "}'
             android:textAppearance="@style/Body_small_medium"
             android:textColor="@color/neon_primary"
             app:layout_constraintBottom_toBottomOf="@id/fg_home_card_certificate_percent_tv_standard_rate"
@@ -107,8 +107,8 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="20dp"
             android:indeterminate="false"
-            android:max="@{1200}"
-            android:progress="@{800}"
+            android:max="@{data.maxExp}"
+            android:progress="@{data.exp}"
             app:indicatorColor="@color/neon_primary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fg_home_card_certificate_percent_tv_standard_rate"

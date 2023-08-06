@@ -40,9 +40,6 @@ class InterestExerciseFragment : Fragment() {
         initBinding()
         initUi()
 
-        viewModel.selectExercises.observe(viewLifecycleOwner) {
-        }
-
         return binding.root
     }
 
@@ -87,6 +84,13 @@ class InterestExerciseFragment : Fragment() {
                 numberViewModel.setUserInterestExercise(viewModel.selectExercises.value!!)
                 (requireActivity() as NumberSignUpActivity).requestNumberSignUp()
             }
+        }
+    }
+
+    private fun setLegacyWhenModify() {
+        viewModel.selectExercises.observe(viewLifecycleOwner) {
+            val position = adapter.sports.indexOf(adapter.sports.find { it2 -> it2.id == it })
+            adapter.resetSelected(position)
         }
     }
 
