@@ -5,11 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.proteam.fithub.databinding.ItemMypageRvMenuBinding
 
-class MyPageUpperMenuAdapter(private val menus : List<String>) : RecyclerView.Adapter<MyPageUpperMenuAdapter.MyPageUpperMenuViewHolder>() {
+class MyPageUpperMenuAdapter(private val menus : List<String>, private val onClick : (Int) -> Unit) : RecyclerView.Adapter<MyPageUpperMenuAdapter.MyPageUpperMenuViewHolder>() {
 
     inner class MyPageUpperMenuViewHolder(private val binding : ItemMypageRvMenuBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item : String) {
             binding.title = item
+            binding.root.setOnClickListener { onClick.invoke(absoluteAdapterPosition) }
         }
     }
 

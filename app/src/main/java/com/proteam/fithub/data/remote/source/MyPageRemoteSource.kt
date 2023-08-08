@@ -1,5 +1,7 @@
 package com.proteam.fithub.data.remote.source
 
+import android.util.Log
+import com.proteam.fithub.data.remote.response.ResponseMyInfoData
 import com.proteam.fithub.data.remote.response.ResponseMyPageData
 import com.proteam.fithub.data.remote.service.MyPageService
 import com.proteam.fithub.domain.source.MyPageSource
@@ -11,6 +13,15 @@ class MyPageRemoteSource @Inject constructor(private val service : MyPageService
         val res = service.requestMyPageData()
         return when(res.code()) {
             in 200..399 -> Result.success(res.body()!!.result)
+            else -> Result.failure(IllegalArgumentException(res.errorBody()?.convertAndGetCode().toString()))
+        }
+    }
+
+    override suspend fun requestMyInfoData(): Result<ResponseMyInfoData.ResultMyInfoData> {
+        val res = service.requestMyInfoData()
+        Log.e("----", "requestMyInfoData: ${res} / ${res.body()}", )
+        return when(res.code()) {
+            in 200..399 -> Result.success(res.body()!!)
             else -> Result.failure(IllegalArgumentException(res.errorBody()?.convertAndGetCode().toString()))
         }
     }

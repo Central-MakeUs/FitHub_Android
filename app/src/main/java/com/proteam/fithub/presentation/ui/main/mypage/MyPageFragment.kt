@@ -23,6 +23,7 @@ import com.proteam.fithub.presentation.ui.changeexercise.ChangeExerciseActivity
 import com.proteam.fithub.presentation.ui.main.mypage.adapter.MyPageExerciseAdapter
 import com.proteam.fithub.presentation.ui.main.mypage.adapter.MyPageUpperMenuAdapter
 import com.proteam.fithub.presentation.ui.main.mypage.viewmodel.MyPageViewModel
+import com.proteam.fithub.presentation.ui.manageinfo.ManageMyInfoActivity
 import com.proteam.fithub.presentation.ui.managewrite.ManageMyWriteActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,7 +35,7 @@ class MyPageFragment : Fragment() {
         MyPageExerciseAdapter(::onChangeMainExerciseClicked)
     }
     private val upperMenuAdapter by lazy {
-        MyPageUpperMenuAdapter(returnUpperMenuTitles())
+        MyPageUpperMenuAdapter(returnUpperMenuTitles(), ::onUpperMenuClicked)
     }
 
     override fun onCreateView(
@@ -98,6 +99,15 @@ class MyPageFragment : Fragment() {
 
     fun onManageMyWriteClicked() {
         startActivity(Intent(requireActivity(), ManageMyWriteActivity::class.java))
+    }
+
+    private fun onUpperMenuClicked(position : Int) {
+        when(position) {
+            0 -> startActivity(Intent(requireActivity(), ManageMyInfoActivity::class.java))
+            1 -> {} //알림설정
+            2 -> {} //학원 등록 요청
+            3 -> {} //약관 및 정책
+        }
     }
 
     /** Dummy **/

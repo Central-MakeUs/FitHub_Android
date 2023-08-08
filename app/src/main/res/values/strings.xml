@@ -41,6 +41,8 @@
     <string name="common_certificate">운동인증</string>
     <string name="common_board">핏사이트</string>
     <string name="common_select_all">전체선택</string>
+    <string name="common_email">이메일</string>
+    <string name="common_sign_out">회원탈퇴</string>
 
 
 
@@ -164,5 +166,9 @@
     <!-- 내 글 관리 -->
     <string name="manage_my_write_title">내 글 관리</string>
     <string name="remove_selection">선택삭제</string>
+
+    <!-- 개인 정보 설정 -->
+    <string name="manage_my_info_title">개인 정보 설정</string>
+    <string name="manage_my_info_non_uploaded">미등록</string>
 
 </resources>

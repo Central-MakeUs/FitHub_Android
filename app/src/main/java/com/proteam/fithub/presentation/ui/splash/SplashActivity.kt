@@ -33,18 +33,16 @@ class SplashActivity : AppCompatActivity(){
 
     private fun observeAuthSignIn() {
         viewModel.statusCode.observe(this) {
-            Log.e("----", "observeAuthSignIn: $it", )
-            val intent = Intent(this, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-            intent.putExtra("View", getIntent().extras?.getString("View", null))
-            intent.putExtra("PK", getIntent().extras?.getString("PK", null))
-            intent.putExtra("AlarmPK", getIntent().extras?.getString("AlarmPK", null))
-            startActivity(intent)
-            /*when(it) {
+            when(it) {
                 2008 -> {
-
+                    val intent = Intent(this, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                    intent.putExtra("View", getIntent().extras?.getString("View", null))
+                    intent.putExtra("PK", getIntent().extras?.getString("PK", null))
+                    intent.putExtra("AlarmPK", getIntent().extras?.getString("AlarmPK", null))
+                    startActivity(intent)
                 }
                 else -> startActivity(Intent(this, SocialSignInActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
-            }*/
+            }
             finish()
         }
     }
