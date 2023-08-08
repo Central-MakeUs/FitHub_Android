@@ -15,6 +15,9 @@ class MainViewModel @Inject constructor(private val alarmRepository: AlarmReposi
     private val _curFragmentTag = MutableLiveData<String>()
     val curFragmentTag : LiveData<String> = _curFragmentTag
 
+    private val _remainAlarm = MutableLiveData<Boolean>()
+    val remainAlarm : LiveData<Boolean> = _remainAlarm
+
     fun setFragmentTag(tag : String) {
         _curFragmentTag.value = tag
     }
@@ -22,6 +25,13 @@ class MainViewModel @Inject constructor(private val alarmRepository: AlarmReposi
     fun requestAlarmRead(alarmId : Int) {
         viewModelScope.launch {
             alarmRepository.requestAlarmReadData(alarmId)
+        }
+    }
+
+    fun requestCheckAlarmAvailable() {
+        viewModelScope.launch {
+            alarmRepository.requestAlarmAvailableData()
+                .onSuccess { _remainAlarm.value = it.isRemain }
         }
     }
 }

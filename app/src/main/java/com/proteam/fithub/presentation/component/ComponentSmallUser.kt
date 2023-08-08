@@ -7,6 +7,8 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.proteam.fithub.R
 import com.proteam.fithub.data.data.ComponentUserData
 import com.proteam.fithub.databinding.ComponentUserInfoSmallBinding
@@ -15,6 +17,9 @@ class ComponentSmallUser(context : Context, attrs : AttributeSet) : ConstraintLa
     private lateinit var binding : ComponentUserInfoSmallBinding
     private lateinit var userData : ComponentUserData
     private lateinit var time : String
+
+    private val _clickedUserIndex = MutableLiveData<Int>()
+    val clickedUserIndex : LiveData<Int> = _clickedUserIndex
 
     init {
         initBinding()
@@ -36,5 +41,10 @@ class ComponentSmallUser(context : Context, attrs : AttributeSet) : ConstraintLa
         binding.time = time
         binding.componentUserSmallLayoutExercise.getExercise(userData.mainExerciseInfo?.category)
         binding.componentUserSmallLayoutLevel.getLevel(userData.mainExerciseInfo?.level, userData.mainExerciseInfo?.gradeName)
+
+        binding.componentUserSmallIvProfile.setOnClickListener { _clickedUserIndex.value = userData.ownerId }
     }
+
+    fun userProfileImage() = binding.componentUserSmallIvProfile
+    fun userPK() = userData.ownerId
 }

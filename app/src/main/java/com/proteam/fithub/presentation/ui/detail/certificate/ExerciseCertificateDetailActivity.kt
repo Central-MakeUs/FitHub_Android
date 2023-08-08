@@ -16,6 +16,7 @@ import com.proteam.fithub.presentation.ui.FitHub.Companion.mSharedPreferences
 import com.proteam.fithub.presentation.ui.detail.adapter.CommunityDetailCommentAdapter
 import com.proteam.fithub.presentation.ui.detail.certificate.viewmodel.ExerciseCertificateDetailViewModel
 import com.proteam.fithub.presentation.ui.detail.common.CommentViewModel
+import com.proteam.fithub.presentation.ui.otheruser.OtherUserProfileActivity
 import com.proteam.fithub.presentation.ui.write.certificate.WriteOrModifyCertificateActivity
 import com.proteam.fithub.presentation.util.CustomSnackBar
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,7 +28,7 @@ class ExerciseCertificateDetailActivity : AppCompatActivity() {
     private val viewModel : ExerciseCertificateDetailViewModel by viewModels()
     private val commentViewModel : CommentViewModel by viewModels()
     private val commentAdapter by lazy {
-        CommunityDetailCommentAdapter(::requestCommentHeartClicked, ::onCommentOptionClicked)
+        CommunityDetailCommentAdapter(::requestCommentHeartClicked, ::onCommentOptionClicked, ::commentUserProfileClicked)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,7 +75,10 @@ class ExerciseCertificateDetailActivity : AppCompatActivity() {
 
     private fun observeDetailData() {
         viewModel.certificateData.observe(this) { it ->
-            binding.exerciseCertificateDetailLayoutUser.getUserData(it.userInfo, it.createdAt)
+            binding.exerciseCertificateDetailLayoutUser.apply{
+                getUserData(it.userInfo, it.createdAt)
+                userProfileImage().setOnClickListener { it2 -> startActivity(Intent(this@ExerciseCertificateDetailActivity, OtherUserProfileActivity::class.java).setType(it.userInfo.ownerId.toString())) }
+            }
             binding.detailData = it
             binding.tags = it.hashtags.hashtags?.joinToString(" ") { "#${it.name}" }
 
@@ -244,6 +248,10 @@ class ExerciseCertificateDetailActivity : AppCompatActivity() {
     private fun reportCommentUser(user : Int?) {
         viewModel.requestReportUser(user!!)
         observeReportUserStatus("Comment")
+    }
+
+    private fun commentUserProfileClicked(index : Int) {
+        startActivity(Intent(this, OtherUserProfileActivity::class.java).setType(index.toString()))
     }
 
     private fun String.showAlert() {

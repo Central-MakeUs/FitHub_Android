@@ -85,4 +85,11 @@ interface ArticleService {
         @Path("categoryId") categoryId : Int,
         @Query("pageIndex") pageIndex: Int
     ) : ResponseMyArticleData
+
+    @GET("users/{userId}/articles/{categoryId}")
+    suspend fun requestOtherUserArticles(
+        @Path("userId") userId : Int,
+        @Path("categoryId") categoryId: Int,
+        @Query("pageIndex") pageIndex : Int
+    ) : ResponseArticleData
 }

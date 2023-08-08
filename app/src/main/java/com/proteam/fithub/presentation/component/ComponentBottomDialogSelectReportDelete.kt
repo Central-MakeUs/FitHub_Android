@@ -81,6 +81,7 @@ class ComponentBottomDialogSelectReportDelete(
             "NOT_MINE" -> case_NOT_MINE()
             "MINE_COMMENT" -> case_MINE_COMMENT()
             "NOT_MINE_COMMENT" -> case_NOT_MINE_COMMENT()
+            "NOT_MY_PROFILE" -> case_NOT_MY_PROFILE()
         }
     }
 
@@ -123,6 +124,16 @@ class ComponentBottomDialogSelectReportDelete(
             text = "댓글 신고하기"
             setTextColor(resources.getColor(R.color.color_error, null))
         }
+
+        binding.dialogBottomSelectReportDeleteTvSecond.apply {
+            text = "사용자 신고하기"
+            setTextColor(resources.getColor(R.color.color_error, null))
+        }
+    }
+
+    private fun case_NOT_MY_PROFILE() {
+        binding.dialogBottomSelectReportDeleteTvFirst.visibility = View.GONE
+        binding.dialogBottomSelectReportDeleteViewDivider.visibility = View.GONE
 
         binding.dialogBottomSelectReportDeleteTvSecond.apply {
             text = "사용자 신고하기"

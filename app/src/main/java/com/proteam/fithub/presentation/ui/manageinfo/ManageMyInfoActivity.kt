@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.ActivityManageMyInfoBinding
+import com.proteam.fithub.presentation.component.ComponentDialogOneButton
+import com.proteam.fithub.presentation.component.ComponentDialogYesNo
 import com.proteam.fithub.presentation.ui.manageinfo.viewmodel.ManageMyInfoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,6 +32,18 @@ class ManageMyInfoActivity : AppCompatActivity() {
         viewModel.myInfoData.observe(this) {
             binding.data = it
         }
+    }
+
+    fun onSignOutClicked() {
+        ComponentDialogYesNo(::onSignOutFinished).show(supportFragmentManager, "SIGN_OUT")
+    }
+
+    private fun onSignOutFinished() {
+        ComponentDialogOneButton(::afterSignOut).show(supportFragmentManager, "SIGN_OUT")
+    }
+
+    private fun afterSignOut() {
+        finish()
     }
 
     fun onBackPress() {

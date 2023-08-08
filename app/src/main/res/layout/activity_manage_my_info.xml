@@ -49,7 +49,7 @@
 
         <TextView
             android:id="@+id/manage_my_info_tv_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/common_name"
             android:textAppearance="@style/Body_large_medium"
@@ -57,6 +57,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginStart="20dp"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/manage_my_info_layout_toolbar" />
 
         <TextView
@@ -124,13 +125,15 @@
 
         <TextView
             android:id="@+id/manage_my_info_tv_sign_out"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/common_sign_out"
             android:textAppearance="@style/Body_large_medium"
             android:textColor="@color/text_default"
             android:layout_marginTop="27dp"
+            android:onClick="@{() -> activity.onSignOutClicked()}"
             app:layout_constraintTop_toBottomOf="@id/manage_my_info_view_divider"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/manage_my_info_tv_name" />
 
         <ImageView

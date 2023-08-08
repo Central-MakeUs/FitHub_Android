@@ -52,6 +52,7 @@ class ComponentDialogOneButton(private val onActionClick : () -> Unit) : DialogF
     private fun initUi() {
         when(tag) {
             "RESET_PASSWORD" -> case_RESET_PASSWORD()
+            "SIGN_OUT" -> case_SIGN_OUT()
         }
     }
 
@@ -59,6 +60,12 @@ class ComponentDialogOneButton(private val onActionClick : () -> Unit) : DialogF
         binding.componentDialogOneBtnTvTitle.text = "비밀번호 설정 완료"
         binding.componentDialogOneBtnTvNotice.text = "비밀번호가 재설정되었습니다.\n로그인을 진행할까요?"
         binding.componentDialogOneBtnTvAction.text = "로그인 하기"
+    }
+
+    private fun case_SIGN_OUT() {
+        binding.componentDialogOneBtnTvTitle.text = "회원 탈퇴 완료"
+        binding.componentDialogOneBtnTvNotice.text = "안전하게 탈퇴가 완료되었습니다.\n다음에 또 만나요!"
+        binding.componentDialogOneBtnTvAction.text = "확인"
     }
 
     fun onActionClick() {

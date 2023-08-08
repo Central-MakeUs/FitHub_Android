@@ -13,6 +13,7 @@ import com.proteam.fithub.data.remote.response.ResponsePostArticleData
 import com.proteam.fithub.data.remote.service.ArticleService
 import com.proteam.fithub.data.remote.source.ArticlePagingSource
 import com.proteam.fithub.data.remote.source.MyArticlePagingSource
+import com.proteam.fithub.data.remote.source.OtherUserArticlePagingSource
 import com.proteam.fithub.domain.repository.ArticleRepository
 import com.proteam.fithub.domain.source.ArticleSource
 import com.proteam.fithub.presentation.util.BaseResponse
@@ -77,6 +78,15 @@ class ArticleRepositoryImpl @Inject constructor(
     override fun requestMyArticleData(category: Int): Flow<PagingData<ResponseMyArticleData.ResultMyArticleData>> {
         return Pager(PagingConfig(pageSize = 12)) {
             MyArticlePagingSource(Dispatchers.IO, service, category)
+        }.flow
+    }
+
+    override fun requestOtherUserArticleData(
+        userId: Int,
+        categoryId: Int
+    ): Flow<PagingData<ResponseArticleData.ResultArticleData>> {
+        return Pager(PagingConfig(pageSize = 12)) {
+            OtherUserArticlePagingSource(userId, Dispatchers.IO, service, categoryId)
         }.flow
     }
 }

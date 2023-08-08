@@ -13,6 +13,7 @@ data class ResponseMyPageData (
     data class ResultMyInfo(
         val ownerId : Int,
         val nickname : String,
+        val isDefaultProfile : Boolean,
         val profileUrl : String,
         val mainExerciseInfo : ExerciseData
     )

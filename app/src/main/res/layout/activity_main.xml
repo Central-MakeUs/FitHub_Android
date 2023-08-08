@@ -87,7 +87,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
                 android:onClick="@{() -> activity.openAlarmActivity()}"
-                android:src="@drawable/ic_alert_available"
+                android:src="@{viewModel.remainAlarm ? @drawable/ic_alert_available : @drawable/ic_alert_not_available}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

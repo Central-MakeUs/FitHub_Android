@@ -1,5 +1,6 @@
 package com.proteam.fithub.presentation.ui.main.community.article
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import com.proteam.fithub.presentation.ui.main.MainActivity
 import com.proteam.fithub.presentation.ui.main.community.article.adapter.BoardAdapter
 import com.proteam.fithub.presentation.ui.main.community.article.viewmodel.ArticleViewModel
 import com.proteam.fithub.presentation.ui.main.community.viewmodel.CommunityViewModel
+import com.proteam.fithub.presentation.ui.otheruser.OtherUserProfileActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -25,7 +27,7 @@ class ArticleFragment : Fragment() {
     private val communityViewModel : CommunityViewModel by activityViewModels()
 
     private val boardAdapter by lazy {
-        BoardAdapter(::onBoardClicked)
+        BoardAdapter(::onBoardClicked, ::onProfileClicked)
     }
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -92,5 +94,9 @@ class ArticleFragment : Fragment() {
 
     private fun onBoardClicked(position : Int) {
         (requireActivity() as MainActivity).openBoardDetailActivity(position)
+    }
+
+    private fun onProfileClicked(index : Int) {
+        startActivity(Intent(requireActivity(), OtherUserProfileActivity::class.java).setType(index.toString()))
     }
 }

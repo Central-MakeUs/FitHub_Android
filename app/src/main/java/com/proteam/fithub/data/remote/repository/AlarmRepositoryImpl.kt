@@ -3,6 +3,7 @@ package com.proteam.fithub.data.remote.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.proteam.fithub.data.remote.response.ResponseAlarmAvailableData
 import com.proteam.fithub.data.remote.response.ResponseAlarmData
 import com.proteam.fithub.data.remote.service.AlarmService
 import com.proteam.fithub.data.remote.source.AlarmPagingSource
@@ -25,6 +26,10 @@ class AlarmRepositoryImpl @Inject constructor(
 
     override suspend fun requestAlarmReadData(alarmId: Int): Result<BaseResponse> {
         return source.requestAlarmReadData(alarmId)
+    }
+
+    override suspend fun requestAlarmAvailableData(): Result<ResponseAlarmAvailableData.ResultAlarmAvailableData> {
+        return source.requestAlarmAvailableData()
     }
 
 

@@ -1,4 +1,4 @@
-package com.proteam.fithub.presentation.ui.main.community.article.adapter
+package com.proteam.fithub.presentation.ui.otheruser.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,34 +7,31 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.proteam.fithub.data.remote.response.ResponseArticleData
 import com.proteam.fithub.databinding.ItemRvCommunityBoardBinding
+import com.proteam.fithub.databinding.ItemRvCommunityBoardWithoutUserBinding
 
-class BoardAdapter(
-    private val itemClick: (Int) -> Unit,
-    private val onProfileClicked: (Int) -> Unit) :
-    PagingDataAdapter<ResponseArticleData.ResultArticleData, BoardAdapter.BoardViewHolder>(
+class OtherUserArticleAdapter(
+    private val itemClick: (Int) -> Unit) :
+    PagingDataAdapter<ResponseArticleData.ResultArticleData, OtherUserArticleAdapter.OtherUserArticleViewHolder>(
         diffCallback) {
 
-    inner class BoardViewHolder(private val binding: ItemRvCommunityBoardBinding) :
+    inner class OtherUserArticleViewHolder(private val binding: ItemRvCommunityBoardWithoutUserBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ResponseArticleData.ResultArticleData) {
             binding.data = item.apply { if(!this.exerciseTag.contains("#")) this.exerciseTag = "#${this.exerciseTag}" }
-            binding.itemRvCommunityBoardLayoutUser.getUserData(item.userInfo, item.createdAt)
             binding.root.setOnClickListener { itemClick.invoke(item.articleId) }
-
-            binding.itemRvCommunityBoardLayoutUser.userProfileImage().setOnClickListener { onProfileClicked.invoke(item.userInfo.ownerId) }
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BoardViewHolder {
-        return BoardViewHolder(
-            ItemRvCommunityBoardBinding.inflate(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OtherUserArticleViewHolder {
+        return OtherUserArticleViewHolder(
+            ItemRvCommunityBoardWithoutUserBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
             )
         )
     }
-    override fun onBindViewHolder(holder: BoardViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: OtherUserArticleViewHolder, position: Int) {
         getItem(position)?.let { holder.bind(it) }
     }
 
