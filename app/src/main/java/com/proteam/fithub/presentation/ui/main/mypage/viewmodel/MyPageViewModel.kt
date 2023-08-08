@@ -16,11 +16,7 @@ class MyPageViewModel @Inject constructor(private val myPageRepo : MyPageReposit
     private val _myPageData = MutableLiveData<ResponseMyPageData.ResultMyPageData>()
     val myPageData : LiveData<ResponseMyPageData.ResultMyPageData> = _myPageData
 
-    init {
-        requestMyPageData()
-    }
-
-    private fun requestMyPageData() {
+    fun requestMyPageData() {
         viewModelScope.launch {
             myPageRepo.requestMyPageData()
                 .onSuccess { _myPageData.value = it }

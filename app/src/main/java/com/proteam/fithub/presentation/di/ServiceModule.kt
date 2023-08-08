@@ -1,5 +1,6 @@
 package com.proteam.fithub.presentation.di
 
+import com.proteam.fithub.data.remote.service.AlarmService
 import com.proteam.fithub.data.remote.service.ArticleService
 import com.proteam.fithub.data.remote.service.BookmarkService
 import com.proteam.fithub.data.remote.service.CertificateService
@@ -70,4 +71,8 @@ class ServiceModule {
     @Provides
     @Singleton
     fun provideMyPageService(retrofit: Retrofit) : MyPageService = retrofit.create(MyPageService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideAlarmService(retrofit : Retrofit) : AlarmService = retrofit.create(AlarmService::class.java)
 }

@@ -6,7 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.proteam.fithub.data.remote.response.ResponseMyPageData
 import com.proteam.fithub.databinding.ItemMypageVpExercisesBinding
 
-class MyPageExerciseAdapter : RecyclerView.Adapter<MyPageExerciseAdapter.MyPageExerciseViewHolder>() {
+class MyPageExerciseAdapter
+    (private val onClick : () -> Unit): RecyclerView.Adapter<MyPageExerciseAdapter.MyPageExerciseViewHolder>() {
     var exercises = mutableListOf<ResponseMyPageData.ExerciseData>()
     inner class MyPageExerciseViewHolder(private val binding : ItemMypageVpExercisesBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item : ResponseMyPageData.ExerciseData) {
@@ -15,6 +16,8 @@ class MyPageExerciseAdapter : RecyclerView.Adapter<MyPageExerciseAdapter.MyPageE
 
             binding.itemMypageVpExercisesComponentExercise.getExercise(item.category)
             binding.itemMypageVpExercisesComponentLevel.getLevel(item.level, item.gradeName)
+
+            binding.itemMypageVpExercisesTvChangeMainExercise.setOnClickListener { onClick.invoke() }
         }
     }
 

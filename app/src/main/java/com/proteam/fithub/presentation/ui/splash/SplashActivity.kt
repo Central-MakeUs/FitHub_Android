@@ -16,17 +16,8 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity(){
     private val viewModel : SplashViewModel by viewModels()
-
-    private var view : String = ""
-    private var pk : String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
-//        installSplashScreen()
         super.onCreate(savedInstanceState)
-
-        intent.extras?.let {
-            view = it.getString("View", null)
-            pk = it.getString("PK", null)
-        }
 
         getFCMToken()
         observeAuthSignIn()
@@ -42,15 +33,18 @@ class SplashActivity : AppCompatActivity(){
 
     private fun observeAuthSignIn() {
         viewModel.statusCode.observe(this) {
-            when(it) {
+            Log.e("----", "observeAuthSignIn: $it", )
+            val intent = Intent(this, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            intent.putExtra("View", getIntent().extras?.getString("View", null))
+            intent.putExtra("PK", getIntent().extras?.getString("PK", null))
+            intent.putExtra("AlarmPK", getIntent().extras?.getString("AlarmPK", null))
+            startActivity(intent)
+            /*when(it) {
                 2008 -> {
-                    val intent = Intent(this, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                    intent.putExtra("View", view)
-                    intent.putExtra("PK", pk)
-                    startActivity(intent)
+
                 }
                 else -> startActivity(Intent(this, SocialSignInActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
-            }
+            }*/
             finish()
         }
     }

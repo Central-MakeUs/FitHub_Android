@@ -1,5 +1,6 @@
 package com.proteam.fithub.presentation.di
 
+import com.proteam.fithub.data.remote.source.AlarmRemoteSource
 import com.proteam.fithub.data.remote.source.ArticleRemoteSource
 import com.proteam.fithub.data.remote.source.CertificateRemoteSource
 import com.proteam.fithub.data.remote.source.CommentRemoteSource
@@ -10,6 +11,7 @@ import com.proteam.fithub.data.remote.source.ReportRemoteSource
 import com.proteam.fithub.data.remote.source.SearchRemoteSource
 import com.proteam.fithub.data.remote.source.SignInRemoteSource
 import com.proteam.fithub.data.remote.source.SignUpRemoteSource
+import com.proteam.fithub.domain.source.AlarmSource
 import com.proteam.fithub.domain.source.ArticleSource
 import com.proteam.fithub.domain.source.CertificateSource
 import com.proteam.fithub.domain.source.CommentSource
@@ -58,4 +60,7 @@ abstract class SourceModule {
 
     @Binds
     abstract fun bindMyPageRemoteSource(myPageRemoteSource: MyPageRemoteSource) : MyPageSource
+
+    @Binds
+    abstract fun bindAlarmRemoteSource(alarmRemoteSource: AlarmRemoteSource) : AlarmSource
 }

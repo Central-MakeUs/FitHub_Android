@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.ActivityMainBinding
+import com.proteam.fithub.presentation.ui.alarm.AlarmActivity
 import com.proteam.fithub.presentation.ui.bookmark.BookMarkActivity
 import com.proteam.fithub.presentation.ui.detail.board.BoardDetailActivity
 import com.proteam.fithub.presentation.ui.detail.certificate.ExerciseCertificateDetailActivity
@@ -35,8 +36,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
+        checkIntents()
+
         initBinding()
         initUi()
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 
     private fun initBinding() {
@@ -47,7 +54,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun initUi() {
         initBottomNavigation()
-        checkIntents()
     }
 
     private fun initBottomNavigation() {
@@ -100,6 +106,14 @@ class MainActivity : AppCompatActivity() {
         requestProcessFinished.launch(Intent(this, BookMarkActivity::class.java))
     }
 
+    fun openAlarmActivity() {
+        startActivity(Intent(this, AlarmActivity::class.java))
+    }
+
+    fun openManageMyWriteActivity() {
+
+    }
+
     private val requestProcessFinished =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             when(it.resultCode) {
@@ -120,16 +134,16 @@ class MainActivity : AppCompatActivity() {
         intent.extras?.let {
             when(it.getString("View")) {
                 "ARTICLE" -> {
+                    viewModel.requestAlarmRead(it.getString("AlarmPK")!!.toInt())
                     openBoardDetailActivity(it.getString("PK")!!.toInt())
                     binding.mainLayoutBottomNavigation.selectedItemId = R.id.main_bottom_community
                 }
                 "RECORD" -> {
+                    viewModel.requestAlarmRead(it.getString("AlarmPK")!!.toInt())
                     openCertificateDetailActivity(it.getString("PK")!!.toInt())
                     binding.mainLayoutBottomNavigation.selectedItemId = R.id.main_bottom_community
                 }
             }
         }
-
     }
-
 }

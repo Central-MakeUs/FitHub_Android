@@ -33,16 +33,17 @@ class FitHub : Application(), LifecycleEventObserver {
     }
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+        Log.e("----", "onStateChanged: ${event.name}", )
         isForeground = when(event) {
             Lifecycle.Event.ON_START -> {
-                Log.e("----", "onStateChanged: ON", )
                 true
             }
-            Lifecycle.Event.ON_STOP -> {
-                Log.e("----", "onStateChanged: OFF", )
+            Lifecycle.Event.ON_DESTROY -> {
                 false
             }
-            else -> return
+            else -> {
+                return
+            }
         }
     }
 

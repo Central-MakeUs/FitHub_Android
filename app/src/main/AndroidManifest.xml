@@ -90,7 +90,15 @@
         <activity android:name=".presentation.ui.mylevel.MyLevelActivity"
             android:exported="false" />
 
+        <!-- Change Exercise -->
+        <activity android:name=".presentation.ui.changeexercise.ChangeExerciseActivity"
+            android:exported="false"/>
 
+        <!-- Alarm -->
+        <activity android:name=".presentation.ui.alarm.AlarmActivity"
+            android:exported="false" />
+
+        <!-- Push Alarm -->
         <service
             android:name=".data.remote.fcm.FirebaseMessagingService"
             android:enabled="true"

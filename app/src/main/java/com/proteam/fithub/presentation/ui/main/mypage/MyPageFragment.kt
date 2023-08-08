@@ -1,6 +1,7 @@
 package com.proteam.fithub.presentation.ui.main.mypage
 
 import android.app.ActionBar.LayoutParams
+import android.content.Intent
 import android.graphics.Point
 import android.graphics.Rect
 import android.os.Bundle
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.google.android.material.tabs.TabLayoutMediator
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentMypageBinding
+import com.proteam.fithub.presentation.ui.changeexercise.ChangeExerciseActivity
 import com.proteam.fithub.presentation.ui.main.mypage.adapter.MyPageExerciseAdapter
 import com.proteam.fithub.presentation.ui.main.mypage.adapter.MyPageUpperMenuAdapter
 import com.proteam.fithub.presentation.ui.main.mypage.viewmodel.MyPageViewModel
@@ -28,7 +30,7 @@ class MyPageFragment : Fragment() {
     private lateinit var binding : FragmentMypageBinding
     private val viewModel : MyPageViewModel by viewModels()
     private val exerciseAdapter by lazy {
-        MyPageExerciseAdapter()
+        MyPageExerciseAdapter(::onChangeMainExerciseClicked)
     }
     private val upperMenuAdapter by lazy {
         MyPageUpperMenuAdapter(returnUpperMenuTitles())
@@ -46,6 +48,11 @@ class MyPageFragment : Fragment() {
         initUi()
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.requestMyPageData()
     }
 
     private fun initBinding() {
@@ -81,6 +88,14 @@ class MyPageFragment : Fragment() {
                 notifyItemRangeChanged(0, it.myExerciseList.size)
             }
         }
+    }
+
+    private fun onChangeMainExerciseClicked() {
+        startActivity(Intent(requireActivity(), ChangeExerciseActivity::class.java))
+    }
+
+    fun onManageMyWriteClicked() {
+
     }
 
     /** Dummy **/

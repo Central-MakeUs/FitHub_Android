@@ -160,4 +160,7 @@
     <string name="my_page_version_info">버전 정보</string>
     <string name="my_page_sign_out">로그아웃</string>
 
+    <!-- 내 글 관리 -->
+    <string name="manage_my_write_title">내 글 관리</string>
+
 </resources>

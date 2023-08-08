@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="data"
+            type="com.proteam.fithub.data.remote.response.ResponseAlarmData.ResultAlarmData" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_default">
+
+        <TextView
+            android:id="@+id/item_rv_alarm_tv_validate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@{data.confirmed ? @color/text_info : @color/neon_primary}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/item_rv_alarm_tv_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{data.alarmBody}"
+            android:textColor="@{data.confirmed ?  @color/icon_disabled : @color/icon_default}"
+            android:layout_marginTop="10dp"
+            android:textAppearance="@style/Body_large_regular"
+            app:layout_constraintTop_toBottomOf="@id/item_rv_alarm_tv_validate"
+            app:layout_constraintStart_toStartOf="@id/item_rv_alarm_tv_validate" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{data.createdAt}"
+            android:textColor="@{data.confirmed ? @color/text_disabled : @color/text_info}"
+            android:textAppearance="@style/Body_small_regular"
+            android:layout_marginTop="4dp"
+            app:layout_constraintTop_toBottomOf="@id/item_rv_alarm_tv_content"
+            app:layout_constraintStart_toStartOf="@id/item_rv_alarm_tv_content"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
