@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="activity"
+            type="com.proteam.fithub.presentation.ui.managewrite.ManageMyWriteActivity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_default">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/manage_my_write_layout_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:src="@drawable/ic_arrow_back"
+                android:onClick="@{() -> activity.onBackPress()}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/icon_default" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/manage_my_write_title"
+                android:textAppearance="@style/Title_medium_semibold"
+                android:textColor="@color/text_default"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/manage_my_write_tab_cert_and_board"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="1dp"
+            app:layout_constraintTop_toBottomOf="@id/manage_my_write_layout_toolbar"
+            app:tabBackground="@color/bg_default"
+            app:tabIndicatorColor="@color/color_d9d9d9"
+            app:tabIndicatorFullWidth="false"
+            app:tabIndicatorGravity="bottom"
+            app:tabIndicatorHeight="2dp"
+            app:tabTextAppearance="@style/CommunityTabText"
+            app:tabTextColor="@color/selector_tv_tab_selected" />
+
+        <HorizontalScrollView
+            android:id="@+id/manage_my_write_layout_exercise_filter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:fillViewport="true"
+            android:nestedScrollingEnabled="true"
+            android:overScrollMode="never"
+            android:paddingHorizontal="20dp"
+            android:paddingTop="15dp"
+            android:scrollbars="none"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/manage_my_write_tab_cert_and_board">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/manage_my_write_chipgroup_exercise_filter"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+
+        </HorizontalScrollView>
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/manage_my_write_vp_cert_and_board"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/manage_my_write_layout_exercise_filter" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

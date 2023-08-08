@@ -1,13 +1,16 @@
 package com.proteam.fithub.data.remote.service
 
+import com.proteam.fithub.data.remote.request.RequestDeleteMyCertificate
 import com.proteam.fithub.data.remote.response.ResponseCertificateData
 import com.proteam.fithub.data.remote.response.ResponseCertificateDetailData
 import com.proteam.fithub.data.remote.response.ResponseCertificateHeartClicked
+import com.proteam.fithub.data.remote.response.ResponseMyCertificateData
 import com.proteam.fithub.data.remote.response.ResponsePostCertificateData
 import com.proteam.fithub.presentation.util.BaseResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Multipart
@@ -72,4 +75,15 @@ interface CertificateService {
         @Part newImage : MultipartBody.Part?,
         @Part("remainImageUrl") remainImageUrl : RequestBody?
     ) : Response<ResponsePostCertificateData>
+
+    @GET("users/records/{categoryId}")
+    suspend fun requestMyCertificateData (
+        @Path("categoryId") categoryId : Int,
+        @Query ("pageIndex") pageIndex : Int
+    ) : ResponseMyCertificateData
+
+    @DELETE("records")
+    suspend fun requestDeleteMyCertificate(
+        @Body body : RequestDeleteMyCertificate
+    ) : Response<BaseResponse>
 }

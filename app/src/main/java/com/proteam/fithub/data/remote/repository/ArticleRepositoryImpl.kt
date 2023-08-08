@@ -3,13 +3,16 @@ package com.proteam.fithub.data.remote.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.kakao.sdk.common.KakaoSdk.type
 import com.proteam.fithub.data.remote.response.ResponseArticleData
 import com.proteam.fithub.data.remote.response.ResponseArticleDetailData
 import com.proteam.fithub.data.remote.response.ResponseArticleHeartClicked
 import com.proteam.fithub.data.remote.response.ResponseArticleScrapClicked
+import com.proteam.fithub.data.remote.response.ResponseMyArticleData
 import com.proteam.fithub.data.remote.response.ResponsePostArticleData
 import com.proteam.fithub.data.remote.service.ArticleService
 import com.proteam.fithub.data.remote.source.ArticlePagingSource
+import com.proteam.fithub.data.remote.source.MyArticlePagingSource
 import com.proteam.fithub.domain.repository.ArticleRepository
 import com.proteam.fithub.domain.source.ArticleSource
 import com.proteam.fithub.presentation.util.BaseResponse
@@ -69,5 +72,11 @@ class ArticleRepositoryImpl @Inject constructor(
 
     override suspend fun requestDeleteArticleData(articleId: Int): Result<BaseResponse> {
         return source.requestDeleteBoardData(articleId)
+    }
+
+    override fun requestMyArticleData(category: Int): Flow<PagingData<ResponseMyArticleData.ResultMyArticleData>> {
+        return Pager(PagingConfig(pageSize = 12)) {
+            MyArticlePagingSource(Dispatchers.IO, service, category)
+        }.flow
     }
 }

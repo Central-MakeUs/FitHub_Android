@@ -40,6 +40,9 @@
     <string name="common_see_more">더보기</string>
     <string name="common_certificate">운동인증</string>
     <string name="common_board">핏사이트</string>
+    <string name="common_select_all">전체선택</string>
+    <string name="common_email">이메일</string>
+    <string name="common_sign_out">회원탈퇴</string>
 
 
 
@@ -151,5 +154,21 @@
     <!-- 내 레벨 -->
     <string name="my_level_title">내 레벨</string>
     <string name="fithub_exercise_level">핏허브의 운동 레벨</string>
+
+    <!-- 마이페이지 -->
+    <string name="my_page_exercise_main">메인 운동</string>
+    <string name="my_page_exercise_sub">서브 운동</string>
+    <string name="my_page_exercise_change_main">메인 운동 변경</string>
+    <string name="my_page_manage_my_write">내 글 관리</string>
+    <string name="my_page_version_info">버전 정보</string>
+    <string name="my_page_sign_out">로그아웃</string>
+
+    <!-- 내 글 관리 -->
+    <string name="manage_my_write_title">내 글 관리</string>
+    <string name="remove_selection">선택삭제</string>
+
+    <!-- 개인 정보 설정 -->
+    <string name="manage_my_info_title">개인 정보 설정</string>
+    <string name="manage_my_info_non_uploaded">미등록</string>
 
 </resources>

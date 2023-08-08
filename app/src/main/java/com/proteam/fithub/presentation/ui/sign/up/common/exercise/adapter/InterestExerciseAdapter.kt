@@ -36,7 +36,7 @@ class InterestExerciseAdapter (
         holder.bind(sports[position])
     }
 
-    private fun resetSelected(position : Int) {
+    fun resetSelected(position : Int) {
         for(i in 0 until selected.size) {
             selected[i] = false
         }

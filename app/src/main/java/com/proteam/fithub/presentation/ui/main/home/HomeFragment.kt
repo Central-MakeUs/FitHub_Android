@@ -90,7 +90,7 @@ class HomeFragment : Fragment() {
             if(it.code == 2000) {
                 notifyUi(it.result)
             } else {
-                Log.e("----", "observeHome: ${it.code}", )
+
             }
         }
     }
@@ -114,6 +114,7 @@ class HomeFragment : Fragment() {
                 else -> R.color.transparent
             }, null)
         )
+        binding.fgHomeCardCertificatePercentLayoutExercise.getExercise(item.userInfo.category)
         rankingAdapter.apply {
             rankingData = item.bestRecorderList as MutableList
             notifyItemRangeChanged(0, item.bestRecorderList.size)

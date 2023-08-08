@@ -10,10 +10,10 @@
     <application
         android:name=".presentation.ui.FitHub"
         android:requestLegacyExternalStorage="true"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_logo"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -31,6 +31,10 @@
         <activity
             android:name=".presentation.ui.main.MainActivity"
             android:exported="true">
+            <intent-filter>
+                <action android:name="NOTIFICATION_CLICK" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity android:name=".presentation.ui.findpassword.FindPasswordActivity"
             android:exported="false"
@@ -85,6 +89,43 @@
         <!-- My Level -->
         <activity android:name=".presentation.ui.mylevel.MyLevelActivity"
             android:exported="false" />
+
+        <!-- Change Exercise -->
+        <activity android:name=".presentation.ui.changeexercise.ChangeExerciseActivity"
+            android:exported="false"/>
+
+        <!-- Alarm -->
+        <activity android:name=".presentation.ui.alarm.AlarmActivity"
+            android:exported="false" />
+
+        <!-- Manage My Write -->
+        <activity android:name=".presentation.ui.managewrite.ManageMyWriteActivity"
+            android:exported="false" />
+
+        <!-- Manage My Info -->
+        <activity android:name=".presentation.ui.manageinfo.ManageMyInfoActivity"
+            android:exported="false" />
+
+        <!-- Push Alarm -->
+        <service
+            android:name=".data.remote.fcm.FirebaseMessagingService"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+            <meta-data
+                android:name="com.google.firebase.messaging.default_notification_icon"
+                android:value="@drawable/ic_logo" />
+            <meta-data
+                android:name="com.google.firebase.messaging.default_notification_color"
+                android:resource="@color/neon_primary" />
+        </service>
+
+        <meta-data
+            android:name="FITHUB_CHANNEL_NAME"
+            android:value="핏허브 알림" />
+
     </application>
 
 </manifest>

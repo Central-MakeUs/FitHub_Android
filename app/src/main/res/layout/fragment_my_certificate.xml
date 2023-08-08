@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="fragment"
+            type="com.proteam.fithub.presentation.ui.managewrite.certificate.ManageMyCertificateFragment" />
+
+        <variable
+            name="viewModel"
+            type="com.proteam.fithub.presentation.ui.managewrite.certificate.viewmodel.ManageMyCertificateViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_default">
+
+        <CheckBox
+            android:id="@+id/fg_my_certificate_btn_select_all"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="5dp"
+            android:layout_marginHorizontal="10dp"
+            android:background="@android:color/transparent"
+            android:button="@android:color/transparent"
+            android:checked="@={viewModel.isAllClicked}"
+            android:onClick="@{() -> fragment.onAllSelectClicked()}"
+            android:drawableStart="@drawable/selector_sign_up_agreement_checkbox"
+            android:drawablePadding="10dp"
+            android:textAppearance="@style/Body_large_medium"
+            android:includeFontPadding="false"
+            android:text="@string/common_select_all"
+            android:textColor="@color/text_default"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:text="@string/remove_selection"
+            android:textAppearance="@style/Body_small_medium"
+            android:textColor="@color/text_sub01"
+            android:onClick="@{() -> fragment.onSelectDeleteClicked()}"
+            app:layout_constraintBottom_toBottomOf="@id/fg_my_certificate_btn_select_all"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/fg_my_certificate_btn_select_all" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fg_my_certificate_rv_contents"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constrainedHeight="true"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:clipToPadding="false"
+            android:paddingTop="10dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2"
+            app:layout_constraintTop_toBottomOf="@id/fg_my_certificate_btn_select_all"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

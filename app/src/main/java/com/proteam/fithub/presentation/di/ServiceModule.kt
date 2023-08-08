@@ -1,11 +1,13 @@
 package com.proteam.fithub.presentation.di
 
+import com.proteam.fithub.data.remote.service.AlarmService
 import com.proteam.fithub.data.remote.service.ArticleService
 import com.proteam.fithub.data.remote.service.BookmarkService
 import com.proteam.fithub.data.remote.service.CertificateService
 import com.proteam.fithub.data.remote.service.CommentService
 import com.proteam.fithub.data.remote.service.ExerciseService
 import com.proteam.fithub.data.remote.service.HomeService
+import com.proteam.fithub.data.remote.service.MyPageService
 import com.proteam.fithub.data.remote.service.RecordService
 import com.proteam.fithub.data.remote.service.ReportService
 import com.proteam.fithub.data.remote.service.SearchService
@@ -65,4 +67,12 @@ class ServiceModule {
     @Provides
     @Singleton
     fun provideBookmarkService(retrofit: Retrofit) : BookmarkService = retrofit.create(BookmarkService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideMyPageService(retrofit: Retrofit) : MyPageService = retrofit.create(MyPageService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideAlarmService(retrofit : Retrofit) : AlarmService = retrofit.create(AlarmService::class.java)
 }

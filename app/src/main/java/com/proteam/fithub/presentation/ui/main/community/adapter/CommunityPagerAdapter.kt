@@ -6,7 +6,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.proteam.fithub.presentation.ui.main.community.article.ArticleFragment
 import com.proteam.fithub.presentation.ui.main.community.record.RecordFragment
 
-class CommunityPagerAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
+class CommunityPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     var fragments = mutableListOf<Fragment>()
 
     override fun getItemCount(): Int = fragments.size

@@ -19,6 +19,9 @@ class InterestExerciseViewModel @Inject constructor(private val exerciseReposito
     private val _selectedExercises = MutableLiveData<Int>()
     val selectExercises: LiveData<Int> = _selectedExercises
 
+    private val _modifyStatus = MutableLiveData<Int>()
+    val modifyStatue : LiveData<Int> = _modifyStatus
+
     fun requestExercises() {
         viewModelScope.launch {
             exerciseRepository.requestExercises()
@@ -28,5 +31,19 @@ class InterestExerciseViewModel @Inject constructor(private val exerciseReposito
 
     fun setInterestSports(sportsId: Int) {
         _selectedExercises.value = sportsId
+    }
+
+    fun requestMainExercise() {
+        viewModelScope.launch {
+            exerciseRepository.requestMainExercises()
+                .onSuccess { _selectedExercises.value = it.currentExerciseCategory }
+        }
+    }
+
+    fun requestModifyExercise() {
+        viewModelScope.launch {
+            exerciseRepository.requestModifyMainExercise(_selectedExercises.value!!)
+                .onSuccess { _modifyStatus.value = it.code }
+        }
     }
 }

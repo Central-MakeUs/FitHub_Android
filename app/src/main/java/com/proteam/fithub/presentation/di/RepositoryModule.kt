@@ -1,22 +1,26 @@
 package com.proteam.fithub.presentation.di
 
+import com.proteam.fithub.data.remote.repository.AlarmRepositoryImpl
 import com.proteam.fithub.data.remote.repository.ArticleRepositoryImpl
 import com.proteam.fithub.data.remote.repository.BookmarkRepositoryImpl
 import com.proteam.fithub.data.remote.repository.CertificateRepositoryImpl
 import com.proteam.fithub.data.remote.repository.CommentRepositoryImpl
 import com.proteam.fithub.data.remote.repository.ExerciseRepositoryImpl
 import com.proteam.fithub.data.remote.repository.HomeRepositoryImpl
+import com.proteam.fithub.data.remote.repository.MyPageRepositoryImpl
 import com.proteam.fithub.data.remote.repository.RecordRepositoryImpl
 import com.proteam.fithub.data.remote.repository.ReportRepositoryImpl
 import com.proteam.fithub.data.remote.repository.SearchRepositoryImpl
 import com.proteam.fithub.data.remote.repository.SignInRepositoryImpl
 import com.proteam.fithub.data.remote.repository.SignUpRepositoryImpl
+import com.proteam.fithub.domain.repository.AlarmRepository
 import com.proteam.fithub.domain.repository.ArticleRepository
 import com.proteam.fithub.domain.repository.BookmarkRepository
 import com.proteam.fithub.domain.repository.CertificateRepository
 import com.proteam.fithub.domain.repository.CommentRepository
 import com.proteam.fithub.domain.repository.ExerciseRepository
 import com.proteam.fithub.domain.repository.HomeRepository
+import com.proteam.fithub.domain.repository.MyPageRepository
 import com.proteam.fithub.domain.repository.RecordRepository
 import com.proteam.fithub.domain.repository.ReportRepository
 import com.proteam.fithub.domain.repository.SearchRepository
@@ -62,4 +66,10 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindBookmarkRepository(bookmarkRepositoryImpl: BookmarkRepositoryImpl) : BookmarkRepository
+
+    @Binds
+    abstract fun bindMyPageRepository(myPageRepositoryImpl: MyPageRepositoryImpl) : MyPageRepository
+
+    @Binds
+    abstract fun bindAlarmRepository(alarmRepositoryImpl: AlarmRepositoryImpl) : AlarmRepository
 }

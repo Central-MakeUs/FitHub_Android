@@ -1,9 +1,11 @@
 package com.proteam.fithub.domain.repository
 
 import androidx.paging.PagingData
+import com.proteam.fithub.data.remote.request.RequestDeleteMyCertificate
 import com.proteam.fithub.data.remote.response.ResponseCertificateData
 import com.proteam.fithub.data.remote.response.ResponseCertificateDetailData
 import com.proteam.fithub.data.remote.response.ResponseCertificateHeartClicked
+import com.proteam.fithub.data.remote.response.ResponseMyCertificateData
 import com.proteam.fithub.data.remote.response.ResponsePostCertificateData
 import com.proteam.fithub.presentation.util.BaseResponse
 import kotlinx.coroutines.flow.Flow
@@ -22,4 +24,8 @@ interface CertificateRepository {
     suspend fun requestDeleteCertificateData(recordId: Int) : Result<BaseResponse>
 
     suspend fun requestModifyCertificateData(recordId: Int, category : Int, contents : String, exerciseTag : String, hashTagList : List<String>?, newImage : MultipartBody.Part?, remainImageUrl : String?) : Result<ResponsePostCertificateData>
+
+    fun requestMyCertificateData(category : Int) : Flow<PagingData<ResponseMyCertificateData.ResultMyCertificateData>>
+
+    suspend fun requestDeleteMyCertificateData(body : RequestDeleteMyCertificate) : Result<BaseResponse>
 }

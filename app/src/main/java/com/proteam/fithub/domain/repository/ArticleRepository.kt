@@ -5,6 +5,8 @@ import com.proteam.fithub.data.remote.response.ResponseArticleData
 import com.proteam.fithub.data.remote.response.ResponseArticleDetailData
 import com.proteam.fithub.data.remote.response.ResponseArticleHeartClicked
 import com.proteam.fithub.data.remote.response.ResponseArticleScrapClicked
+import com.proteam.fithub.data.remote.response.ResponseMyArticleData
+import com.proteam.fithub.data.remote.response.ResponseMyCertificateData
 import com.proteam.fithub.data.remote.response.ResponsePostArticleData
 import com.proteam.fithub.presentation.util.BaseResponse
 import kotlinx.coroutines.flow.Flow
@@ -43,4 +45,6 @@ interface ArticleRepository {
         remainPictureUrlList : List<String>?
     ): Result<ResponsePostArticleData>
     suspend fun requestDeleteArticleData(articleId: Int) : Result<BaseResponse>
+
+    fun requestMyArticleData(category : Int) : Flow<PagingData<ResponseMyArticleData.ResultMyArticleData>>
 }
