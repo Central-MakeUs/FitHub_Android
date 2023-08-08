@@ -47,4 +47,6 @@ interface ArticleRepository {
     suspend fun requestDeleteArticleData(articleId: Int) : Result<BaseResponse>
 
     fun requestMyArticleData(category : Int) : Flow<PagingData<ResponseMyArticleData.ResultMyArticleData>>
+
+    fun requestOtherUserArticleData(userId: Int, categoryId: Int): Flow<PagingData<ResponseArticleData.ResultArticleData>>
 }

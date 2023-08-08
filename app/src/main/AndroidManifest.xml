@@ -106,6 +106,10 @@
         <activity android:name=".presentation.ui.manageinfo.ManageMyInfoActivity"
             android:exported="false" />
 
+        <!-- OtherUserProfile -->
+        <activity android:name=".presentation.ui.otheruser.OtherUserProfileActivity"
+            android:exported="false" />
+
         <!-- Push Alarm -->
         <service
             android:name=".data.remote.fcm.FirebaseMessagingService"

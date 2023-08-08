@@ -162,6 +162,7 @@
     <string name="my_page_manage_my_write">내 글 관리</string>
     <string name="my_page_version_info">버전 정보</string>
     <string name="my_page_sign_out">로그아웃</string>
+    <string name="my_page_change_to_default_image">프로필 사진 삭제</string>
 
     <!-- 내 글 관리 -->
     <string name="manage_my_write_title">내 글 관리</string>

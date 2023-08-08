@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        viewModel.requestCheckAlarmAvailable()
     }
 
     private fun initBinding() {
@@ -75,6 +76,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun changeFragments(fragment : Fragment, tag : String) {
         viewModel.setFragmentTag(tag)
+        viewModel.requestCheckAlarmAvailable()
         supportFragmentManager.beginTransaction().replace(R.id.main_layout_container, fragment).commit()
     }
 

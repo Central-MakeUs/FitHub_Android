@@ -13,7 +13,8 @@ import com.proteam.fithub.databinding.ItemCommunityCommentBinding
 class CommunityDetailCommentAdapter
     (
     private val onHeartClicked: (Int, Int) -> Unit,
-    private val onOptionClicked: (Int, Int) -> Unit
+    private val onOptionClicked: (Int, Int) -> Unit,
+    private val userProfileClicked: (Int) -> Unit
 ) :
     PagingDataAdapter<ResponseCommentData.ResultCommentItems, CommunityDetailCommentAdapter.CommunityDetailCommentViewHolder>(
         diffCallback
@@ -26,6 +27,8 @@ class CommunityDetailCommentAdapter
             binding.itemCommunityCommentLayoutUser.getUserData(item.userInfo, item.createdAt)
             binding.itemCommunityCommentIvHeart.setOnClickListener { onHeartClicked.invoke(absoluteAdapterPosition, item.commentId) }
             binding.itemCommunityCommentBtnEtc.setOnClickListener { onOptionClicked.invoke(item.userInfo.ownerId, item.commentId) }
+
+            binding.itemCommunityCommentLayoutUser.userProfileImage().setOnClickListener { userProfileClicked.invoke(binding.itemCommunityCommentLayoutUser.userPK()) }
         }
     }
 

@@ -1,14 +1,20 @@
 package com.proteam.fithub.presentation.ui.main.mypage
 
 import android.app.ActionBar.LayoutParams
+import android.app.Activity
 import android.content.Intent
+import android.database.Cursor
 import android.graphics.Point
 import android.graphics.Rect
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -25,6 +31,8 @@ import com.proteam.fithub.presentation.ui.main.mypage.adapter.MyPageUpperMenuAda
 import com.proteam.fithub.presentation.ui.main.mypage.viewmodel.MyPageViewModel
 import com.proteam.fithub.presentation.ui.manageinfo.ManageMyInfoActivity
 import com.proteam.fithub.presentation.ui.managewrite.ManageMyWriteActivity
+import com.proteam.fithub.presentation.util.ConvertBitmap.ConvertWhenSingle
+import com.proteam.fithub.presentation.util.ConvertBitmap.deletePic
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,6 +46,7 @@ class MyPageFragment : Fragment() {
         MyPageUpperMenuAdapter(returnUpperMenuTitles(), ::onUpperMenuClicked)
     }
 
+    private lateinit var deletePath : Uri
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -101,6 +110,17 @@ class MyPageFragment : Fragment() {
         startActivity(Intent(requireActivity(), ManageMyWriteActivity::class.java))
     }
 
+    fun onProfileChangeToDefaultClicked() {
+        viewModel.requestProfileToDefault()
+        observeDeleteProfileStatus()
+    }
+
+    private fun observeDeleteProfileStatus() {
+        viewModel.deleteProfileStatus.observe(viewLifecycleOwner) {
+            if(it == 2000) viewModel.requestMyPageData()
+        }
+    }
+
     private fun onUpperMenuClicked(position : Int) {
         when(position) {
             0 -> startActivity(Intent(requireActivity(), ManageMyInfoActivity::class.java))
@@ -108,6 +128,49 @@ class MyPageFragment : Fragment() {
             2 -> {} //학원 등록 요청
             3 -> {} //약관 및 정책
         }
+    }
+
+    fun onGalleryOpen() {
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_PICK
+        this.requestGalleryActivity.launch(intent)
+    }
+
+    private val requestGalleryActivity =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK && it.data?.data != null) {
+                if (it?.data?.clipData == null) {
+                    it.data!!.data?.let { it1 ->
+                        deletePath = it1.Convert()
+                        viewModel.setUserSelectedProfile(deletePath.getAbsolutePath())
+                        observeChangeStatus()
+                    }
+                }
+            }
+        }
+
+    private fun observeChangeStatus() {
+        viewModel.changeProfileStatus.observe(viewLifecycleOwner) {
+            if(it == 2000) {
+                viewModel.requestMyPageData()
+                deletePath.deletePic(requireActivity())
+            }
+        }
+    }
+
+    private fun Uri.Convert() : Uri {
+        val res = (this.getAbsolutePath()).ConvertWhenSingle(requireContext())
+
+        return "content://${res.substring(9)}".toUri()
+    }
+
+    private fun Uri.getAbsolutePath() : String {
+        val proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
+        val c : Cursor = requireActivity().contentResolver.query(this, proj, null, null, null)!!
+        val index = c.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+        c.moveToFirst()
+        return c.getString(index)
     }
 
     /** Dummy **/

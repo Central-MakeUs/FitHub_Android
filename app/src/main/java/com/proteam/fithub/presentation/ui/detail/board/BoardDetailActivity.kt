@@ -20,6 +20,7 @@ import com.proteam.fithub.presentation.ui.detail.board.adapter.BoardImageAdapter
 import com.proteam.fithub.presentation.ui.detail.board.image.FullSizeImageFragment
 import com.proteam.fithub.presentation.ui.detail.board.viewmodel.BoardDetailViewModel
 import com.proteam.fithub.presentation.ui.detail.common.CommentViewModel
+import com.proteam.fithub.presentation.ui.otheruser.OtherUserProfileActivity
 import com.proteam.fithub.presentation.ui.write.board.WriteOrModifyBoardActivity
 import com.proteam.fithub.presentation.util.CustomSnackBar
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,7 +37,7 @@ class BoardDetailActivity : AppCompatActivity() {
     }
 
     private val commentAdapter by lazy {
-        CommunityDetailCommentAdapter(::onCommentHeartClicked, ::onCommentOptionClicked)
+        CommunityDetailCommentAdapter(::onCommentHeartClicked, ::onCommentOptionClicked, ::commentUserProfileClicked)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,7 +63,12 @@ class BoardDetailActivity : AppCompatActivity() {
 
     private fun observeDetailData() {
         viewModel.articleData.observe(this) { it ->
-            binding.boardDetailLayoutUser.getUserData(it.userInfo, it.createdAt)
+            binding.boardDetailLayoutUser.apply {
+                getUserData(it.userInfo, it.createdAt)
+                userProfileImage().setOnClickListener {it1 ->
+                    startActivity(Intent(this@BoardDetailActivity, OtherUserProfileActivity::class.java).setType(it.userInfo.ownerId.toString()))
+                }
+            }
             binding.data = it
             binding.tag = it.hashtags.hashtags?.map { "#${it.name}" }?.joinToString(" ")
             requestComment()
@@ -238,6 +244,10 @@ class BoardDetailActivity : AppCompatActivity() {
     private fun reportCommentUser(user : Int?) {
         viewModel.requestReportUser(user!!)
         observeReportUserStatus("Comment")
+    }
+
+    private fun commentUserProfileClicked(index : Int) {
+        startActivity(Intent(this, OtherUserProfileActivity::class.java).setType(index.toString()))
     }
 
     private fun observeReportCommentStatus() {

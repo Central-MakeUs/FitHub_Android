@@ -1,5 +1,6 @@
 package com.proteam.fithub.presentation.ui.main.home
 
+import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
@@ -21,6 +22,7 @@ import com.proteam.fithub.presentation.ui.main.MainViewModel
 import com.proteam.fithub.presentation.ui.main.home.adapter.HomeBestRankAdapter
 import com.proteam.fithub.presentation.ui.main.home.adapter.HomeNearGymAdapter
 import com.proteam.fithub.presentation.ui.main.home.viewmodel.HomeViewModel
+import com.proteam.fithub.presentation.ui.otheruser.OtherUserProfileActivity
 import com.proteam.fithub.presentation.util.CustomSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,7 +35,7 @@ class HomeFragment : Fragment() {
         HomeNearGymAdapter(::onGymClicked)
     }
     private val rankingAdapter : HomeBestRankAdapter by lazy {
-        HomeBestRankAdapter()
+        HomeBestRankAdapter(::onProfileClicked)
     }
 
     override fun onCreateView(
@@ -136,5 +138,9 @@ class HomeFragment : Fragment() {
 
     fun onMyLevelInfoClicked() {
         (requireActivity() as MainActivity).openMyLevelActivity()
+    }
+
+    private fun onProfileClicked(index : Int) {
+        startActivity(Intent(requireActivity(), OtherUserProfileActivity::class.java).setType(index.toString()))
     }
 }

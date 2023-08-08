@@ -14,7 +14,6 @@ class BoardImageAdapter (
     inner class BoardImageViewHolder(private val binding : ItemRvCommunityBoardImageBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item : ResponseArticleDetailData.ArticlePictureResult) {
             binding.path = item.pictureUrl
-
             binding.root.setOnClickListener { onImageClick.invoke(absoluteAdapterPosition) }
         }
     }

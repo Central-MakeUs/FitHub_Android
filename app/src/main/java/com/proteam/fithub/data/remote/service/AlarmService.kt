@@ -1,5 +1,6 @@
 package com.proteam.fithub.data.remote.service
 
+import com.proteam.fithub.data.remote.response.ResponseAlarmAvailableData
 import com.proteam.fithub.data.remote.response.ResponseAlarmData
 import com.proteam.fithub.presentation.util.BaseResponse
 import retrofit2.Response
@@ -17,4 +18,7 @@ interface AlarmService {
     suspend fun requestAlarmReadData(
         @Path("alarmId") alarmId : Int
     ) : Response<BaseResponse>
+
+    @GET("user/my-alarm")
+    suspend fun requestAlarmAvailable() : Response<ResponseAlarmAvailableData>
 }

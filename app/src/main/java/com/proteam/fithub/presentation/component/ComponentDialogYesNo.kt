@@ -59,6 +59,7 @@ class ComponentDialogYesNo(private val onActionClick : () -> Unit) : DialogFragm
             "4018" -> case_4018()
             "BACK_PRESSED_WHILE_WRITE" -> case_BACK_PRESSED_WHILE_WRITE()
             "MY_CERTIFICATE_ARTICLE" -> case_MY_CERTIFICATE_ARTICLE()
+            "SIGN_OUT" -> case_SIGN_OUT()
         }
     }
 
@@ -90,6 +91,12 @@ class ComponentDialogYesNo(private val onActionClick : () -> Unit) : DialogFragm
         binding.componentDialogTvTitle.text = "게시글을 삭제하시겠어요?"
         binding.componentDialogTvNotice.text = "해당 게시글은 영구 삭제됩니다."
         binding.componentDialogTvAction.text = "삭제"
+    }
+
+    private fun case_SIGN_OUT() {
+        binding.componentDialogTvTitle.text = "정말 핏허브를 탈퇴하시겠어요?"
+        binding.componentDialogTvNotice.text = "지금까지의 운동 기록 및 레벨 성장이 사라져요!"
+        binding.componentDialogTvAction.text = "탈퇴"
     }
 
     fun onActionClick() {
