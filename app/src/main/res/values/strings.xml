@@ -40,6 +40,7 @@
     <string name="common_see_more">더보기</string>
     <string name="common_certificate">운동인증</string>
     <string name="common_board">핏사이트</string>
+    <string name="common_select_all">전체선택</string>
 
 
 
@@ -162,5 +163,6 @@
 
     <!-- 내 글 관리 -->
     <string name="manage_my_write_title">내 글 관리</string>
+    <string name="remove_selection">선택삭제</string>
 
 </resources>

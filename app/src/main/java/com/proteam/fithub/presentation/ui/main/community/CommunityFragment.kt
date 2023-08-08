@@ -29,7 +29,7 @@ class CommunityFragment : Fragment() {
     private lateinit var binding : FragmentCommunityBinding
     private val viewModel : CommunityViewModel by activityViewModels()
     private val pagerAdapter by lazy {
-        CommunityPagerAdapter(requireActivity()).also {
+        CommunityPagerAdapter(this).also {
             it.setFragments()
         }
     }

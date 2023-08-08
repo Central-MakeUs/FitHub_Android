@@ -1,5 +1,6 @@
 package com.proteam.fithub.domain.source
 
+import com.proteam.fithub.data.remote.request.RequestDeleteMyCertificate
 import com.proteam.fithub.data.remote.response.ResponseCertificateDetailData
 import com.proteam.fithub.data.remote.response.ResponseCertificateHeartClicked
 import com.proteam.fithub.data.remote.response.ResponsePostCertificateData
@@ -17,4 +18,6 @@ interface CertificateSource {
     suspend fun requestDeleteCertificateData(recordId: Int) : Result<BaseResponse>
 
     suspend fun requestModifyCertificateData(recordId: Int, category : Int, contents : String, exerciseTag : String, hashTagList : List<String>?, newImage : MultipartBody.Part?, remainImageUrl : String?) : Result<ResponsePostCertificateData>
+
+    suspend fun requestDeleteMyCertificateData(body : RequestDeleteMyCertificate) : Result<BaseResponse>
 }

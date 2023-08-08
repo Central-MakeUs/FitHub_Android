@@ -4,6 +4,7 @@ import com.proteam.fithub.data.remote.response.ResponseArticleData
 import com.proteam.fithub.data.remote.response.ResponseArticleDetailData
 import com.proteam.fithub.data.remote.response.ResponseArticleHeartClicked
 import com.proteam.fithub.data.remote.response.ResponseArticleScrapClicked
+import com.proteam.fithub.data.remote.response.ResponseMyArticleData
 import com.proteam.fithub.data.remote.response.ResponsePostArticleData
 import com.proteam.fithub.presentation.util.BaseResponse
 import okhttp3.MultipartBody
@@ -78,4 +79,10 @@ interface ArticleService {
     suspend fun deleteArticleData(
         @Path("articleId") articleId: Int
     ) : Response<BaseResponse>
+
+    @GET("users/articles/{categoryId}")
+    suspend fun requestMyArticleData(
+        @Path("categoryId") categoryId : Int,
+        @Query("pageIndex") pageIndex: Int
+    ) : ResponseMyArticleData
 }

@@ -23,6 +23,7 @@ import com.proteam.fithub.presentation.ui.changeexercise.ChangeExerciseActivity
 import com.proteam.fithub.presentation.ui.main.mypage.adapter.MyPageExerciseAdapter
 import com.proteam.fithub.presentation.ui.main.mypage.adapter.MyPageUpperMenuAdapter
 import com.proteam.fithub.presentation.ui.main.mypage.viewmodel.MyPageViewModel
+import com.proteam.fithub.presentation.ui.managewrite.ManageMyWriteActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -56,6 +57,7 @@ class MyPageFragment : Fragment() {
     }
 
     private fun initBinding() {
+        binding.fragment = this
         binding.lifecycleOwner = viewLifecycleOwner
     }
 
@@ -95,7 +97,7 @@ class MyPageFragment : Fragment() {
     }
 
     fun onManageMyWriteClicked() {
-
+        startActivity(Intent(requireActivity(), ManageMyWriteActivity::class.java))
     }
 
     /** Dummy **/

@@ -98,6 +98,10 @@
         <activity android:name=".presentation.ui.alarm.AlarmActivity"
             android:exported="false" />
 
+        <!-- Manage My Write -->
+        <activity android:name=".presentation.ui.managewrite.ManageMyWriteActivity"
+            android:exported="false" />
+
         <!-- Push Alarm -->
         <service
             android:name=".data.remote.fcm.FirebaseMessagingService"
