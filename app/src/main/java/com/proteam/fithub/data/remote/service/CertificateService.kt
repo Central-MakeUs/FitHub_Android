@@ -23,7 +23,6 @@ import retrofit2.http.Query
 import java.util.Base64.Encoder
 
 interface CertificateService {
-
     @GET("/records/{categoryId}")
     suspend fun requestCertificateData(
         @Path("categoryId") categoryId : Int,
@@ -82,7 +81,7 @@ interface CertificateService {
         @Query ("pageIndex") pageIndex : Int
     ) : ResponseMyCertificateData
 
-    @DELETE("records")
+    @PATCH("records")
     suspend fun requestDeleteMyCertificate(
         @Body body : RequestDeleteMyCertificate
     ) : Response<BaseResponse>

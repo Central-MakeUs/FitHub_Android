@@ -8,13 +8,13 @@ import com.proteam.fithub.data.remote.response.ResponseArticleDetailData
 import com.proteam.fithub.databinding.ItemRvCommunityBoardImageBinding
 
 class BoardImageAdapter (
-    private val onImageClick : (Int) -> Unit
+    private val onImageClick : (String) -> Unit
         ) : RecyclerView.Adapter<BoardImageAdapter.BoardImageViewHolder>() {
     var images = mutableListOf<ResponseArticleDetailData.ArticlePictureResult>()
     inner class BoardImageViewHolder(private val binding : ItemRvCommunityBoardImageBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item : ResponseArticleDetailData.ArticlePictureResult) {
             binding.path = item.pictureUrl
-            binding.root.setOnClickListener { onImageClick.invoke(absoluteAdapterPosition) }
+            binding.root.setOnClickListener { onImageClick.invoke(item.pictureUrl) }
         }
     }
 

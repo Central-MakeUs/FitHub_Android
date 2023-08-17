@@ -20,15 +20,15 @@ class SocialSignInViewModel @Inject constructor(private val signInRepo : SignInR
         viewModelScope.launch {
             signInRepo.signInWithKakao(RequestSignInKakao(signatureID.toString()))
                 .onSuccess {
-                    saveUserJWT(it.result.accessToken)
+                    saveUserJWT(it.result.userId, it.result.accessToken)
                     setState(it.code)
                 }
         }
     }
 
-    private fun saveUserJWT(jwt : String) {
+    private fun saveUserJWT(userId : Int, jwt : String) {
         viewModelScope.launch {
-            signInRepo.saveUserData(null, jwt)
+            signInRepo.saveUserData(userId, jwt)
         }
     }
 

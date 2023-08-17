@@ -23,6 +23,9 @@ class OtherUserProfileViewModel @Inject constructor(
     private val exerciseRepository: ExerciseRepository,
     private val myPageRepository: MyPageRepository): ViewModel() {
 
+    private val _otherUserProfileStatus = MutableLiveData<Int>()
+    val otherUserProfileStatus : LiveData<Int> = _otherUserProfileStatus
+
     private val _otherUserProfile = MutableLiveData<ResponseOtherUserProfileData.ResultOtherUserProfileData>()
     val otherUserProfile : LiveData<ResponseOtherUserProfileData.ResultOtherUserProfileData> = _otherUserProfile
 
@@ -54,6 +57,7 @@ class OtherUserProfileViewModel @Inject constructor(
         viewModelScope.launch {
             myPageRepository.requestOtherUserProfile(userId)
                 .onSuccess { _otherUserProfile.value = it }
+                .onFailure { _otherUserProfileStatus.value = it.message?.toInt() }
         }
     }
 

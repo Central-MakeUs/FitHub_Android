@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.proteam.fithub.data.remote.response.ResponseLocationData.LocationItems" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_around_exercise_card">
+
+        <ImageView
+            android:id="@+id/component_location_card_iv_photo"
+            common_iv_radius_5="@{data.imageUrl}"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_margin="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.proteam.fithub.presentation.component.ComponentExerciseLevel
+            android:id="@+id/component_location_card_layout_level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:exercise_level_type="Exercise"
+            android:layout_marginStart="10dp"
+            app:layout_constraintStart_toEndOf="@id/component_location_card_iv_photo"
+            app:layout_constraintTop_toTopOf="@id/component_location_card_iv_photo" />
+
+        <View
+            android:id="@+id/component_location_card_view_divider"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:layout_marginVertical="3dp"
+            android:layout_marginStart="12dp"
+            android:background="@color/icon_disabled"
+            app:layout_constraintBottom_toBottomOf="@id/component_location_card_layout_level"
+            app:layout_constraintStart_toEndOf="@id/component_location_card_layout_level"
+            app:layout_constraintTop_toTopOf="@id/component_location_card_layout_level" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="@{data.dist}"
+            android:textColor="@color/neon_primary"
+            app:layout_constraintBottom_toBottomOf="@id/component_location_card_layout_level"
+            app:layout_constraintStart_toEndOf="@id/component_location_card_view_divider"
+            app:layout_constraintTop_toTopOf="@id/component_location_card_layout_level" />
+
+        <TextView
+            android:id="@+id/component_location_card_tv_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@{data.name}"
+            android:textAppearance="@style/Body_large_medium"
+            android:textColor="@color/text_default"
+            android:maxLines="1"
+            android:gravity="start"
+            android:ellipsize="end"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintStart_toStartOf="@id/component_location_card_layout_level"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/component_location_card_layout_level" />
+
+        <TextView
+            android:id="@+id/component_location_card_tv_address"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:gravity="start"
+            android:maxLines="1"
+            android:text="@{data.roadAddress}"
+            android:ellipsize="end"
+            android:textAppearance="@style/Body_medium_regular"
+            android:textColor="@color/text_sub02"
+            android:layout_marginTop="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/component_location_card_tv_title"
+            app:layout_constraintTop_toBottomOf="@id/component_location_card_tv_title" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{data.phoneNumber}"
+            app:layout_constraintStart_toStartOf="@id/component_location_card_tv_title"
+            app:layout_constraintTop_toBottomOf="@id/component_location_card_tv_address"
+            android:textAppearance="@style/Body_medium_regular"
+            android:textColor="@color/text_sub02" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

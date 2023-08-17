@@ -12,6 +12,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentCommunityArticleBinding
+import com.proteam.fithub.presentation.ui.FitHub
+import com.proteam.fithub.presentation.ui.FitHub.Companion.mSharedPreferences
 import com.proteam.fithub.presentation.ui.main.MainActivity
 import com.proteam.fithub.presentation.ui.main.community.article.adapter.BoardAdapter
 import com.proteam.fithub.presentation.ui.main.community.article.viewmodel.ArticleViewModel
@@ -97,6 +99,14 @@ class ArticleFragment : Fragment() {
     }
 
     private fun onProfileClicked(index : Int) {
-        startActivity(Intent(requireActivity(), OtherUserProfileActivity::class.java).setType(index.toString()))
+        if(index != mSharedPreferences.getString("userId", "0")?.toInt()) {
+            startActivity(
+                Intent(requireActivity(), OtherUserProfileActivity::class.java).setType(
+                    index.toString()
+                )
+            )
+        } else {
+            startActivity(Intent(requireActivity(), MainActivity::class.java).setType("MY_PAGE"))
+        }
     }
 }

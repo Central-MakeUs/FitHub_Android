@@ -18,7 +18,7 @@ interface MyPageService {
     suspend fun requestMyPageData() : Response<ResponseMyPageData>
 
     @GET("/user/my-page/personal-data")
-    suspend fun requestMyInfoData() : Response<ResponseMyInfoData.ResultMyInfoData>
+    suspend fun requestMyInfoData() : Response<ResponseMyInfoData>
 
     @PATCH("/users/my-page/profile/default")
     suspend fun requestChangeProfileToDefault() : Response<BaseResponse>

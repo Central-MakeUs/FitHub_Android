@@ -63,7 +63,6 @@ class CertificateRemoteSource @Inject constructor(private val service : Certific
         newImage: MultipartBody.Part?,
         remainImageUrl: String?
     ): Result<ResponsePostCertificateData> {
-        Log.e("----", "requestModifyCertificateData: ${remainImageUrl}", )
         val res = service.modifyCertificateData(recordId, category, contents.textConverter(), exerciseTag.textConverter(), hashTagList?.listConverter(), newImage, remainImageUrl?.textConverter())
         return when(res.code()) {
             in 200..399 -> Result.success(res.body()!!)
@@ -73,6 +72,7 @@ class CertificateRemoteSource @Inject constructor(private val service : Certific
 
     override suspend fun requestDeleteMyCertificateData(body: RequestDeleteMyCertificate): Result<BaseResponse> {
         val res = service.requestDeleteMyCertificate(body)
+        Log.e("----", "requestDeleteMyCertificateData: ${res.errorBody()?.string()}", )
         return when(res.code()) {
             in 200..399 -> Result.success(res.body()!!)
             else -> Result.failure(IllegalArgumentException(res.errorBody()?.convertAndGetCode().toString()))

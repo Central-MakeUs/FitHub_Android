@@ -172,4 +172,13 @@
     <string name="manage_my_info_title">개인 정보 설정</string>
     <string name="manage_my_info_non_uploaded">미등록</string>
 
+    <!-- 둘러보기 -->
+    <string name="around_hint_toolbar_edt">지역, 시설명으로 검색하기</string>
+    <string name="around_see_map">지도보기</string>
+
+    <!--알림 설정-->
+    <string name="alarm_setting_title">알림 설정</string>
+    <string name="alarm_setting_my_write_alarm">내 게시글 알림</string>
+    <string name="alarm_setting_marketing_alarm">마케팅 메세지 알림</string>
+
 </resources>

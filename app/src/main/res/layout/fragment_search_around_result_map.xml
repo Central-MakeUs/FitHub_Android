@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_around_research"
+            android:drawableStart="@drawable/ic_around_research"
+            android:drawablePadding="4dp"
+            android:gravity="center"
+
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="10dp"
+            android:text="이 지역 재검색"
+            android:textAppearance="@style/Body_medium_medium"
+            android:textColor="@color/text_default"
+            android:translationZ="1dp"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/fg_around_container_map" />
+
+
+        <RelativeLayout
+            android:id="@+id/fg_around_container_map"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="21dp"
+            android:layout_marginBottom="15dp"
+            android:backgroundTint="@color/black"
+
+            android:src="@drawable/ic_around_fab_current_location"
+            app:borderWidth="0dp"
+            app:fabCustomSize="45dp"
+            app:layout_constraintBottom_toTopOf="@id/fg_around_component_location_card"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@color/icon_sub" />
+
+        <com.proteam.fithub.presentation.component.ComponentLocationCard
+            android:id="@+id/fg_around_component_location_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="15dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

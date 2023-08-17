@@ -11,6 +11,7 @@ import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.kakao.sdk.common.KakaoSdk
 import com.proteam.fithub.BuildConfig
+import com.proteam.fithub.presentation.ui.search.around.result.map.SearchAroundResultMapFragment
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
@@ -19,11 +20,13 @@ class FitHub : Application(), LifecycleEventObserver {
 
     companion object {
         lateinit var mSharedPreferences: SharedPreferences
+        lateinit var mapFragment : SearchAroundResultMapFragment
     }
     override fun onCreate() {
         super.onCreate()
 
         mSharedPreferences = applicationContext.getSharedPreferences("FitHub", MODE_PRIVATE)
+        mapFragment = SearchAroundResultMapFragment()
         initKakaoSDK()
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
     }
@@ -33,7 +36,6 @@ class FitHub : Application(), LifecycleEventObserver {
     }
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-        Log.e("----", "onStateChanged: ${event.name}", )
         isForeground = when(event) {
             Lifecycle.Event.ON_START -> {
                 true

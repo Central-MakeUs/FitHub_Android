@@ -3,23 +3,26 @@ package com.proteam.fithub.presentation.ui.main
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.ActivityMainBinding
+import com.proteam.fithub.presentation.ui.FitHub.Companion.mapFragment
 import com.proteam.fithub.presentation.ui.alarm.AlarmActivity
 import com.proteam.fithub.presentation.ui.bookmark.BookMarkActivity
 import com.proteam.fithub.presentation.ui.detail.board.BoardDetailActivity
 import com.proteam.fithub.presentation.ui.detail.certificate.ExerciseCertificateDetailActivity
+import com.proteam.fithub.presentation.ui.main.around.AroundFragment
 import com.proteam.fithub.presentation.ui.main.community.CommunityFragment
 import com.proteam.fithub.presentation.ui.main.community.viewmodel.CommunityViewModel
 import com.proteam.fithub.presentation.ui.main.home.HomeFragment
 import com.proteam.fithub.presentation.ui.main.mypage.MyPageFragment
 import com.proteam.fithub.presentation.ui.mylevel.MyLevelActivity
-import com.proteam.fithub.presentation.ui.search.SearchActivity
+import com.proteam.fithub.presentation.ui.search.around.AroundSearchActivity
+import com.proteam.fithub.presentation.ui.search.around.result.map.SearchAroundResultMapFragment
+import com.proteam.fithub.presentation.ui.search.community.SearchActivity
 import com.proteam.fithub.presentation.ui.write.board.WriteOrModifyBoardActivity
 import com.proteam.fithub.presentation.ui.write.certificate.WriteOrModifyCertificateActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,11 +43,17 @@ class MainActivity : AppCompatActivity() {
 
         initBinding()
         initUi()
+
+        checkType()
     }
 
     override fun onResume() {
         super.onResume()
         viewModel.requestCheckAlarmAvailable()
+    }
+
+    private fun checkType() {
+        if(intent.type == "MY_PAGE") openMyPage()
     }
 
     private fun initBinding() {
@@ -62,7 +71,8 @@ class MainActivity : AppCompatActivity() {
             setOnItemSelectedListener {
                 when(it.itemId) {
                     R.id.main_bottom_home -> changeFragments(HomeFragment(), "LOGO")
-                    R.id.main_bottom_community -> changeFragments(CommunityFragment(), "SEARCH")
+                    R.id.main_bottom_community -> changeFragments(CommunityFragment(), "SEARCH_COMMUNITY")
+                    R.id.main_bottom_around -> changeFragments(mapFragment, "SEARCH_AROUND")
                     R.id.main_bottom_my -> changeFragments(MyPageFragment(), "LOGO")
                 }
                 return@setOnItemSelectedListener true
@@ -77,7 +87,8 @@ class MainActivity : AppCompatActivity() {
     private fun changeFragments(fragment : Fragment, tag : String) {
         viewModel.setFragmentTag(tag)
         viewModel.requestCheckAlarmAvailable()
-        supportFragmentManager.beginTransaction().replace(R.id.main_layout_container, fragment).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.main_layout_container, fragment)
+            .commit()
     }
 
     fun openWriteOrModifyCertificate(tag : String) {
@@ -96,8 +107,12 @@ class MainActivity : AppCompatActivity() {
         startActivity(Intent(this, BoardDetailActivity::class.java).setType(index.toString()))
     }
 
-    fun openSearchActivity() {
-        startActivity(Intent(this, SearchActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION))
+    fun openSearchActivity(isCommunity : Boolean) {
+        if(isCommunity) {
+            startActivity(Intent(this, SearchActivity::class.java))
+        } else {
+            startActivity(Intent(this, AroundSearchActivity::class.java))
+        }
     }
 
     fun openMyLevelActivity() {
@@ -147,5 +162,10 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    fun openMyPage() {
+        changeFragments(MyPageFragment(), "LOGO")
+        binding.mainLayoutBottomNavigation.selectedItemId = R.id.main_bottom_my
     }
 }

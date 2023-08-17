@@ -13,6 +13,7 @@ data class ResponseHomeData (
             )
 
             data class RecorderItems (
+                val id : Int,
                 val ranking : Int,
                 val rankingStatus : String,
                 val recorderNickName : String,

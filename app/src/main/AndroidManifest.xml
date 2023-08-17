@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
         android:name=".presentation.ui.FitHub"
@@ -13,12 +15,14 @@
         android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:icon="@drawable/ic_logo"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FitHub_Android"
         tools:targetApi="31">
+
         <activity android:name=".presentation.ui.splash.SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.App.Starting">
@@ -48,9 +52,10 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:host="oauth"
-                    android:scheme="kakao${KAKAO_NATIVE_KEY}" />
+                    android:scheme="kakao${kakao_native_key}" />
             </intent-filter>
         </activity>
+
         <activity android:name=".presentation.ui.write.certificate.WriteOrModifyCertificateActivity"
             android:exported="true" />
 
@@ -63,7 +68,7 @@
             android:exported="false" />
         <activity android:name=".presentation.ui.gallery.view.CustomGalleryActivity"
             android:exported="false" />
-        <activity android:name=".presentation.ui.search.SearchActivity"
+        <activity android:name=".presentation.ui.search.community.SearchActivity"
             android:exported="false" />
 
 
@@ -110,6 +115,14 @@
         <activity android:name=".presentation.ui.otheruser.OtherUserProfileActivity"
             android:exported="false" />
 
+        <!-- Search Around -->
+        <activity android:name=".presentation.ui.search.around.AroundSearchActivity"
+            android:exported="false" />
+
+        <!-- Alarm Setting -->
+        <activity android:name=".presentation.ui.alarm_setting.AlarmSettingActivity"
+            android:exported="false" />
+
         <!-- Push Alarm -->
         <service
             android:name=".data.remote.fcm.FirebaseMessagingService"
@@ -129,6 +142,10 @@
         <meta-data
             android:name="FITHUB_CHANNEL_NAME"
             android:value="핏허브 알림" />
+
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="${kakao_native_key}"/>
 
     </application>
 

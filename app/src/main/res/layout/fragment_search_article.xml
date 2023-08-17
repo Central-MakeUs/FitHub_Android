@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.proteam.fithub.presentation.ui.search.result.article.viewmodel.SearchResultArticleViewModel" />
+            type="com.proteam.fithub.presentation.ui.search.community.result.article.viewmodel.SearchResultArticleViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -6,6 +6,7 @@ import com.proteam.fithub.data.remote.source.CertificateRemoteSource
 import com.proteam.fithub.data.remote.source.CommentRemoteSource
 import com.proteam.fithub.data.remote.source.ExerciseRemoteSource
 import com.proteam.fithub.data.remote.source.HomeRemoteSource
+import com.proteam.fithub.data.remote.source.LocationRemoteSource
 import com.proteam.fithub.data.remote.source.MyPageRemoteSource
 import com.proteam.fithub.data.remote.source.ReportRemoteSource
 import com.proteam.fithub.data.remote.source.SearchRemoteSource
@@ -17,6 +18,7 @@ import com.proteam.fithub.domain.source.CertificateSource
 import com.proteam.fithub.domain.source.CommentSource
 import com.proteam.fithub.domain.source.ExerciseSource
 import com.proteam.fithub.domain.source.HomeSource
+import com.proteam.fithub.domain.source.LocationSource
 import com.proteam.fithub.domain.source.MyPageSource
 import com.proteam.fithub.domain.source.ReportSource
 import com.proteam.fithub.domain.source.SearchSource
@@ -63,4 +65,7 @@ abstract class SourceModule {
 
     @Binds
     abstract fun bindAlarmRemoteSource(alarmRemoteSource: AlarmRemoteSource) : AlarmSource
+
+    @Binds
+    abstract fun bindLocationRemoteSource(locationRemoteSource: LocationRemoteSource) : LocationSource
 }

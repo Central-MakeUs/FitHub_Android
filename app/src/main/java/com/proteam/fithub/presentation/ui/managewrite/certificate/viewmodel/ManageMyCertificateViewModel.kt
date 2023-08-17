@@ -1,5 +1,6 @@
 package com.proteam.fithub.presentation.ui.managewrite.certificate.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -42,6 +43,7 @@ class ManageMyCertificateViewModel @Inject constructor(private val certificateRe
     fun requestDeleteMyCertificate() {
         viewModelScope.launch {
             selectItems.value?.let {
+                Log.e("----", "requestDeleteMyCertificate: $it", )
                 certificateRepository.requestDeleteMyCertificateData(RequestDeleteMyCertificate(it))
                     .onSuccess { _deleteStatus.value = it.code }
             }

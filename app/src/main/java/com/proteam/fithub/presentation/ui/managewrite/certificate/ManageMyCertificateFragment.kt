@@ -93,6 +93,7 @@ class ManageMyCertificateFragment : Fragment() {
 
     private fun observeDeleteStatus() {
         viewModel.deleteStatus.observe(viewLifecycleOwner) {
+            Log.e("----", "observeDeleteStatus: ${it}", )
             if(it == 2000) certificateAdapter.refresh()
         }
     }

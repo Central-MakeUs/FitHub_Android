@@ -12,6 +12,7 @@ import com.proteam.fithub.R
 import com.proteam.fithub.data.remote.response.ResponseExercises
 import com.proteam.fithub.databinding.ActivityOtherUserProfileBinding
 import com.proteam.fithub.presentation.component.ComponentBottomDialogSelectReportDelete
+import com.proteam.fithub.presentation.component.ComponentDialogOneButton
 import com.proteam.fithub.presentation.component.ComponentDialogYesNo
 import com.proteam.fithub.presentation.component.ComponentDialogYesNoWithParam
 import com.proteam.fithub.presentation.ui.detail.board.BoardDetailActivity
@@ -61,6 +62,12 @@ class OtherUserProfileActivity : AppCompatActivity() {
             binding.data = it
             binding.otherUserProfileExercisesComponentExercise.getExercise(it.mainExerciseInfo.category)
             binding.otherUserProfileExercisesComponentLevel.getLevel(it.mainExerciseInfo.level, it.mainExerciseInfo.gradeName)
+        }
+
+        viewModel.otherUserProfileStatus.observe(this) {
+            if(it == 4064) {
+                ComponentDialogOneButton(::onBackPress).show(supportFragmentManager, "4064")
+            }
         }
     }
 

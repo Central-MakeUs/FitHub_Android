@@ -22,9 +22,8 @@ class MyPageRemoteSource @Inject constructor(private val service : MyPageService
 
     override suspend fun requestMyInfoData(): Result<ResponseMyInfoData.ResultMyInfoData> {
         val res = service.requestMyInfoData()
-        Log.e("----", "requestMyInfoData: ${res} / ${res.body()}", )
         return when(res.code()) {
-            in 200..399 -> Result.success(res.body()!!)
+            in 200..399 -> Result.success(res.body()!!.result)
             else -> Result.failure(IllegalArgumentException(res.errorBody()?.convertAndGetCode().toString()))
         }
     }

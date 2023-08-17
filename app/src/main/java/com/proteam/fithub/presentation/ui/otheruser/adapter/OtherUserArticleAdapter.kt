@@ -1,6 +1,7 @@
 package com.proteam.fithub.presentation.ui.otheruser.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -17,12 +18,13 @@ class OtherUserArticleAdapter(
     inner class OtherUserArticleViewHolder(private val binding: ItemRvCommunityBoardWithoutUserBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ResponseArticleData.ResultArticleData) {
-            binding.data = item.apply { if(!this.exerciseTag.contains("#")) this.exerciseTag = "#${this.exerciseTag}" }
+            binding.data = item.apply { this.exerciseTag?.let { if(!it.contains("#")) this.exerciseTag = "#${this.exerciseTag}" } }
+            binding.itemRvCommunityBoardTvTag.visibility = if(item.exerciseTag == null) View.GONE else View.VISIBLE
             binding.root.setOnClickListener { itemClick.invoke(item.articleId) }
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OtherUserArticleViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OtherUserArticleAdapter.OtherUserArticleViewHolder {
         return OtherUserArticleViewHolder(
             ItemRvCommunityBoardWithoutUserBinding.inflate(
                 LayoutInflater.from(parent.context),
