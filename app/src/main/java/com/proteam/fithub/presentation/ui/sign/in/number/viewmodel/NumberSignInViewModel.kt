@@ -1,5 +1,6 @@
 package com.proteam.fithub.presentation.ui.sign.`in`.number.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,9 +17,10 @@ class NumberSignInViewModel @Inject constructor(private val signInRepository: Si
     private val _signInState = MutableLiveData<Int>()
     val signInState : LiveData<Int> = _signInState
 
-    fun requestSignIn(number : String, password : String) {
+    fun requestSignIn(number : String, password : String, token : String) {
+        Log.e("----", "requestSignIn: $token", )
         viewModelScope.launch {
-            signInRepository.signInWithPhone(RequestSignInPhone(number, password))
+            signInRepository.signInWithPhone(RequestSignInPhone(number, password, token))
                 .onSuccess {
                     _signInState.value = it.code
                     saveUserData(it.result)

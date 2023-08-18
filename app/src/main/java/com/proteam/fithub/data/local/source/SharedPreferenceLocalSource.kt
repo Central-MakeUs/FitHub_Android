@@ -25,4 +25,15 @@ class SharedPreferenceLocalSource : SharedPreferenceSource {
     override suspend fun deleteUserJWT() {
         mSharedPreferences.edit().clear().apply()
     }
+
+    override suspend fun initUserData() {
+        try {
+            mSharedPreferences.edit().apply {
+                remove("jwt")
+                remove("userId")
+            }.commit()
+        } catch (exception : Exception) {
+            throw exception
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package com.proteam.fithub.presentation.ui
 
 import android.app.Application
+import android.app.Dialog
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.Lifecycle
@@ -11,6 +12,7 @@ import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.kakao.sdk.common.KakaoSdk
 import com.proteam.fithub.BuildConfig
+import com.proteam.fithub.presentation.LoadingDialog
 import com.proteam.fithub.presentation.ui.search.around.result.map.SearchAroundResultMapFragment
 import dagger.hilt.android.HiltAndroidApp
 
@@ -20,13 +22,10 @@ class FitHub : Application(), LifecycleEventObserver {
 
     companion object {
         lateinit var mSharedPreferences: SharedPreferences
-        lateinit var mapFragment : SearchAroundResultMapFragment
     }
     override fun onCreate() {
         super.onCreate()
-
         mSharedPreferences = applicationContext.getSharedPreferences("FitHub", MODE_PRIVATE)
-        mapFragment = SearchAroundResultMapFragment()
         initKakaoSDK()
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
     }

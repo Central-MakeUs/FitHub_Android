@@ -1,5 +1,7 @@
 package com.proteam.fithub.data.remote.service
 
+import com.proteam.fithub.data.remote.request.RequestDeleteMyArticles
+import com.proteam.fithub.data.remote.request.RequestDeleteMyCertificate
 import com.proteam.fithub.data.remote.response.ResponseArticleData
 import com.proteam.fithub.data.remote.response.ResponseArticleDetailData
 import com.proteam.fithub.data.remote.response.ResponseArticleHeartClicked
@@ -10,6 +12,7 @@ import com.proteam.fithub.presentation.util.BaseResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Multipart
@@ -92,4 +95,9 @@ interface ArticleService {
         @Path("categoryId") categoryId: Int,
         @Query("pageIndex") pageIndex : Int
     ) : ResponseArticleData
+
+    @PATCH("articles")
+    suspend fun requestDeleteMyArticles(
+        @Body body : RequestDeleteMyArticles
+    ) : Response<BaseResponse>
 }

@@ -9,7 +9,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.ActivityMainBinding
-import com.proteam.fithub.presentation.ui.FitHub.Companion.mapFragment
 import com.proteam.fithub.presentation.ui.alarm.AlarmActivity
 import com.proteam.fithub.presentation.ui.bookmark.BookMarkActivity
 import com.proteam.fithub.presentation.ui.detail.board.BoardDetailActivity
@@ -72,7 +71,7 @@ class MainActivity : AppCompatActivity() {
                 when(it.itemId) {
                     R.id.main_bottom_home -> changeFragments(HomeFragment(), "LOGO")
                     R.id.main_bottom_community -> changeFragments(CommunityFragment(), "SEARCH_COMMUNITY")
-                    R.id.main_bottom_around -> changeFragments(mapFragment, "SEARCH_AROUND")
+                    R.id.main_bottom_around -> changeFragments(SearchAroundResultMapFragment(), "SEARCH_AROUND")
                     R.id.main_bottom_my -> changeFragments(MyPageFragment(), "LOGO")
                 }
                 return@setOnItemSelectedListener true

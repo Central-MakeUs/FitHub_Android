@@ -123,6 +123,11 @@
         <activity android:name=".presentation.ui.alarm_setting.AlarmSettingActivity"
             android:exported="false" />
 
+        <!-- Change Password -->
+        <activity android:name=".presentation.ui.change_password.ChangePasswordActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
+
         <!-- Push Alarm -->
         <service
             android:name=".data.remote.fcm.FirebaseMessagingService"

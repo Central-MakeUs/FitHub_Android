@@ -1,5 +1,6 @@
 package com.proteam.fithub.presentation.ui.manageinfo
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +9,9 @@ import com.proteam.fithub.R
 import com.proteam.fithub.databinding.ActivityManageMyInfoBinding
 import com.proteam.fithub.presentation.component.ComponentDialogOneButton
 import com.proteam.fithub.presentation.component.ComponentDialogYesNo
+import com.proteam.fithub.presentation.ui.FitHub
+import com.proteam.fithub.presentation.ui.change_password.ChangePasswordActivity
+import com.proteam.fithub.presentation.ui.main.MainActivity
 import com.proteam.fithub.presentation.ui.manageinfo.viewmodel.ManageMyInfoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -35,14 +39,26 @@ class ManageMyInfoActivity : AppCompatActivity() {
     }
 
     fun onSignOutClicked() {
-        ComponentDialogYesNo(::onSignOutFinished).show(supportFragmentManager, "SIGN_OUT")
+        ComponentDialogYesNo(::requestSignOut).show(supportFragmentManager, "SIGN_OUT")
     }
 
-    private fun onSignOutFinished() {
-        ComponentDialogOneButton(::afterSignOut).show(supportFragmentManager, "SIGN_OUT")
+    private fun requestSignOut() {
+        viewModel.requestSignOut()
+        observeSignOutState()
+    }
+
+    private fun observeSignOutState() {
+        viewModel.signOutState.observe(this) {
+            if(it == 2000) ComponentDialogOneButton(::afterSignOut).show(supportFragmentManager, "SIGN_OUT")
+        }
+    }
+
+    fun openChangePasswordActivity() {
+        startActivity(Intent(this, ChangePasswordActivity::class.java))
     }
 
     private fun afterSignOut() {
+        setResult(RESULT_OK, Intent(this, MainActivity::class.java).putExtra("state", true))
         finish()
     }
 

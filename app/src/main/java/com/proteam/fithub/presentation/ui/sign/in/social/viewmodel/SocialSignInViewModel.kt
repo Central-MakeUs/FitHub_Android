@@ -26,6 +26,10 @@ class SocialSignInViewModel @Inject constructor(private val signInRepo : SignInR
         }
     }
 
+    fun initState() {
+        setState(0)
+    }
+
     private fun saveUserJWT(userId : Int, jwt : String) {
         viewModelScope.launch {
             signInRepo.saveUserData(userId, jwt)

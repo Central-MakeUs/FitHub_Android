@@ -1,7 +1,9 @@
 package com.proteam.fithub.data.remote.repository
 
 import com.proteam.fithub.data.remote.request.RequestChangePassword
+import com.proteam.fithub.data.remote.request.RequestChangePasswordOnMyPage
 import com.proteam.fithub.data.remote.request.RequestCheckSMSAuth
+import com.proteam.fithub.data.remote.request.RequestPasswordExist
 import com.proteam.fithub.data.remote.request.RequestPhoneNumberAvailable
 import com.proteam.fithub.data.remote.request.RequestSMSAuth
 import com.proteam.fithub.data.remote.response.ResponseChangePassword
@@ -35,9 +37,10 @@ class SignUpRepositoryImpl @Inject constructor(private val source : SignUpSource
         birth: String,
         gender: String,
         preferExercises: Int,
-        profileImage: MultipartBody.Part?
+        profileImage: MultipartBody.Part?,
+        fcmToken : String
     ): Result<ResponseSignUpWithPhone> {
-        return source.requestSignUpWithPhone(marketingAgree, phoneNumber, name, nickname, password, birth, gender, preferExercises, profileImage)
+        return source.requestSignUpWithPhone(marketingAgree, phoneNumber, name, nickname, password, birth, gender, preferExercises, profileImage, fcmToken)
     }
 
     override suspend fun requestSignUpWithSocial(
@@ -47,9 +50,10 @@ class SignUpRepositoryImpl @Inject constructor(private val source : SignUpSource
         birth: String,
         gender: String,
         preferExercises: Int,
-        profileImage: MultipartBody.Part?
+        profileImage: MultipartBody.Part?,
+        fcmToken: String
     ): Result<ResponseSignUp> {
-        return source.requestSignUpWithSocial(marketingAgree, name, nickname, birth, gender, preferExercises, profileImage)
+        return source.requestSignUpWithSocial(marketingAgree, name, nickname, birth, gender, preferExercises, profileImage, fcmToken)
     }
 
     override suspend fun requestChangePassword(body: RequestChangePassword): Result<ResponseChangePassword> {
@@ -58,5 +62,13 @@ class SignUpRepositoryImpl @Inject constructor(private val source : SignUpSource
 
     override suspend fun requestExistPhone(type : Int, body: RequestPhoneNumberAvailable): Result<BaseResponse> {
         return source.requestExistPhone(type, body)
+    }
+
+    override suspend fun requestExistPassword(body: RequestPasswordExist): Result<BaseResponse> {
+        return source.requestExistPassword(body)
+    }
+
+    override suspend fun requestChangePasswordOnMyPage(body: RequestChangePasswordOnMyPage): Result<ResponseChangePassword> {
+        return source.requestChangePasswordOnMyPage(body)
     }
 }

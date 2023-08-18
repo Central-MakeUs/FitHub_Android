@@ -53,6 +53,10 @@ class AlarmActivity : AppCompatActivity() {
                 alarmAdapter.submitData(it)
             }
         }
+
+        alarmAdapter.addLoadStateListener {
+            binding.alarmLayoutArticleNone.visibility = if(it.append.endOfPaginationReached && alarmAdapter.itemCount == 0) View.VISIBLE else View.GONE
+        }
     }
 
     private fun initBinding() {

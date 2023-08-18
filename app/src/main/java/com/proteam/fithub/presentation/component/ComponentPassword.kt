@@ -176,7 +176,7 @@ class ComponentPassword(context: Context, attrs: AttributeSet) : ConstraintLayou
     }
 
     private fun setDeleteIconStatus(focus: Boolean) {
-        binding.componentEdtInputPasswordBtnClear.visibility = if (focus) VISIBLE else GONE
+        binding.componentEdtInputPasswordBtnClear.visibility = if (focus && binding.componentEdtInputPasswordEdtContent.text.isNotEmpty()) VISIBLE else GONE
     }
 
     /** Set Status **/

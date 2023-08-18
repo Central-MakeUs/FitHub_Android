@@ -9,6 +9,7 @@ interface SignInSource {
 
     suspend fun autoSignIn() : Result<BaseResponse>
     suspend fun signInWithKakao(body : RequestSignInKakao) : Result<ResponseSignIn>
-
     suspend fun signInWithPhone(body : RequestSignInPhone) : Result<ResponseSignIn>
+
+    suspend fun requestSignOut() : Result<BaseResponse>
 }

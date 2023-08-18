@@ -124,6 +124,29 @@
             app:layout_constraintTop_toBottomOf="@id/manage_my_info_tv_phone_number" />
 
         <TextView
+            android:id="@+id/manage_my_info_tv_change_password"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/change_password_change_title"
+            android:textAppearance="@style/Body_large_medium"
+            android:textColor="@color/text_default"
+            android:layout_marginTop="27dp"
+            android:onClick="@{() -> activity.openChangePasswordActivity()}"
+            app:layout_constraintTop_toBottomOf="@id/manage_my_info_view_divider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/manage_my_info_tv_name" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_chevron_right"
+            android:layout_marginEnd="20dp"
+            app:tint="@color/icon_sub"
+            app:layout_constraintTop_toTopOf="@id/manage_my_info_tv_change_password"
+            app:layout_constraintBottom_toBottomOf="@id/manage_my_info_tv_change_password"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
             android:id="@+id/manage_my_info_tv_sign_out"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -132,9 +155,9 @@
             android:textColor="@color/text_default"
             android:layout_marginTop="27dp"
             android:onClick="@{() -> activity.onSignOutClicked()}"
-            app:layout_constraintTop_toBottomOf="@id/manage_my_info_view_divider"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/manage_my_info_tv_name" />
+            app:layout_constraintTop_toBottomOf="@id/manage_my_info_tv_change_password"
+            app:layout_constraintStart_toStartOf="@id/manage_my_info_tv_change_password"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <ImageView
             android:layout_width="wrap_content"

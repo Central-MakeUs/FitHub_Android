@@ -14,4 +14,8 @@ interface SignInRepository {
     suspend fun signInWithPhone(body : RequestSignInPhone) : Result<ResponseSignIn>
 
     suspend fun saveUserData(userId : Int?, accessToken : String?)
+
+    suspend fun requestSignOut() : Result<BaseResponse>
+
+    suspend fun initUserData()
 }

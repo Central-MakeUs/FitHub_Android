@@ -21,7 +21,6 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.ActivityAroundSearchBinding
-import com.proteam.fithub.presentation.ui.FitHub.Companion.mapFragment
 import com.proteam.fithub.presentation.ui.search.around.none.SearchAroundNoneFragment
 import com.proteam.fithub.presentation.ui.search.around.normal.SearchAroundDefaultFragment
 import com.proteam.fithub.presentation.ui.search.around.result.list.SearchAroundResultFragment
@@ -123,7 +122,7 @@ class AroundSearchActivity : AppCompatActivity() {
     }
 
     fun openMapFragment() {
-        mapFragment.changeFragment("Search")
+        //mapFragment.changeFragment("Search")
     }
 
     fun onBackPress() {

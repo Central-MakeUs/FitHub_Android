@@ -1,9 +1,11 @@
 package com.proteam.fithub.presentation.ui.sign.up.social.info
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -16,7 +18,7 @@ import com.proteam.fithub.presentation.ui.sign.up.social.viewmodel.SocialSignUpV
 class SocialInfoFragment : Fragment() {
     private lateinit var binding : FragmentSocialInfoBinding
     private val viewModel : SocialSignUpViewModel by activityViewModels()
-
+    private lateinit var imm: InputMethodManager
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -26,6 +28,7 @@ class SocialInfoFragment : Fragment() {
 
         initBinding()
         initUi()
+        initInputMethodManager()
 
         return binding.root
     }
@@ -52,7 +55,16 @@ class SocialInfoFragment : Fragment() {
 
     fun onNextClicked() {
         setUserData()
+        hideKeyboard()
         (requireActivity() as SocialSignUpActivity).changeFragments(UserProfileFragment())
+    }
+
+    private fun initInputMethodManager() {
+        imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    }
+
+    private fun hideKeyboard() {
+        imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 
     fun nameBinding() = binding.fgSignUpSocialEdtName

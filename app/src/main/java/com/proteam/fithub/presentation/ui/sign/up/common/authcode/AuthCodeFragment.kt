@@ -14,6 +14,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentAuthCodeBinding
+import com.proteam.fithub.presentation.LoadingDialog
 import com.proteam.fithub.presentation.component.ComponentAlertToast
 import com.proteam.fithub.presentation.ui.findpassword.FindPasswordActivity
 import com.proteam.fithub.presentation.ui.findpassword.viewmodel.FindPasswordViewModel
@@ -108,12 +109,12 @@ class AuthCodeFragment : Fragment() {
     }
 
     fun onNextBtnClicked() {
-        hideKeyboard()
         checkRequestCode()
     }
 
 
     private fun checkRequestCode() {
+        showLoadingDialog()
         when (tag) {
             "Number" -> {
                 viewModel.requestCheckSMSAuthCode(
@@ -135,6 +136,7 @@ class AuthCodeFragment : Fragment() {
 
     private fun resultActWhenSignUp() {
         viewModel.authResult.observe(viewLifecycleOwner) {
+            dismissLoadingDialog()
             if (it == 2000) {
                 (requireActivity() as NumberSignUpActivity).changeFragments(PasswordFragment())
                 viewModel.initAuthResult()
@@ -161,4 +163,8 @@ class AuthCodeFragment : Fragment() {
         binding.fgSignUpAuthCodeBtnNext.isEnabled = false
         CustomSnackBar.makeSnackBar(binding.root, code.toString())
     }
+
+    private var loadingDialog = LoadingDialog()
+    private fun showLoadingDialog() = loadingDialog.show(requireActivity().supportFragmentManager, null)
+    private fun dismissLoadingDialog() = loadingDialog.dismiss()
 }

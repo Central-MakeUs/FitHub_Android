@@ -17,6 +17,8 @@ import com.proteam.fithub.presentation.ui.detail.certificate.ExerciseCertificate
 import com.proteam.fithub.presentation.ui.managewrite.article.adapter.ManageMyArticleAdapter
 import com.proteam.fithub.presentation.ui.managewrite.article.viewmodel.ManageMyArticleViewModel
 import com.proteam.fithub.presentation.ui.managewrite.viewmodel.ManageMyWriteViewModel
+import com.proteam.fithub.presentation.ui.write.board.WriteOrModifyBoardActivity
+import com.proteam.fithub.presentation.ui.write.certificate.WriteOrModifyCertificateActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 @AndroidEntryPoint
@@ -42,6 +44,11 @@ class ManageMyArticleFragment : Fragment() {
         initUi()
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        articleAdapter.refresh()
     }
 
     private fun requestMyArticle() {
@@ -71,6 +78,10 @@ class ManageMyArticleFragment : Fragment() {
                 articleAdapter.submitData(it)
             }
         }
+
+        articleAdapter.addLoadStateListener {
+            binding.fgMyArticleLayoutNone.visibility = if(it.append.endOfPaginationReached && articleAdapter.itemCount == 0) View.VISIBLE else View.GONE
+        }
     }
 
 
@@ -87,8 +98,12 @@ class ManageMyArticleFragment : Fragment() {
     }
 
     fun onSelectDeleteClicked() {
-        //viewModel.requestDeleteMyCertificate()
+        viewModel.requestDeleteMyArticles()
         observeDeleteStatus()
+    }
+
+    fun onWriteArticle() {
+        startActivity(Intent(requireActivity(), WriteOrModifyBoardActivity::class.java).setType("Write"))
     }
 
     private fun observeDeleteStatus() {

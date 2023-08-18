@@ -2,6 +2,8 @@ package com.proteam.fithub.presentation.ui.otheruser
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.get
@@ -41,6 +43,7 @@ class OtherUserProfileActivity : AppCompatActivity() {
 
     private fun initBinding() {
         binding.activity = this
+        binding.lifecycleOwner = this
     }
 
     private fun initUi() {
@@ -149,6 +152,10 @@ class OtherUserProfileActivity : AppCompatActivity() {
             viewModel.requestOtherUserArticles(intent.type!!.toInt(), filter).collect {
                 articleAdapter.submitData(it)
             }
+        }
+
+        articleAdapter.addLoadStateListener {
+            binding.otherUserProfileLayoutArticleNone.visibility = if(it.append.endOfPaginationReached && articleAdapter.itemCount == 0) View.VISIBLE else View.GONE
         }
     }
 

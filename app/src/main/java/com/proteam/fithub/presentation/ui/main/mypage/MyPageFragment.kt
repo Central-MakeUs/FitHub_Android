@@ -1,37 +1,32 @@
 package com.proteam.fithub.presentation.ui.main.mypage
 
-import android.app.ActionBar.LayoutParams
 import android.app.Activity
 import android.content.Intent
 import android.database.Cursor
-import android.graphics.Point
-import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.google.android.material.tabs.TabLayoutMediator
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentMypageBinding
-import com.proteam.fithub.presentation.ui.alarm_setting.AlarmSettingActivity
+import com.proteam.fithub.presentation.LoadingDialog
+import com.proteam.fithub.presentation.ui.change_password.ChangePasswordActivity
 import com.proteam.fithub.presentation.ui.changeexercise.ChangeExerciseActivity
 import com.proteam.fithub.presentation.ui.main.mypage.adapter.MyPageExerciseAdapter
 import com.proteam.fithub.presentation.ui.main.mypage.adapter.MyPageUpperMenuAdapter
 import com.proteam.fithub.presentation.ui.main.mypage.viewmodel.MyPageViewModel
 import com.proteam.fithub.presentation.ui.manageinfo.ManageMyInfoActivity
 import com.proteam.fithub.presentation.ui.managewrite.ManageMyWriteActivity
+import com.proteam.fithub.presentation.ui.sign.`in`.social.SocialSignInActivity
 import com.proteam.fithub.presentation.util.ConvertBitmap.ConvertWhenSingle
 import com.proteam.fithub.presentation.util.ConvertBitmap.deletePic
 import dagger.hilt.android.AndroidEntryPoint
@@ -64,7 +59,7 @@ class MyPageFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.requestMyPageData()
+        viewModel.requestMyPageData().also { showLoadingDialog() }
     }
 
     private fun initBinding() {
@@ -91,6 +86,8 @@ class MyPageFragment : Fragment() {
 
     private fun observeMyPageData() {
         viewModel.myPageData.observe(viewLifecycleOwner) {
+            dismissLoadingDialog()
+
             binding.myPageData = it
 
             binding.fgMypageComponentLevel.getLevel(it.myInfo.mainExerciseInfo.level, it.myInfo.mainExerciseInfo.gradeName)
@@ -124,12 +121,23 @@ class MyPageFragment : Fragment() {
 
     private fun onUpperMenuClicked(position : Int) {
         when(position) {
-            0 -> startActivity(Intent(requireActivity(), ManageMyInfoActivity::class.java))
-            1 -> startActivity(Intent(requireActivity(), AlarmSettingActivity::class.java))
+            0 -> requestGotoSignIn.launch(Intent(requireActivity(), ManageMyInfoActivity::class.java))
+            1 -> requestGotoSignIn.launch(Intent(requireActivity(), ChangePasswordActivity::class.java))
             2 -> {} //학원 등록 요청
             3 -> {} //약관 및 정책
         }
     }
+
+    private val requestGotoSignIn=
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == AppCompatActivity.RESULT_OK) {
+                val state = it.data!!.extras?.getBoolean("state")
+                if(state == true) {
+                    requireActivity().finish()
+                    startActivity(Intent(requireActivity(), SocialSignInActivity::class.java))
+                }
+            }
+        }
 
     fun onGalleryOpen() {
         val intent = Intent()
@@ -176,4 +184,9 @@ class MyPageFragment : Fragment() {
 
     /** Dummy **/
     private fun returnUpperMenuTitles() : List<String> = listOf("개인 정보 설정", "알림 설정", "학원 등록 요청", "약관 및 정책")
+
+
+    private var loadingDialog = LoadingDialog()
+    private fun showLoadingDialog() = loadingDialog.show(requireActivity().supportFragmentManager, null)
+    private fun dismissLoadingDialog() = loadingDialog.dismiss()
 }

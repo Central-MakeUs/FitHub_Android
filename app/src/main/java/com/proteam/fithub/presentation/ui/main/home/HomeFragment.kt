@@ -17,13 +17,13 @@ import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.proteam.fithub.R
 import com.proteam.fithub.data.remote.response.ResponseHomeData
 import com.proteam.fithub.databinding.FragmentHomeBinding
+import com.proteam.fithub.presentation.LoadingDialog
 import com.proteam.fithub.presentation.ui.main.MainActivity
 import com.proteam.fithub.presentation.ui.main.MainViewModel
 import com.proteam.fithub.presentation.ui.main.home.adapter.HomeBestRankAdapter
 import com.proteam.fithub.presentation.ui.main.home.adapter.HomeNearGymAdapter
 import com.proteam.fithub.presentation.ui.main.home.viewmodel.HomeViewModel
 import com.proteam.fithub.presentation.ui.otheruser.OtherUserProfileActivity
-import com.proteam.fithub.presentation.util.CustomSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -81,18 +81,18 @@ class HomeFragment : Fragment() {
     }
 
     private fun requestData() {
+        showLoadingDialog()
         viewModel.requestHomeData()
         viewModel.requestExerciseCategory()
         observeHome()
         observeSports()
+        observeTotalStatus()
     }
 
     private fun observeHome() {
         viewModel.homeData.observe(viewLifecycleOwner) {
             if(it.code == 2000) {
                 notifyUi(it.result)
-            } else {
-
             }
         }
     }
@@ -101,6 +101,12 @@ class HomeFragment : Fragment() {
         viewModel.exercises.observe(viewLifecycleOwner) {
             gymAdapter.exercises = it
             gymAdapter.notifyItemRangeChanged(0, it.size)
+        }
+    }
+
+    private fun observeTotalStatus() {
+        viewModel.totalState.observe(viewLifecycleOwner) {
+            if(it) dismissLoadingDialog()
         }
     }
 
@@ -143,4 +149,9 @@ class HomeFragment : Fragment() {
     private fun onProfileClicked(index : Int) {
         startActivity(Intent(requireActivity(), OtherUserProfileActivity::class.java).setType(index.toString()))
     }
+
+
+    private var loadingDialog = LoadingDialog()
+    private fun showLoadingDialog() = loadingDialog.show(requireActivity().supportFragmentManager, null)
+    private fun dismissLoadingDialog() = loadingDialog.dismiss()
 }

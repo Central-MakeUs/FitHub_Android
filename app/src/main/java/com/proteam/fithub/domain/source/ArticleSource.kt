@@ -1,5 +1,7 @@
 package com.proteam.fithub.domain.source
 
+import com.proteam.fithub.data.remote.request.RequestDeleteMyArticles
+import com.proteam.fithub.data.remote.request.RequestDeleteMyCertificate
 import com.proteam.fithub.data.remote.response.ResponseArticleDetailData
 import com.proteam.fithub.data.remote.response.ResponseArticleHeartClicked
 import com.proteam.fithub.data.remote.response.ResponseArticleScrapClicked
@@ -36,5 +38,7 @@ interface ArticleSource {
     ): Result<ResponsePostArticleData>
 
     suspend fun requestDeleteBoardData(articleId: Int) : Result<BaseResponse>
+
+    suspend fun requestDeleteMyArticleData(body : RequestDeleteMyArticles) : Result<BaseResponse>
 
 }

@@ -1,6 +1,5 @@
 package com.proteam.fithub.presentation.ui.main.home.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -24,11 +23,21 @@ class HomeViewModel @Inject constructor(
     private val _exercises = MutableLiveData<MutableList<ResponseExercises.ExercisesList>>()
     val exercises : LiveData<MutableList<ResponseExercises.ExercisesList>> = _exercises
 
+    private val homeState = MutableLiveData<Boolean>(false)
+    private val exerciseState = MutableLiveData<Boolean>(false)
+
+    private val _totalState = MutableLiveData<Boolean>()
+    val totalState : LiveData<Boolean> = _totalState
+
 
     fun requestExerciseCategory() {
         viewModelScope.launch {
             exerciseRepository.requestExercises()
-                .onSuccess { _exercises.value = it as MutableList }
+                .onSuccess {
+                    _exercises.value = it as MutableList
+                    exerciseState.value = true
+                    checkTotalStatus()
+                }
         }
     }
 
@@ -36,8 +45,14 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             homeRepository.requestHomeData()
                 .onSuccess {
-                    Log.e("----", "requestHomeData: $it", )
-                    _homeData.value = it }
+                    _homeData.value = it
+                    homeState.value = true
+                    checkTotalStatus()
+                }
         }
+    }
+
+    private fun checkTotalStatus() {
+        _totalState.value = homeState.value!! && exerciseState.value!!
     }
 }

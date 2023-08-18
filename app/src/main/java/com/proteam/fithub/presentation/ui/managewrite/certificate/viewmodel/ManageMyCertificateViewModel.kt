@@ -43,7 +43,6 @@ class ManageMyCertificateViewModel @Inject constructor(private val certificateRe
     fun requestDeleteMyCertificate() {
         viewModelScope.launch {
             selectItems.value?.let {
-                Log.e("----", "requestDeleteMyCertificate: $it", )
                 certificateRepository.requestDeleteMyCertificateData(RequestDeleteMyCertificate(it))
                     .onSuccess { _deleteStatus.value = it.code }
             }
