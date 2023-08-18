@@ -220,6 +220,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
+                    android:onClick="@{() -> fragment.onLogoutClicked()}"
                     android:layout_marginHorizontal="20dp">
 
                     <TextView

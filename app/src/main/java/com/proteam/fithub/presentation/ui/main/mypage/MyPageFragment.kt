@@ -19,6 +19,8 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentMypageBinding
 import com.proteam.fithub.presentation.LoadingDialog
+import com.proteam.fithub.presentation.component.ComponentDialogOneButton
+import com.proteam.fithub.presentation.component.ComponentDialogYesNo
 import com.proteam.fithub.presentation.ui.change_password.ChangePasswordActivity
 import com.proteam.fithub.presentation.ui.changeexercise.ChangeExerciseActivity
 import com.proteam.fithub.presentation.ui.main.mypage.adapter.MyPageExerciseAdapter
@@ -166,6 +168,16 @@ class MyPageFragment : Fragment() {
                 deletePath.deletePic(requireActivity())
             }
         }
+    }
+
+    fun onLogoutClicked() {
+        ComponentDialogYesNo(::onLogOut).show(requireActivity().supportFragmentManager, "LOG_OUT")
+    }
+
+    private fun onLogOut() {
+        viewModel.requestLogOut()
+        startActivity(Intent(requireActivity(), SocialSignInActivity::class.java))
+        requireActivity().finish()
     }
 
     private fun Uri.Convert() : Uri {

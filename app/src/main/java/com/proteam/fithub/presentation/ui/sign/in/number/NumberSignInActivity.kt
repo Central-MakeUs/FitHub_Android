@@ -67,11 +67,12 @@ class NumberSignInActivity : AppCompatActivity() {
     private fun observeState() {
         viewModel.signInState.observe(this) {
             dismissLoadingDialog()
+            Log.e("----", "observeState: $it", )
             when(it) {
                 0 -> return@observe
                 2000 -> onSignInSuccess()
                 4019 -> ComponentDialogYesNo(::onSignUpClicked).show(supportFragmentManager, "NO_USER_INFO")
-                4020 -> CustomSnackBar.makeSnackBar(binding.root, it.toString())
+                4020 -> CustomSnackBar.makeSnackBar(binding.root, it.toString()).show()
             }
             viewModel.initState()
         }
