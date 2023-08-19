@@ -36,6 +36,49 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/main_toolbar_layout_around"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginVertical="10dp"
+                android:layout_marginHorizontal="20dp"
+                android:background="@drawable/bg_edt_sub01_rounded"
+                android:visibility='@{viewModel.curFragmentTag.contains("AROUND") ? View.VISIBLE : View.GONE}'
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/main_toolbar_iv_bookmark"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/main_toolbar_layout_around_iv_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:src="@drawable/ic_search"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/main_edt_around_keyword"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="@font/pretendard_regular"
+                    android:includeFontPadding="false"
+                    android:lineHeight="20dp"
+                    android:paddingVertical="7dp"
+                    android:textColorHint="@color/text_info"
+                    android:textSize="14sp"
+                    android:hint="@string/around_hint_toolbar_edt"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/main_toolbar_layout_around_iv_search"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/main_toolbar_layout_search"
@@ -45,8 +88,8 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="13dp"
                 android:background="@drawable/bg_edt_sub01_rounded"
-                android:onClick='@{() -> activity.openSearchActivity(viewModel.curFragmentTag.contains("COMMUNITY"))}'
-                android:visibility='@{viewModel.curFragmentTag.contains("SEARCH") ? View.VISIBLE : View.GONE}'
+                android:onClick='@{() -> activity.openSearchActivity()}'
+                android:visibility='@{viewModel.curFragmentTag.contains("COMMUNITY") ? View.VISIBLE : View.GONE}'
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/main_toolbar_iv_bookmark"
                 app:layout_constraintStart_toStartOf="parent"
@@ -74,7 +117,7 @@
                     android:paddingVertical="7dp"
                     android:textColor="@color/text_info"
                     android:textSize="14sp"
-                    android:text='@{viewModel.curFragmentTag.contains("COMMUNITY") ? @string/community_hint_toolbar_edt : @string/around_hint_toolbar_edt}'
+                    android:text="@string/community_hint_toolbar_edt"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/main_toolbar_layout_search_iv_search"

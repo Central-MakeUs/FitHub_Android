@@ -186,6 +186,7 @@
     <!-- 둘러보기 -->
     <string name="around_hint_toolbar_edt">지역, 시설명으로 검색하기</string>
     <string name="around_see_map">지도보기</string>
+    <string name="around_see_list">목록보기</string>
 
     <!--알림 설정-->
     <string name="alarm_setting_title">알림 설정</string>

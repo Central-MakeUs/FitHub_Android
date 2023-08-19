@@ -5,15 +5,15 @@ import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.DataBindingUtil
+import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.ActivitySignInBinding
-import com.proteam.fithub.presentation.LoadingDialog
+import com.proteam.fithub.presentation.util.LoadingDialog
 import com.proteam.fithub.presentation.ui.main.MainActivity
 import com.proteam.fithub.presentation.ui.sign.`in`.number.NumberSignInActivity
 import com.proteam.fithub.presentation.ui.sign.`in`.social.viewmodel.SocialSignInViewModel
@@ -25,19 +25,27 @@ import dagger.hilt.android.AndroidEntryPoint
 class SocialSignInActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignInBinding
     private val viewModel: SocialSignInViewModel by viewModels()
-
+    private var token : String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_sign_in)
 
+        getFcmToken()
         initBinding()
+    }
+
+    private fun getFcmToken() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener {
+            if(it.isSuccessful) {
+                token = it.result
+            }
+        }
     }
 
     private fun initBinding() {
         binding.activity = this
     }
-
 
     fun onKakaoSignInClicked() {
         if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
@@ -77,7 +85,9 @@ class SocialSignInActivity : AppCompatActivity() {
         UserApiClient.instance.me { user, error ->
             user?.let {
                 it.id?.let { it1 ->
-                    viewModel.sendSocialToken(it1).also { showLoadingDialog() }
+                    token?.let { it2 ->
+                        viewModel.sendSocialToken(it1, it2).also { showLoadingDialog() }
+                    }
                 }
             }
         }

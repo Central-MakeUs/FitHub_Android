@@ -5,7 +5,10 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.google.firebase.messaging.FirebaseMessaging
+import com.proteam.fithub.R
+import com.proteam.fithub.databinding.ActivitySplashBinding
 import com.proteam.fithub.presentation.ui.main.MainActivity
 import com.proteam.fithub.presentation.ui.sign.`in`.social.SocialSignInActivity
 import com.proteam.fithub.presentation.ui.splash.viewModel.SplashViewModel
@@ -13,9 +16,11 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
+    private lateinit var binding : ActivitySplashBinding
     private val viewModel: SplashViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
 
         getFCMToken()
         observeAuthSignIn()

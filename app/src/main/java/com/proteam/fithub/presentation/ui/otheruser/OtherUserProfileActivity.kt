@@ -68,7 +68,7 @@ class OtherUserProfileActivity : AppCompatActivity() {
         }
 
         viewModel.otherUserProfileStatus.observe(this) {
-            if(it == 4064) {
+            if(it == 4064 || it == 4013) {
                 ComponentDialogOneButton(::onBackPress).show(supportFragmentManager, "4064")
             }
         }

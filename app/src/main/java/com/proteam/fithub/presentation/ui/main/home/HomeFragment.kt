@@ -3,7 +3,6 @@ package com.proteam.fithub.presentation.ui.main.home
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.proteam.fithub.R
 import com.proteam.fithub.data.remote.response.ResponseHomeData
 import com.proteam.fithub.databinding.FragmentHomeBinding
-import com.proteam.fithub.presentation.LoadingDialog
+import com.proteam.fithub.presentation.util.LoadingDialog
 import com.proteam.fithub.presentation.ui.main.MainActivity
 import com.proteam.fithub.presentation.ui.main.MainViewModel
 import com.proteam.fithub.presentation.ui.main.home.adapter.HomeBestRankAdapter

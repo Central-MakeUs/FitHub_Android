@@ -1,18 +1,16 @@
 package com.proteam.fithub.presentation.ui.sign.up.common.exercise
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentInterestExercisesBinding
-import com.proteam.fithub.presentation.LoadingDialog
+import com.proteam.fithub.presentation.util.LoadingDialog
 import com.proteam.fithub.presentation.ui.sign.up.common.exercise.adapter.InterestExerciseAdapter
 import com.proteam.fithub.presentation.ui.sign.up.common.exercise.viewmodel.InterestExerciseViewModel
 import com.proteam.fithub.presentation.ui.sign.up.number.NumberSignUpActivity

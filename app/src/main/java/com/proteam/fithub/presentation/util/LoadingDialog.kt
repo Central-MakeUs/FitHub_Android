@@ -1,4 +1,4 @@
-package com.proteam.fithub.presentation
+package com.proteam.fithub.presentation.util
 
 import android.app.Dialog
 import android.content.Context

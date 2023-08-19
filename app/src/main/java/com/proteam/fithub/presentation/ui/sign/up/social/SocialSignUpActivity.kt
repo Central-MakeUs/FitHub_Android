@@ -5,7 +5,6 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
@@ -14,9 +13,8 @@ import androidx.fragment.app.Fragment
 import com.google.firebase.messaging.FirebaseMessaging
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.ActivitySocialSignUpBinding
-import com.proteam.fithub.presentation.LoadingDialog
+import com.proteam.fithub.presentation.util.LoadingDialog
 import com.proteam.fithub.presentation.component.ComponentAlertToast
-import com.proteam.fithub.presentation.ui.main.MainActivity
 import com.proteam.fithub.presentation.ui.sign.`in`.social.SocialSignInActivity
 import com.proteam.fithub.presentation.ui.sign.result.SignUpResultActivity
 import com.proteam.fithub.presentation.ui.sign.up.common.agreement.AgreementFragment

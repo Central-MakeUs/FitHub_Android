@@ -2,7 +2,6 @@ package com.proteam.fithub.presentation.ui.sign.up.common.authcode
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,8 +13,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentAuthCodeBinding
-import com.proteam.fithub.presentation.LoadingDialog
-import com.proteam.fithub.presentation.component.ComponentAlertToast
+import com.proteam.fithub.presentation.util.LoadingDialog
 import com.proteam.fithub.presentation.ui.findpassword.FindPasswordActivity
 import com.proteam.fithub.presentation.ui.findpassword.viewmodel.FindPasswordViewModel
 import com.proteam.fithub.presentation.ui.sign.up.common.authcode.viewmodel.AuthCodeViewModel

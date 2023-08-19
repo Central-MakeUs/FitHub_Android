@@ -28,10 +28,10 @@
             android:theme="@style/Theme.App.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".presentation.ui.main.MainActivity"
             android:exported="true">
@@ -113,10 +113,6 @@
 
         <!-- OtherUserProfile -->
         <activity android:name=".presentation.ui.otheruser.OtherUserProfileActivity"
-            android:exported="false" />
-
-        <!-- Search Around -->
-        <activity android:name=".presentation.ui.search.around.AroundSearchActivity"
             android:exported="false" />
 
         <!-- Alarm Setting -->

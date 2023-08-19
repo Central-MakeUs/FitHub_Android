@@ -24,17 +24,17 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@drawable/bg_around_research"
+            android:drawableStart="@drawable/ic_around_research"
+            android:drawablePadding="4dp"
             android:gravity="center"
             android:onClick="@{() -> fragment.onResearchClicked()}"
-            android:translationZ="1dp"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="10dp"
             android:text="이 지역 재검색"
             android:textAppearance="@style/Body_medium_medium"
             android:textColor="@color/text_default"
+            android:translationZ="1dp"
             android:visibility="@{viewModel.isResearchNeed ? View.VISIBLE : View.GONE}"
-            android:drawableStart="@drawable/ic_around_research"
-            android:paddingVertical="10dp"
-            android:paddingHorizontal="16dp"
-            android:drawablePadding="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/fg_around_container_map" />
@@ -62,35 +62,52 @@
 
         </HorizontalScrollView>
 
-        <RelativeLayout
-            android:id="@+id/fg_around_container_map"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/fg_around_layout_exercise_filter"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            <RelativeLayout
+                android:id="@+id/fg_around_container_map"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fg_around_layout_exercise_filter" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="21dp"
-            android:layout_marginBottom="15dp"
-            android:backgroundTint="@color/black"
-            android:onClick="@{() -> fragment.onNavigateClicked()}"
-            android:src="@drawable/ic_around_fab_current_location"
-            app:borderWidth="0dp"
-            app:fabCustomSize="45dp"
-            app:layout_constraintBottom_toTopOf="@id/fg_around_component_location_card"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:tint="@color/icon_sub" />
-        
-        <com.proteam.fithub.presentation.component.ComponentLocationCard
-            android:id="@+id/fg_around_component_location_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginBottom="15dp"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="21dp"
+                android:layout_marginBottom="15dp"
+                android:backgroundTint="@color/black"
+                android:onClick="@{() -> fragment.onNavigateClicked()}"
+                android:src="@drawable/ic_around_fab_current_location"
+                app:borderWidth="0dp"
+                app:fabCustomSize="45dp"
+                app:layout_constraintBottom_toTopOf="@id/fg_around_component_location_card"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:tint="@color/icon_sub" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/btn_around_result_see_list"
+                android:drawableStart="@drawable/ic_around_see_list"
+                android:drawablePadding="4dp"
+                android:onClick="@{() -> fragment.onOpenListClicked()}"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="10dp"
+                android:text="@string/around_see_list"
+                android:textAppearance="@style/Body_small_medium"
+                android:textColor="@color/text_default"
+                app:layout_constraintBottom_toTopOf="@id/fg_around_component_location_card"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.proteam.fithub.presentation.component.ComponentLocationCard
+                android:id="@+id/fg_around_component_location_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginBottom="15dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

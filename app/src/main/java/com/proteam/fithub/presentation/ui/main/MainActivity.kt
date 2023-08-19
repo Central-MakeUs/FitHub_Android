@@ -1,10 +1,10 @@
 package com.proteam.fithub.presentation.ui.main
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.proteam.fithub.R
@@ -14,13 +14,11 @@ import com.proteam.fithub.presentation.ui.bookmark.BookMarkActivity
 import com.proteam.fithub.presentation.ui.detail.board.BoardDetailActivity
 import com.proteam.fithub.presentation.ui.detail.certificate.ExerciseCertificateDetailActivity
 import com.proteam.fithub.presentation.ui.main.around.AroundFragment
+import com.proteam.fithub.presentation.ui.main.around.list.AroundListFragment
 import com.proteam.fithub.presentation.ui.main.community.CommunityFragment
-import com.proteam.fithub.presentation.ui.main.community.viewmodel.CommunityViewModel
 import com.proteam.fithub.presentation.ui.main.home.HomeFragment
 import com.proteam.fithub.presentation.ui.main.mypage.MyPageFragment
 import com.proteam.fithub.presentation.ui.mylevel.MyLevelActivity
-import com.proteam.fithub.presentation.ui.search.around.AroundSearchActivity
-import com.proteam.fithub.presentation.ui.search.around.result.map.SearchAroundResultMapFragment
 import com.proteam.fithub.presentation.ui.search.community.SearchActivity
 import com.proteam.fithub.presentation.ui.write.board.WriteOrModifyBoardActivity
 import com.proteam.fithub.presentation.ui.write.certificate.WriteOrModifyCertificateActivity
@@ -31,9 +29,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
     private val viewModel : MainViewModel by viewModels()
 
-    private val communityViewModel : CommunityViewModel by viewModels()
-
-    var needNotifyCertificate : Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -70,8 +65,8 @@ class MainActivity : AppCompatActivity() {
             setOnItemSelectedListener {
                 when(it.itemId) {
                     R.id.main_bottom_home -> changeFragments(HomeFragment(), "LOGO")
-                    R.id.main_bottom_community -> changeFragments(CommunityFragment(), "SEARCH_COMMUNITY")
-                    R.id.main_bottom_around -> changeFragments(SearchAroundResultMapFragment(), "SEARCH_AROUND")
+                    R.id.main_bottom_community -> changeFragments(CommunityFragment(), "COMMUNITY")
+                    R.id.main_bottom_around -> changeFragments(AroundFragment(), "AROUND")
                     R.id.main_bottom_my -> changeFragments(MyPageFragment(), "LOGO")
                 }
                 return@setOnItemSelectedListener true
@@ -106,12 +101,8 @@ class MainActivity : AppCompatActivity() {
         startActivity(Intent(this, BoardDetailActivity::class.java).setType(index.toString()))
     }
 
-    fun openSearchActivity(isCommunity : Boolean) {
-        if(isCommunity) {
-            startActivity(Intent(this, SearchActivity::class.java))
-        } else {
-            startActivity(Intent(this, AroundSearchActivity::class.java))
-        }
+    fun openSearchActivity() {
+        startActivity(Intent(this, SearchActivity::class.java))
     }
 
     fun openMyLevelActivity() {
@@ -124,10 +115,6 @@ class MainActivity : AppCompatActivity() {
 
     fun openAlarmActivity() {
         startActivity(Intent(this, AlarmActivity::class.java))
-    }
-
-    fun openManageMyWriteActivity() {
-
     }
 
     private val requestProcessFinished =
@@ -163,8 +150,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun openMyPage() {
+    private fun openMyPage() {
         changeFragments(MyPageFragment(), "LOGO")
         binding.mainLayoutBottomNavigation.selectedItemId = R.id.main_bottom_my
     }
+
+    fun bnv() = binding.mainLayoutBottomNavigation
 }

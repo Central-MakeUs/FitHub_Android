@@ -16,9 +16,9 @@ class SocialSignInViewModel @Inject constructor(private val signInRepo : SignInR
     private val _signInState = MutableLiveData<Int>()
     val signInState : LiveData<Int> = _signInState
 
-    fun sendSocialToken(signatureID : Long) {
+    fun sendSocialToken(signatureID : Long, token : String) {
         viewModelScope.launch {
-            signInRepo.signInWithKakao(RequestSignInKakao(signatureID.toString()))
+            signInRepo.signInWithKakao(RequestSignInKakao(signatureID.toString(), token))
                 .onSuccess {
                     saveUserJWT(it.result.userId, it.result.accessToken)
                     setState(it.code)

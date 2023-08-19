@@ -14,7 +14,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentNumberInfoBinding
-import com.proteam.fithub.presentation.LoadingDialog
 import com.proteam.fithub.presentation.component.ComponentDialogYesNo
 import com.proteam.fithub.presentation.ui.sign.up.common.authcode.AuthCodeFragment
 import com.proteam.fithub.presentation.ui.sign.up.number.NumberSignUpActivity

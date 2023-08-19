@@ -3,7 +3,6 @@ package com.proteam.fithub.presentation.ui.sign.`in`.number
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -11,8 +10,7 @@ import androidx.databinding.DataBindingUtil
 import com.google.firebase.messaging.FirebaseMessaging
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.ActivitySignInWithNumberBinding
-import com.proteam.fithub.presentation.LoadingDialog
-import com.proteam.fithub.presentation.component.ComponentAlertToast
+import com.proteam.fithub.presentation.util.LoadingDialog
 import com.proteam.fithub.presentation.component.ComponentDialogYesNo
 import com.proteam.fithub.presentation.ui.findpassword.FindPasswordActivity
 import com.proteam.fithub.presentation.ui.main.MainActivity
@@ -67,7 +65,6 @@ class NumberSignInActivity : AppCompatActivity() {
     private fun observeState() {
         viewModel.signInState.observe(this) {
             dismissLoadingDialog()
-            Log.e("----", "observeState: $it", )
             when(it) {
                 0 -> return@observe
                 2000 -> onSignInSuccess()

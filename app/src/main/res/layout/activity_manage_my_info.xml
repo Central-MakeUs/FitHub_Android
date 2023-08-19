@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View" />
+
         <variable
             name="activity"
             type="com.proteam.fithub.presentation.ui.manageinfo.ManageMyInfoActivity" />
@@ -131,6 +133,7 @@
             android:textAppearance="@style/Body_large_medium"
             android:textColor="@color/text_default"
             android:layout_marginTop="27dp"
+            android:visibility="@{data.social ? View.GONE : View.VISIBLE}"
             android:onClick="@{() -> activity.openChangePasswordActivity()}"
             app:layout_constraintTop_toBottomOf="@id/manage_my_info_view_divider"
             app:layout_constraintEnd_toEndOf="parent"

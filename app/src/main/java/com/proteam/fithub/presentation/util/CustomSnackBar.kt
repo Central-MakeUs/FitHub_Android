@@ -9,22 +9,22 @@ import android.widget.FrameLayout
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.snackbar.Snackbar
 import com.proteam.fithub.R
-import com.proteam.fithub.databinding.TestBinding
+import com.proteam.fithub.databinding.ComponentToastBinding
 
 object CustomSnackBar {
 
     fun makeSnackBar(view: View, message: String): Snackbar {
         val snackBar = Snackbar.make(view, message, 3500)
 
-        val binding = DataBindingUtil.inflate<TestBinding>(
+        val binding = DataBindingUtil.inflate<ComponentToastBinding>(
             LayoutInflater.from(view.context),
-            R.layout.test,
+            R.layout.component_toast,
             view.parent as ViewGroup,
             false
         )
 
-        binding.snackbarText.setTextColor(Color.WHITE)
-        binding.snackbarText.text = when (message) {
+        binding.componentToastText.setTextColor(Color.WHITE)
+        binding.componentToastText.text = when (message) {
             "2023" -> case_2023()
             "4013" -> case_4013()
             "4014" -> case_4014()

@@ -17,6 +17,7 @@ import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
@@ -28,7 +29,10 @@ import com.proteam.fithub.R
 import com.proteam.fithub.data.remote.response.ResponseExercises
 import com.proteam.fithub.data.remote.response.ResponseLocationData
 import com.proteam.fithub.databinding.FragmentAroundBinding
+import com.proteam.fithub.presentation.ui.main.MainActivity
+import com.proteam.fithub.presentation.ui.main.around.list.AroundListFragment
 import com.proteam.fithub.presentation.ui.main.around.viewmodel.AroundViewModel
+import com.proteam.fithub.presentation.util.CustomSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
@@ -41,7 +45,7 @@ class AroundFragment : Fragment(), MapView.MapViewEventListener {
     private lateinit var eventListener : MarkerEventListener
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var binding: FragmentAroundBinding
-    private val viewModel : AroundViewModel by viewModels()
+    private val viewModel : AroundViewModel by activityViewModels()
     private var mapView : MapView? = null
 
     private var isTracking = true
@@ -56,6 +60,7 @@ class AroundFragment : Fragment(), MapView.MapViewEventListener {
 
         initBinding()
         initUi()
+        initMapView()
         checkPermissionForLocation(requireActivity())
         observeMarkers()
         observeFilterExercises()
@@ -120,6 +125,7 @@ class AroundFragment : Fragment(), MapView.MapViewEventListener {
         }
     }
 
+
     private fun returnCurrentMarker(location : Location) = MapPOIItem().apply {
         itemName = "CURRENT"
         tag = 0
@@ -136,17 +142,21 @@ class AroundFragment : Fragment(), MapView.MapViewEventListener {
         viewModel.currentLocation.value?.let { setMapToMyLocation(it) }
     }
 
+    fun onResearchClicked() {
+        viewModel.setSearchNeed(false)
+        viewModel.requestLocationData(viewModel.selectedFilter.value)
+    }
+
+    fun onOpenListClicked() {
+
+    }
+
     private fun requestLocationWhenInit() {
         viewModel.targetLocation.observe(viewLifecycleOwner) {
             if(isFirst) {
                 viewModel.requestLocationData(viewModel.selectedFilter.value)
             }
         }
-    }
-
-    fun onResearchClicked() {
-        viewModel.setSearchNeed(false)
-        viewModel.requestLocationData(viewModel.selectedFilter.value)
     }
 
     private fun observeMarkers() {
@@ -211,7 +221,6 @@ class AroundFragment : Fragment(), MapView.MapViewEventListener {
 
     inner class MarkerEventListener : MapView.POIItemEventListener {
         override fun onPOIItemSelected(p0: MapView?, p1: MapPOIItem?) {
-            Log.e("----", "onPOIItemSelected: $p1", )
             viewModel.currentMarkerItems.value?.find { it.name == p1?.itemName }?.let { binding.fgAroundComponentLocationCard.also { it.visibility = View.VISIBLE }.getData(it) }
         }
         override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?) {}
@@ -291,19 +300,5 @@ class AroundFragment : Fragment(), MapView.MapViewEventListener {
         viewModel.selectedFilter.observe(viewLifecycleOwner) {
             viewModel.requestLocationData(it)
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        initMapView()
-        Log.e("----", "onStart: START", )
-
-    }
-
-    override fun onStop() {
-        super.onStop()
-        mapView = null
-        binding.fgAroundContainerMap.removeView(mapView)
-        Log.e("----", "onStop: STOP", )
     }
 }

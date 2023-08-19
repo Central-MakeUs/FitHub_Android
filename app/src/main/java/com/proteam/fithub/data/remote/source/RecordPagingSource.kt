@@ -16,7 +16,7 @@ class RecordPagingSource(
 ) : PagingSource<Int, ResponseCertificateData.ResultCertificateData>() {
     override fun getRefreshKey(state: PagingState<Int, ResponseCertificateData.ResultCertificateData>): Int? {
         return state.anchorPosition?.let { it ->
-            state.closestPageToPosition(it)?.nextKey?.minus(1)
+            state.closestPageToPosition(it)?.nextKey
         }
     }
 

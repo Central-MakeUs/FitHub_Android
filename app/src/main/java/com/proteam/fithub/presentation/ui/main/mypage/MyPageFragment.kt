@@ -18,10 +18,9 @@ import androidx.fragment.app.viewModels
 import com.google.android.material.tabs.TabLayoutMediator
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentMypageBinding
-import com.proteam.fithub.presentation.LoadingDialog
-import com.proteam.fithub.presentation.component.ComponentDialogOneButton
+import com.proteam.fithub.presentation.util.LoadingDialog
 import com.proteam.fithub.presentation.component.ComponentDialogYesNo
-import com.proteam.fithub.presentation.ui.change_password.ChangePasswordActivity
+import com.proteam.fithub.presentation.ui.alarm_setting.AlarmSettingActivity
 import com.proteam.fithub.presentation.ui.changeexercise.ChangeExerciseActivity
 import com.proteam.fithub.presentation.ui.main.mypage.adapter.MyPageExerciseAdapter
 import com.proteam.fithub.presentation.ui.main.mypage.adapter.MyPageUpperMenuAdapter
@@ -124,7 +123,7 @@ class MyPageFragment : Fragment() {
     private fun onUpperMenuClicked(position : Int) {
         when(position) {
             0 -> requestGotoSignIn.launch(Intent(requireActivity(), ManageMyInfoActivity::class.java))
-            1 -> requestGotoSignIn.launch(Intent(requireActivity(), ChangePasswordActivity::class.java))
+            1 -> startActivity(Intent(requireActivity(), AlarmSettingActivity::class.java))
             2 -> {} //학원 등록 요청
             3 -> {} //약관 및 정책
         }
