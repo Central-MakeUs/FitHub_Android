@@ -2,6 +2,8 @@ package com.proteam.fithub.presentation.ui.manageinfo
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -13,6 +15,7 @@ import com.proteam.fithub.presentation.ui.FitHub
 import com.proteam.fithub.presentation.ui.change_password.ChangePasswordActivity
 import com.proteam.fithub.presentation.ui.main.MainActivity
 import com.proteam.fithub.presentation.ui.manageinfo.viewmodel.ManageMyInfoViewModel
+import com.proteam.fithub.presentation.ui.sign.`in`.social.SocialSignInActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -54,7 +57,7 @@ class ManageMyInfoActivity : AppCompatActivity() {
     }
 
     fun openChangePasswordActivity() {
-        startActivity(Intent(this, ChangePasswordActivity::class.java))
+        requestGotoSignIn.launch(Intent(this, ChangePasswordActivity::class.java))
     }
 
     private fun afterSignOut() {
@@ -65,4 +68,15 @@ class ManageMyInfoActivity : AppCompatActivity() {
     fun onBackPress() {
         finish()
     }
+
+    private val requestGotoSignIn =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == RESULT_OK) {
+                val state = it.data!!.extras?.getBoolean("state")
+                if(state == true) {
+                    setResult(RESULT_OK, Intent(this, MainActivity::class.java).putExtra("state", true))
+                    finish()
+                }
+            }
+        }
 }

@@ -29,6 +29,7 @@ import com.proteam.fithub.presentation.ui.write.board.viewmodel.WriteOrModifyBoa
 import com.proteam.fithub.presentation.ui.write.certificate.adapter.WriteOrModifyCertificateExerciseAdapter
 import com.proteam.fithub.presentation.util.ConvertBitmap.ConvertWhenList
 import com.proteam.fithub.presentation.util.ConvertBitmap.deletePic
+import com.proteam.fithub.presentation.util.LoadingDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -212,6 +213,8 @@ class WriteOrModifyBoardActivity : AppCompatActivity() {
     }
 
     private fun requestPostArticle() {
+        showLoadingDialog()
+
         if (viewModel.userSelectedImages.value.isNullOrEmpty()) {
             viewModel.requestPostArticle(null)
         } else {
@@ -243,6 +246,9 @@ class WriteOrModifyBoardActivity : AppCompatActivity() {
 
     private fun observeSaveState() {
         viewModel.saveState.observe(this) {
+
+            dismissLoadingDialog()
+
             if (it == 2000) {
                 viewModel.imagePaths.value?.map { it.deletePic(this@WriteOrModifyBoardActivity) }
                 finishActivity()
@@ -277,6 +283,7 @@ class WriteOrModifyBoardActivity : AppCompatActivity() {
 
     private fun requestLegacyData() {
         viewModel.requestLegacyData()
+        showLoadingDialog()
         observeLegacy()
         observeSelectedImage()
         observeExercises()
@@ -286,6 +293,8 @@ class WriteOrModifyBoardActivity : AppCompatActivity() {
 
     private fun observeLegacy() {
         viewModel.legacyArticleData.observe(this) {
+            dismissLoadingDialog()
+
             viewModel.setLegacyToUi()
 
             val selectedPosition =
@@ -307,6 +316,8 @@ class WriteOrModifyBoardActivity : AppCompatActivity() {
     }
 
     private fun requestModifyArticle() {
+        showLoadingDialog()
+
         viewModel.userSelectedImages.value.let {
             if(it.isNullOrEmpty()) {
                 viewModel.requestModifyArticle(null)
@@ -330,5 +341,9 @@ class WriteOrModifyBoardActivity : AppCompatActivity() {
                 add(false)
             }
         }
+
+    private var loadingDialog = LoadingDialog()
+    private fun showLoadingDialog() = loadingDialog.show(supportFragmentManager, null)
+    private fun dismissLoadingDialog() = loadingDialog.dismiss()
 
 }

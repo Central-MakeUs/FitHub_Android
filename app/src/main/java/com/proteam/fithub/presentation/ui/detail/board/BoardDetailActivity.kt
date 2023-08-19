@@ -23,6 +23,7 @@ import com.proteam.fithub.presentation.ui.main.MainActivity
 import com.proteam.fithub.presentation.ui.otheruser.OtherUserProfileActivity
 import com.proteam.fithub.presentation.ui.write.board.WriteOrModifyBoardActivity
 import com.proteam.fithub.presentation.util.CustomSnackBar
+import com.proteam.fithub.presentation.util.LoadingDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -55,7 +56,7 @@ class BoardDetailActivity : AppCompatActivity() {
     }
 
     private fun requestData() {
-        intent.type?.let { viewModel.requestData(it.toInt()) }
+        intent.type?.let { viewModel.requestData(it.toInt()).also { showLoadingDialog() } }
         observeDetailData()
     }
 
@@ -67,6 +68,9 @@ class BoardDetailActivity : AppCompatActivity() {
 
     private fun observeDetailData() {
         viewModel.articleData.observe(this) { it ->
+
+            dismissLoadingDialog()
+
             binding.boardDetailLayoutUser.apply {
                 getUserData(it.userInfo, it.createdAt)
                 userProfileImage().setOnClickListener { it1 ->
@@ -341,4 +345,9 @@ class BoardDetailActivity : AppCompatActivity() {
     private fun String.showAlert() {
         ComponentAlertToast().show(supportFragmentManager, this)
     }
+
+
+    private var loadingDialog = LoadingDialog()
+    private fun showLoadingDialog() = loadingDialog.show(supportFragmentManager, null)
+    private fun dismissLoadingDialog() = loadingDialog.dismiss()
 }

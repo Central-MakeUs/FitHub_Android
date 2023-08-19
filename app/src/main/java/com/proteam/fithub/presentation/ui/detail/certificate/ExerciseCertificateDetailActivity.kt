@@ -20,6 +20,7 @@ import com.proteam.fithub.presentation.ui.main.MainActivity
 import com.proteam.fithub.presentation.ui.otheruser.OtherUserProfileActivity
 import com.proteam.fithub.presentation.ui.write.certificate.WriteOrModifyCertificateActivity
 import com.proteam.fithub.presentation.util.CustomSnackBar
+import com.proteam.fithub.presentation.util.LoadingDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -68,7 +69,7 @@ class ExerciseCertificateDetailActivity : AppCompatActivity() {
     }
 
     private fun requestData() {
-        intent.type?.let { viewModel.requestData(it.toInt()) }
+        intent.type?.let { viewModel.requestData(it.toInt()).also { showLoadingDialog() } }
         observeDetailStatus()
     }
 
@@ -81,6 +82,8 @@ class ExerciseCertificateDetailActivity : AppCompatActivity() {
 
     private fun observeDetailData() {
         viewModel.certificateData.observe(this) { it ->
+            dismissLoadingDialog()
+
             binding.exerciseCertificateDetailLayoutUser.apply {
                 getUserData(it.userInfo, it.createdAt)
                 userProfileImage().setOnClickListener { it2 ->
@@ -336,4 +339,8 @@ class ExerciseCertificateDetailActivity : AppCompatActivity() {
     private fun String.showAlert() {
         ComponentAlertToast().show(supportFragmentManager, this)
     }
+
+    private var loadingDialog = LoadingDialog()
+    private fun showLoadingDialog() = loadingDialog.show(supportFragmentManager, null)
+    private fun dismissLoadingDialog() = loadingDialog.dismiss()
 }

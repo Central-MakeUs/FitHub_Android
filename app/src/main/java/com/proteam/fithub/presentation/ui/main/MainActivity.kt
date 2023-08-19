@@ -2,6 +2,7 @@ package com.proteam.fithub.presentation.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -18,8 +19,10 @@ import com.proteam.fithub.presentation.ui.main.around.list.AroundListFragment
 import com.proteam.fithub.presentation.ui.main.community.CommunityFragment
 import com.proteam.fithub.presentation.ui.main.home.HomeFragment
 import com.proteam.fithub.presentation.ui.main.mypage.MyPageFragment
+import com.proteam.fithub.presentation.ui.manageinfo.ManageMyInfoActivity
 import com.proteam.fithub.presentation.ui.mylevel.MyLevelActivity
 import com.proteam.fithub.presentation.ui.search.community.SearchActivity
+import com.proteam.fithub.presentation.ui.sign.`in`.social.SocialSignInActivity
 import com.proteam.fithub.presentation.ui.write.board.WriteOrModifyBoardActivity
 import com.proteam.fithub.presentation.ui.write.certificate.WriteOrModifyCertificateActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -117,6 +120,10 @@ class MainActivity : AppCompatActivity() {
         startActivity(Intent(this, AlarmActivity::class.java))
     }
 
+    fun openMyInfoActivity() {
+        requestGotoSignIn.launch(Intent(this, ManageMyInfoActivity::class.java))
+    }
+
     private val requestProcessFinished =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             when(it.resultCode) {
@@ -129,6 +136,18 @@ class MainActivity : AppCompatActivity() {
                 val state = it.data!!.extras?.getBoolean("state")
                 if(state == true) {
                     finish()
+                }
+            }
+        }
+
+    private val requestGotoSignIn =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == RESULT_OK) {
+                val state = it.data!!.extras?.getBoolean("state")
+                Log.e("----", "$state: ", )
+                if(state == true) {
+                    finish()
+                    startActivity(Intent(this, SocialSignInActivity::class.java))
                 }
             }
         }

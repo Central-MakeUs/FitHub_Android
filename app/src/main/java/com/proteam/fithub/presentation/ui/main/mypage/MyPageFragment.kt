@@ -6,6 +6,7 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +23,7 @@ import com.proteam.fithub.presentation.util.LoadingDialog
 import com.proteam.fithub.presentation.component.ComponentDialogYesNo
 import com.proteam.fithub.presentation.ui.alarm_setting.AlarmSettingActivity
 import com.proteam.fithub.presentation.ui.changeexercise.ChangeExerciseActivity
+import com.proteam.fithub.presentation.ui.main.MainActivity
 import com.proteam.fithub.presentation.ui.main.mypage.adapter.MyPageExerciseAdapter
 import com.proteam.fithub.presentation.ui.main.mypage.adapter.MyPageUpperMenuAdapter
 import com.proteam.fithub.presentation.ui.main.mypage.viewmodel.MyPageViewModel
@@ -122,23 +124,12 @@ class MyPageFragment : Fragment() {
 
     private fun onUpperMenuClicked(position : Int) {
         when(position) {
-            0 -> requestGotoSignIn.launch(Intent(requireActivity(), ManageMyInfoActivity::class.java))
+            0 -> (requireActivity() as MainActivity).openMyInfoActivity()
             1 -> startActivity(Intent(requireActivity(), AlarmSettingActivity::class.java))
             2 -> {} //학원 등록 요청
             3 -> {} //약관 및 정책
         }
     }
-
-    private val requestGotoSignIn=
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode == AppCompatActivity.RESULT_OK) {
-                val state = it.data!!.extras?.getBoolean("state")
-                if(state == true) {
-                    requireActivity().finish()
-                    startActivity(Intent(requireActivity(), SocialSignInActivity::class.java))
-                }
-            }
-        }
 
     fun onGalleryOpen() {
         val intent = Intent()

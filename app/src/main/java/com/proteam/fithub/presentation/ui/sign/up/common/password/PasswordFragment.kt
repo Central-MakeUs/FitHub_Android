@@ -1,7 +1,9 @@
 package com.proteam.fithub.presentation.ui.sign.up.common.password
 
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,8 +15,11 @@ import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentPasswordBinding
 import com.proteam.fithub.presentation.component.ComponentAlertToast
 import com.proteam.fithub.presentation.component.ComponentDialogOneButton
+import com.proteam.fithub.presentation.ui.change_password.ChangePasswordActivity
 import com.proteam.fithub.presentation.ui.findpassword.viewmodel.FindPasswordViewModel
 import com.proteam.fithub.presentation.ui.main.MainActivity
+import com.proteam.fithub.presentation.ui.main.mypage.MyPageFragment
+import com.proteam.fithub.presentation.ui.manageinfo.ManageMyInfoActivity
 import com.proteam.fithub.presentation.ui.sign.`in`.social.SocialSignInActivity
 import com.proteam.fithub.presentation.ui.sign.result.SignUpResultActivity
 import com.proteam.fithub.presentation.ui.sign.up.common.profile.UserProfileFragment
@@ -109,7 +114,8 @@ class PasswordFragment : Fragment() {
 
     private fun showSignIn() {
         if (requireActivity().javaClass.toString().contains("Change")) {
-            requireActivity().setResult(AppCompatActivity.RESULT_OK, Intent(requireActivity(), MainActivity::class.java).putExtra("state", true))
+            Log.e("----", "showSignIn: CHANGE", )
+            (requireActivity() as ChangePasswordActivity).setResult(RESULT_OK, Intent(requireActivity(), ManageMyInfoActivity::class.java).putExtra("state", true))
         }
         requireActivity().finish()
     }
