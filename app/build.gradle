@@ -18,10 +18,12 @@ android {
         minSdk 26
         targetSdk 33
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.1"
 
         buildConfigField "String", "KAKAO_NATIVE_KEY", properties['KAKAO_NATIVE_KEY']
-        buildConfigField "String", "BASE_URL", properties['BASE_URL']
+        buildConfigField "String", "DEV_BASE_URL", properties['DEV_BASE_URL']
+        buildConfigField "String", "RELEASE_BASE_URL", properties['RELEASE_BASE_URL']
+
         manifestPlaceholders = [kakao_native_key: kakao_native_key]
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

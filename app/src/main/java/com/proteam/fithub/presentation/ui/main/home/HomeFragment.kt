@@ -134,7 +134,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun onGymClicked(index: Int) {
-        Toast.makeText(requireContext(), index, Toast.LENGTH_SHORT).show()
+        (requireActivity() as MainActivity).openAroundFragment()
     }
 
     fun onGotoCertificateClicked() {

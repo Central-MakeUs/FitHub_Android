@@ -12,7 +12,7 @@ class ArticleAdapter (
     var articles = mutableListOf<ResponseArticleData.ResultArticleData>()
     inner class ArticleViewHolder(private val binding : ItemRvCommunityBoardBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item : ResponseArticleData.ResultArticleData) {
-            binding.data = item.apply { item.exerciseTag = "#${item.exerciseTag}" }
+            binding.data = item.apply { this.exerciseTag?.let { if(!it.contains("#")) this.exerciseTag = "#${this.exerciseTag}" } }
             binding.itemRvCommunityBoardLayoutUser.getUserData(item.userInfo, item.createdAt)
 
             binding.root.setOnClickListener { onArticleClicked.invoke(item.articleId) }

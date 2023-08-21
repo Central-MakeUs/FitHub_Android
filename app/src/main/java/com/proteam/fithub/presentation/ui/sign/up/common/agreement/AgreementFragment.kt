@@ -1,5 +1,7 @@
 package com.proteam.fithub.presentation.ui.sign.up.common.agreement
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,17 +20,20 @@ import com.proteam.fithub.presentation.ui.sign.up.number.viewmodel.NumberSignUpV
 import com.proteam.fithub.presentation.ui.sign.up.social.SocialSignUpActivity
 import com.proteam.fithub.presentation.ui.sign.up.social.info.SocialInfoFragment
 import com.proteam.fithub.presentation.ui.sign.up.social.viewmodel.SocialSignUpViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AgreementFragment : Fragment() {
-    private lateinit var binding : FragmentAgreementBinding
-    private val viewModel : AgreementViewModel by viewModels()
+    private lateinit var binding: FragmentAgreementBinding
+    private val viewModel: AgreementViewModel by viewModels()
 
-    private val socialViewModel : SocialSignUpViewModel by activityViewModels()
-    private val numberViewModel : NumberSignUpViewModel by activityViewModels()
+    private val socialViewModel: SocialSignUpViewModel by activityViewModels()
+    private val numberViewModel: NumberSignUpViewModel by activityViewModels()
 
     private val adapter by lazy {
-        AgreementAdapter(::onAgreementClicked)
+        AgreementAdapter(::onAgreementClicked, ::onTermsClicked)
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -39,10 +44,10 @@ class AgreementFragment : Fragment() {
 
         initBinding()
         initUi()
+        observeTermsData()
 
         return binding.root
     }
-
 
 
     override fun onResume() {
@@ -68,9 +73,21 @@ class AgreementFragment : Fragment() {
         viewModel.onAgreementClicked()
     }
 
+    private fun onTermsClicked(position: Int) {
+        if (position < 5) {
+            viewModel.requestTermData(position)
+        }
+    }
+
     private fun observeAgreements() {
         viewModel.signUpAgreements.observe(viewLifecycleOwner) {
             adapter.agreements = it
+        }
+    }
+
+    private fun observeTermsData() {
+        viewModel.termsData.observe(viewLifecycleOwner) {
+            Intent(Intent.ACTION_VIEW, Uri.parse(it.link)).apply { startActivity(this) }
         }
     }
 
@@ -82,11 +99,12 @@ class AgreementFragment : Fragment() {
     }
 
     fun onNextBtnClicked() {
-        when(tag) {
+        when (tag) {
             "Number" -> {
                 (requireActivity() as NumberSignUpActivity).changeFragments(NumberInfoFragment())
                 numberViewModel.setUserAgreements(viewModel.returnUserAgreeResult())
             }
+
             "Social" -> {
                 (requireActivity() as SocialSignUpActivity).changeFragments(SocialInfoFragment())
                 socialViewModel.setUserAgreements(viewModel.returnUserAgreeResult())

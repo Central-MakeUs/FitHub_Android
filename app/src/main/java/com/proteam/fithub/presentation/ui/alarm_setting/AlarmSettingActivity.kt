@@ -40,4 +40,8 @@ class AlarmSettingActivity : AppCompatActivity() {
             binding.alarmSettingCheckMarketing.isChecked
         )
     }
+
+    fun onBackPress() {
+        finish()
+    }
 }

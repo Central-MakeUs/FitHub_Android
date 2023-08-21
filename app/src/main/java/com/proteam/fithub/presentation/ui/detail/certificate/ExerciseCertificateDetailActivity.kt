@@ -97,12 +97,8 @@ class ExerciseCertificateDetailActivity : AppCompatActivity() {
                             ).setType(it.userInfo.ownerId.toString())
                         )
                     } else {
-                        startActivity(
-                            Intent(
-                                this@ExerciseCertificateDetailActivity,
-                                MainActivity::class.java
-                            ).setType("MY_PAGE")
-                        )
+                        setResult(RESULT_OK, Intent(this@ExerciseCertificateDetailActivity, MainActivity::class.java).putExtra("state", true))
+                        finish()
                     }
                 }
             }
@@ -148,12 +144,16 @@ class ExerciseCertificateDetailActivity : AppCompatActivity() {
         initCommentInput()
     }
 
+    fun onCertificateHeartClicked() {
+        viewModel.requestHeartClicked(viewModel.certificateData.value!!.recordId).also { showLoadingDialog() }
+    }
+
     private fun requestCommentHeartClicked(position: Int, index: Int) {
         commentViewModel.requestCommentHeartClicked(
             "records",
             viewModel.certificateData.value!!.recordId,
             index
-        )
+        ).also { showLoadingDialog() }
         observeHeartStatus(position)
     }
 
@@ -165,6 +165,7 @@ class ExerciseCertificateDetailActivity : AppCompatActivity() {
                 it.toString().showAlert()
                 return@observe
             }
+            dismissLoadingDialog()
         }
     }
 
@@ -182,7 +183,7 @@ class ExerciseCertificateDetailActivity : AppCompatActivity() {
 
     private fun observeHeartClicked() {
         viewModel.heartResult.observe(this) {
-            viewModel.setEffectHeart()
+            viewModel.setEffectHeart().also { dismissLoadingDialog() }
         }
     }
 
@@ -332,12 +333,17 @@ class ExerciseCertificateDetailActivity : AppCompatActivity() {
                 ).setType(index.toString())
             )
         } else {
-            startActivity(Intent(this, MainActivity::class.java).setType("MY_PAGE"))
+            setResult(RESULT_OK, Intent(this, MainActivity::class.java).putExtra("state", true))
+            finish()
         }
     }
 
     private fun String.showAlert() {
         ComponentAlertToast().show(supportFragmentManager, this)
+    }
+
+    fun onBackPress() {
+        finish()
     }
 
     private var loadingDialog = LoadingDialog()

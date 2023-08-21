@@ -24,6 +24,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_arrow_back"
                 app:tint="@color/icon_default"
+                android:onClick="@{() -> activity.onBackPress()}"
                 android:layout_marginStart="20dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"

@@ -145,6 +145,7 @@
             android:src="@drawable/ic_chevron_right"
             android:layout_marginEnd="20dp"
             app:tint="@color/icon_sub"
+            android:visibility="@{data.social ? View.GONE : View.VISIBLE}"
             app:layout_constraintTop_toTopOf="@id/manage_my_info_tv_change_password"
             app:layout_constraintBottom_toBottomOf="@id/manage_my_info_tv_change_password"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -159,7 +160,7 @@
             android:layout_marginTop="27dp"
             android:onClick="@{() -> activity.onSignOutClicked()}"
             app:layout_constraintTop_toBottomOf="@id/manage_my_info_tv_change_password"
-            app:layout_constraintStart_toStartOf="@id/manage_my_info_tv_change_password"
+            app:layout_constraintStart_toStartOf="@id/manage_my_info_tv_name"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <ImageView

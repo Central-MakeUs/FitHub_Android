@@ -151,4 +151,8 @@ class BookMarkActivity : AppCompatActivity() {
         this.setResult(1001, Intent(this, MainActivity::class.java))
         finish()
     }
+
+    fun onBackPress() {
+        finish()
+    }
 }

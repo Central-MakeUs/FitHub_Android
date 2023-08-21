@@ -114,7 +114,6 @@ class PasswordFragment : Fragment() {
 
     private fun showSignIn() {
         if (requireActivity().javaClass.toString().contains("Change")) {
-            Log.e("----", "showSignIn: CHANGE", )
             (requireActivity() as ChangePasswordActivity).setResult(RESULT_OK, Intent(requireActivity(), ManageMyInfoActivity::class.java).putExtra("state", true))
         }
         requireActivity().finish()

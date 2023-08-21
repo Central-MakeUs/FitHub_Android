@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -13,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentRecordBinding
 import com.proteam.fithub.presentation.ui.detail.certificate.ExerciseCertificateDetailActivity
+import com.proteam.fithub.presentation.ui.main.MainActivity
 import com.proteam.fithub.presentation.ui.main.community.record.adapter.RecordAdapter
 import com.proteam.fithub.presentation.ui.main.community.record.viewmodel.RecordViewModel
 import com.proteam.fithub.presentation.ui.main.community.viewmodel.CommunityViewModel

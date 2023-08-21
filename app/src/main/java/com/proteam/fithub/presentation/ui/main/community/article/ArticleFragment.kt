@@ -12,7 +12,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentCommunityArticleBinding
-import com.proteam.fithub.presentation.ui.FitHub
 import com.proteam.fithub.presentation.ui.FitHub.Companion.mSharedPreferences
 import com.proteam.fithub.presentation.ui.main.MainActivity
 import com.proteam.fithub.presentation.ui.main.community.article.adapter.BoardAdapter
@@ -106,7 +105,7 @@ class ArticleFragment : Fragment() {
                 )
             )
         } else {
-            startActivity(Intent(requireActivity(), MainActivity::class.java).setType("MY_PAGE"))
+            (requireActivity() as MainActivity).openMyPageFragment()
         }
     }
 }

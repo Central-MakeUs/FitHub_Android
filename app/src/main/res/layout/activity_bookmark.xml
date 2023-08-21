@@ -25,6 +25,7 @@
                 android:src="@drawable/ic_arrow_back"
                 app:tint="@color/icon_default"
                 android:layout_marginStart="20dp"
+                android:onClick="@{() -> activity.onBackPress()}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

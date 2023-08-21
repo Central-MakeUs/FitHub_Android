@@ -124,4 +124,8 @@ class AlarmActivity : AppCompatActivity() {
     fun openAlarmSettingActivity() {
         startActivity(Intent(this, AlarmSettingActivity::class.java))
     }
+
+    fun onBackPress() {
+        finish()
+    }
 }

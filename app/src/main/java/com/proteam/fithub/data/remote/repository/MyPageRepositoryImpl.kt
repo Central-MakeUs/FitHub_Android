@@ -3,6 +3,7 @@ package com.proteam.fithub.data.remote.repository
 import com.proteam.fithub.data.remote.response.ResponseMyInfoData
 import com.proteam.fithub.data.remote.response.ResponseMyPageData
 import com.proteam.fithub.data.remote.response.ResponseOtherUserProfileData
+import com.proteam.fithub.data.remote.response.ResponseTermsData
 import com.proteam.fithub.domain.repository.MyPageRepository
 import com.proteam.fithub.domain.source.MyPageSource
 import com.proteam.fithub.presentation.util.BaseResponse
@@ -28,5 +29,9 @@ class MyPageRepositoryImpl @Inject constructor(private val source : MyPageSource
 
     override suspend fun requestOtherUserProfile(userId: Int): Result<ResponseOtherUserProfileData.ResultOtherUserProfileData> {
         return source.requestOtherUserProfile(userId)
+    }
+
+    override suspend fun requestTermsData(termsId: Int): Result<ResponseTermsData.ResultTermsData> {
+        return source.requestTermsData(termsId)
     }
 }

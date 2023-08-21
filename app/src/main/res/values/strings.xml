@@ -223,4 +223,11 @@
     <string name="comming_soon_title">아직 준비중 이에요!</string>
     <string name="comming_soon_subtitle">핏허브에서 열심히 공사중이니\n조금만 기다려주시면 감사하겠습니다!</string>
 
+    <!-- 이용 약관 -->
+    <string name="terms_title">약관 및 정책</string>
+    <string name="terms_title_1">서비스 이용 약관</string>
+    <string name="terms_title_2">개인정보 처리 방침</string>
+    <string name="terms_title_3">위치정보 이용 약관</string>
+    <string name="terms_title_4">마케팅 정보 수신 동의 약관</string>
+
 </resources>

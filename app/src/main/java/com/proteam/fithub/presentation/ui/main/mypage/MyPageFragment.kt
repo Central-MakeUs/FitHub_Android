@@ -6,12 +6,10 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -27,9 +25,9 @@ import com.proteam.fithub.presentation.ui.main.MainActivity
 import com.proteam.fithub.presentation.ui.main.mypage.adapter.MyPageExerciseAdapter
 import com.proteam.fithub.presentation.ui.main.mypage.adapter.MyPageUpperMenuAdapter
 import com.proteam.fithub.presentation.ui.main.mypage.viewmodel.MyPageViewModel
-import com.proteam.fithub.presentation.ui.manageinfo.ManageMyInfoActivity
 import com.proteam.fithub.presentation.ui.managewrite.ManageMyWriteActivity
 import com.proteam.fithub.presentation.ui.sign.`in`.social.SocialSignInActivity
+import com.proteam.fithub.presentation.ui.terms.terms.TermsActivity
 import com.proteam.fithub.presentation.util.ConvertBitmap.ConvertWhenSingle
 import com.proteam.fithub.presentation.util.ConvertBitmap.deletePic
 import dagger.hilt.android.AndroidEntryPoint
@@ -53,7 +51,6 @@ class MyPageFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_mypage, container, false)
 
-        observeMyPageData()
         initBinding()
         initUi()
 
@@ -63,6 +60,7 @@ class MyPageFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         viewModel.requestMyPageData().also { showLoadingDialog() }
+        observeMyPageData()
     }
 
     private fun initBinding() {
@@ -73,6 +71,7 @@ class MyPageFragment : Fragment() {
     private fun initUi() {
         initExercisePager()
         initUpperMenuRV()
+        initVersionName()
     }
 
     private fun initExercisePager() {
@@ -87,6 +86,10 @@ class MyPageFragment : Fragment() {
         binding.fgMypageRvUpperMenu.adapter = upperMenuAdapter
     }
 
+    private fun initVersionName() {
+        binding.fgMypageTvVersionName.text = requireActivity().packageManager.getPackageInfo(requireActivity().packageName, 0).versionName
+    }
+
     private fun observeMyPageData() {
         viewModel.myPageData.observe(viewLifecycleOwner) {
             dismissLoadingDialog()
@@ -98,7 +101,7 @@ class MyPageFragment : Fragment() {
 
             exerciseAdapter.apply {
                 exercises = it.myExerciseList.toMutableList()
-                notifyItemRangeChanged(0, it.myExerciseList.size)
+                notifyDataSetChanged()
             }
         }
     }
@@ -127,7 +130,7 @@ class MyPageFragment : Fragment() {
             0 -> (requireActivity() as MainActivity).openMyInfoActivity()
             1 -> startActivity(Intent(requireActivity(), AlarmSettingActivity::class.java))
             2 -> {} //학원 등록 요청
-            3 -> {} //약관 및 정책
+            3 -> startActivity(Intent(requireActivity(), TermsActivity::class.java))
         }
     }
 

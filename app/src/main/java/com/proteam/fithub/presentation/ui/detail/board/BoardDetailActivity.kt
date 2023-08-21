@@ -84,12 +84,8 @@ class BoardDetailActivity : AppCompatActivity() {
                             ).setType(it.userInfo.ownerId.toString())
                         )
                     } else {
-                        startActivity(
-                            Intent(
-                                this@BoardDetailActivity,
-                                MainActivity::class.java
-                            ).setType("MY_PAGE")
-                        )
+                        setResult(RESULT_OK, Intent(this@BoardDetailActivity, MainActivity::class.java).putExtra("state", true))
+                        finish()
                     }
                 }
             }
@@ -159,17 +155,23 @@ class BoardDetailActivity : AppCompatActivity() {
         binding.boardDetailTvComment.setText("")
     }
 
+    fun onArticleHeartClicked() {
+        viewModel.requestHeartClicked(viewModel.articleData.value!!.articleId).also { showLoadingDialog() }
+    }
+
     private fun onCommentHeartClicked(position: Int, index: Int) {
         commentViewModel.requestCommentHeartClicked(
             "articles",
             viewModel.articleData.value!!.articleId,
             index
-        )
+        ).also { showLoadingDialog() }
         observeCommentHeartStatus(position)
     }
 
     private fun observeCommentHeartStatus(position: Int) {
         commentViewModel.heartStatus.observe(this) {
+            dismissLoadingDialog()
+
             if (it == 0) return@observe
             if (it == 2000) observeCommentHeartClicked()
             else {
@@ -179,7 +181,6 @@ class BoardDetailActivity : AppCompatActivity() {
     }
 
     private fun observeCommentHeartClicked() {
-        //:TODO 수정!
         commentViewModel.commentHeartResult.observe(this) {
             commentAdapter.setHeartAction(
                 commentAdapter.getItemIndex(it.result.commentId),
@@ -208,13 +209,13 @@ class BoardDetailActivity : AppCompatActivity() {
 
     private fun observeHeartClicked() {
         viewModel.heartResult.observe(this) {
-            viewModel.setEffectHeart(it)
+            viewModel.setEffectHeart(it).also { dismissLoadingDialog() }
         }
     }
 
     private fun observeScrapClicked() {
         viewModel.scrapResult.observe(this) {
-            viewModel.setEffectScrap()
+            viewModel.setEffectScrap().also { dismissLoadingDialog() }
         }
     }
 
@@ -327,7 +328,8 @@ class BoardDetailActivity : AppCompatActivity() {
                 ).setType(index.toString())
             )
         } else {
-            startActivity(Intent(this, MainActivity::class.java).setType("MY_PAGE"))
+            setResult(RESULT_OK, Intent(this, MainActivity::class.java).putExtra("state", true))
+            finish()
         }
     }
 
@@ -344,6 +346,10 @@ class BoardDetailActivity : AppCompatActivity() {
 
     private fun String.showAlert() {
         ComponentAlertToast().show(supportFragmentManager, this)
+    }
+
+    fun onBackPress() {
+        finish()
     }
 
 

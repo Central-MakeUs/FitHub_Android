@@ -5,6 +5,10 @@
     <data>
 
         <variable
+            name="activity"
+            type="com.proteam.fithub.presentation.ui.mylevel.MyLevelActivity" />
+
+        <variable
             name="data"
             type="com.proteam.fithub.data.remote.response.ResponseMyLevelData.ResultMyLevelData" />
     </data>
@@ -26,6 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:src="@drawable/ic_arrow_back"
+                android:onClick="@{() -> activity.onBackPress()}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

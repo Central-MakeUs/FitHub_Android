@@ -2,7 +2,6 @@ package com.proteam.fithub.presentation.ui.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -14,8 +13,6 @@ import com.proteam.fithub.presentation.ui.alarm.AlarmActivity
 import com.proteam.fithub.presentation.ui.bookmark.BookMarkActivity
 import com.proteam.fithub.presentation.ui.detail.board.BoardDetailActivity
 import com.proteam.fithub.presentation.ui.detail.certificate.ExerciseCertificateDetailActivity
-import com.proteam.fithub.presentation.ui.main.around.AroundFragment
-import com.proteam.fithub.presentation.ui.main.around.list.AroundListFragment
 import com.proteam.fithub.presentation.ui.main.comming_soon.FragmentCommingSoon
 import com.proteam.fithub.presentation.ui.main.community.CommunityFragment
 import com.proteam.fithub.presentation.ui.main.home.HomeFragment
@@ -51,7 +48,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkType() {
-        if(intent.type == "MY_PAGE") openMyPage()
+        if(intent.type == "MY_PAGE") openMyPageFragment()
     }
 
     private fun initBinding() {
@@ -94,7 +91,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openCertificateDetailActivity(index : Int) {
-        startActivity(Intent(this, ExerciseCertificateDetailActivity::class.java).setType(index.toString()))
+        requestOpenMyPage.launch(Intent(this, ExerciseCertificateDetailActivity::class.java).setType(index.toString()))
     }
 
     fun openWriteOrModifyBoard(tag : String) {
@@ -102,7 +99,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun openBoardDetailActivity(index : Int) {
-        startActivity(Intent(this, BoardDetailActivity::class.java).setType(index.toString()))
+        requestOpenMyPage.launch(Intent(this, BoardDetailActivity::class.java).setType(index.toString()))
     }
 
     fun openSearchActivity() {
@@ -125,6 +122,16 @@ class MainActivity : AppCompatActivity() {
         requestGotoSignIn.launch(Intent(this, ManageMyInfoActivity::class.java))
     }
 
+    private val requestOpenMyPage =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == RESULT_OK) {
+                val state = it.data!!.extras?.getBoolean("state")
+                if (state == true) {
+                    openMyPageFragment()
+                }
+            }
+        }
+
     private val requestProcessFinished =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             when(it.resultCode) {
@@ -145,7 +152,6 @@ class MainActivity : AppCompatActivity() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == RESULT_OK) {
                 val state = it.data!!.extras?.getBoolean("state")
-                Log.e("----", "$state: ", )
                 if(state == true) {
                     finish()
                     startActivity(Intent(this, SocialSignInActivity::class.java))
@@ -170,10 +176,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun openMyPage() {
-        changeFragments(MyPageFragment(), "LOGO")
+    fun openMyPageFragment() {
         binding.mainLayoutBottomNavigation.selectedItemId = R.id.main_bottom_my
     }
 
-    fun bnv() = binding.mainLayoutBottomNavigation
+    fun openAroundFragment() {
+        binding.mainLayoutBottomNavigation.selectedItemId = R.id.main_bottom_around
+    }
 }

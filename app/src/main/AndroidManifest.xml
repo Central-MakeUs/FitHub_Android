@@ -128,6 +128,13 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize"/>
 
+        <!-- Terms -->
+        <activity android:name=".presentation.ui.terms.terms.TermsActivity"
+            android:exported="false" />
+        <activity android:name=".presentation.ui.terms.detail.TermsDetailActivity"
+            android:exported="false"
+            android:hardwareAccelerated="true"/>
+
         <!-- Push Alarm -->
         <service
             android:name=".data.remote.fcm.FirebaseMessagingService"
