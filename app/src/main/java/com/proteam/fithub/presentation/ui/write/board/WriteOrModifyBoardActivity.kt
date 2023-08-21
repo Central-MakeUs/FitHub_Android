@@ -2,6 +2,7 @@ package com.proteam.fithub.presentation.ui.write.board
 
 import android.app.Activity
 import android.content.Intent
+import android.content.res.Resources
 import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
@@ -10,6 +11,7 @@ import android.text.InputFilter
 import android.text.Spanned
 import android.util.Log
 import android.view.MotionEvent
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.activity.OnBackPressedCallback
@@ -18,6 +20,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.proteam.fithub.R
 import com.proteam.fithub.data.remote.response.ResponseExercises
@@ -113,6 +116,7 @@ class WriteOrModifyBoardActivity : AppCompatActivity() {
     private fun initWhenWrite() {
         observeTagInserted()
         observeExercises()
+        observeTag()
         observeUserInputContent()
     }
 
@@ -125,8 +129,17 @@ class WriteOrModifyBoardActivity : AppCompatActivity() {
     private fun observeSelectedImage() {
         viewModel.userSelectedImages.observe(this) {
             imageAdapter.paths = it.map { it.toString() } as MutableList
-            imageAdapter.notifyItemRangeChanged(0, it.size)
+            imageAdapter.notifyDataSetChanged()
+
+
+            val params = binding.writeModifyBoardRvImages.layoutParams
+            params.width = (it.size * 110).toDp()
+            binding.writeModifyBoardRvImages.layoutParams = params
         }
+    }
+
+    private fun Int.toDp() : Int {
+        return (this * Resources.getSystem().displayMetrics.density + 0.5f).toInt()
     }
 
     private fun onDropSelectedImage(position: Int) {
@@ -306,6 +319,7 @@ class WriteOrModifyBoardActivity : AppCompatActivity() {
 
     private fun observeTag() {
         viewModel.userInputTagList.observe(this) {
+            Log.e("----", "observeTag: $it", )
             if (!it.isNullOrEmpty()) {
                 val count = it.size - binding.writeModifyBoardChipgroupTag.childCount
                 for (i in it.size - (count + 1) until it.size) {

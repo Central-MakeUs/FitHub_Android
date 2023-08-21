@@ -43,6 +43,11 @@ class SearchResultCertificateFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        certificateAdapter.refresh()
+    }
+
     private fun initUi() {
         initCertificate()
     }

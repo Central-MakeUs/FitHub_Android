@@ -112,7 +112,7 @@ class MyPageFragment : Fragment() {
     }
 
     fun onProfileChangeToDefaultClicked() {
-        viewModel.requestProfileToDefault()
+        viewModel.requestProfileToDefault().also { showLoadingDialog() }
         observeDeleteProfileStatus()
     }
 

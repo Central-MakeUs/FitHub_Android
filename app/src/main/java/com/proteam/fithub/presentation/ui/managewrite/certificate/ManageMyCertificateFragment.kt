@@ -48,6 +48,7 @@ class ManageMyCertificateFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        viewModel.initAllClicked()
         certificateAdapter.refresh()
     }
 

@@ -22,7 +22,7 @@
             android:id="@+id/fg_my_certificate_btn_select_all"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
+            android:layout_marginStart="20dp"
             android:layout_marginVertical="5dp"
             android:background="@android:color/transparent"
             android:button="@android:color/transparent"

@@ -18,4 +18,6 @@ interface SignInRepository {
     suspend fun requestSignOut() : Result<BaseResponse>
 
     suspend fun initUserData()
+
+    suspend fun requestLogOut()
 }

@@ -1,20 +1,28 @@
 package com.proteam.fithub.presentation.ui.search.community.result
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.size
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentSearchResultBinding
+import com.proteam.fithub.presentation.ui.search.community.none.SearchNoneFragment
 import com.proteam.fithub.presentation.ui.search.community.result.adapter.SearchResultPagerAdapter
+import com.proteam.fithub.presentation.ui.search.community.result.article.SearchResultArticleFragment
+import com.proteam.fithub.presentation.ui.search.community.result.certificate.SearchResultCertificateFragment
+import com.proteam.fithub.presentation.ui.search.community.result.total.SearchResultTotalFragment
+import com.proteam.fithub.presentation.ui.search.community.viewmodel.SearchViewModel
 
 class SearchResultFragment : Fragment() {
     private lateinit var binding : FragmentSearchResultBinding
-
+    private val viewModel : SearchViewModel by activityViewModels()
     private var resultPagerAdapter : SearchResultPagerAdapter? = null
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,11 +38,15 @@ class SearchResultFragment : Fragment() {
 
     private fun initBinding() {
         initAdapter()
-        initTab()
     }
 
     private fun initAdapter() {
-        resultPagerAdapter = SearchResultPagerAdapter(this).also { it.setFragments() }
+        resultPagerAdapter = SearchResultPagerAdapter(this).also { it.setFragments(viewModel.searchCode.value!!, viewModel.totalSearchData.value?.recordPreview?.recordList.isNullOrEmpty(), viewModel.totalSearchData.value?.articlePreview?.articleList.isNullOrEmpty()) }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initTab()
     }
 
     private fun initTab() {

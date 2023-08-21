@@ -59,6 +59,7 @@ class MyPageViewModel @Inject constructor(
 
     fun requestLogOut() {
         viewModelScope.launch {
+            signInRepository.requestLogOut()
             signInRepository.initUserData()
         }
     }

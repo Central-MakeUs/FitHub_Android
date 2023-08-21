@@ -30,4 +30,7 @@ interface SignInService {
 
     @POST("/users/quit")
     suspend fun requestSignOut() : Response<BaseResponse>
+
+    @POST("/users/logout")
+    suspend fun requestLogOut()
 }

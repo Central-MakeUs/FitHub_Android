@@ -1,6 +1,7 @@
 package com.proteam.fithub.presentation.ui.search.community.result.total
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,8 +16,8 @@ import com.proteam.fithub.presentation.ui.search.community.result.total.adapter.
 import com.proteam.fithub.presentation.ui.search.community.viewmodel.SearchViewModel
 
 class SearchResultTotalFragment : Fragment() {
-    private lateinit var binding : FragmentSearchResultTotalBinding
-    private val viewModel : SearchViewModel by activityViewModels()
+    private lateinit var binding: FragmentSearchResultTotalBinding
+    private val viewModel: SearchViewModel by activityViewModels()
 
     private val certificateAdapter by lazy {
         CertificateAdapter(::onCertificateClicked)
@@ -24,12 +25,18 @@ class SearchResultTotalFragment : Fragment() {
     private val articleAdapter by lazy {
         ArticleAdapter(::onArticleClicked)
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search_result_total, container ,false)
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_search_result_total,
+            container,
+            false
+        )
 
         initBinding()
         initUi()
@@ -53,7 +60,12 @@ class SearchResultTotalFragment : Fragment() {
 
     private fun initAdapterData() {
         viewModel.totalSearchData.observe(viewLifecycleOwner) {
+            binding.itemSearchResultTotalLayoutCertificate.visibility =
+                if (it.recordPreview.recordList.isEmpty()) View.GONE else View.VISIBLE
             certificateAdapter.certificates = it.recordPreview.recordList.toMutableList()
+
+            binding.itemSearchResultTotalLayoutArticle.visibility =
+                if (it.articlePreview.articleList.isEmpty()) View.GONE else View.VISIBLE
             articleAdapter.articles = it.articlePreview.articleList.toMutableList()
 
             certificateAdapter.notifyItemRangeChanged(0, it.recordPreview.recordList.size)
@@ -61,11 +73,11 @@ class SearchResultTotalFragment : Fragment() {
         }
     }
 
-    private fun onCertificateClicked(index : Int) {
+    private fun onCertificateClicked(index: Int) {
         (requireActivity() as SearchActivity).openCertificateDetailActivity(index)
     }
 
-    private fun onArticleClicked(index : Int) {
+    private fun onArticleClicked(index: Int) {
         (requireActivity() as SearchActivity).openArticleDetailActivity(index)
     }
 

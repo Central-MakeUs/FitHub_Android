@@ -48,6 +48,7 @@ class ManageMyArticleFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        viewModel.initAllClicked()
         articleAdapter.refresh()
     }
 

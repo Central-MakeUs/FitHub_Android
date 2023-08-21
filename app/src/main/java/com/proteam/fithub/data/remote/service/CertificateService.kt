@@ -4,6 +4,7 @@ import com.proteam.fithub.data.remote.request.RequestDeleteMyCertificate
 import com.proteam.fithub.data.remote.response.ResponseCertificateData
 import com.proteam.fithub.data.remote.response.ResponseCertificateDetailData
 import com.proteam.fithub.data.remote.response.ResponseCertificateHeartClicked
+import com.proteam.fithub.data.remote.response.ResponseIsWriteTodayData
 import com.proteam.fithub.data.remote.response.ResponseMyCertificateData
 import com.proteam.fithub.data.remote.response.ResponsePostCertificateData
 import com.proteam.fithub.presentation.util.BaseResponse
@@ -85,4 +86,7 @@ interface CertificateService {
     suspend fun requestDeleteMyCertificate(
         @Body body : RequestDeleteMyCertificate
     ) : Response<BaseResponse>
+
+    @GET("/records/check-today")
+    suspend fun requestCheckTodayCertificate() : Response<ResponseIsWriteTodayData>
 }

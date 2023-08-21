@@ -16,6 +16,7 @@ import com.proteam.fithub.presentation.ui.detail.board.BoardDetailActivity
 import com.proteam.fithub.presentation.ui.detail.certificate.ExerciseCertificateDetailActivity
 import com.proteam.fithub.presentation.ui.main.around.AroundFragment
 import com.proteam.fithub.presentation.ui.main.around.list.AroundListFragment
+import com.proteam.fithub.presentation.ui.main.comming_soon.FragmentCommingSoon
 import com.proteam.fithub.presentation.ui.main.community.CommunityFragment
 import com.proteam.fithub.presentation.ui.main.home.HomeFragment
 import com.proteam.fithub.presentation.ui.main.mypage.MyPageFragment
@@ -69,7 +70,7 @@ class MainActivity : AppCompatActivity() {
                 when(it.itemId) {
                     R.id.main_bottom_home -> changeFragments(HomeFragment(), "LOGO")
                     R.id.main_bottom_community -> changeFragments(CommunityFragment(), "COMMUNITY")
-                    R.id.main_bottom_around -> changeFragments(AroundFragment(), "AROUND")
+                    R.id.main_bottom_around -> changeFragments(FragmentCommingSoon(), "AROUND")
                     R.id.main_bottom_my -> changeFragments(MyPageFragment(), "LOGO")
                 }
                 return@setOnItemSelectedListener true
@@ -92,7 +93,7 @@ class MainActivity : AppCompatActivity() {
         startActivity(Intent(this, WriteOrModifyCertificateActivity::class.java).setType(tag))
     }
 
-    fun openCertificateDetailActivity(index : Int) {
+    private fun openCertificateDetailActivity(index : Int) {
         startActivity(Intent(this, ExerciseCertificateDetailActivity::class.java).setType(index.toString()))
     }
 

@@ -37,5 +37,9 @@ class SignInRepositoryImpl @Inject constructor(
         localSource.initUserData()
     }
 
+    override suspend fun requestLogOut() {
+        source.requestLogOut()
+    }
+
 
 }

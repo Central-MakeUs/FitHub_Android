@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
@@ -55,6 +56,9 @@
                     android:scheme="kakao${kakao_native_key}" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".presentation.ui.onboarding.OnBoardingActivity"
+            android:exported="false" />
 
         <activity android:name=".presentation.ui.write.certificate.WriteOrModifyCertificateActivity"
             android:exported="true" />

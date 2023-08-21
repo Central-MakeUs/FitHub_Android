@@ -22,6 +22,7 @@ import com.proteam.fithub.presentation.ui.main.MainActivity
 import com.proteam.fithub.presentation.ui.main.community.adapter.CommunityPagerAdapter
 import com.proteam.fithub.presentation.ui.main.community.dialog.DialogCommunityFloating
 import com.proteam.fithub.presentation.ui.main.community.viewmodel.CommunityViewModel
+import com.proteam.fithub.presentation.util.CustomSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -43,6 +44,7 @@ class CommunityFragment : Fragment() {
         initBinding()
         initUi()
         observeFilterExercises()
+        observeTodayCertificateState()
 
         return binding.root
     }
@@ -96,7 +98,18 @@ class CommunityFragment : Fragment() {
     }
 
     private fun onCertificateClicked() {
-        (requireActivity() as MainActivity).openWriteOrModifyCertificate("Write")
+        viewModel.checkTodaysCertificate()
+    }
+
+    private fun observeTodayCertificateState() {
+        viewModel.todayCertificateData.observe(viewLifecycleOwner) {
+            when (it) {
+                true -> CustomSnackBar.makeSnackBar(binding.root, "ALREADY_WRITTEN").show()
+                false -> (requireActivity() as MainActivity).openWriteOrModifyCertificate("Write")
+                else -> return@observe
+            }
+            viewModel.initCertificateState()
+        }
     }
 
     private fun onBoardClicked() {

@@ -15,6 +15,7 @@ import com.proteam.fithub.R
 import com.proteam.fithub.databinding.ActivitySocialSignUpBinding
 import com.proteam.fithub.presentation.util.LoadingDialog
 import com.proteam.fithub.presentation.component.ComponentAlertToast
+import com.proteam.fithub.presentation.ui.main.MainActivity
 import com.proteam.fithub.presentation.ui.sign.`in`.social.SocialSignInActivity
 import com.proteam.fithub.presentation.ui.sign.result.SignUpResultActivity
 import com.proteam.fithub.presentation.ui.sign.up.common.agreement.AgreementFragment
@@ -84,15 +85,15 @@ class SocialSignUpActivity : AppCompatActivity() {
             deletePhoto()
             dismissLoadingDialog()
             when(it) {
-                2000 -> openSignUpResultActivity()
+                2000 -> openMainActivity()
                 else -> ComponentAlertToast().show(supportFragmentManager, "$it")
             }
         }
     }
 
-    private fun openSignUpResultActivity() {
+    private fun openMainActivity() {
         setResult(RESULT_OK, Intent(this, SocialSignInActivity::class.java).putExtra("state", true))
-        startActivity(Intent(this, SignUpResultActivity::class.java).setType(viewModel.userInputNickName.value))
+        startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
 

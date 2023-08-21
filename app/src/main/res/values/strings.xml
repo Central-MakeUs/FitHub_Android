@@ -1,15 +1,34 @@
 <resources>
 
-    <string name="app_name">FitHub_Android</string>
+    <string name="app_name">FitHub</string>
 
     <string name="main_bottom_home">홈</string>
     <string name="main_bottom_community">커뮤니티</string>
     <string name="main_bottom_around">둘러보기</string>
     <string name="main_bottom_my">마이핏허브</string>
 
+    <!-- 온보딩 -->
+    <string name="onboarding_skip">건너뛰기</string>
+    <string name="onboarding_next">다음</string>
+    <string name="onboarding_finish">핏허브 시작하기</string>
+
+    <string name="onboarding_title_1">핏허브에 어서오세요!</string>
+    <string name="onboarding_subTitle_1">재미있고 내게 맞는 운동이 찾고싶어\n우주를 떠돌다 지친 당신, 핏허브 행성에 잘 오셨어요!</string>
+
+    <string name="onboarding_title_2">오운완 인증하고 레벨 UP!</string>
+    <string name="onboarding_subTitle_2">인증샷 한 장으로 경험치가 쌓여요.\n우주먼지부터 은하까지 성장하면서 재밌게 운동해요!</string>
+
+    <string name="onboarding_title_3">운동정보를 공유해요</string>
+    <string name="onboarding_subTitle_3">운동에 대한 고민이 있을 때, 알려주고싶은 꿀팁이 있을 때\n핏허브에서 다른 사람과 이야기해봐요.</string>
+
+    <string name="onboarding_title_4">\'특별한\' 운동, 어디서 하지?</string>
+    <string name="onboarding_subTitle_4">재미있고 특별한 운동, 핏허브에 모아 놓았어요.\n운동시설 정보를 탐색해봐요.</string>
+
+
     <string name="error_phone_number">휴대폰 번호가 올바르지 않습니다</string>
     <string name="error_password_regex">특수문자, 숫자, 영문 조합으로 입력하세요</string>
     <string name="error_password_length">비밀번호는 8 ~ 16자 이내로 입력하세요</string>
+    <string name="error_name_regex">이름을 정확히 입력해주세요</string>
     <string name="success_password">사용할 수 있는 비밀번호입니다</string>
     <string name="error_password_not_match">비밀번호가 일치하지 않습니다</string>
     <string name="success_password_match">비밀번호가 일치합니다</string>
@@ -45,7 +64,6 @@
     <string name="common_sign_out">회원탈퇴</string>
 
 
-
     <string name="common_find_password">비밀번호 찾기</string>
     <string name="common_sign_up">회원가입</string>
 
@@ -74,7 +92,7 @@
 
     <string name="sign_up_with_phone_user_profile">프로필 설정</string>
     <string name="sign_up_with_phone_user_profile_notice">나를 표현할 사진과 닉네임을 등록해주세요.</string>
-    <string name="sign_up_with_phone_user_profile_additional">한글 혹은 영문을 포함하여 1 ~ 10자로 입력해주세요.</string>
+    <string name="sign_up_with_phone_user_profile_additional">한글 혹은 영문을 포함하여 1 ~ 8자로 입력해주세요.</string>
 
     <string name="sign_up_with_phone_interest_sports">핏허브에서 인증하고 싶은\n메인 운동 1개를 선택해 주세요.</string>
     <string name="sign_up_with_phone_interest_sports_notice">메인운동은 언제든 수정이 가능해요!</string>
@@ -141,7 +159,7 @@
     <string name="home_certificate_count_continue_count">%d일</string>
     <string name="home_look_around_gym_near_me">내 근처 운동시설 둘러보기</string>
     <string name="home_best_certificate_user">최고의 운동 인증러</string>
-    <string name="home_best_certificate_standard">%s 12:00 기준</string>
+    <string name="home_best_certificate_standard">%s 00:00 기준</string>
     <string name="home_best_certificate_times">%d회</string>
     <string name="home_best_certificate_rank_see_more">랭킹 더보기</string>
 
@@ -200,5 +218,9 @@
 
     <!-- 다른 유저 프로필 -->
     <string name="other_user_profile_when_no_articles">아직 작성한 글이 없습니다.</string>
+
+    <!-- 준비중 -->
+    <string name="comming_soon_title">아직 준비중 이에요!</string>
+    <string name="comming_soon_subtitle">핏허브에서 열심히 공사중이니\n조금만 기다려주시면 감사하겠습니다!</string>
 
 </resources>

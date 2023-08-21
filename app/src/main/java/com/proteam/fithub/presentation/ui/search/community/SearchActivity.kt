@@ -90,12 +90,7 @@ class SearchActivity : AppCompatActivity() {
 
     private fun observeSearchCode() {
         viewModel.searchCode.observe(this) {
-            when(it) {
-                2000 -> setResultFragment()
-                2021 -> setNoneFragment()
-                else -> return@observe
-            }
-            viewModel.initSearchCode()
+            if(it == 2000 || it == 2021) setResultFragment()
         }
     }
 

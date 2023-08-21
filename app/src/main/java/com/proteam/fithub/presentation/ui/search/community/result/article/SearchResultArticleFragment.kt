@@ -53,7 +53,7 @@ class SearchResultArticleFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-
+        searchResultArticleAdapter.refresh()
     }
 
     private fun requestData() {

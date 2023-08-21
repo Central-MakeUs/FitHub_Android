@@ -119,7 +119,7 @@ class ComponentEdtName(context: Context, attrs: AttributeSet) :
     private fun setNoticeTextStatus() {
         binding.componentEdtInputNameTvAdditional.apply {
             visibility = if(status == Status.ERROR) VISIBLE else GONE
-            text = resources.getString(R.string.error_password_regex)
+            text = resources.getString(R.string.error_name_regex)
             if(status == Status.ERROR) {
                 setTextColor(errorColor)
             }

@@ -24,6 +24,9 @@ class ManageMyArticleViewModel @Inject constructor(private val articleRepository
 
     var isAllClicked = MutableLiveData<Boolean>(false)
 
+    fun initAllClicked() {
+        isAllClicked.value = false
+    }
 
     fun requestMyArticleData(filter: Int): Flow<PagingData<ResponseMyArticleData.ResultMyArticleData>> {
         return articleRepository.requestMyArticleData(filter)

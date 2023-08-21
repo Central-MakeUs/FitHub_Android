@@ -15,6 +15,7 @@ import com.proteam.fithub.R
 import com.proteam.fithub.databinding.ActivityNumberSignUpBinding
 import com.proteam.fithub.presentation.util.LoadingDialog
 import com.proteam.fithub.presentation.component.ComponentAlertToast
+import com.proteam.fithub.presentation.ui.main.MainActivity
 import com.proteam.fithub.presentation.ui.sign.`in`.number.NumberSignInActivity
 import com.proteam.fithub.presentation.ui.sign.result.SignUpResultActivity
 import com.proteam.fithub.presentation.ui.sign.up.common.agreement.AgreementFragment
@@ -80,20 +81,24 @@ class NumberSignUpActivity : AppCompatActivity() {
 
     private fun observeSignUpResult() {
         viewModel.signUpState.observe(this) {
-            deletePhoto()
             dismissLoadingDialog()
+            deletePhoto()
             when(it) {
                 0 -> return@observe
-                2000 -> openSignUpResultActivity()
-                else -> ComponentAlertToast().show(supportFragmentManager, "$it")
+                2000 -> {
+                    openMainActivity()
+                }
+                else -> {
+                    ComponentAlertToast().show(supportFragmentManager, "$it")
+                }
             }
             viewModel.initState()
         }
     }
 
-    private fun openSignUpResultActivity() {
+    private fun openMainActivity() {
         setResult(RESULT_OK, Intent(this, NumberSignInActivity::class.java).putExtra("state", true))
-        startActivity(Intent(this, SignUpResultActivity::class.java).setType(viewModel.userInputNickname.value))
+        startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
 

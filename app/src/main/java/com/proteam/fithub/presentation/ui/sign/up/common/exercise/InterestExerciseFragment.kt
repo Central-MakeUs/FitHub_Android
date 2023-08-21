@@ -72,6 +72,7 @@ class InterestExerciseFragment : Fragment() {
 
     private fun initExerciseRV() {
         binding.fgSignUpSelectInterestSportsRvContents.adapter = adapter
+        binding.fgSignUpSelectInterestSportsRvContents.itemAnimator = null
         adapter.selected = select() as MutableList
     }
 

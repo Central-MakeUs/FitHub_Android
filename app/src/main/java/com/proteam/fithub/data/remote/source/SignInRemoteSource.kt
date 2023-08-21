@@ -39,4 +39,8 @@ class SignInRemoteSource @Inject constructor(private val service: SignInService)
             else -> Result.failure(IllegalArgumentException(res.errorBody()?.convertAndGetCode().toString()))
         }
     }
+
+    override suspend fun requestLogOut() {
+        val res = service.requestLogOut()
+    }
 }

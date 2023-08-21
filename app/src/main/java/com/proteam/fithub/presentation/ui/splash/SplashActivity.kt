@@ -10,28 +10,20 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.ActivitySplashBinding
 import com.proteam.fithub.presentation.ui.main.MainActivity
+import com.proteam.fithub.presentation.ui.onboarding.OnBoardingActivity
 import com.proteam.fithub.presentation.ui.sign.`in`.social.SocialSignInActivity
 import com.proteam.fithub.presentation.ui.splash.viewModel.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
-    private lateinit var binding : ActivitySplashBinding
+    //private lateinit var binding : ActivitySplashBinding
     private val viewModel: SplashViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
+        //binding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
 
-        getFCMToken()
         observeAuthSignIn()
-    }
-
-    private fun getFCMToken() {
-        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                Log.e("----", "getFCMToken: ${task.result}")
-            }
-        }
     }
 
     private fun observeAuthSignIn() {
@@ -52,7 +44,7 @@ class SplashActivity : AppCompatActivity() {
                 else -> startActivity(
                     Intent(
                         this,
-                        SocialSignInActivity::class.java
+                        OnBoardingActivity::class.java
                     ).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                 )
             }

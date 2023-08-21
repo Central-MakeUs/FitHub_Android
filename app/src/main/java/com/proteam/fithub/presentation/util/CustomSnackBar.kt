@@ -38,6 +38,7 @@ object CustomSnackBar {
             "4054" -> case_4054()
             "4063" -> case_4063()
             "5000" -> case_5000()
+            "ALREADY_WRITTEN" -> case_ALREADY_WRITTEN()
             else -> message
         }
 
@@ -66,5 +67,6 @@ object CustomSnackBar {
     private fun case_4054() = "자신의 댓글에는 좋아요를 누를 수 없습니다"
     private fun case_4063() = "자기 자신을 신고할 수 없습니다"
     private fun case_5000() = "알 수 없는 오류가 발생했습니다."
+    private fun case_ALREADY_WRITTEN() = "이미 운동인증을 하셨네요!\n운동인증은 하루 한 번만 가능합니다."
 
 }

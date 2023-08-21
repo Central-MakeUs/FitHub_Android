@@ -26,6 +26,10 @@ class ManageMyCertificateViewModel @Inject constructor(private val certificateRe
 
     var isAllClicked = MutableLiveData<Boolean>(false)
 
+    fun initAllClicked() {
+        isAllClicked.value = false
+    }
+
     fun requestMyCertificateData(filter: Int): Flow<PagingData<ResponseMyCertificateData.ResultMyCertificateData>> {
         return certificateRepository.requestMyCertificateData(filter)
     }

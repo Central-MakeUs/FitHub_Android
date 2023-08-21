@@ -12,4 +12,6 @@ interface SignInSource {
     suspend fun signInWithPhone(body : RequestSignInPhone) : Result<ResponseSignIn>
 
     suspend fun requestSignOut() : Result<BaseResponse>
+
+    suspend fun requestLogOut()
 }
