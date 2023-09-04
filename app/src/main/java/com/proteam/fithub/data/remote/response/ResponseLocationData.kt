@@ -1,6 +1,7 @@
 package com.proteam.fithub.data.remote.response
 
 import com.proteam.fithub.presentation.util.BaseResponse
+import java.io.Serializable
 
 data class ResponseLocationData(
     val result : ResultLocationData
@@ -19,8 +20,9 @@ data class ResponseLocationData(
         val imageUrl : String,
         val phoneNumber : String,
         val category : String,
+        val categoryId : Int,
         val x : String,
         val y : String,
         val dist : String
-    )
+    ) : Serializable
 }

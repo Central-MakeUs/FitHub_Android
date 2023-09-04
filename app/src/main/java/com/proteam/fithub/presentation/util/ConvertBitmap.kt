@@ -33,7 +33,7 @@ object ConvertBitmap {
     }
 
     private fun String.resizeImage(context : Context) : String {
-        return File(Bitmap.createScaledBitmap(this.convertUriToBitmap(context), 512, 512, true).convertToUri(context).toString()).path
+        return File(Bitmap.createScaledBitmap(this.convertUriToBitmap(context), 1024, 1024, true).convertToUri(context).toString()).path
     }
 
     private fun String.convertUriToBitmap(context: Context) : Bitmap {

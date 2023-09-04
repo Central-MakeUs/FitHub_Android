@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="fragment"
+            type="com.proteam.fithub.presentation.ui.main.arounds.map.AroundsMapFragment" />
+
+        <variable
+            name="viewModel"
+            type="com.proteam.fithub.presentation.ui.main.arounds.viewmodel.AroundsViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_around_research"
+            android:drawableStart="@drawable/ic_around_research"
+            android:drawablePadding="4dp"
+            android:gravity="center"
+            android:onClick="@{() -> fragment.onResearchClicked()}"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="10dp"
+            android:text="이 지역 재검색"
+            android:textAppearance="@style/Body_medium_medium"
+            android:textColor="@color/text_default"
+            android:translationZ="1dp"
+            android:visibility="@{viewModel.isResearchNeed ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/fg_around_container_map" />
+
+
+        <RelativeLayout
+            android:id="@+id/fg_around_container_map"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            app:borderWidth="0dp"
+            app:fabCustomSize="45dp"
+            app:layout_constraintBottom_toTopOf="@id/fg_around_component_location_card"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@color/icon_sub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="21dp"
+            android:layout_marginBottom="15dp"
+            android:backgroundTint="@color/black"
+            android:onClick="@{() -> fragment.onNavigateClicked()}"
+            android:src="@drawable/ic_around_fab_current_location" />
+
+        <TextView
+            app:layout_constraintBottom_toTopOf="@id/fg_around_component_location_card"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/btn_around_result_see_list"
+            android:drawableStart="@drawable/ic_around_see_list"
+            android:drawablePadding="4dp"
+            android:onClick="@{() -> fragment.openListFragment()}"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="10dp"
+            android:text="@string/around_see_list"
+            android:textAppearance="@style/Body_small_medium"
+            android:textColor="@color/text_default" />
+
+        <com.proteam.fithub.presentation.component.ComponentLocationCard
+            android:id="@+id/fg_around_component_location_card"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="15dp"
+            android:visibility="@{viewModel.isCardShowing ? View.VISIBLE : View.GONE}"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

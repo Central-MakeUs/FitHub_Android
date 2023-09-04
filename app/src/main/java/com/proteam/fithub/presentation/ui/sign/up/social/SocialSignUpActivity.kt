@@ -76,7 +76,6 @@ class SocialSignUpActivity : AppCompatActivity() {
         token?.let { it2 ->
             viewModel.requestSocialSignUp(Convert()?.also { viewModel.setPathForDelete(it) }?.getAbsolutePath(), it2).also { showLoadingDialog() }
         }
-
         observeSignUpResult()
     }
 

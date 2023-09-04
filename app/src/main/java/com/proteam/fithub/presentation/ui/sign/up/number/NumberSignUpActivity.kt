@@ -81,10 +81,9 @@ class NumberSignUpActivity : AppCompatActivity() {
 
     private fun observeSignUpResult() {
         viewModel.signUpState.observe(this) {
-            dismissLoadingDialog()
             deletePhoto()
+            dismissLoadingDialog()
             when(it) {
-                0 -> return@observe
                 2000 -> {
                     openMainActivity()
                 }
@@ -92,7 +91,6 @@ class NumberSignUpActivity : AppCompatActivity() {
                     ComponentAlertToast().show(supportFragmentManager, "$it")
                 }
             }
-            viewModel.initState()
         }
     }
 

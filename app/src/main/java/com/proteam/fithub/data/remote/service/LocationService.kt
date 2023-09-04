@@ -10,12 +10,21 @@ import retrofit2.http.Query
 interface LocationService {
 
     @GET("/home/facilities/{categoryId}")
-    suspend fun requestSearchLocationData(
+    suspend fun requestSearchLocationDataWithoutKeyword(
         @Path("categoryId") categoryId : Int,
         @Query("x") x : String,
         @Query("y") y : String,
         @Query("userX") userX : String,
-        @Query("userY") userY : String
+        @Query("userY") userY : String,
+        @Query("keyword") keyword : String
+    ) : Response<ResponseLocationData>
+
+    @GET("home/facilities/keyword/0")
+    suspend fun requestSearchLocationDataWithKeyword(
+        @Query("categoryId") categoryId: Int,
+        @Query("userX") userX : String,
+        @Query("userY") userY : String,
+        @Query("keyword") keyword : String
     ) : Response<ResponseLocationData>
 
     @GET("home/facilities/keywords")

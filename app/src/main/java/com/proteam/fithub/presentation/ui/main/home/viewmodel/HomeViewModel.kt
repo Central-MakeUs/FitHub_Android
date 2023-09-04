@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.proteam.fithub.data.remote.response.ResponseExercises
 import com.proteam.fithub.data.remote.response.ResponseHomeData
+import com.proteam.fithub.domain.repository.CertificateRepository
 import com.proteam.fithub.domain.repository.ExerciseRepository
 import com.proteam.fithub.domain.repository.HomeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val homeRepository: HomeRepository,
-    private val exerciseRepository: ExerciseRepository
+    private val exerciseRepository: ExerciseRepository,
+    private val certificateRepository: CertificateRepository
     ): ViewModel() {
     private val _homeData = MutableLiveData<ResponseHomeData>()
     val homeData : LiveData<ResponseHomeData> = _homeData
@@ -28,6 +30,9 @@ class HomeViewModel @Inject constructor(
 
     private val _totalState = MutableLiveData<Boolean>()
     val totalState : LiveData<Boolean> = _totalState
+
+    private val _todayCertificateData = MutableLiveData<Boolean?>()
+    val todayCertificateData : LiveData<Boolean?> = _todayCertificateData
 
 
     fun requestExerciseCategory() {
@@ -54,5 +59,12 @@ class HomeViewModel @Inject constructor(
 
     private fun checkTotalStatus() {
         _totalState.value = homeState.value!! && exerciseState.value!!
+    }
+
+    fun checkTodaysCertificate() {
+        viewModelScope.launch {
+            certificateRepository.requestCertificateToday()
+                .onSuccess { _todayCertificateData.value = it.isWrite }
+        }
     }
 }

@@ -14,7 +14,7 @@ import com.proteam.fithub.databinding.ComponentToastBinding
 object CustomSnackBar {
 
     fun makeSnackBar(view: View, message: String): Snackbar {
-        val snackBar = Snackbar.make(view, message, 3500)
+        val snackBar = Snackbar.make(view, message, 2000)
 
         val binding = DataBindingUtil.inflate<ComponentToastBinding>(
             LayoutInflater.from(view.context),
@@ -68,5 +68,4 @@ object CustomSnackBar {
     private fun case_4063() = "자기 자신을 신고할 수 없습니다"
     private fun case_5000() = "알 수 없는 오류가 발생했습니다."
     private fun case_ALREADY_WRITTEN() = "이미 운동인증을 하셨네요!\n운동인증은 하루 한 번만 가능합니다."
-
 }

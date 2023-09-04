@@ -2,33 +2,43 @@ package com.proteam.fithub.presentation.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.proteam.fithub.R
+import com.proteam.fithub.data.remote.response.ResponseLocationData
 import com.proteam.fithub.databinding.ActivityMainBinding
 import com.proteam.fithub.presentation.ui.alarm.AlarmActivity
 import com.proteam.fithub.presentation.ui.bookmark.BookMarkActivity
 import com.proteam.fithub.presentation.ui.detail.board.BoardDetailActivity
 import com.proteam.fithub.presentation.ui.detail.certificate.ExerciseCertificateDetailActivity
-import com.proteam.fithub.presentation.ui.main.comming_soon.FragmentCommingSoon
+import com.proteam.fithub.presentation.ui.main.arounds.AroundsFragment
+import com.proteam.fithub.presentation.ui.main.arounds.viewmodel.AroundsViewModel
 import com.proteam.fithub.presentation.ui.main.community.CommunityFragment
 import com.proteam.fithub.presentation.ui.main.home.HomeFragment
 import com.proteam.fithub.presentation.ui.main.mypage.MyPageFragment
 import com.proteam.fithub.presentation.ui.manageinfo.ManageMyInfoActivity
 import com.proteam.fithub.presentation.ui.mylevel.MyLevelActivity
+import com.proteam.fithub.presentation.ui.search.arounds.SearchAroundsActivity
 import com.proteam.fithub.presentation.ui.search.community.SearchActivity
 import com.proteam.fithub.presentation.ui.sign.`in`.social.SocialSignInActivity
 import com.proteam.fithub.presentation.ui.write.board.WriteOrModifyBoardActivity
 import com.proteam.fithub.presentation.ui.write.certificate.WriteOrModifyCertificateActivity
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.Serializable
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
     private val viewModel : MainViewModel by viewModels()
+    private val aroundsViewModel : AroundsViewModel by viewModels()
+
+    private val aroundsFragment by lazy {
+        AroundsFragment()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +64,7 @@ class MainActivity : AppCompatActivity() {
     private fun initBinding() {
         binding.activity = this
         binding.viewModel = viewModel
+        binding.aroundViewModel = aroundsViewModel
         binding.lifecycleOwner = this
     }
 
@@ -66,8 +77,8 @@ class MainActivity : AppCompatActivity() {
             setOnItemSelectedListener {
                 when(it.itemId) {
                     R.id.main_bottom_home -> changeFragments(HomeFragment(), "LOGO")
-                    R.id.main_bottom_community -> changeFragments(CommunityFragment(), "COMMUNITY")
-                    R.id.main_bottom_around -> changeFragments(FragmentCommingSoon(), "AROUND")
+                    R.id.main_bottom_community -> changeFragments(CommunityFragment(), "SEARCH_COMMUNITY")
+                    R.id.main_bottom_around -> changeFragments(AroundsFragment(), "SEARCH_AROUND")
                     R.id.main_bottom_my -> changeFragments(MyPageFragment(), "LOGO")
                 }
                 return@setOnItemSelectedListener true
@@ -80,6 +91,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun changeFragments(fragment : Fragment, tag : String) {
+        binding.mainTvSearchHint.setTextColor(resources.getColor(R.color.text_info, null))
+
         viewModel.setFragmentTag(tag)
         viewModel.requestCheckAlarmAvailable()
         supportFragmentManager.beginTransaction().replace(R.id.main_layout_container, fragment)
@@ -102,8 +115,38 @@ class MainActivity : AppCompatActivity() {
         requestOpenMyPage.launch(Intent(this, BoardDetailActivity::class.java).setType(index.toString()))
     }
 
-    fun openSearchActivity() {
-        startActivity(Intent(this, SearchActivity::class.java))
+    fun openSearchActivity(isCommunity : Boolean) {
+        if(isCommunity) startActivity(Intent(this, SearchActivity::class.java))
+        else requestSearchAround.launch(Intent(this, SearchAroundsActivity::class.java)
+            .putExtra("Latitude", aroundsViewModel.currentLocation.value?.latitude)
+            .putExtra("Longitude", aroundsViewModel.currentLocation.value?.longitude)
+        )
+    }
+
+    private val requestSearchAround =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == RESULT_OK) {
+
+                val result = it.data!!.extras?.getSerializable("list")
+                aroundsViewModel.setCurrentMarkerItems(result as List<ResponseLocationData.LocationItems>)
+
+                val state = it.data!!.extras?.getString("keyword")
+                state?.let {
+                    aroundsViewModel.setUserInputKeyword(it)
+                    binding.mainTvSearchHint.apply {
+                        setTextColor(resources.getColor(R.color.text_default, null))
+                        text = it
+                    }
+                }
+            }
+        }
+
+    fun initAroundKeyword() {
+        aroundsViewModel.initKeyword()
+        binding.mainTvSearchHint.apply {
+            setTextColor(resources.getColor(R.color.text_info, null))
+            text = resources.getString(R.string.around_hint_toolbar_edt)
+        }
     }
 
     fun openMyLevelActivity() {
@@ -180,7 +223,15 @@ class MainActivity : AppCompatActivity() {
         binding.mainLayoutBottomNavigation.selectedItemId = R.id.main_bottom_my
     }
 
-    fun openAroundFragment() {
+    fun openAroundFragmentFromHome(index : Int) {
         binding.mainLayoutBottomNavigation.selectedItemId = R.id.main_bottom_around
+        initMapWithFilter(index)
+    }
+
+    private fun initMapWithFilter(index : Int) {
+        aroundsViewModel.apply {
+            initTargetLocation()
+            setSelectedFilter(index)
+        }
     }
 }

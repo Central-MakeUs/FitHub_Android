@@ -53,6 +53,7 @@ class MyPageFragment : Fragment() {
 
         initBinding()
         initUi()
+        initObserveProfileChangeStatus()
 
         return binding.root
     }
@@ -146,13 +147,15 @@ class MyPageFragment : Fragment() {
             if (it.resultCode == Activity.RESULT_OK && it.data?.data != null) {
                 if (it?.data?.clipData == null) {
                     it.data!!.data?.let { it1 ->
-                        deletePath = it1.Convert()
-                        viewModel.setUserSelectedProfile(deletePath.getAbsolutePath())
-                        observeChangeStatus()
+                        deletePath = it1.Convert().also { it2 -> viewModel.setUserSelectedProfile(it2.getAbsolutePath()) }
                     }
                 }
             }
         }
+
+    private fun initObserveProfileChangeStatus() {
+        observeChangeStatus()
+    }
 
     private fun observeChangeStatus() {
         viewModel.changeProfileStatus.observe(viewLifecycleOwner) {

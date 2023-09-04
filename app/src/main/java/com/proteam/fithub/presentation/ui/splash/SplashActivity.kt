@@ -9,10 +9,12 @@ import androidx.databinding.DataBindingUtil
 import com.google.firebase.messaging.FirebaseMessaging
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.ActivitySplashBinding
+import com.proteam.fithub.presentation.component.ComponentDialogOneButton
 import com.proteam.fithub.presentation.ui.main.MainActivity
 import com.proteam.fithub.presentation.ui.onboarding.OnBoardingActivity
 import com.proteam.fithub.presentation.ui.sign.`in`.social.SocialSignInActivity
 import com.proteam.fithub.presentation.ui.splash.viewModel.SplashViewModel
+import com.proteam.fithub.presentation.util.NetworkUtil
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,7 +25,20 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         //binding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
 
-        observeAuthSignIn()
+        checkNetwork()
+    }
+
+    private fun checkNetwork() {
+        if (NetworkUtil.checkNetworkEnable(this)) {
+            observeAuthSignIn()
+        }
+        else {
+            ComponentDialogOneButton(::whenNotNetwork).show(supportFragmentManager, "WHEN_NOT_NETWORK")
+        }
+    }
+
+    private fun whenNotNetwork() {
+        finish()
     }
 
     private fun observeAuthSignIn() {

@@ -17,8 +17,8 @@ android {
         applicationId "com.proteam.fithub"
         minSdk 26
         targetSdk 33
-        versionCode 1
-        versionName "1.0.1"
+        versionCode 4
+        versionName "1.0.2"
 
         buildConfigField "String", "KAKAO_NATIVE_KEY", properties['KAKAO_NATIVE_KEY']
         buildConfigField "String", "DEV_BASE_URL", properties['DEV_BASE_URL']

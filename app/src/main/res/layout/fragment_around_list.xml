@@ -1,12 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="fragment"
+            type="com.proteam.fithub.presentation.ui.main.arounds.list.AroundListFragment" />
+
+        <variable
+            name="viewModel"
+            type="com.proteam.fithub.presentation.ui.main.arounds.viewmodel.AroundsViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/color_error">
+        android:background="@color/bg_default"
+        android:clickable="true">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fg_arounds_rv_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:translationZ="1dp"
+            android:background="@drawable/btn_around_result_see_map"
+            android:drawableStart="@drawable/ic_location_search_around_result"
+            android:drawablePadding="4dp"
+            android:onClick="@{() -> fragment.openMapFragment()}"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="10dp"
+            android:text="@string/around_see_map"
+            android:textAppearance="@style/Body_small_medium"
+            android:textColor="@color/text_main_btn"
+            app:tint="@color/text_main_btn"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fg_around_list_layout_none"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{viewModel.filteredMarkerItems.empty ? View.VISIBLE : View.GONE}"
+            android:background="@color/bg_default">
+
+            <TextView
+                android:id="@+id/fg_search_none_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text='@{viewModel.userInputKeyword == null ? @string/search_none_title(viewModel.userInputKeyword) : "이 지역은 아직 시설 정보가 없어요."}'
+                android:textAppearance="@style/Body_large_medium"
+                android:textColor="@color/text_default"
+                android:includeFontPadding="false"
+                android:layout_marginTop="130dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/search_none_notice"
+                android:textColor="@color/text_sub02"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/fg_search_none_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

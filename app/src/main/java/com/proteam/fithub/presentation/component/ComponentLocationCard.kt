@@ -2,7 +2,9 @@ package com.proteam.fithub.presentation.component
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import com.proteam.fithub.R
@@ -21,9 +23,9 @@ class ComponentLocationCard(context : Context, attrs : AttributeSet) : Constrain
         addView(binding.root)
     }
 
-    fun getData(data : ResponseLocationData.LocationItems) {
+    fun getData(data : ResponseLocationData.LocationItems?) {
         binding.data = data
-        binding.componentLocationCardLayoutLevel.getExercise(data.category)
+        binding.componentLocationCardLayoutLevel.getExercise(data?.category)
     }
 
 }

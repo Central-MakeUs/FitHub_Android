@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -23,6 +23,7 @@ import com.proteam.fithub.presentation.ui.main.home.adapter.HomeBestRankAdapter
 import com.proteam.fithub.presentation.ui.main.home.adapter.HomeNearGymAdapter
 import com.proteam.fithub.presentation.ui.main.home.viewmodel.HomeViewModel
 import com.proteam.fithub.presentation.ui.otheruser.OtherUserProfileActivity
+import com.proteam.fithub.presentation.util.CustomSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -50,6 +51,7 @@ class HomeFragment : Fragment() {
         initUi()
         initBinding()
         requestData()
+        observeCertificateWritten()
 
         return binding.root
     }
@@ -134,11 +136,21 @@ class HomeFragment : Fragment() {
     }
 
     private fun onGymClicked(index: Int) {
-        (requireActivity() as MainActivity).openAroundFragment()
+        (requireActivity() as MainActivity).openAroundFragmentFromHome(index)
     }
 
     fun onGotoCertificateClicked() {
-        (requireActivity() as MainActivity).openWriteOrModifyCertificate("Write")
+        viewModel.checkTodaysCertificate()
+    }
+
+    private fun observeCertificateWritten() {
+        viewModel.todayCertificateData.observe(viewLifecycleOwner) {
+            when (it) {
+                true -> CustomSnackBar.makeSnackBar(binding.root, "ALREADY_WRITTEN").show()
+                false -> (requireActivity() as MainActivity).openWriteOrModifyCertificate("Write")
+                else -> return@observe
+            }
+        }
     }
 
     fun onMyLevelInfoClicked() {

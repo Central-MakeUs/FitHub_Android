@@ -12,9 +12,19 @@ class LocationRepositoryImpl @Inject constructor(private val source : LocationSo
         x: String,
         y: String,
         userX : String,
-        userY : String
+        userY : String,
+        keyword : String
     ): Result<ResponseLocationData.ResultLocationData> {
-        return source.requestLocationData(categoryId, x, y, userX, userY)
+        return source.requestLocationDataWithoutKeyword(categoryId, x, y, userX, userY, keyword)
+    }
+
+    override suspend fun requestLocationDataWithKeyword(
+        categoryId: Int,
+        userX: String,
+        userY: String,
+        keyword: String
+    ): Result<ResponseLocationData.ResultLocationData> {
+        return source.requestLocationDataWithKeyword(categoryId, userX, userY, keyword)
     }
 
     override suspend fun requestKeywordsData(): Result<ResponseKeywordsData.ResultKeywordsData> {
