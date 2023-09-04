@@ -3,6 +3,7 @@ package com.proteam.fithub.data.remote.service
 import com.proteam.fithub.data.remote.response.ResponseMyInfoData
 import com.proteam.fithub.data.remote.response.ResponseMyPageData
 import com.proteam.fithub.data.remote.response.ResponseOtherUserProfileData
+import com.proteam.fithub.data.remote.response.ResponseTermsData
 import com.proteam.fithub.presentation.util.BaseResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -11,6 +12,7 @@ import retrofit2.http.Multipart
 import retrofit2.http.PATCH
 import retrofit2.http.Part
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface MyPageService {
 
@@ -18,7 +20,7 @@ interface MyPageService {
     suspend fun requestMyPageData() : Response<ResponseMyPageData>
 
     @GET("/user/my-page/personal-data")
-    suspend fun requestMyInfoData() : Response<ResponseMyInfoData.ResultMyInfoData>
+    suspend fun requestMyInfoData() : Response<ResponseMyInfoData>
 
     @PATCH("/users/my-page/profile/default")
     suspend fun requestChangeProfileToDefault() : Response<BaseResponse>
@@ -33,4 +35,9 @@ interface MyPageService {
     suspend fun requestOtherUserProfile(
         @Path("userId") userId : Int
     ) : Response<ResponseOtherUserProfileData>
+
+    @GET("/home/terms")
+    suspend fun requestTermsData(
+        @Query("termsId") termsId : Int
+    ) : Response<ResponseTermsData>
 }

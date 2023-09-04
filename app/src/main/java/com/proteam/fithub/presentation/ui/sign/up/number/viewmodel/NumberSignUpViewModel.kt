@@ -1,6 +1,7 @@
 package com.proteam.fithub.presentation.ui.sign.up.number.viewmodel
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -95,7 +96,7 @@ class NumberSignUpViewModel @Inject constructor(
         _signUpState.value = 0
     }
 
-    fun requestNumberSignUp(path: String?) {
+    fun requestNumberSignUp(path: String?, token : String) {
         viewModelScope.launch {
             signUpRepository.requestSignUpWithPhone(
                 marketingAgree = _userAgreement.value!!,
@@ -106,11 +107,12 @@ class NumberSignUpViewModel @Inject constructor(
                 gender = _userInputGender.value!!,
                 password = _userInputPassword.value!!,
                 preferExercises = _userInterestExercise.value!!,
-                profileImage = path?.mapToMultipart()
+                profileImage = path?.mapToMultipart(),
+                fcmToken = token
             )
                 .onSuccess {
                 _signUpState.value = it.code
-                saveUserData(it.result.userId)
+                saveUserData(it.result.userId, it.result.accessToken)
             }
                 .onFailure { _signUpState.value = it.message?.toInt() }
         }
@@ -132,9 +134,9 @@ class NumberSignUpViewModel @Inject constructor(
     }
 
     /** Local **/
-    private fun saveUserData(userId: Int) {
+    private fun saveUserData(userId: Int, token : String) {
         viewModelScope.launch {
-            signInRepository.saveUserData(userId, null)
+            signInRepository.saveUserData(userId, token)
         }
     }
 }

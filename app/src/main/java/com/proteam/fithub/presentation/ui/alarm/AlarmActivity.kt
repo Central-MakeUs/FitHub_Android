@@ -19,6 +19,7 @@ import com.proteam.fithub.R
 import com.proteam.fithub.databinding.ActivityAlarmBinding
 import com.proteam.fithub.presentation.ui.alarm.adapter.AlarmAdapter
 import com.proteam.fithub.presentation.ui.alarm.viewmodel.AlarmViewModel
+import com.proteam.fithub.presentation.ui.alarm_setting.AlarmSettingActivity
 import com.proteam.fithub.presentation.ui.detail.board.BoardDetailActivity
 import com.proteam.fithub.presentation.ui.detail.certificate.ExerciseCertificateDetailActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,6 +38,7 @@ class AlarmActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_alarm)
 
         requestAlarmData()
+        initBinding()
         initUi()
     }
 
@@ -51,6 +53,14 @@ class AlarmActivity : AppCompatActivity() {
                 alarmAdapter.submitData(it)
             }
         }
+
+        alarmAdapter.addLoadStateListener {
+            binding.alarmLayoutArticleNone.visibility = if(it.append.endOfPaginationReached && alarmAdapter.itemCount == 0) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun initBinding() {
+        binding.activity = this
     }
 
     private fun initUi() {
@@ -109,5 +119,13 @@ class AlarmActivity : AppCompatActivity() {
 
     private fun openRecordActivity(index : Int) {
         startActivity(Intent(this, ExerciseCertificateDetailActivity::class.java).setType(index.toString()))
+    }
+
+    fun openAlarmSettingActivity() {
+        startActivity(Intent(this, AlarmSettingActivity::class.java))
+    }
+
+    fun onBackPress() {
+        finish()
     }
 }

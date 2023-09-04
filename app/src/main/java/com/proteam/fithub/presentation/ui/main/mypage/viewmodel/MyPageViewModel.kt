@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.proteam.fithub.R
 import com.proteam.fithub.data.remote.response.ResponseMyPageData
 import com.proteam.fithub.domain.repository.MyPageRepository
+import com.proteam.fithub.domain.repository.SignInRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -17,7 +18,9 @@ import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
-class MyPageViewModel @Inject constructor(private val myPageRepo : MyPageRepository): ViewModel() {
+class MyPageViewModel @Inject constructor(
+    private val signInRepository: SignInRepository,
+    private val myPageRepo : MyPageRepository): ViewModel() {
     private val _myPageData = MutableLiveData<ResponseMyPageData.ResultMyPageData>()
     val myPageData : LiveData<ResponseMyPageData.ResultMyPageData> = _myPageData
 
@@ -52,6 +55,13 @@ class MyPageViewModel @Inject constructor(private val myPageRepo : MyPageReposit
         val file = File(this)
         val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
         return MultipartBody.Part.createFormData("newProfile", file.name, requestFile)
+    }
+
+    fun requestLogOut() {
+        viewModelScope.launch {
+            signInRepository.requestLogOut()
+            signInRepository.initUserData()
+        }
     }
 
 }

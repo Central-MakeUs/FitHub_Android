@@ -2,6 +2,7 @@ package com.proteam.fithub.data.remote.service
 
 import com.proteam.fithub.data.remote.response.ResponseArticleData
 import com.proteam.fithub.data.remote.response.ResponseCertificateData
+import com.proteam.fithub.data.remote.response.ResponseKeywordsData
 import com.proteam.fithub.data.remote.response.ResponseSearchTotalData
 import retrofit2.Response
 import retrofit2.http.GET
@@ -37,4 +38,7 @@ interface SearchService {
         @Query("tag", encoded = true) tag : String,
         @Query("pageIndex") pageIndex : Int?
     ) : ResponseArticleData
+
+    @GET("/search/articles/recommend-keyword")
+    suspend fun requestRecommendKeyword() : Response<ResponseKeywordsData>
 }

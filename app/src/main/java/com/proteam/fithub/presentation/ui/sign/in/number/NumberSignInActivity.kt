@@ -3,14 +3,14 @@ package com.proteam.fithub.presentation.ui.sign.`in`.number
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.google.firebase.messaging.FirebaseMessaging
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.ActivitySignInWithNumberBinding
-import com.proteam.fithub.presentation.component.ComponentAlertToast
+import com.proteam.fithub.presentation.util.LoadingDialog
 import com.proteam.fithub.presentation.component.ComponentDialogYesNo
 import com.proteam.fithub.presentation.ui.findpassword.FindPasswordActivity
 import com.proteam.fithub.presentation.ui.main.MainActivity
@@ -24,13 +24,23 @@ import dagger.hilt.android.AndroidEntryPoint
 class NumberSignInActivity : AppCompatActivity() {
     private lateinit var binding : ActivitySignInWithNumberBinding
     private val viewModel : NumberSignInViewModel by viewModels()
+    private var token : String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_sign_in_with_number)
 
+        getFcmToken()
         initBinding()
         initUi()
+    }
+
+    private fun getFcmToken() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener {
+            if(it.isSuccessful) {
+                token = it.result
+            }
+        }
     }
 
     private fun initBinding() {
@@ -48,17 +58,18 @@ class NumberSignInActivity : AppCompatActivity() {
     }
 
     fun onSignInClicked() {
-        viewModel.requestSignIn(binding.signInWithPhoneLayoutPhoneNumber.returnUserInputContent(), binding.signInWithPhoneLayoutPassword.returnUserInputContent())
+        token?.let { viewModel.requestSignIn(binding.signInWithPhoneLayoutPhoneNumber.returnUserInputContent(), binding.signInWithPhoneLayoutPassword.returnUserInputContent(), it).also { showLoadingDialog() } }
         observeState()
     }
 
     private fun observeState() {
         viewModel.signInState.observe(this) {
+            dismissLoadingDialog()
             when(it) {
                 0 -> return@observe
                 2000 -> onSignInSuccess()
                 4019 -> ComponentDialogYesNo(::onSignUpClicked).show(supportFragmentManager, "NO_USER_INFO")
-                4020 -> CustomSnackBar.makeSnackBar(binding.root, it.toString())
+                4020 -> CustomSnackBar.makeSnackBar(binding.root, it.toString()).show()
             }
             viewModel.initState()
         }
@@ -100,4 +111,8 @@ class NumberSignInActivity : AppCompatActivity() {
 
     fun phoneBinding() = binding.signInWithPhoneLayoutPhoneNumber
     fun passwordBinding() = binding.signInWithPhoneLayoutPassword
+
+    private var loadingDialog = LoadingDialog()
+    private fun showLoadingDialog() = loadingDialog.show(supportFragmentManager, null)
+    private fun dismissLoadingDialog() = loadingDialog.dismiss()
 }

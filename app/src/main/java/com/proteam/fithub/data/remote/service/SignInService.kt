@@ -28,5 +28,9 @@ interface SignInService {
         @Body body : RequestSignInPhone
     ) : Response<ResponseSignIn>
 
+    @POST("/users/quit")
+    suspend fun requestSignOut() : Response<BaseResponse>
 
+    @POST("/users/logout")
+    suspend fun requestLogOut()
 }

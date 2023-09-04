@@ -1,15 +1,26 @@
 package com.proteam.fithub.presentation.ui.sign.up.common.agreement.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.proteam.fithub.data.data.Agreements
+import com.proteam.fithub.data.remote.response.ResponseTermsData
+import com.proteam.fithub.domain.repository.MyPageRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AgreementViewModel : ViewModel() {
+@HiltViewModel
+class AgreementViewModel @Inject constructor(private val myPageRepository: MyPageRepository): ViewModel() {
     var signUpAgreements =
         MutableLiveData<MutableList<Agreements>>().also { it.value = agreementData() }
     var signUpAllAgreements = MutableLiveData<Boolean>()
 
     var agreementNextEnable = MutableLiveData<Boolean>(false)
+
+    private val _termsData = MutableLiveData<ResponseTermsData.ResultTermsData>()
+    val termsData : LiveData<ResponseTermsData.ResultTermsData> = _termsData
 
     fun manageAllAgreements(status: Boolean) {
         for (i in 0 until signUpAgreements.value!!.size) {
@@ -33,6 +44,13 @@ class AgreementViewModel : ViewModel() {
     }
 
     fun returnUserAgreeResult() = signUpAgreements.value?.count { it.checked } == 5
+
+    fun requestTermData(position : Int) {
+        viewModelScope.launch {
+            myPageRepository.requestTermsData(position)
+                .onSuccess { _termsData.value = it }
+        }
+    }
 
     /** Dummy **/
     fun agreementData(): MutableList<Agreements> = mutableListOf(

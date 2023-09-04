@@ -1,7 +1,9 @@
 package com.proteam.fithub.data.remote.service
 
 import com.proteam.fithub.data.remote.request.RequestChangePassword
+import com.proteam.fithub.data.remote.request.RequestChangePasswordOnMyPage
 import com.proteam.fithub.data.remote.request.RequestCheckSMSAuth
+import com.proteam.fithub.data.remote.request.RequestPasswordExist
 import com.proteam.fithub.data.remote.request.RequestPhoneNumberAvailable
 import com.proteam.fithub.data.remote.request.RequestSMSAuth
 import com.proteam.fithub.data.remote.response.ResponseChangePassword
@@ -48,7 +50,8 @@ interface SignUpService {
         @Part("birth") birth : RequestBody,
         @Part("gender") gender : RequestBody,
         @Part("preferExercises") preferExercises : Int,
-        @Part profileImage : MultipartBody.Part?
+        @Part profileImage : MultipartBody.Part?,
+        @Part("fcmToken") fcmToken : RequestBody
     ) : Response<ResponseSignUpWithPhone>
 
     @Multipart
@@ -60,7 +63,8 @@ interface SignUpService {
         @Part("birth") birth : RequestBody,
         @Part("gender") gender : RequestBody,
         @Part("preferExercises") preferExercises : Int,
-        @Part profileImage : MultipartBody.Part?
+        @Part profileImage : MultipartBody.Part?,
+        @Part("fcmToken") fcmToken : RequestBody
     ) : Response<ResponseSignUp>
 
     @PATCH("users/password")
@@ -73,4 +77,14 @@ interface SignUpService {
         @Path("type") type : Int,
         @Body body : RequestPhoneNumberAvailable
     ) : Response<BaseResponse>
+
+    @POST("users/check-pass")
+    suspend fun requestExistPassword(
+        @Body body : RequestPasswordExist
+    ) : Response<BaseResponse>
+
+    @PATCH("users/my-page/password")
+    suspend fun requestChangePasswordOnMyPage(
+        @Body body : RequestChangePasswordOnMyPage
+    ) : Response<ResponseChangePassword>
 }

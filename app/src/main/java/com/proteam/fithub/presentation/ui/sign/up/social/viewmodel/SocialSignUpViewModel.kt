@@ -71,7 +71,7 @@ class SocialSignUpViewModel @Inject constructor(
     }
 
     /** Request **/
-    fun requestSocialSignUp(path: String?) {
+    fun requestSocialSignUp(path: String?, token : String) {
         viewModelScope.launch {
             signUpRepository.requestSignUpWithSocial(
                 marketingAgree = _userAgreement.value!!,
@@ -80,7 +80,8 @@ class SocialSignUpViewModel @Inject constructor(
                 birth = _userInputBirth.value!!,
                 gender = _userInputGender.value!!,
                 preferExercises = _userInterestExercise.value!!,
-                profileImage = path?.mapToMultipart()
+                profileImage = path?.mapToMultipart(),
+                fcmToken = token
             )
                 .onSuccess {
                     _signUpState.value = it.code

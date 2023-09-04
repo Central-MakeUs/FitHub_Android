@@ -23,7 +23,7 @@ class RecordViewModel @Inject constructor(private val recordRepository: RecordRe
     }
 
     fun requestWhenCommunity(filter : Int) : Flow<PagingData<ResponseCertificateData.ResultCertificateData>> {
-        return recordRepository.requestCertificateDataWithCategory(recordSortType.value!!.convertSortType(), filter).cachedIn(viewModelScope)
+        return recordRepository.requestCertificateDataWithCategory(recordSortType.value!!.convertSortType(), filter)
     }
 
     private fun Boolean.convertSortType() : String {

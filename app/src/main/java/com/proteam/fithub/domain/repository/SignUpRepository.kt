@@ -1,7 +1,9 @@
 package com.proteam.fithub.domain.repository
 
 import com.proteam.fithub.data.remote.request.RequestChangePassword
+import com.proteam.fithub.data.remote.request.RequestChangePasswordOnMyPage
 import com.proteam.fithub.data.remote.request.RequestCheckSMSAuth
+import com.proteam.fithub.data.remote.request.RequestPasswordExist
 import com.proteam.fithub.data.remote.request.RequestPhoneNumberAvailable
 import com.proteam.fithub.data.remote.request.RequestSMSAuth
 import com.proteam.fithub.data.remote.response.ResponseChangePassword
@@ -18,11 +20,15 @@ interface SignUpRepository {
 
     suspend fun requestCheckSameNickName(nickname : String) : Result<BaseResponse>
 
-    suspend fun requestSignUpWithPhone(marketingAgree : Boolean, phoneNumber : String, name : String, nickname : String, password : String, birth : String, gender : String, preferExercises : Int, profileImage : MultipartBody.Part?) : Result<ResponseSignUpWithPhone>
+    suspend fun requestSignUpWithPhone(marketingAgree : Boolean, phoneNumber : String, name : String, nickname : String, password : String, birth : String, gender : String, preferExercises : Int, profileImage : MultipartBody.Part?, fcmToken : String) : Result<ResponseSignUpWithPhone>
 
-    suspend fun requestSignUpWithSocial(marketingAgree : Boolean, name : String, nickname : String, birth : String, gender : String, preferExercises : Int, profileImage : MultipartBody.Part?) : Result<ResponseSignUp>
+    suspend fun requestSignUpWithSocial(marketingAgree : Boolean, name : String, nickname : String, birth : String, gender : String, preferExercises : Int, profileImage : MultipartBody.Part?, fcmToken : String) : Result<ResponseSignUp>
 
     suspend fun requestChangePassword(body : RequestChangePassword) : Result<ResponseChangePassword>
 
     suspend fun requestExistPhone(type : Int, body : RequestPhoneNumberAvailable) : Result<BaseResponse>
+
+    suspend fun requestExistPassword(body : RequestPasswordExist) : Result<BaseResponse>
+
+    suspend fun requestChangePasswordOnMyPage(body : RequestChangePasswordOnMyPage) : Result<ResponseChangePassword>
 }

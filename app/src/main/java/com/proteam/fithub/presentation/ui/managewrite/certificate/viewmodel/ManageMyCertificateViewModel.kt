@@ -1,5 +1,6 @@
 package com.proteam.fithub.presentation.ui.managewrite.certificate.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -24,6 +25,10 @@ class ManageMyCertificateViewModel @Inject constructor(private val certificateRe
     val deleteStatus: LiveData<Int> = _deleteStatus
 
     var isAllClicked = MutableLiveData<Boolean>(false)
+
+    fun initAllClicked() {
+        isAllClicked.value = false
+    }
 
     fun requestMyCertificateData(filter: Int): Flow<PagingData<ResponseMyCertificateData.ResultMyCertificateData>> {
         return certificateRepository.requestMyCertificateData(filter)

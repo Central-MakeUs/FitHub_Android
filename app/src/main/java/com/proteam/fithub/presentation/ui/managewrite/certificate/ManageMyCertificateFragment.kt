@@ -17,6 +17,7 @@ import com.proteam.fithub.presentation.ui.detail.certificate.ExerciseCertificate
 import com.proteam.fithub.presentation.ui.managewrite.certificate.adapter.ManageMyCertificateAdapter
 import com.proteam.fithub.presentation.ui.managewrite.certificate.viewmodel.ManageMyCertificateViewModel
 import com.proteam.fithub.presentation.ui.managewrite.viewmodel.ManageMyWriteViewModel
+import com.proteam.fithub.presentation.ui.write.certificate.WriteOrModifyCertificateActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -43,6 +44,12 @@ class ManageMyCertificateFragment : Fragment() {
         initUi()
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.initAllClicked()
+        certificateAdapter.refresh()
     }
 
     private fun requestMyCertificate() {
@@ -72,6 +79,10 @@ class ManageMyCertificateFragment : Fragment() {
                 certificateAdapter.submitData(it)
             }
         }
+
+        certificateAdapter.addLoadStateListener {
+            binding.fgMyCertificateLayoutNone.visibility = if(it.append.endOfPaginationReached && certificateAdapter.itemCount == 0) View.VISIBLE else View.GONE
+        }
     }
 
     private fun onItemClicked(index : Int) {
@@ -89,6 +100,10 @@ class ManageMyCertificateFragment : Fragment() {
     fun onSelectDeleteClicked() {
         viewModel.requestDeleteMyCertificate()
         observeDeleteStatus()
+    }
+
+    fun onWriteCertificate() {
+        startActivity(Intent(requireActivity(), WriteOrModifyCertificateActivity::class.java).setType("Write"))
     }
 
     private fun observeDeleteStatus() {

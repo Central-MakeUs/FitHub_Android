@@ -3,11 +3,10 @@ package com.proteam.fithub.presentation.ui.main.home
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -17,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.proteam.fithub.R
 import com.proteam.fithub.data.remote.response.ResponseHomeData
 import com.proteam.fithub.databinding.FragmentHomeBinding
+import com.proteam.fithub.presentation.util.LoadingDialog
 import com.proteam.fithub.presentation.ui.main.MainActivity
 import com.proteam.fithub.presentation.ui.main.MainViewModel
 import com.proteam.fithub.presentation.ui.main.home.adapter.HomeBestRankAdapter
@@ -51,6 +51,7 @@ class HomeFragment : Fragment() {
         initUi()
         initBinding()
         requestData()
+        observeCertificateWritten()
 
         return binding.root
     }
@@ -81,18 +82,18 @@ class HomeFragment : Fragment() {
     }
 
     private fun requestData() {
+        showLoadingDialog()
         viewModel.requestHomeData()
         viewModel.requestExerciseCategory()
         observeHome()
         observeSports()
+        observeTotalStatus()
     }
 
     private fun observeHome() {
         viewModel.homeData.observe(viewLifecycleOwner) {
             if(it.code == 2000) {
                 notifyUi(it.result)
-            } else {
-
             }
         }
     }
@@ -101,6 +102,12 @@ class HomeFragment : Fragment() {
         viewModel.exercises.observe(viewLifecycleOwner) {
             gymAdapter.exercises = it
             gymAdapter.notifyItemRangeChanged(0, it.size)
+        }
+    }
+
+    private fun observeTotalStatus() {
+        viewModel.totalState.observe(viewLifecycleOwner) {
+            if(it) dismissLoadingDialog()
         }
     }
 
@@ -129,11 +136,21 @@ class HomeFragment : Fragment() {
     }
 
     private fun onGymClicked(index: Int) {
-        Toast.makeText(requireContext(), index, Toast.LENGTH_SHORT).show()
+        (requireActivity() as MainActivity).openAroundFragmentFromHome(index)
     }
 
     fun onGotoCertificateClicked() {
-        (requireActivity() as MainActivity).openWriteOrModifyCertificate("Write")
+        viewModel.checkTodaysCertificate()
+    }
+
+    private fun observeCertificateWritten() {
+        viewModel.todayCertificateData.observe(viewLifecycleOwner) {
+            when (it) {
+                true -> CustomSnackBar.makeSnackBar(binding.root, "ALREADY_WRITTEN").show()
+                false -> (requireActivity() as MainActivity).openWriteOrModifyCertificate("Write")
+                else -> return@observe
+            }
+        }
     }
 
     fun onMyLevelInfoClicked() {
@@ -143,4 +160,9 @@ class HomeFragment : Fragment() {
     private fun onProfileClicked(index : Int) {
         startActivity(Intent(requireActivity(), OtherUserProfileActivity::class.java).setType(index.toString()))
     }
+
+
+    private var loadingDialog = LoadingDialog()
+    private fun showLoadingDialog() = loadingDialog.show(requireActivity().supportFragmentManager, null)
+    private fun dismissLoadingDialog() = loadingDialog.dismiss()
 }

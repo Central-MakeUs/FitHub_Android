@@ -4,6 +4,7 @@ import android.util.Log
 import com.proteam.fithub.data.remote.request.RequestDeleteMyCertificate
 import com.proteam.fithub.data.remote.response.ResponseCertificateDetailData
 import com.proteam.fithub.data.remote.response.ResponseCertificateHeartClicked
+import com.proteam.fithub.data.remote.response.ResponseIsWriteTodayData
 import com.proteam.fithub.data.remote.response.ResponsePostCertificateData
 import com.proteam.fithub.data.remote.service.CertificateService
 import com.proteam.fithub.domain.source.CertificateSource
@@ -63,7 +64,6 @@ class CertificateRemoteSource @Inject constructor(private val service : Certific
         newImage: MultipartBody.Part?,
         remainImageUrl: String?
     ): Result<ResponsePostCertificateData> {
-        Log.e("----", "requestModifyCertificateData: ${remainImageUrl}", )
         val res = service.modifyCertificateData(recordId, category, contents.textConverter(), exerciseTag.textConverter(), hashTagList?.listConverter(), newImage, remainImageUrl?.textConverter())
         return when(res.code()) {
             in 200..399 -> Result.success(res.body()!!)
@@ -75,6 +75,14 @@ class CertificateRemoteSource @Inject constructor(private val service : Certific
         val res = service.requestDeleteMyCertificate(body)
         return when(res.code()) {
             in 200..399 -> Result.success(res.body()!!)
+            else -> Result.failure(IllegalArgumentException(res.errorBody()?.convertAndGetCode().toString()))
+        }
+    }
+
+    override suspend fun requestCertificateToday(): Result<ResponseIsWriteTodayData.ResultIsWriteTodayData> {
+        val res = service.requestCheckTodayCertificate()
+        return when(res.code()) {
+            in 200..399 -> Result.success(res.body()!!.result)
             else -> Result.failure(IllegalArgumentException(res.errorBody()?.convertAndGetCode().toString()))
         }
     }

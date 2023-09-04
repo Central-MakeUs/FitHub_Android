@@ -37,6 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:src="@drawable/ic_arrow_back"
+                android:onClick="@{() -> activity.onBackPress()}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -114,7 +115,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:onClick="@{() -> viewModel.requestHeartClicked(viewModel.certificateData.recordId)}"
+                    android:onClick="@{() -> activity.onCertificateHeartClicked()}"
                     android:src='@{viewModel.certificateData.liked ? @drawable/ic_heart_clicked :@drawable/ic_heart_empty}'
                     app:layout_constraintStart_toStartOf="@id/exercise_certificate_detail_tv_tag"
                     app:layout_constraintTop_toBottomOf="@id/exercise_certificate_detail_tv_tag" />

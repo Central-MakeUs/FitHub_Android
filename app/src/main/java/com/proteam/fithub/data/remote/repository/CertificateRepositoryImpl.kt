@@ -8,6 +8,7 @@ import com.proteam.fithub.data.remote.request.RequestDeleteMyCertificate
 import com.proteam.fithub.data.remote.response.ResponseCertificateData
 import com.proteam.fithub.data.remote.response.ResponseCertificateDetailData
 import com.proteam.fithub.data.remote.response.ResponseCertificateHeartClicked
+import com.proteam.fithub.data.remote.response.ResponseIsWriteTodayData
 import com.proteam.fithub.data.remote.response.ResponseMyCertificateData
 import com.proteam.fithub.data.remote.response.ResponsePostCertificateData
 import com.proteam.fithub.data.remote.service.CertificateService
@@ -73,6 +74,10 @@ class CertificateRepositoryImpl @Inject constructor(
 
     override suspend fun requestDeleteMyCertificateData(body: RequestDeleteMyCertificate): Result<BaseResponse> {
         return source.requestDeleteMyCertificateData(body)
+    }
+
+    override suspend fun requestCertificateToday(): Result<ResponseIsWriteTodayData.ResultIsWriteTodayData> {
+        return source.requestCertificateToday()
     }
 
 

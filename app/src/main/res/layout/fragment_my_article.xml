@@ -22,7 +22,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginVertical="5dp"
-            android:layout_marginHorizontal="10dp"
+            android:layout_marginStart="20dp"
             android:background="@android:color/transparent"
             android:button="@android:color/transparent"
             android:checked="@={viewModel.isAllClicked}"
@@ -63,6 +63,66 @@
             app:layout_constraintTop_toBottomOf="@id/fg_my_article_btn_select_all"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fg_my_article_layout_none"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/bg_default"
+            android:clickable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fg_my_article_btn_select_all">
+
+            <TextView
+                android:id="@+id/item_bookmark_none_tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="45dp"
+                android:text="@string/article_none_title"
+                android:textAppearance="@style/Body_large_medium"
+                android:textColor="@color/text_default"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/item_bookmark_none_tv_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/article_none_subtitle"
+                android:textAppearance="@style/Body_medium_regular"
+                android:textColor="@color/text_sub02"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_bookmark_none_tv_title" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> fragment.onWriteArticle()}"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/btn_bookmark_see_articles"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_bookmark_none_tv_subtitle">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="14dp"
+                    android:layout_marginVertical="7dp"
+                    android:includeFontPadding="false"
+                    android:text="@string/article_none_btn"
+                    android:textAppearance="@style/Body_medium_medium"
+                    android:textColor="@color/text_main_btn"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

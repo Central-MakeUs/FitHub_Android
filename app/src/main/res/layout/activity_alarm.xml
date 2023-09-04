@@ -2,6 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="activity"
+            type="com.proteam.fithub.presentation.ui.alarm.AlarmActivity" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,6 +24,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_arrow_back"
                 app:tint="@color/icon_default"
+                android:onClick="@{() -> activity.onBackPress()}"
                 android:layout_marginStart="20dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -28,6 +35,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_alarm_setting"
                 android:layout_marginEnd="20dp"
+                android:onClick="@{() -> activity.openAlarmSettingActivity()}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
@@ -35,7 +43,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="알림"
+                android:text="@string/alarm_title"
                 android:textAppearance="@style/Title_medium_semibold"
                 android:textColor="@color/text_default"
                 app:layout_constraintTop_toTopOf="parent"
@@ -54,6 +62,41 @@
             android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@id/alarm_layout_toolbar"
             app:layout_constraintBottom_toBottomOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/alarm_layout_article_none"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/bg_default"
+            android:clickable="true"
+            app:layout_constraintTop_toBottomOf="@id/alarm_layout_toolbar"
+            app:layout_constraintBottom_toBottomOf="parent" >
+
+            <TextView
+                android:id="@+id/alarm_tv_when_none_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/alarm_when_none_title"
+                android:textAppearance="@style/Body_large_medium"
+                android:textColor="@color/text_default"
+                app:layout_constraintVertical_bias="0.35"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/alarm_when_none_subtitle"
+                android:textAppearance="@style/Body_medium_regular"
+                android:textColor="@color/text_sub02"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/alarm_tv_when_none_title"
+                app:layout_constraintStart_toStartOf="@id/alarm_tv_when_none_title"
+                app:layout_constraintEnd_toEndOf="@id/alarm_tv_when_none_title" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

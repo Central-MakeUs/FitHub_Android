@@ -1,6 +1,7 @@
 package com.proteam.fithub.presentation.ui.main.community.article.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -17,7 +18,9 @@ class BoardAdapter(
     inner class BoardViewHolder(private val binding: ItemRvCommunityBoardBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ResponseArticleData.ResultArticleData) {
-            binding.data = item.apply { if(!this.exerciseTag.contains("#")) this.exerciseTag = "#${this.exerciseTag}" }
+            binding.data = item.apply { this.exerciseTag?.let { if(!it.contains("#")) this.exerciseTag = "#${this.exerciseTag}" } }
+            binding.itemRvCommunityBoardTvTag.visibility = if(item.exerciseTag == null) View.GONE else View.VISIBLE
+
             binding.itemRvCommunityBoardLayoutUser.getUserData(item.userInfo, item.createdAt)
             binding.root.setOnClickListener { itemClick.invoke(item.articleId) }
 

@@ -2,6 +2,8 @@ package com.proteam.fithub.presentation.ui.otheruser
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.get
@@ -12,6 +14,7 @@ import com.proteam.fithub.R
 import com.proteam.fithub.data.remote.response.ResponseExercises
 import com.proteam.fithub.databinding.ActivityOtherUserProfileBinding
 import com.proteam.fithub.presentation.component.ComponentBottomDialogSelectReportDelete
+import com.proteam.fithub.presentation.component.ComponentDialogOneButton
 import com.proteam.fithub.presentation.component.ComponentDialogYesNo
 import com.proteam.fithub.presentation.component.ComponentDialogYesNoWithParam
 import com.proteam.fithub.presentation.ui.detail.board.BoardDetailActivity
@@ -40,6 +43,7 @@ class OtherUserProfileActivity : AppCompatActivity() {
 
     private fun initBinding() {
         binding.activity = this
+        binding.lifecycleOwner = this
     }
 
     private fun initUi() {
@@ -61,6 +65,12 @@ class OtherUserProfileActivity : AppCompatActivity() {
             binding.data = it
             binding.otherUserProfileExercisesComponentExercise.getExercise(it.mainExerciseInfo.category)
             binding.otherUserProfileExercisesComponentLevel.getLevel(it.mainExerciseInfo.level, it.mainExerciseInfo.gradeName)
+        }
+
+        viewModel.otherUserProfileStatus.observe(this) {
+            if(it == 4064 || it == 4013) {
+                ComponentDialogOneButton(::onBackPress).show(supportFragmentManager, "4064")
+            }
         }
     }
 
@@ -142,6 +152,10 @@ class OtherUserProfileActivity : AppCompatActivity() {
             viewModel.requestOtherUserArticles(intent.type!!.toInt(), filter).collect {
                 articleAdapter.submitData(it)
             }
+        }
+
+        articleAdapter.addLoadStateListener {
+            binding.otherUserProfileLayoutArticleNone.visibility = if(it.append.endOfPaginationReached && articleAdapter.itemCount == 0) View.VISIBLE else View.GONE
         }
     }
 

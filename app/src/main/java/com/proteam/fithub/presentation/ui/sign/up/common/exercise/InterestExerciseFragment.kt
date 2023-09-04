@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentInterestExercisesBinding
+import com.proteam.fithub.presentation.util.LoadingDialog
 import com.proteam.fithub.presentation.ui.sign.up.common.exercise.adapter.InterestExerciseAdapter
 import com.proteam.fithub.presentation.ui.sign.up.common.exercise.viewmodel.InterestExerciseViewModel
 import com.proteam.fithub.presentation.ui.sign.up.number.NumberSignUpActivity
@@ -28,6 +29,7 @@ class InterestExerciseFragment : Fragment() {
     private val adapter by lazy {
         InterestExerciseAdapter(::onSelectSports)
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -45,7 +47,7 @@ class InterestExerciseFragment : Fragment() {
     }
 
     private fun requestExercises() {
-        viewModel.requestExercises()
+        viewModel.requestExercises().also { showLoadingDialog() }
         observeExercises()
     }
 
@@ -62,6 +64,7 @@ class InterestExerciseFragment : Fragment() {
 
     private fun observeExercises() {
         viewModel.exercises.observe(viewLifecycleOwner) {
+            dismissLoadingDialog()
             adapter.sports = it
             adapter.notifyItemRangeChanged(0, it.size)
         }
@@ -69,6 +72,7 @@ class InterestExerciseFragment : Fragment() {
 
     private fun initExerciseRV() {
         binding.fgSignUpSelectInterestSportsRvContents.adapter = adapter
+        binding.fgSignUpSelectInterestSportsRvContents.itemAnimator = null
         adapter.selected = select() as MutableList
     }
 
@@ -114,6 +118,10 @@ class InterestExerciseFragment : Fragment() {
             else CustomSnackBar.makeSnackBar(binding.root, it.toString())
         }
     }
+
+    private var loadingDialog = LoadingDialog()
+    private fun showLoadingDialog() = loadingDialog.show(requireActivity().supportFragmentManager, null)
+    private fun dismissLoadingDialog() = loadingDialog.dismiss()
 
     private fun select() : List<Boolean> = listOf(false, false, false, false,false, false)
 }

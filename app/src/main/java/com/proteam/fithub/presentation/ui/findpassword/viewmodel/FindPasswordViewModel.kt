@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.proteam.fithub.data.remote.request.RequestChangePassword
+import com.proteam.fithub.data.remote.request.RequestChangePasswordOnMyPage
 import com.proteam.fithub.data.remote.request.RequestCheckSMSAuth
 import com.proteam.fithub.data.remote.request.RequestPhoneNumberAvailable
 import com.proteam.fithub.data.remote.request.RequestSMSAuth
@@ -57,7 +58,14 @@ class FindPasswordViewModel @Inject constructor(private val signUpRepository: Si
                 .onSuccess { _passwordResult.value = it.code }
                 .onFailure { _passwordResult.value = it.message?.toInt() }
         }
+    }
 
+    fun requestChangePasswordOnMyPage(password : String) {
+        viewModelScope.launch {
+            signUpRepository.requestChangePasswordOnMyPage(RequestChangePasswordOnMyPage(password))
+                .onSuccess { _passwordResult.value = it.code }
+                .onFailure { _passwordResult.value = it.message?.toInt() }
+        }
     }
 
 

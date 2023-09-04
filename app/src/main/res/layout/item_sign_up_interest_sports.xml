@@ -17,6 +17,7 @@
             android:id="@+id/item_sign_up_interest_sports_check_sports"
             android:layout_width="106dp"
             android:layout_height="106dp"
+            android:padding="23dp"
             common_setImageButton="@{sports.imageUrl}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

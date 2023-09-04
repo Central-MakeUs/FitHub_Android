@@ -17,12 +17,14 @@ android {
         applicationId "com.proteam.fithub"
         minSdk 26
         targetSdk 33
-        versionCode 1
-        versionName "1.0"
+        versionCode 4
+        versionName "1.0.2"
 
-        buildConfigField "String", "KAKAO_NATIVE_KEY", properties['kakao_native_key']
-        buildConfigField "String", "BASE_URL", properties['BASE_URL']
-        manifestPlaceholders = [KAKAO_NATIVE_KEY: kakao_native_key]
+        buildConfigField "String", "KAKAO_NATIVE_KEY", properties['KAKAO_NATIVE_KEY']
+        buildConfigField "String", "DEV_BASE_URL", properties['DEV_BASE_URL']
+        buildConfigField "String", "RELEASE_BASE_URL", properties['RELEASE_BASE_URL']
+
+        manifestPlaceholders = [kakao_native_key: kakao_native_key]
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -89,4 +91,13 @@ dependencies {
     /** FireBase **/
     implementation(platform("com.google.firebase:firebase-bom:32.2.2"))
     implementation 'com.google.firebase:firebase-messaging-ktx:23.2.1'
+
+    /** Kakao Map **/
+    implementation files('libs/libDaumMapAndroid.jar')
+
+    /** Location **/
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+
+    /** Lottie **/
+    implementation 'com.airbnb.android:lottie:5.0.2'
 }

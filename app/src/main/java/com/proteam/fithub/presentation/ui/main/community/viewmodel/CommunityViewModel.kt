@@ -20,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CommunityViewModel @Inject constructor(
     private val exerciseRepository: ExerciseRepository,
-    private val articleRepository: ArticleRepository
+    private val certificateRepository: CertificateRepository
 ) : ViewModel() {
     private val _isFabClicked = MutableLiveData<Boolean>()
     val isFabClicked: LiveData<Boolean> = _isFabClicked
@@ -30,6 +30,9 @@ class CommunityViewModel @Inject constructor(
 
     private val _selectedFilter = MutableLiveData<Int>()
     val selectedFilter: LiveData<Int> = _selectedFilter
+
+    private var _todayCertificateData = MutableLiveData<Boolean?>()
+    val todayCertificateData : LiveData<Boolean?> = _todayCertificateData
 
 
     init {
@@ -59,7 +62,16 @@ class CommunityViewModel @Inject constructor(
         _isFabClicked.value = false
     }
 
+    fun checkTodaysCertificate() {
+        viewModelScope.launch {
+            certificateRepository.requestCertificateToday()
+                .onSuccess { _todayCertificateData.value = it.isWrite }
+        }
+    }
 
+    fun initCertificateState() {
+        _todayCertificateData.value = null
+    }
 
 
 }

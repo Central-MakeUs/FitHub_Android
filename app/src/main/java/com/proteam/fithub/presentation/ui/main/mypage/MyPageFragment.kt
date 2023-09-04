@@ -1,15 +1,11 @@
 package com.proteam.fithub.presentation.ui.main.mypage
 
-import android.app.ActionBar.LayoutParams
 import android.app.Activity
 import android.content.Intent
 import android.database.Cursor
-import android.graphics.Point
-import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,19 +14,20 @@ import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.google.android.material.tabs.TabLayoutMediator
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentMypageBinding
+import com.proteam.fithub.presentation.util.LoadingDialog
+import com.proteam.fithub.presentation.component.ComponentDialogYesNo
+import com.proteam.fithub.presentation.ui.alarm_setting.AlarmSettingActivity
 import com.proteam.fithub.presentation.ui.changeexercise.ChangeExerciseActivity
+import com.proteam.fithub.presentation.ui.main.MainActivity
 import com.proteam.fithub.presentation.ui.main.mypage.adapter.MyPageExerciseAdapter
 import com.proteam.fithub.presentation.ui.main.mypage.adapter.MyPageUpperMenuAdapter
 import com.proteam.fithub.presentation.ui.main.mypage.viewmodel.MyPageViewModel
-import com.proteam.fithub.presentation.ui.manageinfo.ManageMyInfoActivity
 import com.proteam.fithub.presentation.ui.managewrite.ManageMyWriteActivity
+import com.proteam.fithub.presentation.ui.sign.`in`.social.SocialSignInActivity
+import com.proteam.fithub.presentation.ui.terms.terms.TermsActivity
 import com.proteam.fithub.presentation.util.ConvertBitmap.ConvertWhenSingle
 import com.proteam.fithub.presentation.util.ConvertBitmap.deletePic
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,16 +51,17 @@ class MyPageFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_mypage, container, false)
 
-        observeMyPageData()
         initBinding()
         initUi()
+        initObserveProfileChangeStatus()
 
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.requestMyPageData()
+        viewModel.requestMyPageData().also { showLoadingDialog() }
+        observeMyPageData()
     }
 
     private fun initBinding() {
@@ -74,6 +72,7 @@ class MyPageFragment : Fragment() {
     private fun initUi() {
         initExercisePager()
         initUpperMenuRV()
+        initVersionName()
     }
 
     private fun initExercisePager() {
@@ -88,8 +87,14 @@ class MyPageFragment : Fragment() {
         binding.fgMypageRvUpperMenu.adapter = upperMenuAdapter
     }
 
+    private fun initVersionName() {
+        binding.fgMypageTvVersionName.text = requireActivity().packageManager.getPackageInfo(requireActivity().packageName, 0).versionName
+    }
+
     private fun observeMyPageData() {
         viewModel.myPageData.observe(viewLifecycleOwner) {
+            dismissLoadingDialog()
+
             binding.myPageData = it
 
             binding.fgMypageComponentLevel.getLevel(it.myInfo.mainExerciseInfo.level, it.myInfo.mainExerciseInfo.gradeName)
@@ -97,7 +102,7 @@ class MyPageFragment : Fragment() {
 
             exerciseAdapter.apply {
                 exercises = it.myExerciseList.toMutableList()
-                notifyItemRangeChanged(0, it.myExerciseList.size)
+                notifyDataSetChanged()
             }
         }
     }
@@ -111,7 +116,7 @@ class MyPageFragment : Fragment() {
     }
 
     fun onProfileChangeToDefaultClicked() {
-        viewModel.requestProfileToDefault()
+        viewModel.requestProfileToDefault().also { showLoadingDialog() }
         observeDeleteProfileStatus()
     }
 
@@ -123,10 +128,10 @@ class MyPageFragment : Fragment() {
 
     private fun onUpperMenuClicked(position : Int) {
         when(position) {
-            0 -> startActivity(Intent(requireActivity(), ManageMyInfoActivity::class.java))
-            1 -> {} //알림설정
+            0 -> (requireActivity() as MainActivity).openMyInfoActivity()
+            1 -> startActivity(Intent(requireActivity(), AlarmSettingActivity::class.java))
             2 -> {} //학원 등록 요청
-            3 -> {} //약관 및 정책
+            3 -> startActivity(Intent(requireActivity(), TermsActivity::class.java))
         }
     }
 
@@ -142,13 +147,15 @@ class MyPageFragment : Fragment() {
             if (it.resultCode == Activity.RESULT_OK && it.data?.data != null) {
                 if (it?.data?.clipData == null) {
                     it.data!!.data?.let { it1 ->
-                        deletePath = it1.Convert()
-                        viewModel.setUserSelectedProfile(deletePath.getAbsolutePath())
-                        observeChangeStatus()
+                        deletePath = it1.Convert().also { it2 -> viewModel.setUserSelectedProfile(it2.getAbsolutePath()) }
                     }
                 }
             }
         }
+
+    private fun initObserveProfileChangeStatus() {
+        observeChangeStatus()
+    }
 
     private fun observeChangeStatus() {
         viewModel.changeProfileStatus.observe(viewLifecycleOwner) {
@@ -157,6 +164,16 @@ class MyPageFragment : Fragment() {
                 deletePath.deletePic(requireActivity())
             }
         }
+    }
+
+    fun onLogoutClicked() {
+        ComponentDialogYesNo(::onLogOut).show(requireActivity().supportFragmentManager, "LOG_OUT")
+    }
+
+    private fun onLogOut() {
+        viewModel.requestLogOut()
+        startActivity(Intent(requireActivity(), SocialSignInActivity::class.java))
+        requireActivity().finish()
     }
 
     private fun Uri.Convert() : Uri {
@@ -175,4 +192,9 @@ class MyPageFragment : Fragment() {
 
     /** Dummy **/
     private fun returnUpperMenuTitles() : List<String> = listOf("개인 정보 설정", "알림 설정", "학원 등록 요청", "약관 및 정책")
+
+
+    private var loadingDialog = LoadingDialog()
+    private fun showLoadingDialog() = loadingDialog.show(requireActivity().supportFragmentManager, null)
+    private fun dismissLoadingDialog() = loadingDialog.dismiss()
 }

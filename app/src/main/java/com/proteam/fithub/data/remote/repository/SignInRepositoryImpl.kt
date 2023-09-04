@@ -28,4 +28,18 @@ class SignInRepositoryImpl @Inject constructor(
     override suspend fun saveUserData(userId: Int?, accessToken: String?) {
         localSource.saveAccessToken(userId, accessToken)
     }
+
+    override suspend fun requestSignOut(): Result<BaseResponse> {
+        return source.requestSignOut()
+    }
+
+    override suspend fun initUserData() {
+        localSource.initUserData()
+    }
+
+    override suspend fun requestLogOut() {
+        source.requestLogOut()
+    }
+
+
 }

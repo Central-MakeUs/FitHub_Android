@@ -4,7 +4,7 @@
         android:drawable="@color/gray_900" />
     <item>
         <bitmap
-            android:src="@drawable/logo_fithub"
+            android:src="@drawable/splash_test"
             android:gravity="center" />
     </item>
 

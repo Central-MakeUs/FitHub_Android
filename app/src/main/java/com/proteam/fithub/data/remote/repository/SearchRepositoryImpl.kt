@@ -6,6 +6,7 @@ import androidx.paging.PagingData
 import com.kakao.sdk.common.KakaoSdk.type
 import com.proteam.fithub.data.remote.response.ResponseArticleData
 import com.proteam.fithub.data.remote.response.ResponseCertificateData
+import com.proteam.fithub.data.remote.response.ResponseKeywordsData
 import com.proteam.fithub.data.remote.response.ResponseSearchTotalData
 import com.proteam.fithub.data.remote.service.SearchService
 import com.proteam.fithub.data.remote.source.SearchArticlePagingSource
@@ -36,6 +37,10 @@ class SearchRepositoryImpl @Inject constructor(
         return Pager(PagingConfig(pageSize = 12)) {
             SearchArticlePagingSource(type, Dispatchers.IO, service, tag)
         }.flow
+    }
+
+    override suspend fun getSearchKeywords(): Result<ResponseKeywordsData.ResultKeywordsData> {
+        return source.getSearchKeywords()
     }
 
 

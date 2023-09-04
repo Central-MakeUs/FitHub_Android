@@ -18,7 +18,7 @@ class HomeNearGymAdapter(
             binding.itemSignUpInterestSportsCheckSports.apply {
                 setBackgroundResource(R.drawable.selector_sign_up_select_interest_sports)
             }
-            binding.root.setOnClickListener { onGymClicked.invoke(item.id) }
+            binding.itemSignUpInterestSportsCheckSports.setOnClickListener { onGymClicked.invoke(item.id) }
         }
     }
 

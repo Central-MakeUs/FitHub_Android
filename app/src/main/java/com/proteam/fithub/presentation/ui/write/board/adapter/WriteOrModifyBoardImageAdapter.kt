@@ -14,6 +14,7 @@ class WriteOrModifyBoardImageAdapter(private val onDeleteClicked : (Int) -> Unit
     var paths = mutableListOf<String>()
     inner class WriteOrModifyBoardImageViewHolder(private val binding : ItemWriteBoardImagesBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item : String) {
+            Log.e("----",  "bind: $item / ${paths.size}", )
             binding.path = item
             binding.itemWriteBoardImagesBtnDelete.setOnClickListener { onDeleteClicked.invoke(absoluteAdapterPosition) }
         }

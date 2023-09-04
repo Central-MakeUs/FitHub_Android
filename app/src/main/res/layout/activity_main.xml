@@ -12,6 +12,10 @@
         <variable
             name="viewModel"
             type="com.proteam.fithub.presentation.ui.main.MainViewModel" />
+
+        <variable
+            name="aroundViewModel"
+            type="com.proteam.fithub.presentation.ui.main.arounds.viewmodel.AroundsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,7 +40,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/main_toolbar_layout_search"
                 android:layout_width="0dp"
@@ -45,8 +48,8 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="13dp"
                 android:background="@drawable/bg_edt_sub01_rounded"
-                android:onClick="@{() -> activity.openSearchActivity()}"
-                android:visibility='@{viewModel.curFragmentTag == "SEARCH" ? View.VISIBLE : View.GONE}'
+                android:onClick='@{() -> activity.openSearchActivity(viewModel.curFragmentTag.contains("COMMUNITY"))}'
+                android:visibility='@{viewModel.curFragmentTag.contains("SEARCH") ? View.VISIBLE : View.GONE}'
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/main_toolbar_iv_bookmark"
                 app:layout_constraintStart_toStartOf="parent"
@@ -63,6 +66,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/main_tv_search_hint"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="5dp"
@@ -71,13 +75,25 @@
                     android:includeFontPadding="false"
                     android:lineHeight="20dp"
                     android:paddingVertical="7dp"
-                    android:textColor="@color/text_info"
+                    android:textColor='@{viewModel.curFragmentTag.contains("COMMUNITY") ? @color/text_info : (aroundViewModel.userInputKeyword == "" ? @color/text_info : @color/text_default)}'
                     android:textSize="14sp"
-                    android:text="@string/community_hint_toolbar_edt"
+                    android:text='@{viewModel.curFragmentTag.contains("COMMUNITY") ? @string/community_hint_toolbar_edt : (aroundViewModel.userInputKeyword == "" ? @string/around_hint_toolbar_edt : aroundViewModel.userInputKeyword)}'
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/main_iv_search_delete"
                     app:layout_constraintStart_toEndOf="@id/main_toolbar_layout_search_iv_search"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/main_iv_search_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_edt_delete"
+                    android:visibility='@{viewModel.curFragmentTag.contains("AROUND") &amp;&amp; aroundViewModel.userInputKeyword != "" ? View.VISIBLE : View.GONE}'
+                    android:onClick="@{() -> activity.initAroundKeyword()}"
+                    android:layout_marginEnd="15dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -88,6 +104,7 @@
                 android:layout_marginEnd="20dp"
                 android:onClick="@{() -> activity.openAlarmActivity()}"
                 android:src="@{viewModel.remainAlarm ? @drawable/ic_alert_available : @drawable/ic_alert_not_available}"
+                android:visibility='@{viewModel.curFragmentTag.contains("AROUND") ? View.GONE : View.VISIBLE}'
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -96,9 +113,10 @@
                 android:id="@+id/main_toolbar_iv_bookmark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="12dp"
+                margin_End='@{viewModel.curFragmentTag.contains("AROUND") ? @dimen/margin_when_around : @dimen/margin_when_other}'
                 android:src="@drawable/ic_bookmark"
                 android:onClick="@{() -> activity.openBookmarkActivity()}"
+                android:visibility='@{viewModel.curFragmentTag.contains("AROUND") ? View.GONE : View.VISIBLE}'
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/main_toolbar_iv_alert"
                 app:layout_constraintTop_toTopOf="parent" />

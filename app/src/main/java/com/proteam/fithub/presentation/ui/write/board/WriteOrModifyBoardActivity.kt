@@ -2,6 +2,7 @@ package com.proteam.fithub.presentation.ui.write.board
 
 import android.app.Activity
 import android.content.Intent
+import android.content.res.Resources
 import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
@@ -10,6 +11,7 @@ import android.text.InputFilter
 import android.text.Spanned
 import android.util.Log
 import android.view.MotionEvent
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.activity.OnBackPressedCallback
@@ -18,6 +20,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.proteam.fithub.R
 import com.proteam.fithub.data.remote.response.ResponseExercises
@@ -29,6 +32,7 @@ import com.proteam.fithub.presentation.ui.write.board.viewmodel.WriteOrModifyBoa
 import com.proteam.fithub.presentation.ui.write.certificate.adapter.WriteOrModifyCertificateExerciseAdapter
 import com.proteam.fithub.presentation.util.ConvertBitmap.ConvertWhenList
 import com.proteam.fithub.presentation.util.ConvertBitmap.deletePic
+import com.proteam.fithub.presentation.util.LoadingDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -112,6 +116,7 @@ class WriteOrModifyBoardActivity : AppCompatActivity() {
     private fun initWhenWrite() {
         observeTagInserted()
         observeExercises()
+        observeTag()
         observeUserInputContent()
     }
 
@@ -124,8 +129,17 @@ class WriteOrModifyBoardActivity : AppCompatActivity() {
     private fun observeSelectedImage() {
         viewModel.userSelectedImages.observe(this) {
             imageAdapter.paths = it.map { it.toString() } as MutableList
-            imageAdapter.notifyItemRangeChanged(0, it.size)
+            imageAdapter.notifyDataSetChanged()
+
+
+            val params = binding.writeModifyBoardRvImages.layoutParams
+            params.width = (it.size * 110).toDp()
+            binding.writeModifyBoardRvImages.layoutParams = params
         }
+    }
+
+    private fun Int.toDp() : Int {
+        return (this * Resources.getSystem().displayMetrics.density + 0.5f).toInt()
     }
 
     private fun onDropSelectedImage(position: Int) {
@@ -212,6 +226,8 @@ class WriteOrModifyBoardActivity : AppCompatActivity() {
     }
 
     private fun requestPostArticle() {
+        showLoadingDialog()
+
         if (viewModel.userSelectedImages.value.isNullOrEmpty()) {
             viewModel.requestPostArticle(null)
         } else {
@@ -243,6 +259,9 @@ class WriteOrModifyBoardActivity : AppCompatActivity() {
 
     private fun observeSaveState() {
         viewModel.saveState.observe(this) {
+
+            dismissLoadingDialog()
+
             if (it == 2000) {
                 viewModel.imagePaths.value?.map { it.deletePic(this@WriteOrModifyBoardActivity) }
                 finishActivity()
@@ -277,6 +296,7 @@ class WriteOrModifyBoardActivity : AppCompatActivity() {
 
     private fun requestLegacyData() {
         viewModel.requestLegacyData()
+        showLoadingDialog()
         observeLegacy()
         observeSelectedImage()
         observeExercises()
@@ -286,6 +306,8 @@ class WriteOrModifyBoardActivity : AppCompatActivity() {
 
     private fun observeLegacy() {
         viewModel.legacyArticleData.observe(this) {
+            dismissLoadingDialog()
+
             viewModel.setLegacyToUi()
 
             val selectedPosition =
@@ -297,6 +319,7 @@ class WriteOrModifyBoardActivity : AppCompatActivity() {
 
     private fun observeTag() {
         viewModel.userInputTagList.observe(this) {
+            Log.e("----", "observeTag: $it", )
             if (!it.isNullOrEmpty()) {
                 val count = it.size - binding.writeModifyBoardChipgroupTag.childCount
                 for (i in it.size - (count + 1) until it.size) {
@@ -307,6 +330,8 @@ class WriteOrModifyBoardActivity : AppCompatActivity() {
     }
 
     private fun requestModifyArticle() {
+        showLoadingDialog()
+
         viewModel.userSelectedImages.value.let {
             if(it.isNullOrEmpty()) {
                 viewModel.requestModifyArticle(null)
@@ -330,5 +355,9 @@ class WriteOrModifyBoardActivity : AppCompatActivity() {
                 add(false)
             }
         }
+
+    private var loadingDialog = LoadingDialog()
+    private fun showLoadingDialog() = loadingDialog.show(supportFragmentManager, null)
+    private fun dismissLoadingDialog() = loadingDialog.dismiss()
 
 }

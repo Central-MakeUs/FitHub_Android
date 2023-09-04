@@ -34,6 +34,7 @@ class MyLevelActivity : AppCompatActivity() {
     }
 
     private fun initBinding() {
+        binding.activity = this
         binding.lifecycleOwner = this
     }
 
@@ -73,5 +74,9 @@ class MyLevelActivity : AppCompatActivity() {
     private fun List<ResponseMyLevelData.FithubLevelDetail>.setData() {
         levelAdapter.levels = this.toMutableList()
         levelAdapter.notifyItemRangeChanged(0, this.size)
+    }
+
+    fun onBackPress() {
+        finish()
     }
 }

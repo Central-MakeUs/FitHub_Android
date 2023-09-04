@@ -4,6 +4,7 @@ import com.proteam.fithub.data.remote.request.RequestDeleteMyCertificate
 import com.proteam.fithub.data.remote.response.ResponseCertificateData
 import com.proteam.fithub.data.remote.response.ResponseCertificateDetailData
 import com.proteam.fithub.data.remote.response.ResponseCertificateHeartClicked
+import com.proteam.fithub.data.remote.response.ResponseIsWriteTodayData
 import com.proteam.fithub.data.remote.response.ResponseMyCertificateData
 import com.proteam.fithub.data.remote.response.ResponsePostCertificateData
 import com.proteam.fithub.presentation.util.BaseResponse
@@ -23,7 +24,6 @@ import retrofit2.http.Query
 import java.util.Base64.Encoder
 
 interface CertificateService {
-
     @GET("/records/{categoryId}")
     suspend fun requestCertificateData(
         @Path("categoryId") categoryId : Int,
@@ -82,8 +82,11 @@ interface CertificateService {
         @Query ("pageIndex") pageIndex : Int
     ) : ResponseMyCertificateData
 
-    @DELETE("records")
+    @PATCH("records")
     suspend fun requestDeleteMyCertificate(
         @Body body : RequestDeleteMyCertificate
     ) : Response<BaseResponse>
+
+    @GET("/records/check-today")
+    suspend fun requestCheckTodayCertificate() : Response<ResponseIsWriteTodayData>
 }

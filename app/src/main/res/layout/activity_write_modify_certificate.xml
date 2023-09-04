@@ -161,6 +161,7 @@
                             android:hint="@string/certificate_tag_hint"
                             android:imeOptions="actionDone"
                             android:maxLines="1"
+                            android:maxLength="20"
                             android:paddingHorizontal="12dp"
                             android:paddingVertical="6dp"
                             android:text="@={viewModel.userInputTag}"

@@ -1,6 +1,8 @@
 package com.proteam.fithub.domain.repository
 
 import androidx.paging.PagingData
+import com.proteam.fithub.data.remote.request.RequestDeleteMyArticles
+import com.proteam.fithub.data.remote.request.RequestDeleteMyCertificate
 import com.proteam.fithub.data.remote.response.ResponseArticleData
 import com.proteam.fithub.data.remote.response.ResponseArticleDetailData
 import com.proteam.fithub.data.remote.response.ResponseArticleHeartClicked
@@ -49,4 +51,6 @@ interface ArticleRepository {
     fun requestMyArticleData(category : Int) : Flow<PagingData<ResponseMyArticleData.ResultMyArticleData>>
 
     fun requestOtherUserArticleData(userId: Int, categoryId: Int): Flow<PagingData<ResponseArticleData.ResultArticleData>>
+
+    suspend fun requestDeleteMyArticleData(body : RequestDeleteMyArticles) : Result<BaseResponse>
 }

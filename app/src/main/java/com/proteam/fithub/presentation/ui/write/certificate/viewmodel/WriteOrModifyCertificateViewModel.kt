@@ -73,7 +73,9 @@ class WriteOrModifyCertificateViewModel @Inject constructor(
     }
 
     fun initTag() {
-        addToTagList(userInputTag.value!!)
+        if(toolsForUserInputTagList.indexOf(userInputTag.value!!) == -1) {
+            addToTagList(userInputTag.value!!)
+        }
         userInputTag.value = ""
     }
 
@@ -105,7 +107,7 @@ class WriteOrModifyCertificateViewModel @Inject constructor(
 
     fun checkSaveEnabled() {
         saveButtonEnabled.value =
-            (_userSelectedImage.value != null) && (_userSelectExercise.value != null) && (userInputContent.value != null)
+            (_userSelectedImage.value != null) && (_userSelectExercise.value != null) && (!userInputContent.value.isNullOrEmpty())
     }
 
     fun requestPostCertificate(path : String) {

@@ -17,7 +17,7 @@ data class ResponseArticleData (
         val title : String,
         val contents : String,
         val pictureUrl : String?,
-        var exerciseTag : String,
+        var exerciseTag : String?,
         var likes : Int,
         var isLiked : Boolean,
         val comments : Int,

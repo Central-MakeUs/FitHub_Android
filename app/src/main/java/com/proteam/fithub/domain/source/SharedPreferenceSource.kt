@@ -10,4 +10,6 @@ interface SharedPreferenceSource {
 
     suspend fun deleteUserJWT()
 
+    suspend fun initUserData()
+
 }

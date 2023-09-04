@@ -30,6 +30,7 @@ import com.proteam.fithub.presentation.ui.write.certificate.viewmodel.WriteOrMod
 import com.proteam.fithub.presentation.util.ConvertBitmap.ConvertWhenSingle
 import com.proteam.fithub.presentation.util.ConvertBitmap.deletePic
 import com.proteam.fithub.presentation.util.EditTextHelper.banSpaceInput
+import com.proteam.fithub.presentation.util.LoadingDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -102,11 +103,14 @@ class WriteOrModifyCertificateActivity : AppCompatActivity() {
 
     private fun requestWrite() {
         CoroutineScope(Dispatchers.Default).launch {
-            viewModel.requestPostCertificate(Convert().also { viewModel.setPathForDelete(it) }.getAbsolutePath())
+            viewModel.requestPostCertificate(Convert().also { viewModel.setPathForDelete(it) }.getAbsolutePath().also { showLoadingDialog() })
         }
     }
 
     private fun requestModify() {
+
+        showLoadingDialog()
+
         CoroutineScope(Dispatchers.Default).launch {
             if(viewModel.userSelectedImage.value?.toString()!!.contains("https://")) {
                 viewModel.requestModifyCertificate(null)
@@ -203,6 +207,9 @@ class WriteOrModifyCertificateActivity : AppCompatActivity() {
 
     private fun observeSaveState() {
         viewModel.saveState.observe(this) {
+
+            dismissLoadingDialog()
+
             if(it == 2000) {
                 viewModel.imagePaths.value?.deletePic(this@WriteOrModifyCertificateActivity)
                 finishActivity()
@@ -282,5 +289,9 @@ class WriteOrModifyCertificateActivity : AppCompatActivity() {
             add(false)
         }
     }
+
+    private var loadingDialog = LoadingDialog()
+    private fun showLoadingDialog() = loadingDialog.show(supportFragmentManager, null)
+    private fun dismissLoadingDialog() = loadingDialog.dismiss()
 
 }

@@ -65,7 +65,6 @@ class WriteOrModifyBoardViewModel @Inject constructor(
     }
 
     fun setSelectedImages(path: MutableList<Uri>) {
-        Log.e("----", "setSelectedImages: $path", )
         _userSelectedImages.value = path.map { it.toString().substring(7).toUri() } as MutableList
         checkSaveEnabled()
     }
@@ -79,7 +78,10 @@ class WriteOrModifyBoardViewModel @Inject constructor(
     }
 
     fun initTag() {
-        addToTagList(userInputTag.value!!)
+        Log.e("----", "initTag: ${toolsForUserInputTagList.indexOf(userInputTag.value!!)} / ${userInputTag.value}", )
+        if(toolsForUserInputTagList.indexOf(userInputTag.value!!) == -1) {
+            addToTagList(userInputTag.value!!)
+        }
         userInputTag.value = ""
     }
 
@@ -111,7 +113,7 @@ class WriteOrModifyBoardViewModel @Inject constructor(
 
     fun checkSaveEnabled() {
         saveButtonEnabled.postValue(
-            (userInputTitle.value != null) && (_userSelectExercise.value != null) && (userInputContent.value != null))
+            (!userInputTitle.value.isNullOrEmpty()) && (_userSelectExercise.value != null) && (!userInputContent.value.isNullOrEmpty()))
     }
 
 

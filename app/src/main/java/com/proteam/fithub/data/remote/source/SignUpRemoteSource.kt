@@ -1,7 +1,9 @@
 package com.proteam.fithub.data.remote.source
 
 import com.proteam.fithub.data.remote.request.RequestChangePassword
+import com.proteam.fithub.data.remote.request.RequestChangePasswordOnMyPage
 import com.proteam.fithub.data.remote.request.RequestCheckSMSAuth
+import com.proteam.fithub.data.remote.request.RequestPasswordExist
 import com.proteam.fithub.data.remote.request.RequestPhoneNumberAvailable
 import com.proteam.fithub.data.remote.request.RequestSMSAuth
 import com.proteam.fithub.data.remote.response.ResponseChangePassword
@@ -41,7 +43,8 @@ class SignUpRemoteSource @Inject constructor(private val service: SignUpService)
         birth: String,
         gender: String,
         preferExercises: Int,
-        profileImage: MultipartBody.Part?
+        profileImage: MultipartBody.Part?,
+        fcmToken : String
     ): Result<ResponseSignUpWithPhone> {
         val res = service.requestSignUpWithPhone(
             marketingAgree,
@@ -52,7 +55,8 @@ class SignUpRemoteSource @Inject constructor(private val service: SignUpService)
             birth.textConverter(),
             gender.textConverter(),
             preferExercises,
-            profileImage
+            profileImage,
+            fcmToken.textConverter()
         )
         return when (res.code()) {
             in 200..399 -> Result.success(res.body()!!)
@@ -71,7 +75,8 @@ class SignUpRemoteSource @Inject constructor(private val service: SignUpService)
         birth: String,
         gender: String,
         preferExercises: Int,
-        profileImage: MultipartBody.Part?
+        profileImage: MultipartBody.Part?,
+        fcmToken: String
     ): Result<ResponseSignUp> {
         val res = service.requestSignUpWithSocial(
             marketingAgree,
@@ -80,7 +85,8 @@ class SignUpRemoteSource @Inject constructor(private val service: SignUpService)
             birth.textConverter(),
             gender.textConverter(),
             preferExercises,
-            profileImage
+            profileImage,
+            fcmToken.textConverter()
         )
         return when (res.code()) {
             in 200..399 -> Result.success(res.body()!!)
@@ -106,6 +112,22 @@ class SignUpRemoteSource @Inject constructor(private val service: SignUpService)
                     res.errorBody()?.convertAndGetCode().toString()
                 )
             )
+        }
+    }
+
+    override suspend fun requestExistPassword(body: RequestPasswordExist): Result<BaseResponse> {
+        val res = service.requestExistPassword(body)
+        return when (res.code()) {
+            in 200..399 -> Result.success(res.body()!!)
+            else -> Result.failure(IllegalArgumentException(res.errorBody()?.convertAndGetCode().toString()))
+        }
+    }
+
+    override suspend fun requestChangePasswordOnMyPage(body: RequestChangePasswordOnMyPage): Result<ResponseChangePassword> {
+        val res = service.requestChangePasswordOnMyPage(body)
+        return when (res.code()) {
+            in 200..399 -> Result.success(res.body()!!)
+            else -> Result.failure(IllegalArgumentException(res.errorBody()?.convertAndGetCode().toString()))
         }
     }
 }

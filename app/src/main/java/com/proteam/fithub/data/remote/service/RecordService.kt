@@ -1,6 +1,8 @@
 package com.proteam.fithub.data.remote.service
 
 import com.proteam.fithub.data.remote.response.ResponseCertificateData
+import com.proteam.fithub.data.remote.response.ResponseIsWriteTodayData
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -18,5 +20,4 @@ interface RecordService {
         @Path("categoryId") categoryId : Int,
         @Query("pageIndex") pageIndex : Int?
     ) : ResponseCertificateData
-
 }

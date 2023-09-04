@@ -53,6 +53,8 @@ class ComponentDialogOneButton(private val onActionClick : () -> Unit) : DialogF
         when(tag) {
             "RESET_PASSWORD" -> case_RESET_PASSWORD()
             "SIGN_OUT" -> case_SIGN_OUT()
+            "4064" -> case_4064()
+            "WHEN_NOT_NETWORK" -> case_WHEN_NOT_NETWORK()
         }
     }
 
@@ -66,6 +68,18 @@ class ComponentDialogOneButton(private val onActionClick : () -> Unit) : DialogF
         binding.componentDialogOneBtnTvTitle.text = "회원 탈퇴 완료"
         binding.componentDialogOneBtnTvNotice.text = "안전하게 탈퇴가 완료되었습니다.\n다음에 또 만나요!"
         binding.componentDialogOneBtnTvAction.text = "확인"
+    }
+
+    private fun case_4064() {
+        binding.componentDialogOneBtnTvTitle.text = "조회 할 수 없는 사용자"
+        binding.componentDialogOneBtnTvNotice.text = "프로필을 조회할 수 없는 사용자입니다."
+        binding.componentDialogOneBtnTvAction.text = "뒤로가기"
+    }
+
+    private fun case_WHEN_NOT_NETWORK() {
+        binding.componentDialogOneBtnTvTitle.text = "네트워크 연결 실패"
+        binding.componentDialogOneBtnTvNotice.text = "네트워크 연결이 필요합니다.\n네트워크 연결 후 재실행해주세요."
+        binding.componentDialogOneBtnTvAction.text = "종료하기"
     }
 
     fun onActionClick() {

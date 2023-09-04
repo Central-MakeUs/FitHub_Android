@@ -4,6 +4,7 @@ import android.util.Log
 import com.proteam.fithub.data.remote.response.ResponseMyInfoData
 import com.proteam.fithub.data.remote.response.ResponseMyPageData
 import com.proteam.fithub.data.remote.response.ResponseOtherUserProfileData
+import com.proteam.fithub.data.remote.response.ResponseTermsData
 import com.proteam.fithub.data.remote.service.MyPageService
 import com.proteam.fithub.domain.source.MyPageSource
 import com.proteam.fithub.presentation.util.BaseResponse
@@ -22,9 +23,8 @@ class MyPageRemoteSource @Inject constructor(private val service : MyPageService
 
     override suspend fun requestMyInfoData(): Result<ResponseMyInfoData.ResultMyInfoData> {
         val res = service.requestMyInfoData()
-        Log.e("----", "requestMyInfoData: ${res} / ${res.body()}", )
         return when(res.code()) {
-            in 200..399 -> Result.success(res.body()!!)
+            in 200..399 -> Result.success(res.body()!!.result)
             else -> Result.failure(IllegalArgumentException(res.errorBody()?.convertAndGetCode().toString()))
         }
     }
@@ -47,6 +47,14 @@ class MyPageRemoteSource @Inject constructor(private val service : MyPageService
 
     override suspend fun requestOtherUserProfile(userId: Int): Result<ResponseOtherUserProfileData.ResultOtherUserProfileData> {
         val res = service.requestOtherUserProfile(userId)
+        return when(res.code()) {
+            in 200..399 -> Result.success(res.body()!!.result)
+            else -> Result.failure(IllegalArgumentException(res.errorBody()?.convertAndGetCode().toString()))
+        }
+    }
+
+    override suspend fun requestTermsData(termsId: Int): Result<ResponseTermsData.ResultTermsData> {
+        val res = service.requestTermsData(termsId)
         return when(res.code()) {
             in 200..399 -> Result.success(res.body()!!.result)
             else -> Result.failure(IllegalArgumentException(res.errorBody()?.convertAndGetCode().toString()))

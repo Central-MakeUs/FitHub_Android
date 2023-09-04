@@ -5,14 +5,15 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import com.google.firebase.messaging.FirebaseMessaging
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.ActivitySocialSignUpBinding
+import com.proteam.fithub.presentation.util.LoadingDialog
 import com.proteam.fithub.presentation.component.ComponentAlertToast
 import com.proteam.fithub.presentation.ui.main.MainActivity
 import com.proteam.fithub.presentation.ui.sign.`in`.social.SocialSignInActivity
@@ -27,11 +28,13 @@ import dagger.hilt.android.AndroidEntryPoint
 class SocialSignUpActivity : AppCompatActivity() {
     private lateinit var binding : ActivitySocialSignUpBinding
     private val viewModel : SocialSignUpViewModel by viewModels()
+    private var token : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_social_sign_up)
 
+        getFcmToken()
         initBinding()
         initUi()
     }
@@ -42,6 +45,14 @@ class SocialSignUpActivity : AppCompatActivity() {
 
     private fun initUi() {
         initDefaultFragment()
+    }
+
+    private fun getFcmToken() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener {
+            if(it.isSuccessful) {
+                token = it.result
+            }
+        }
     }
 
     private fun initDefaultFragment() {
@@ -62,25 +73,26 @@ class SocialSignUpActivity : AppCompatActivity() {
     }
 
     fun requestSocialSignUp() {
-        viewModel.requestSocialSignUp(Convert()?.also { viewModel.setPathForDelete(it) }?.getAbsolutePath())
+        token?.let { it2 ->
+            viewModel.requestSocialSignUp(Convert()?.also { viewModel.setPathForDelete(it) }?.getAbsolutePath(), it2).also { showLoadingDialog() }
+        }
         observeSignUpResult()
     }
 
     private fun observeSignUpResult() {
         viewModel.signUpState.observe(this) {
             deletePhoto()
+            dismissLoadingDialog()
             when(it) {
-                2000 -> {
-                    openSignUpResultActivity()
-                }
+                2000 -> openMainActivity()
                 else -> ComponentAlertToast().show(supportFragmentManager, "$it")
             }
         }
     }
 
-    private fun openSignUpResultActivity() {
+    private fun openMainActivity() {
         setResult(RESULT_OK, Intent(this, SocialSignInActivity::class.java).putExtra("state", true))
-        startActivity(Intent(this, SignUpResultActivity::class.java).setType(viewModel.userInputNickName.value))
+        startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
 
@@ -107,4 +119,8 @@ class SocialSignUpActivity : AppCompatActivity() {
     private fun deletePhoto() {
         viewModel.imagePaths.value?.deletePic(this)
     }
+
+    private var loadingDialog = LoadingDialog()
+    private fun showLoadingDialog() = loadingDialog.show(supportFragmentManager, null)
+    private fun dismissLoadingDialog() = loadingDialog.dismiss()
 }

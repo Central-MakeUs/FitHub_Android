@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="fragment"
-            type="com.proteam.fithub.presentation.ui.search.result.total.SearchResultTotalFragment" />
+            type="com.proteam.fithub.presentation.ui.search.community.result.total.SearchResultTotalFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,87 +24,105 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/item_search_result_total_tv_certificate_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="30dp"
-                    android:text="@string/common_certificate"
-                    android:textAppearance="@style/Title_large_semibold"
-                    android:textColor="@color/text_sub01"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="20dp"
-                    android:text="@string/common_see_more"
-                    android:textAppearance="@style/Body_medium_regular"
-                    android:textColor="@color/text_sub02"
-                    android:onClick="@{() -> fragment.onCertificateDetailClicked()}"
-                    app:layout_constraintBottom_toBottomOf="@id/item_search_result_total_tv_certificate_title"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/item_search_result_total_tv_certificate_title" />
-
-                <com.proteam.fithub.presentation.util.NestedScrollableHost
-                    android:id="@+id/item_search_result_total_view_certificate"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/item_search_result_total_layout_certificate"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <TextView
+                        android:id="@+id/item_search_result_total_tv_certificate_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="30dp"
+                        android:text="@string/common_certificate"
+                        android:textAppearance="@style/Title_large_semibold"
+                        android:textColor="@color/text_sub01"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp"
+                        android:onClick="@{() -> fragment.onCertificateDetailClicked()}"
+                        android:text="@string/common_see_more"
+                        android:textAppearance="@style/Body_medium_regular"
+                        android:textColor="@color/text_sub02"
+                        app:layout_constraintBottom_toBottomOf="@id/item_search_result_total_tv_certificate_title"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/item_search_result_total_tv_certificate_title" />
+
+                    <com.proteam.fithub.presentation.util.NestedScrollableHost
+                        android:id="@+id/item_search_result_total_view_certificate"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/item_search_result_total_tv_certificate_title">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/item_search_result_total_rv_certificate"
+                            android:layout_width="match_parent"
+                            android:layout_height="220dp"
+                            android:layout_marginTop="25dp"
+                            android:clipToPadding="false"
+                            android:orientation="horizontal"
+                            android:paddingStart="20dp"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                    </com.proteam.fithub.presentation.util.NestedScrollableHost>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/item_search_result_total_layout_article"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/item_search_result_total_tv_certificate_title">
+                    app:layout_constraintTop_toBottomOf="@id/item_search_result_total_layout_certificate">
+
+                    <TextView
+                        android:id="@+id/item_search_result_total_tv_article_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="45dp"
+                        android:text="@string/common_board"
+                        android:textAppearance="@style/Title_large_semibold"
+                        android:textColor="@color/text_sub01"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp"
+                        android:onClick="@{() -> fragment.onArticleDetailClicked()}"
+                        android:text="@string/common_see_more"
+                        android:textAppearance="@style/Body_medium_regular"
+                        android:textColor="@color/text_sub02"
+                        app:layout_constraintBottom_toBottomOf="@id/item_search_result_total_tv_article_title"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/item_search_result_total_tv_article_title" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/item_search_result_total_rv_certificate"
+                        android:id="@+id/item_search_result_total_rv_article"
                         android:layout_width="match_parent"
-                        android:layout_height="220dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
                         android:layout_marginTop="25dp"
-                        android:clipToPadding="false"
-                        android:orientation="horizontal"
-                        android:paddingStart="20dp"
+                        android:nestedScrollingEnabled="false"
+                        android:orientation="vertical"
+                        android:overScrollMode="never"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        />
+                        app:layout_constrainedHeight="true"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/item_search_result_total_tv_article_title"
+                        app:layout_constraintVertical_bias="0" />
 
-                </com.proteam.fithub.presentation.util.NestedScrollableHost>
-
-                <TextView
-                    android:id="@+id/item_search_result_total_tv_article_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="45dp"
-                    android:text="@string/common_board"
-                    android:textAppearance="@style/Title_large_semibold"
-                    android:textColor="@color/text_sub01"
-                    app:layout_constraintStart_toStartOf="@id/item_search_result_total_tv_certificate_title"
-                    app:layout_constraintTop_toBottomOf="@id/item_search_result_total_view_certificate" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="20dp"
-                    android:text="@string/common_see_more"
-                    android:textAppearance="@style/Body_medium_regular"
-                    android:textColor="@color/text_sub02"
-                    android:onClick="@{() -> fragment.onArticleDetailClicked()}"
-                    app:layout_constraintBottom_toBottomOf="@id/item_search_result_total_tv_article_title"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/item_search_result_total_tv_article_title" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/item_search_result_total_rv_article"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="25dp"
-                    android:nestedScrollingEnabled="false"
-                    android:orientation="vertical"
-                    android:overScrollMode="never"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constrainedHeight="true"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/item_search_result_total_tv_article_title"
-                    app:layout_constraintVertical_bias="0" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

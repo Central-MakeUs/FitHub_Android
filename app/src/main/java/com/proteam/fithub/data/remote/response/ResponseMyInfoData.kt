@@ -8,6 +8,7 @@ data class ResponseMyInfoData(
     data class ResultMyInfoData(
         val name : String,
         val email : String?,
-        val phoneNum : String?
+        val phoneNum : String?,
+        val isSocial : Boolean
     )
 }

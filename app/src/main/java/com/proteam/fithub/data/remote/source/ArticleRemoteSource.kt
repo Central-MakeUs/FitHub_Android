@@ -1,6 +1,8 @@
 package com.proteam.fithub.data.remote.source
 
 import android.util.Log
+import com.proteam.fithub.data.remote.request.RequestDeleteMyArticles
+import com.proteam.fithub.data.remote.request.RequestDeleteMyCertificate
 import com.proteam.fithub.data.remote.response.ResponseArticleData
 import com.proteam.fithub.data.remote.response.ResponseArticleDetailData
 import com.proteam.fithub.data.remote.response.ResponseArticleHeartClicked
@@ -75,6 +77,14 @@ class ArticleRemoteSource @Inject constructor(private val service : ArticleServi
 
     override suspend fun requestDeleteBoardData(articleId: Int): Result<BaseResponse> {
         val res = service.deleteArticleData(articleId)
+        return when(res.code()) {
+            in 200..399 -> Result.success(res.body()!!)
+            else -> Result.failure(IllegalArgumentException(res.errorBody()?.convertAndGetCode().toString()))
+        }
+    }
+
+    override suspend fun requestDeleteMyArticleData(body: RequestDeleteMyArticles): Result<BaseResponse> {
+        val res = service.requestDeleteMyArticles(body)
         return when(res.code()) {
             in 200..399 -> Result.success(res.body()!!)
             else -> Result.failure(IllegalArgumentException(res.errorBody()?.convertAndGetCode().toString()))

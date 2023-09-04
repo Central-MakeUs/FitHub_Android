@@ -23,6 +23,7 @@ class HomeBestRankAdapter (
             binding.itemHomeBestRankingLayoutExercise.getExercise(item.category)
 
             //:TODO 랭커인덱스 받아서 유저상세 넣기
+            binding.itemHomeBestRankingIvProfile.setOnClickListener { onProfileClicked.invoke(item.id) }
 
             binding.itemHomeBestRankingIvRate.setImageResource(
                 when (item.rankingStatus) {

@@ -4,6 +4,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.kakao.sdk.common.KakaoSdk.type
+import com.proteam.fithub.data.remote.request.RequestDeleteMyArticles
+import com.proteam.fithub.data.remote.request.RequestDeleteMyCertificate
 import com.proteam.fithub.data.remote.response.ResponseArticleData
 import com.proteam.fithub.data.remote.response.ResponseArticleDetailData
 import com.proteam.fithub.data.remote.response.ResponseArticleHeartClicked
@@ -88,5 +90,9 @@ class ArticleRepositoryImpl @Inject constructor(
         return Pager(PagingConfig(pageSize = 12)) {
             OtherUserArticlePagingSource(userId, Dispatchers.IO, service, categoryId)
         }.flow
+    }
+
+    override suspend fun requestDeleteMyArticleData(body: RequestDeleteMyArticles): Result<BaseResponse> {
+        return source.requestDeleteMyArticleData(body)
     }
 }

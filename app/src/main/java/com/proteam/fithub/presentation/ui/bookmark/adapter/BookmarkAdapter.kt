@@ -2,13 +2,13 @@ package com.proteam.fithub.presentation.ui.bookmark.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.proteam.fithub.data.remote.response.ResponseArticleData
-import com.proteam.fithub.databinding.ItemBookmarkNoneBinding
 import com.proteam.fithub.databinding.ItemRvCommunityBoardBinding
 
 class BookmarkAdapter(
@@ -18,20 +18,12 @@ class BookmarkAdapter(
         diffCallback
     ) {
 
-    inner class BookmarkViewHolder(private val binding: ItemRvCommunityBoardBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    inner class BookmarkViewHolder(private val binding: ItemRvCommunityBoardBinding) : ViewHolder(binding.root) {
         fun bind(item: ResponseArticleData.ResultArticleData) {
-            binding.data = item.apply {
-                if (!this.exerciseTag.contains("#")) this.exerciseTag = "#${this.exerciseTag}"
-            }
+            binding.data = item.apply { this.exerciseTag?.let { if(!it.contains("#")) this.exerciseTag = "#${this.exerciseTag}" } }
+            binding.itemRvCommunityBoardTvTag.visibility = if(item.exerciseTag == null) View.GONE else View.VISIBLE
             binding.itemRvCommunityBoardLayoutUser.getUserData(item.userInfo, item.createdAt)
             binding.root.setOnClickListener { itemClick.invoke(item.articleId) }
-        }
-    }
-
-    inner class NoneViewHolder(private val binding: ItemBookmarkNoneBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind() {
-
         }
     }
 
@@ -40,14 +32,7 @@ class BookmarkAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (itemCount == 0) NoneViewHolder(
-            ItemBookmarkNoneBinding.inflate(
-                LayoutInflater.from(
-                    parent.context
-                ), parent, false
-            )
-        )
-        else BookmarkViewHolder(
+        return BookmarkViewHolder(
             ItemRvCommunityBoardBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
@@ -59,7 +44,6 @@ class BookmarkAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         when (holder) {
             is BookmarkViewHolder -> getItem(position)?.let { holder.bind(it) }
-            is NoneViewHolder -> getItem(position)?.let { holder.bind() }
         }
 
     }
