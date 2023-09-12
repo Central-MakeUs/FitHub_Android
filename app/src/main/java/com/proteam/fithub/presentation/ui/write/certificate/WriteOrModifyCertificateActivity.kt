@@ -127,7 +127,7 @@ class WriteOrModifyCertificateActivity : AppCompatActivity() {
         binding.writeModifyCertificateEdtTag.banSpaceInput()
         observeTag()
         binding.writeModifyCertificateEdtTag.setOnEditorActionListener { text, i, keyEvent ->
-            if(text.text.isNotEmpty() && i == EditorInfo.IME_NULL && keyEvent.action == MotionEvent.ACTION_DOWN) {
+            if(text.text.isNotEmpty() && (i == EditorInfo.IME_NULL || i == EditorInfo.IME_ACTION_DONE) && keyEvent.action == MotionEvent.ACTION_DOWN) {
                 saveTag()
             }
             return@setOnEditorActionListener true

@@ -36,7 +36,7 @@ class AroundsMapFragment : Fragment(), MapView.MapViewEventListener {
     private val viewModel: AroundsViewModel by activityViewModels()
 
     private val customSnackbar by lazy {
-        CustomSnackBar.makeSnackBar(binding.root, "이 지역은 아직 시설 정보가 없어요.")
+        CustomSnackBar.makeSnackBar(binding.root, "이 지역은 아직 시설정보가 없어요.")
     }
 
     private var isDragged = false

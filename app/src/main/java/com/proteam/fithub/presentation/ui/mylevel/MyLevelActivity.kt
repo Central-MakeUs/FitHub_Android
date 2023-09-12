@@ -7,6 +7,7 @@ import android.text.style.ForegroundColorSpan
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import com.proteam.fithub.R
 import com.proteam.fithub.data.remote.response.ResponseMyLevelData
