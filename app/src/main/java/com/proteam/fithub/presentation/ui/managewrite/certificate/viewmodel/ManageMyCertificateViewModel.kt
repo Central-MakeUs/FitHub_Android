@@ -26,6 +26,9 @@ class ManageMyCertificateViewModel @Inject constructor(private val certificateRe
 
     var isAllClicked = MutableLiveData<Boolean>(false)
 
+    private val _todayCertificateData = MutableLiveData<Boolean?>()
+    val todayCertificateData : LiveData<Boolean?> = _todayCertificateData
+
     fun initAllClicked() {
         isAllClicked.value = false
     }
@@ -50,6 +53,13 @@ class ManageMyCertificateViewModel @Inject constructor(private val certificateRe
                 certificateRepository.requestDeleteMyCertificateData(RequestDeleteMyCertificate(it))
                     .onSuccess { _deleteStatus.value = it.code }
             }
+        }
+    }
+
+    fun checkTodaysCertificate() {
+        viewModelScope.launch {
+            certificateRepository.requestCertificateToday()
+                .onSuccess { _todayCertificateData.value = it.isWrite }
         }
     }
 
