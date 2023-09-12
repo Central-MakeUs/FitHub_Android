@@ -10,6 +10,7 @@ import android.provider.MediaStore
 import android.text.InputFilter
 import android.text.Spanned
 import android.util.Log
+import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
@@ -158,11 +159,11 @@ class WriteOrModifyBoardActivity : AppCompatActivity() {
 
     private fun observeTagInserted() {
         binding.writeModifyBoardEdtTag.banSpaceInput()
-        binding.writeModifyBoardEdtTag.setOnEditorActionListener { text, i, keyEvent ->
-            if (text.text.isNotEmpty() && i == EditorInfo.IME_NULL && keyEvent.action == MotionEvent.ACTION_DOWN) {
+        binding.writeModifyBoardEdtTag.setOnKeyListener { view, i, keyEvent ->
+            if(binding.writeModifyBoardEdtTag.text.isNotEmpty() && keyEvent.keyCode == KeyEvent.KEYCODE_ENTER && keyEvent.action == MotionEvent.ACTION_DOWN) {
                 initTag()
             }
-            return@setOnEditorActionListener true
+            return@setOnKeyListener true
         }
     }
 

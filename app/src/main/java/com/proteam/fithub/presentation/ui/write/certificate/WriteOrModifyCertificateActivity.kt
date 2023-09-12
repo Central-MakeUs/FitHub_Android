@@ -9,6 +9,7 @@ import android.provider.MediaStore
 import android.text.InputFilter
 import android.text.Spanned
 import android.util.Log
+import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
@@ -126,11 +127,11 @@ class WriteOrModifyCertificateActivity : AppCompatActivity() {
     private fun setTag() {
         binding.writeModifyCertificateEdtTag.banSpaceInput()
         observeTag()
-        binding.writeModifyCertificateEdtTag.setOnEditorActionListener { text, i, keyEvent ->
-            if(text.text.isNotEmpty() && (i == EditorInfo.IME_NULL || i == EditorInfo.IME_ACTION_DONE) && keyEvent.action == MotionEvent.ACTION_DOWN) {
+        binding.writeModifyCertificateEdtTag.setOnKeyListener { view, i, keyEvent ->
+            if(binding.writeModifyCertificateEdtTag.text.isNotEmpty() && keyEvent.keyCode == KeyEvent.KEYCODE_ENTER && keyEvent.action == MotionEvent.ACTION_DOWN) {
                 saveTag()
             }
-            return@setOnEditorActionListener true
+            return@setOnKeyListener true
         }
     }
 
