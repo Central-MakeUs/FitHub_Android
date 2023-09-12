@@ -107,14 +107,14 @@ class WriteOrModifyCertificateViewModel @Inject constructor(
 
     fun checkSaveEnabled() {
         saveButtonEnabled.value =
-            (_userSelectedImage.value != null) && (_userSelectExercise.value != null) && (!userInputContent.value.isNullOrEmpty())
+            (_userSelectedImage.value != null) && (_userSelectExercise.value != null)
     }
 
     fun requestPostCertificate(path : String) {
         viewModelScope.launch {
             certificateRepository.requestPostCertificateData(
                 userSelectExercise.value!!.id,
-                userInputContent.value!!,
+                userInputContent.value ?: "",
                 userSelectExercise.value!!.name,
                 userInputTagList.value,
                 path.mapToMultipartWhenPost()
