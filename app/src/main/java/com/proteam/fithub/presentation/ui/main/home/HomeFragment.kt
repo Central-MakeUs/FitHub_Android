@@ -3,6 +3,7 @@ package com.proteam.fithub.presentation.ui.main.home
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.proteam.fithub.R
 import com.proteam.fithub.data.remote.response.ResponseHomeData
 import com.proteam.fithub.databinding.FragmentHomeBinding
+import com.proteam.fithub.presentation.ui.FitHub.Companion.analytics
 import com.proteam.fithub.presentation.util.LoadingDialog
 import com.proteam.fithub.presentation.ui.main.MainActivity
 import com.proteam.fithub.presentation.ui.main.MainViewModel
@@ -23,8 +25,10 @@ import com.proteam.fithub.presentation.ui.main.home.adapter.HomeBestRankAdapter
 import com.proteam.fithub.presentation.ui.main.home.adapter.HomeNearGymAdapter
 import com.proteam.fithub.presentation.ui.main.home.viewmodel.HomeViewModel
 import com.proteam.fithub.presentation.ui.otheruser.OtherUserProfileActivity
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 import com.proteam.fithub.presentation.util.CustomSnackBar
 import dagger.hilt.android.AndroidEntryPoint
+import java.lang.RuntimeException
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -45,8 +49,7 @@ class HomeFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
-
-        binding.fgHomeCardCertificatePercentLayoutExercise.getExercise("폴댄스")
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         initUi()
         initBinding()

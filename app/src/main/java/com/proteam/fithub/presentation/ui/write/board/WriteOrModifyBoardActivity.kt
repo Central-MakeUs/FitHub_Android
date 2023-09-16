@@ -10,6 +10,7 @@ import android.provider.MediaStore
 import android.text.InputFilter
 import android.text.Spanned
 import android.util.Log
+import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
@@ -30,6 +31,7 @@ import com.proteam.fithub.presentation.ui.gallery.view.CustomGalleryActivity
 import com.proteam.fithub.presentation.ui.write.board.adapter.WriteOrModifyBoardImageAdapter
 import com.proteam.fithub.presentation.ui.write.board.viewmodel.WriteOrModifyBoardViewModel
 import com.proteam.fithub.presentation.ui.write.certificate.adapter.WriteOrModifyCertificateExerciseAdapter
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 import com.proteam.fithub.presentation.util.ConvertBitmap.ConvertWhenList
 import com.proteam.fithub.presentation.util.ConvertBitmap.deletePic
 import com.proteam.fithub.presentation.util.LoadingDialog
@@ -55,6 +57,8 @@ class WriteOrModifyBoardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_write_modify_board)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         initBinding()
         initType()
@@ -158,11 +162,11 @@ class WriteOrModifyBoardActivity : AppCompatActivity() {
 
     private fun observeTagInserted() {
         binding.writeModifyBoardEdtTag.banSpaceInput()
-        binding.writeModifyBoardEdtTag.setOnEditorActionListener { text, i, keyEvent ->
-            if (text.text.isNotEmpty() && i == EditorInfo.IME_NULL && keyEvent.action == MotionEvent.ACTION_DOWN) {
+        binding.writeModifyBoardEdtTag.setOnKeyListener { view, i, keyEvent ->
+            if(binding.writeModifyBoardEdtTag.text.isNotEmpty() && keyEvent.keyCode == KeyEvent.KEYCODE_ENTER && keyEvent.action == MotionEvent.ACTION_DOWN) {
                 initTag()
             }
-            return@setOnEditorActionListener true
+            return@setOnKeyListener true
         }
     }
 

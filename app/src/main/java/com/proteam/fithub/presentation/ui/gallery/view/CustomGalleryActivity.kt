@@ -11,6 +11,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.ActivityCustomGalleryBinding
 import com.proteam.fithub.presentation.ui.gallery.adapter.GalleryAdapter
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 
 class CustomGalleryActivity : AppCompatActivity() {
     private lateinit var binding : ActivityCustomGalleryBinding
@@ -22,6 +23,8 @@ class CustomGalleryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_custom_gallery)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         initBinding()
         initRV()

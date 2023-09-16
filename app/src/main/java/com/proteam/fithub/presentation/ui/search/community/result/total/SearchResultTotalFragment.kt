@@ -14,6 +14,7 @@ import com.proteam.fithub.presentation.ui.search.community.SearchActivity
 import com.proteam.fithub.presentation.ui.search.community.result.total.adapter.ArticleAdapter
 import com.proteam.fithub.presentation.ui.search.community.result.total.adapter.CertificateAdapter
 import com.proteam.fithub.presentation.ui.search.community.viewmodel.SearchViewModel
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 
 class SearchResultTotalFragment : Fragment() {
     private lateinit var binding: FragmentSearchResultTotalBinding
@@ -37,6 +38,8 @@ class SearchResultTotalFragment : Fragment() {
             container,
             false
         )
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         initBinding()
         initUi()

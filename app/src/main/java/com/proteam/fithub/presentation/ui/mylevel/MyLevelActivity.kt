@@ -7,12 +7,14 @@ import android.text.style.ForegroundColorSpan
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import com.proteam.fithub.R
 import com.proteam.fithub.data.remote.response.ResponseMyLevelData
 import com.proteam.fithub.databinding.ActivityMyLevelBinding
 import com.proteam.fithub.presentation.ui.mylevel.adapter.LevelAdapter
 import com.proteam.fithub.presentation.ui.mylevel.viewmodel.MyLevelViewModel
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.internal.notify
 
@@ -28,6 +30,8 @@ class MyLevelActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_my_level)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         initBinding()
         initUi()

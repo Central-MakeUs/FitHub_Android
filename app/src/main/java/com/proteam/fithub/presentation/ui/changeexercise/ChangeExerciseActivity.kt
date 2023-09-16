@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.ActivityChangeExerciseBinding
 import com.proteam.fithub.presentation.ui.sign.up.common.exercise.InterestExerciseFragment
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -17,6 +18,8 @@ class ChangeExerciseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_change_exercise)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         initBinding()
         setFragment()

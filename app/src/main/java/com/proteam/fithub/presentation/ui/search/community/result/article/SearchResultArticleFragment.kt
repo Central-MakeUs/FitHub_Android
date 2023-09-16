@@ -15,6 +15,7 @@ import com.proteam.fithub.presentation.ui.search.community.SearchActivity
 import com.proteam.fithub.presentation.ui.search.community.result.article.adapter.SearchResultArticleAdapter
 import com.proteam.fithub.presentation.ui.search.community.result.article.viewmodel.SearchResultArticleViewModel
 import com.proteam.fithub.presentation.ui.search.community.viewmodel.SearchViewModel
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -33,6 +34,8 @@ class SearchResultArticleFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search_article, container, false)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         initBinding()
         initUi()

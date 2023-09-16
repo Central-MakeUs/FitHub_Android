@@ -15,6 +15,7 @@ import com.proteam.fithub.presentation.ui.search.community.SearchActivity
 import com.proteam.fithub.presentation.ui.search.community.result.certificate.adapter.SearchResultCertificateAdapter
 import com.proteam.fithub.presentation.ui.search.community.result.certificate.viewmodel.SearchResultCertificateViewModel
 import com.proteam.fithub.presentation.ui.search.community.viewmodel.SearchViewModel
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -35,6 +36,8 @@ class SearchResultCertificateFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search_certifiate, container,  false)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         initBinding()
         initUi()

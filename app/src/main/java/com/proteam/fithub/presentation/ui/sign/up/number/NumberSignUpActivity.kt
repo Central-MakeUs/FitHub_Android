@@ -20,6 +20,7 @@ import com.proteam.fithub.presentation.ui.sign.`in`.number.NumberSignInActivity
 import com.proteam.fithub.presentation.ui.sign.result.SignUpResultActivity
 import com.proteam.fithub.presentation.ui.sign.up.common.agreement.AgreementFragment
 import com.proteam.fithub.presentation.ui.sign.up.number.viewmodel.NumberSignUpViewModel
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 import com.proteam.fithub.presentation.util.ConvertBitmap.ConvertWhenSingle
 import com.proteam.fithub.presentation.util.ConvertBitmap.deletePic
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,6 +35,8 @@ class NumberSignUpActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_number_sign_up)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         getFcmToken()
         initBinding()

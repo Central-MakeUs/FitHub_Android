@@ -19,6 +19,7 @@ import com.proteam.fithub.presentation.ui.managewrite.article.viewmodel.ManageMy
 import com.proteam.fithub.presentation.ui.managewrite.viewmodel.ManageMyWriteViewModel
 import com.proteam.fithub.presentation.ui.write.board.WriteOrModifyBoardActivity
 import com.proteam.fithub.presentation.ui.write.certificate.WriteOrModifyCertificateActivity
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 @AndroidEntryPoint
@@ -38,6 +39,8 @@ class ManageMyArticleFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_my_article, container, false)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         requestMyArticle()
         initBinding()

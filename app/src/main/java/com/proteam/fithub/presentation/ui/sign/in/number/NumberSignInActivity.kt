@@ -17,6 +17,7 @@ import com.proteam.fithub.presentation.ui.main.MainActivity
 import com.proteam.fithub.presentation.ui.sign.`in`.number.viewmodel.NumberSignInViewModel
 import com.proteam.fithub.presentation.ui.sign.`in`.social.SocialSignInActivity
 import com.proteam.fithub.presentation.ui.sign.up.number.NumberSignUpActivity
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 import com.proteam.fithub.presentation.util.CustomSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,6 +30,8 @@ class NumberSignInActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_sign_in_with_number)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         getFcmToken()
         initBinding()

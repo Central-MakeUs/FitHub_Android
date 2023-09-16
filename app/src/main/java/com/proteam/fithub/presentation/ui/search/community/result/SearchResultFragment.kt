@@ -19,6 +19,7 @@ import com.proteam.fithub.presentation.ui.search.community.result.article.Search
 import com.proteam.fithub.presentation.ui.search.community.result.certificate.SearchResultCertificateFragment
 import com.proteam.fithub.presentation.ui.search.community.result.total.SearchResultTotalFragment
 import com.proteam.fithub.presentation.ui.search.community.viewmodel.SearchViewModel
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 
 class SearchResultFragment : Fragment() {
     private lateinit var binding : FragmentSearchResultBinding
@@ -30,6 +31,8 @@ class SearchResultFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search_result, container ,false)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         initBinding()
 

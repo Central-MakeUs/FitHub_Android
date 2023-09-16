@@ -17,6 +17,7 @@ import com.proteam.fithub.presentation.ui.search.community.normal.SearchDefaultF
 import com.proteam.fithub.presentation.ui.search.community.none.SearchNoneFragment
 import com.proteam.fithub.presentation.ui.search.community.result.SearchResultFragment
 import com.proteam.fithub.presentation.ui.search.community.viewmodel.SearchViewModel
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -26,6 +27,8 @@ class SearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         initBinding()
         initUi()

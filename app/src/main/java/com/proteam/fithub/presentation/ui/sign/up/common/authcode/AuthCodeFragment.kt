@@ -20,6 +20,7 @@ import com.proteam.fithub.presentation.ui.sign.up.common.authcode.viewmodel.Auth
 import com.proteam.fithub.presentation.ui.sign.up.common.password.PasswordFragment
 import com.proteam.fithub.presentation.ui.sign.up.number.NumberSignUpActivity
 import com.proteam.fithub.presentation.ui.sign.up.number.viewmodel.NumberSignUpViewModel
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 import com.proteam.fithub.presentation.util.CustomSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -39,6 +40,8 @@ class AuthCodeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_auth_code, container, false)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         initInputMethodManager()
         initBinding()

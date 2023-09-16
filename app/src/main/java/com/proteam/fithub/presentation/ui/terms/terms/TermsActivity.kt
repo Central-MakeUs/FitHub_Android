@@ -8,6 +8,7 @@ import com.proteam.fithub.R
 import com.proteam.fithub.databinding.ActivityTermsBinding
 import com.proteam.fithub.presentation.ui.terms.detail.TermsDetailActivity
 import com.proteam.fithub.presentation.ui.terms.terms.adapter.TermsAdapter
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 
 class TermsActivity : AppCompatActivity() {
     private lateinit var binding : ActivityTermsBinding
@@ -19,6 +20,8 @@ class TermsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_terms)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         initBinding()
         initRv()

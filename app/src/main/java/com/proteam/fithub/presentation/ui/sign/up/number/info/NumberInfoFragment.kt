@@ -20,6 +20,7 @@ import com.proteam.fithub.presentation.ui.sign.up.number.NumberSignUpActivity
 import com.proteam.fithub.presentation.ui.sign.up.number.info.dialog.NumberInfoTelecomDialog
 import com.proteam.fithub.presentation.ui.sign.up.number.info.viewmodel.NumberInfoViewModel
 import com.proteam.fithub.presentation.ui.sign.up.number.viewmodel.NumberSignUpViewModel
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -40,6 +41,9 @@ class NumberInfoFragment : Fragment() {
             container,
             false
         )
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
+
         initInputMethodManager()
 
         initBinding()

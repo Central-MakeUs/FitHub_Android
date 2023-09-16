@@ -18,6 +18,7 @@ import com.proteam.fithub.presentation.ui.bookmark.viewmodel.BookMarkViewModel
 import com.proteam.fithub.presentation.ui.detail.board.BoardDetailActivity
 import com.proteam.fithub.presentation.ui.main.MainActivity
 import com.proteam.fithub.presentation.ui.sign.`in`.social.SocialSignInActivity
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -33,6 +34,8 @@ class BookMarkActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_bookmark)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         observeFilterExercises()
         observeSelectedFilters()

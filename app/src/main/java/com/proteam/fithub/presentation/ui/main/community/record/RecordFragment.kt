@@ -19,6 +19,7 @@ import com.proteam.fithub.presentation.ui.main.MainActivity
 import com.proteam.fithub.presentation.ui.main.community.record.adapter.RecordAdapter
 import com.proteam.fithub.presentation.ui.main.community.record.viewmodel.RecordViewModel
 import com.proteam.fithub.presentation.ui.main.community.viewmodel.CommunityViewModel
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -40,6 +41,8 @@ class RecordFragment(private val type: String) : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_record, container, false)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         initType()
         initBinding()

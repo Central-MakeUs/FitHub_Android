@@ -14,6 +14,7 @@ import com.proteam.fithub.databinding.FragmentSocialInfoBinding
 import com.proteam.fithub.presentation.ui.sign.up.common.profile.UserProfileFragment
 import com.proteam.fithub.presentation.ui.sign.up.social.SocialSignUpActivity
 import com.proteam.fithub.presentation.ui.sign.up.social.viewmodel.SocialSignUpViewModel
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 
 class SocialInfoFragment : Fragment() {
     private lateinit var binding : FragmentSocialInfoBinding
@@ -25,6 +26,8 @@ class SocialInfoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_social_info, container, false)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         initBinding()
         initUi()

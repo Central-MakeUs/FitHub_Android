@@ -66,8 +66,8 @@
                 <ImageView
                     android:id="@+id/level_detail_iv_my_level"
                     common_set_Image="@{data.myLevelInfo.levelIconUrl}"
-                    android:layout_width="145dp"
-                    android:layout_height="145dp"
+                    android:layout_width="160dp"
+                    android:layout_height="160dp"
                     android:layout_marginTop="5dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

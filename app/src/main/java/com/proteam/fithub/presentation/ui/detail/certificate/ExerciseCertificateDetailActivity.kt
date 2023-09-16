@@ -19,6 +19,7 @@ import com.proteam.fithub.presentation.ui.detail.common.CommentViewModel
 import com.proteam.fithub.presentation.ui.main.MainActivity
 import com.proteam.fithub.presentation.ui.otheruser.OtherUserProfileActivity
 import com.proteam.fithub.presentation.ui.write.certificate.WriteOrModifyCertificateActivity
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 import com.proteam.fithub.presentation.util.CustomSnackBar
 import com.proteam.fithub.presentation.util.LoadingDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,6 +42,8 @@ class ExerciseCertificateDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding =
             DataBindingUtil.setContentView(this, R.layout.activity_exercise_certificate_detail)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         requestData()
         initBinding()

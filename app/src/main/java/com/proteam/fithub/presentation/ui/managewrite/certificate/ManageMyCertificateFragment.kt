@@ -14,10 +14,14 @@ import androidx.lifecycle.lifecycleScope
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentMyCertificateBinding
 import com.proteam.fithub.presentation.ui.detail.certificate.ExerciseCertificateDetailActivity
+import com.proteam.fithub.presentation.ui.main.MainActivity
+import com.proteam.fithub.presentation.ui.managewrite.ManageMyWriteActivity
 import com.proteam.fithub.presentation.ui.managewrite.certificate.adapter.ManageMyCertificateAdapter
 import com.proteam.fithub.presentation.ui.managewrite.certificate.viewmodel.ManageMyCertificateViewModel
 import com.proteam.fithub.presentation.ui.managewrite.viewmodel.ManageMyWriteViewModel
 import com.proteam.fithub.presentation.ui.write.certificate.WriteOrModifyCertificateActivity
+import com.proteam.fithub.presentation.util.AnalyticsHelper
+import com.proteam.fithub.presentation.util.CustomSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -38,6 +42,8 @@ class ManageMyCertificateFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_my_certificate, container, false)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         requestMyCertificate()
         initBinding()
@@ -66,6 +72,7 @@ class ManageMyCertificateFragment : Fragment() {
 
     private fun initUi() {
         initRv()
+        initObserve()
     }
 
     private fun initRv() {
@@ -99,16 +106,34 @@ class ManageMyCertificateFragment : Fragment() {
 
     fun onSelectDeleteClicked() {
         viewModel.requestDeleteMyCertificate()
-        observeDeleteStatus()
     }
 
     fun onWriteCertificate() {
-        startActivity(Intent(requireActivity(), WriteOrModifyCertificateActivity::class.java).setType("Write"))
+        viewModel.checkTodaysCertificate()
+    }
+
+    private fun initObserve() {
+        observeDeleteStatus()
+        observeTodaysWritten()
     }
 
     private fun observeDeleteStatus() {
         viewModel.deleteStatus.observe(viewLifecycleOwner) {
             if(it == 2000) certificateAdapter.refresh()
         }
+    }
+
+    private fun observeTodaysWritten() {
+        viewModel.todayCertificateData.observe(viewLifecycleOwner) {
+            when (it) {
+                true -> CustomSnackBar.makeSnackBar(binding.root, "ALREADY_WRITTEN").show()
+                false -> moveToWriteCertificate()
+                else -> return@observe
+            }
+        }
+    }
+
+    private fun moveToWriteCertificate() {
+        startActivity(Intent(requireActivity(), WriteOrModifyCertificateActivity::class.java).setType("Write"))
     }
 }

@@ -13,6 +13,7 @@ import com.proteam.fithub.databinding.FragmentSearchAroundDefaultBinding
 import com.proteam.fithub.presentation.ui.search.arounds.SearchAroundsActivity
 import com.proteam.fithub.presentation.ui.search.arounds.normal.viewmodel.SearchAroundDefaultViewModel
 import com.proteam.fithub.presentation.ui.search.community.SearchActivity
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -26,6 +27,8 @@ class SearchAroundDefaultFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search_around_default, container, false)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         requestData()
 

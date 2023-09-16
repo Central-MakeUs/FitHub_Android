@@ -15,6 +15,7 @@ import com.proteam.fithub.presentation.ui.main.MainActivity
 import com.proteam.fithub.presentation.ui.search.arounds.none.SearchAroundNoneFragment
 import com.proteam.fithub.presentation.ui.search.arounds.normal.SearchAroundDefaultFragment
 import com.proteam.fithub.presentation.ui.search.arounds.viewmodel.SearchAroundsViewModel
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.Serializable
 
@@ -27,6 +28,8 @@ class SearchAroundsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search_arounds)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         receiveIntent()
         initBinding()

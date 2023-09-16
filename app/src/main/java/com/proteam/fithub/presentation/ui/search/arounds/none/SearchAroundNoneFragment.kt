@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentSearchAroundsNoneBinding
 import com.proteam.fithub.presentation.ui.search.arounds.viewmodel.SearchAroundsViewModel
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 
 class SearchAroundNoneFragment : Fragment() {
     private lateinit var binding : FragmentSearchAroundsNoneBinding
@@ -20,6 +21,8 @@ class SearchAroundNoneFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search_arounds_none, container, false)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         binding.keyword = viewModel.userInputKeyword.value
 

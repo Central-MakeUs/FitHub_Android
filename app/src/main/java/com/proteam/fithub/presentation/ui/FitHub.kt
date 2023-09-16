@@ -6,6 +6,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.kakao.sdk.common.KakaoSdk
 import com.proteam.fithub.BuildConfig
 import dagger.hilt.android.HiltAndroidApp
@@ -16,10 +17,13 @@ class FitHub : Application(), LifecycleEventObserver {
 
     companion object {
         lateinit var mSharedPreferences: SharedPreferences
+        lateinit var analytics : FirebaseAnalytics
     }
     override fun onCreate() {
         super.onCreate()
         mSharedPreferences = applicationContext.getSharedPreferences("FitHub", MODE_PRIVATE)
+        analytics = FirebaseAnalytics.getInstance(this)
+
         initKakaoSDK()
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
     }
