@@ -22,6 +22,7 @@ import com.proteam.fithub.data.remote.response.ResponseLocationData
 import com.proteam.fithub.databinding.FragmentAroundsMapBinding
 import com.proteam.fithub.presentation.ui.main.arounds.list.AroundListFragment
 import com.proteam.fithub.presentation.ui.main.arounds.viewmodel.AroundsViewModel
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 import com.proteam.fithub.presentation.util.CustomSnackBar
 import kotlinx.coroutines.delay
 import net.daum.mf.map.api.MapPOIItem
@@ -48,6 +49,8 @@ class AroundsMapFragment : Fragment(), MapView.MapViewEventListener {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_arounds_map, container, false)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         initBinding()
         initUi()

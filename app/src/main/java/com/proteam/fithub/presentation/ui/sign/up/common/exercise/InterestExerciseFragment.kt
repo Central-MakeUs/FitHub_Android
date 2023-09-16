@@ -17,6 +17,7 @@ import com.proteam.fithub.presentation.ui.sign.up.number.NumberSignUpActivity
 import com.proteam.fithub.presentation.ui.sign.up.number.viewmodel.NumberSignUpViewModel
 import com.proteam.fithub.presentation.ui.sign.up.social.SocialSignUpActivity
 import com.proteam.fithub.presentation.ui.sign.up.social.viewmodel.SocialSignUpViewModel
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 import com.proteam.fithub.presentation.util.CustomSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,6 +38,8 @@ class InterestExerciseFragment : Fragment() {
     ): View? {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_interest_exercises, container ,false)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         requestExercises()
 

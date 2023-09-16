@@ -25,6 +25,7 @@ import com.proteam.fithub.presentation.ui.sign.result.SignUpResultActivity
 import com.proteam.fithub.presentation.ui.sign.up.common.profile.UserProfileFragment
 import com.proteam.fithub.presentation.ui.sign.up.number.NumberSignUpActivity
 import com.proteam.fithub.presentation.ui.sign.up.number.viewmodel.NumberSignUpViewModel
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 
 class PasswordFragment : Fragment() {
     private lateinit var binding: FragmentPasswordBinding
@@ -39,6 +40,7 @@ class PasswordFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_password, container, false)
 
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         initBinding()
         initInclude()

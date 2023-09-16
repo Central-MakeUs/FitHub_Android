@@ -20,6 +20,7 @@ import com.proteam.fithub.presentation.component.ComponentDialogYesNoWithParam
 import com.proteam.fithub.presentation.ui.detail.board.BoardDetailActivity
 import com.proteam.fithub.presentation.ui.otheruser.adapter.OtherUserArticleAdapter
 import com.proteam.fithub.presentation.ui.otheruser.viewmodel.OtherUserProfileViewModel
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 import com.proteam.fithub.presentation.util.CustomSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -34,6 +35,8 @@ class OtherUserProfileActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_other_user_profile)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         requestUserData()
         initBinding()

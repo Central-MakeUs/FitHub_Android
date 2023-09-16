@@ -10,9 +10,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SplashViewModel @Inject constructor(private val signInRepository: SignInRepository): ViewModel() {
+class SplashViewModel @Inject constructor(private val signInRepository: SignInRepository) :
+    ViewModel() {
     private val _statusCode = MutableLiveData<Int>()
-    val statusCode : LiveData<Int> = _statusCode
+    val statusCode: LiveData<Int> = _statusCode
 
     init {
         requestAutoSignIn()

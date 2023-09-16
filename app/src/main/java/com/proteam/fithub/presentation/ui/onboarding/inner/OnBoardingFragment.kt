@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentOnboardingBinding
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 
 class OnBoardingFragment(private val type : Int) : Fragment() {
     private lateinit var binding : FragmentOnboardingBinding
@@ -17,6 +18,8 @@ class OnBoardingFragment(private val type : Int) : Fragment() {
     ): View? {
 
         binding = FragmentOnboardingBinding.inflate(inflater)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         initUi()
 

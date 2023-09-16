@@ -1,13 +1,9 @@
 package com.proteam.fithub.data.remote.source
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.kakao.sdk.common.KakaoSdk.type
 import com.proteam.fithub.data.remote.response.ResponseAlarmData
-import com.proteam.fithub.data.remote.response.ResponseCommentData
 import com.proteam.fithub.data.remote.service.AlarmService
-import com.proteam.fithub.data.remote.service.CommentService
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 

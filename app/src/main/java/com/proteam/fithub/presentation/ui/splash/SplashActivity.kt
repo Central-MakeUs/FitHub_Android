@@ -14,6 +14,7 @@ import com.proteam.fithub.presentation.ui.main.MainActivity
 import com.proteam.fithub.presentation.ui.onboarding.OnBoardingActivity
 import com.proteam.fithub.presentation.ui.sign.`in`.social.SocialSignInActivity
 import com.proteam.fithub.presentation.ui.splash.viewModel.SplashViewModel
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 import com.proteam.fithub.presentation.util.NetworkUtil
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,7 +24,8 @@ class SplashActivity : AppCompatActivity() {
     private val viewModel: SplashViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //binding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         checkNetwork()
     }
@@ -43,7 +45,6 @@ class SplashActivity : AppCompatActivity() {
 
     private fun observeAuthSignIn() {
         viewModel.statusCode.observe(this) {
-
             when (it) {
                 2008 -> {
                     val intent = Intent(

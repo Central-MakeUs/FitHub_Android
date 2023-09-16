@@ -16,6 +16,7 @@ import com.proteam.fithub.presentation.ui.change_password.ChangePasswordActivity
 import com.proteam.fithub.presentation.ui.main.MainActivity
 import com.proteam.fithub.presentation.ui.manageinfo.viewmodel.ManageMyInfoViewModel
 import com.proteam.fithub.presentation.ui.sign.`in`.social.SocialSignInActivity
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,6 +26,8 @@ class ManageMyInfoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_manage_my_info)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         observeMyInfoData()
         initBinding()

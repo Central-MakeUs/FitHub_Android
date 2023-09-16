@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.ActivitySignUpResultBinding
 import com.proteam.fithub.presentation.ui.main.MainActivity
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 
 class SignUpResultActivity : AppCompatActivity() {
     private lateinit var binding : ActivitySignUpResultBinding
@@ -14,6 +15,8 @@ class SignUpResultActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_sign_up_result)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         initBinding()
     }

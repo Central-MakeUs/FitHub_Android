@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.ActivityAlarmSettingBinding
 import com.proteam.fithub.presentation.ui.alarm_setting.viewmodel.AlarmSettingViewModel
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -17,6 +18,8 @@ class AlarmSettingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_alarm_setting)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         observeAlarmPermitData()
         initBinding()

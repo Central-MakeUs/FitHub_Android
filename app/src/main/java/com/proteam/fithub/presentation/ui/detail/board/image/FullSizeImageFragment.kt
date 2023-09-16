@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.FragmentFullsizeImageBinding
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 
 class FullSizeImageFragment : Fragment() {
     private lateinit var binding : FragmentFullsizeImageBinding
@@ -21,6 +22,8 @@ class FullSizeImageFragment : Fragment() {
     ): View? {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_fullsize_image, container, false)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         initBinding()
         initUi()

@@ -11,6 +11,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.proteam.fithub.databinding.ActivityTermsDetailBinding
 import com.proteam.fithub.presentation.ui.terms.detail.viewmodel.TermsDetailViewModel
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 import com.proteam.fithub.presentation.util.LoadingDialog
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,6 +22,8 @@ class TermsDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         binding = ActivityTermsDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)

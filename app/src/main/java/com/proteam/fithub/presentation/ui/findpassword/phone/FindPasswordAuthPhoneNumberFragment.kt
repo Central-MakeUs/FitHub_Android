@@ -17,6 +17,7 @@ import com.proteam.fithub.presentation.ui.findpassword.FindPasswordActivity
 import com.proteam.fithub.presentation.ui.findpassword.viewmodel.FindPasswordViewModel
 import com.proteam.fithub.presentation.ui.sign.up.common.authcode.AuthCodeFragment
 import com.proteam.fithub.presentation.ui.sign.up.number.NumberSignUpActivity
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 
 class FindPasswordAuthPhoneNumberFragment : Fragment() {
     private lateinit var binding : FragmentFindPasswordAuthPhoneNumberBinding
@@ -27,6 +28,8 @@ class FindPasswordAuthPhoneNumberFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_find_password_auth_phone_number, container, false)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         initBinding()
         initInclude()

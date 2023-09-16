@@ -31,6 +31,7 @@ import com.proteam.fithub.presentation.ui.gallery.view.CustomGalleryActivity
 import com.proteam.fithub.presentation.ui.write.board.adapter.WriteOrModifyBoardImageAdapter
 import com.proteam.fithub.presentation.ui.write.board.viewmodel.WriteOrModifyBoardViewModel
 import com.proteam.fithub.presentation.ui.write.certificate.adapter.WriteOrModifyCertificateExerciseAdapter
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 import com.proteam.fithub.presentation.util.ConvertBitmap.ConvertWhenList
 import com.proteam.fithub.presentation.util.ConvertBitmap.deletePic
 import com.proteam.fithub.presentation.util.LoadingDialog
@@ -56,6 +57,8 @@ class WriteOrModifyBoardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_write_modify_board)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         initBinding()
         initType()

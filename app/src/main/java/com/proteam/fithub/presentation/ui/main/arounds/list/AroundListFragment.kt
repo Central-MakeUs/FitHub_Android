@@ -12,6 +12,7 @@ import com.proteam.fithub.data.remote.response.ResponseLocationData
 import com.proteam.fithub.databinding.FragmentAroundListBinding
 import com.proteam.fithub.presentation.ui.main.arounds.list.adapter.AroundsListAdapter
 import com.proteam.fithub.presentation.ui.main.arounds.viewmodel.AroundsViewModel
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 
 class AroundListFragment : Fragment() {
     private lateinit var binding : FragmentAroundListBinding
@@ -26,6 +27,8 @@ class AroundListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_around_list, container, false)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         initBinding()
         initUi()

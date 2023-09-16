@@ -22,6 +22,7 @@ import com.proteam.fithub.presentation.ui.alarm.viewmodel.AlarmViewModel
 import com.proteam.fithub.presentation.ui.alarm_setting.AlarmSettingActivity
 import com.proteam.fithub.presentation.ui.detail.board.BoardDetailActivity
 import com.proteam.fithub.presentation.ui.detail.certificate.ExerciseCertificateDetailActivity
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -36,6 +37,8 @@ class AlarmActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_alarm)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         requestAlarmData()
         initBinding()

@@ -18,6 +18,7 @@ import com.proteam.fithub.presentation.ui.main.community.article.adapter.BoardAd
 import com.proteam.fithub.presentation.ui.main.community.article.viewmodel.ArticleViewModel
 import com.proteam.fithub.presentation.ui.main.community.viewmodel.CommunityViewModel
 import com.proteam.fithub.presentation.ui.otheruser.OtherUserProfileActivity
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -36,6 +37,8 @@ class ArticleFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_community_article, container, false)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         initBinding()
         initUi()

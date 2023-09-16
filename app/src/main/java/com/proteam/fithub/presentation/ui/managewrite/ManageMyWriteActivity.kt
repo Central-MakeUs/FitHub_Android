@@ -14,6 +14,7 @@ import com.proteam.fithub.data.remote.response.ResponseExercises
 import com.proteam.fithub.databinding.ActivityManageMyWriteBinding
 import com.proteam.fithub.presentation.ui.managewrite.adapter.ManageMyWritePagerAdapter
 import com.proteam.fithub.presentation.ui.managewrite.viewmodel.ManageMyWriteViewModel
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,6 +29,8 @@ class ManageMyWriteActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_manage_my_write)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         initBinding()
         initUi()

@@ -15,6 +15,7 @@ import com.proteam.fithub.databinding.ActivityOnboardingBinding
 import com.proteam.fithub.presentation.ui.onboarding.adapter.OnBoardingPagerAdapter
 import com.proteam.fithub.presentation.ui.onboarding.viewmodel.OnBoardingViewModel
 import com.proteam.fithub.presentation.ui.sign.`in`.social.SocialSignInActivity
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 
 class OnBoardingActivity : AppCompatActivity() {
     private lateinit var binding : ActivityOnboardingBinding
@@ -26,6 +27,8 @@ class OnBoardingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_onboarding)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         initBinding()
         initContentPager()

@@ -28,6 +28,7 @@ import com.proteam.fithub.databinding.ActivityWriteModifyCertificateBinding
 import com.proteam.fithub.presentation.component.ComponentDialogYesNo
 import com.proteam.fithub.presentation.ui.write.certificate.adapter.WriteOrModifyCertificateExerciseAdapter
 import com.proteam.fithub.presentation.ui.write.certificate.viewmodel.WriteOrModifyCertificateViewModel
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 import com.proteam.fithub.presentation.util.ConvertBitmap.ConvertWhenSingle
 import com.proteam.fithub.presentation.util.ConvertBitmap.deletePic
 import com.proteam.fithub.presentation.util.EditTextHelper.banSpaceInput
@@ -49,6 +50,8 @@ class WriteOrModifyCertificateActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_write_modify_certificate)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         initBinding()
         initType()

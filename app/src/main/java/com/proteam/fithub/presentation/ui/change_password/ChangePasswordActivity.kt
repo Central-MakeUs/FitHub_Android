@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil
 import com.proteam.fithub.R
 import com.proteam.fithub.databinding.ActivityChangePasswordBinding
 import com.proteam.fithub.presentation.ui.change_password.check_password.CheckPasswordFragment
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -15,6 +16,8 @@ class ChangePasswordActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_change_password)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         initFragment()
         initBinding()

@@ -20,6 +20,7 @@ import com.proteam.fithub.presentation.ui.managewrite.certificate.adapter.Manage
 import com.proteam.fithub.presentation.ui.managewrite.certificate.viewmodel.ManageMyCertificateViewModel
 import com.proteam.fithub.presentation.ui.managewrite.viewmodel.ManageMyWriteViewModel
 import com.proteam.fithub.presentation.ui.write.certificate.WriteOrModifyCertificateActivity
+import com.proteam.fithub.presentation.util.AnalyticsHelper
 import com.proteam.fithub.presentation.util.CustomSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -41,6 +42,8 @@ class ManageMyCertificateFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_my_certificate, container, false)
+
+        AnalyticsHelper.setAnalyticsLog(this.javaClass.simpleName)
 
         requestMyCertificate()
         initBinding()
